@@ -1,0 +1,8 @@
+name = "daily-dashboard"
+compatibility_date = "2025-06-01"
+
+# Static-asset-only Worker: serve the repo root as the site.
+# index.html is served at /, sleep.html/training.html/intake.html and the
+# *.json data files are served alongside it. No build step, no Worker script.
+[assets]
+directory = "./"
