@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's training — trailing 7 days — v1.43 — 2026-06-12</title>
+<title>Patrik's training — trailing 7 days</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%23D85A30'/><rect%20x='4'%20y='12'%20width='4'%20height='8'%20rx='1.5'%20fill='%23fff'/><rect%20x='24'%20y='12'%20width='4'%20height='8'%20rx='1.5'%20fill='%23fff'/><rect%20x='8'%20y='10'%20width='4'%20height='12'%20rx='1.5'%20fill='%23fff'/><rect%20x='20'%20y='10'%20width='4'%20height='12'%20rx='1.5'%20fill='%23fff'/><rect%20x='12'%20y='14.5'%20width='8'%20height='3'%20rx='1.5'%20fill='%23fff'/></svg>">
 <style>
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -37,26 +37,10 @@ body{padding:20px;transition:background .2s}
 </div>
 
 <div class="tcards">
-  <div class="tcard">
-    <div class="tlab" data-i="k1">Sessions</div>
-    <div style="font-size:24px;font-weight:500;">7</div>
-    <div class="tlab" style="font-size:12px;" data-i="k1d">7/7 days — no full rest day</div>
-  </div>
-  <div class="tcard">
-    <div class="tlab" data-i="k2">Total time</div>
-    <div style="font-size:24px;font-weight:500;">6h 28m</div>
-    <div class="tlab" style="font-size:12px;" data-i="k2d">avg 55m per session</div>
-  </div>
-  <div class="tcard">
-    <div class="tlab" data-i="k3">Lifted volume</div>
-    <div style="font-size:24px;font-weight:500;">31.5 t</div>
-    <div class="tlab" style="font-size:12px;" data-i="k3d">3 strength sessions</div>
-  </div>
-  <div class="tcard">
-    <div class="tlab" data-i="k4">Active calories</div>
-    <div style="font-size:24px;font-weight:500;">3,798</div>
-    <div class="tlab" style="font-size:12px;" data-i="k4d">~543 kcal/day vs 2,000 intake</div>
-  </div>
+  <div class="tcard"><div class="tlab" data-i="k1">Sessions</div><div style="font-size:24px;font-weight:500;" id="kv1">—</div><div class="tlab" style="font-size:12px;" data-i="k1d"></div></div>
+  <div class="tcard"><div class="tlab" data-i="k2">Total time</div><div style="font-size:24px;font-weight:500;" id="kv2">—</div><div class="tlab" style="font-size:12px;" data-i="k2d"></div></div>
+  <div class="tcard"><div class="tlab" data-i="k3">Lifted volume</div><div style="font-size:24px;font-weight:500;" id="kv3">—</div><div class="tlab" style="font-size:12px;" data-i="k3d"></div></div>
+  <div class="tcard"><div class="tlab" data-i="k4">Active calories</div><div style="font-size:24px;font-weight:500;" id="kv4">—</div><div class="tlab" style="font-size:12px;" data-i="k4d"></div></div>
 </div>
 
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;" id="filterrow">
@@ -82,7 +66,7 @@ body{padding:20px;transition:background .2s}
   <span data-i="lEff" style="display:flex;align-items:center;gap:4px;">effort = min × %HRR (max 174 / rest 53)</span>
 </div>
 <div id="trwrap" style="position:relative;width:100%;height:380px;margin:0 0 1.5rem;">
-  <canvas id="tr" role="img" aria-label="Daily training bars June 5 to 11 with switchable metric, overlaid by three heart-marked lines on a shared right axis: max heart rate in red, average heart rate in amber, resting heart rate in green">Seven sessions with max HR 139 to 162, avg HR 109 to 132, RHR 53 to 58.</canvas>
+  <canvas id="tr" role="img" aria-label="Daily training bars with switchable metric and three heart-rate overlays"></canvas>
 </div>
 
 <div data-i="eH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">ENERGY BALANCE</div>
@@ -93,9 +77,9 @@ body{padding:20px;transition:background .2s}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #888780;"></span><span data-i="eTgt">2,000 kcal target</span></span>
 </div>
 <div id="enwrap" style="position:relative;width:100%;height:300px;margin:0 0 0.5rem;">
-  <canvas id="en" role="img" aria-label="Energy lines June 5 to 11: daily exercise calories, trailing 7-day average burn, logged food intake on June 9 and 10, and 2000 kcal intake target line"></canvas>
+  <canvas id="en" role="img" aria-label="Energy lines: daily exercise calories, 7-day average burn, logged intake, 2000 kcal target"></canvas>
 </div>
-<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="eNote">Intake logged 2/7 days (Jun 9: 1,805 · Jun 10: 1,965). May 30's 3,394 kcal day rolled out of the average — that's the early-week drop to ~434.</p>
+<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="eNote"></p>
 
 <div data-i="bH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">BURN COMPOSITION VS TARGET</div>
 <div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
@@ -106,19 +90,16 @@ body{padding:20px;transition:background .2s}
   <span style="display:flex;align-items:center;gap:4px;color:#1D9E75;font-weight:500;" data-i="bBal">badge = daily balance</span>
 </div>
 <div id="bcwrap" style="position:relative;width:100%;height:330px;margin:0 0 0.5rem;">
-  <canvas id="bc" role="img" aria-label="Stacked burn bars June 5 to 11: basal metabolism plus net exercise, with intake line, 2000 target, and daily deficit badges"></canvas>
+  <canvas id="bc" role="img" aria-label="Stacked burn bars: basal plus net exercise, with intake line, target, and daily balance badges"></canvas>
 </div>
-<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="bNote">Net exercise = gross − basal overlap (1.68 kcal/min). Non-logged days assume plan intake of 2,000 kcal. Avg balance ≈ −896 kcal/day.</p>
+<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="bNote"></p>
 
 <div data-i="wH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">DAILY KCAL BRIDGE</div>
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;" id="bridgerow">
-  <button data-d="0" onclick="setBday(0)">Tue 9</button>
-  <button data-d="1" onclick="setBday(1)">Wed 10</button>
-</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;" id="bridgerow"></div>
 <div id="brwrap" style="position:relative;width:100%;height:330px;margin:0 0 0.5rem;">
-  <canvas id="br" role="img" aria-label="Waterfall bridge: intake minus basal metabolism minus net exercise equals daily balance, for June 9 or June 10"></canvas>
+  <canvas id="br" role="img" aria-label="Waterfall bridge: intake minus basal minus net exercise equals daily balance"></canvas>
 </div>
-<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="wNote">Bridge available only for days with logged meals (Jun 9, Jun 10). Negative balance = deficit.</p>
+<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="wNote"></p>
 
 <div data-i="mlH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">MAIN LIFT HR — SET PEAKS</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;" id="liftrow">
@@ -139,31 +120,31 @@ body{padding:20px;transition:background .2s}
   <span data-i="mlD" style="display:flex;align-items:center;gap:4px;">badge = Δ last−first set</span>
 </div>
 <div id="mlwrap" style="position:relative;width:100%;height:360px;margin:0 0 0.4rem;">
-  <canvas id="ml" role="img" aria-label="Main lift trend: top set weight bars with max and average per-set heart-rate peak lines, and last-minus-first set delta badges, switchable by lift and time range"></canvas>
+  <canvas id="ml" role="img" aria-label="Main lift trend: top set weight bars with max and average per-set HR peak lines"></canvas>
 </div>
-<p class="tlab" style="font-size:11px;margin:0 0 1.2rem;" data-i="mlNote">Per-set peaks from 1s FIT heart-rate streams: main block anchored at the post-warmup (incline walk + DNS) trough, first N peaks where N = main-compound sets in Hevy. * = detection flagged for review.</p>
+<p class="tlab" style="font-size:11px;margin:0 0 1.2rem;" data-i="mlNote">Per-set peaks from 1s FIT heart-rate streams. * = detection flagged for review.</p>
 <div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">LATEST VS PREVIOUS — PER-SET PEAKS</div>
 <div class="tlab" id="mlSub" style="font-size:12px;margin:0 0 8px;"></div>
 <div id="wswrap" style="position:relative;width:100%;height:280px;margin:0 0 1.5rem;">
-  <canvas id="ws" role="img" aria-label="Per-set heart-rate peaks of the latest session compared with the previous session of the same lift"></canvas>
+  <canvas id="ws" role="img" aria-label="Per-set HR peaks of latest vs previous session"></canvas>
 </div>
 
 <div data-i="h2" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">FINDINGS</div>
 <div class="igrid">
-  <div class="icard"><span style="font-weight:500;" data-i="i1t">Volume pulled back −38%</span><br><span class="tlab" data-i="i1">Today's squats: 8.1 t, 14 sets, 162 reps — down from 13.2 t Tuesday and below last Thursday's 9.3 t, with 2–3 fewer sets than your usual 16–17 template. Deliberate deload or cut short? Flag for Ivan either way.</span></div>
-  <div class="icard"><span style="font-weight:500;" data-i="i2t">Strength HR trending down</span><br><span class="tlab" data-i="i2">Avg HR across strength sessions: 116 → 111 → 109 while loads stayed heavy — consistent with improving work capacity at 113–114 kg. Today's max 148 came with RHR back at 53.</span></div>
-  <div class="icard"><span style="font-weight:500;" data-i="i3t">Eight-day streak now</span><br><span class="tlab" data-i="i3">Still no full rest day — the streak is now 8 with today's session. Tomorrow's Friday rest is the circuit breaker before Saturday's trap-bar deadlift day.</span></div>
-  <div class="icard"><span style="font-weight:500;" data-i="i4t">HR bands cleanly separated</span><br><span class="tlab" data-i="i4">Max (139–162), avg (109–132) and RHR (53–58) never converge — the gap between RHR and session avg is your daily aerobic headroom, currently stable at ~55–75 bpm.</span></div>
+  <div class="icard"><span style="font-weight:500;" data-i="i1t"></span><br><span class="tlab" data-i="i1"></span></div>
+  <div class="icard"><span style="font-weight:500;" data-i="i2t"></span><br><span class="tlab" data-i="i2"></span></div>
+  <div class="icard"><span style="font-weight:500;" data-i="i3t"></span><br><span class="tlab" data-i="i3"></span></div>
+  <div class="icard"><span style="font-weight:500;" data-i="i4t"></span><br><span class="tlab" data-i="i4"></span></div>
 </div>
 
 <div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16M9 16l2 2 4-4"/></svg>
-    <span data-i="today" style="font-weight:500;font-size:15px;">Next 72h vs plan</span>
+    <span data-i="today" style="font-weight:500;font-size:15px;">—</span>
   </div>
-  <p class="tlab" data-i="rec" style="margin:0;line-height:1.6;">Squat day done (8.1 t, avg 109 / max 148). Tomorrow (Fri): full rest — no open-water dips — first complete off-day in 8. Saturday: trap-bar deadlift day on fresh legs; last Sunday's 10.2 t is the mark. Sunday: rest, or Z2 hike/ride only if Saturday doesn't push RHR toward the 58 trigger.</p>
+  <p class="tlab" data-i="rec" style="margin:0;line-height:1.6;">—</p>
 </div>
-<p class="tlab" style="font-size:11px;margin:10px 2px 0;"><span data-i="foot">Data: 2026-06-05 → 2026-06-11 · Garmin fenix 8 + Hevy via Freddy</span> · Training Dashboard v1.43, 2026-06-12 08:03 · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a> · <span data-i="foot2">plan: Mon swim N4N · Tue hack squat · Wed swim intervals · Thu squat · Fri rest · Sat trap-bar DL · Sun rest/hike/bike</span></p>
+<p class="tlab" style="font-size:11px;margin:10px 2px 0;"><span data-i="foot"></span> · Training Dashboard · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a> · <span data-i="foot2"></span></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -175,253 +156,201 @@ let BG,txt,strong,halo,grid;
 function calc(){const D=theme==='dark';BG=D?'#262624':'#ffffff';txt=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';strong=D?'#fff':'#1a1a18';halo=D?'rgba(38,38,36,0.85)':'rgba(255,255,255,0.85)';grid=D?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.08)';}
 calc();
 const bgPlug={id:'bg',beforeDraw(c){const x=c.ctx;x.save();x.globalCompositeOperation='destination-over';x.fillStyle=BG;x.fillRect(0,0,c.width,c.height);x.restore();}};
-const TYPE=['ows','ows','str','pool','str','pool','str'];
-const TC={pool:'#2caaf0',ows:'#084a8f',str:'#D85A30'};
+const TC={pool:'#2caaf0',ows:'#084a8f',str:'#D85A30',rest:'#9b9b94'};
 const HC={max:'#E24B4A',avg:'#E0A53C',rhr:'#1D9E75'};
-const NAMES=['OWS 532m','OWS 2x 877m','Trap-bar DL 10.2t','Intervals 10x100 10x50','Hack squats 13.2t','Z2 swim w/drills','Squats 8.1t'];
-const D={
- effort:[9,17,43,42,32,35,30],
- dur:[16,27,82,64,66,68,65],
- kcal:[195,354,687,822,534,684,522],
- vol:[null,null,10.2,null,13.2,null,8.1],
- dist:[532,877,null,2200,null,2200,null]
-};
-const MAXHR=[142,156,154,162,139,151,148];
-const AVGHR=[120,129,116,132,111,116,109];
-const RHR=[57,55,53,55,58,55,53];
 const AX={effort:{min:0,max:55,u:'pts'},dur:{min:0,max:95,u:'min'},kcal:{min:0,max:950,u:'kcal'},vol:{min:0,max:15,u:'t'},dist:{min:0,max:2500,u:'m'}};
+
+/* Static UI labels only. Data + analysis text come from training-data.json */
 const T={
- en:{title:"PATRIK'S TRAINING — TRAILING 7 DAYS",k1:"Sessions",k1d:"7/7 days — no full rest day",k2:"Total time",k2d:"avg 55m per session",k3:"Lifted volume",k3d:"3 strength sessions",k4:"Active calories",k4d:"~543 kcal/day vs 2,000 intake",fAll:"All",fSwim:"Swimming",fStr:"Strength",mEff:"Effort",mDur:"Duration",mVol:"Volume",mDist:"Distance",lPool:"Pool swim",lOws:"Open water",lStr:"Strength",lMax:"Max HR",lAvg:"Avg HR",lEff:"effort = min × %HRR (max 174 / rest 53)",
- mlH:"MAIN LIFT HR — SET PEAKS",mlW:"Top set weight (kg)",mlMx:"Max set peak",mlAv:"Avg set peak",mlD:"badge = Δ last−first set",rAll:"ALL",mlNote:"Per-set peaks from 1s FIT heart-rate streams: main block anchored at the post-warmup (incline walk + DNS) trough, first N peaks where N = main-compound sets in Hevy. * = detection flagged for review.",wsH:"LATEST VS PREVIOUS — PER-SET PEAKS",wsPrev:"previous",wsLast:"latest", bH:"BURN COMPOSITION VS TARGET",bBasal:"Basal (Garmin BMR 2,414)",bEx:"Exercise (net)",bInt:"Intake (hollow = assumed 2,000)",bTgt:"2,000 target",bBal:"badge = daily balance",bNote:"Net exercise = gross − basal overlap (1.68 kcal/min). Non-logged days assume plan intake of 2,000 kcal. Avg balance ≈ −896 kcal/day.",wH:"DAILY KCAL BRIDGE",wNote:"Bridge available only for days with logged meals (Jun 9, Jun 10). Negative balance = deficit.",wInt:"Intake",wBas:"Basal",wEx:"Exercise",wBal:"Balance", eH:"ENERGY BALANCE",eDaily:"Daily exercise burn",eAvg:"7-day avg burn",eInt:"Logged intake",eTgt:"2,000 kcal target",eNote:"Intake logged 2/7 days (Jun 9: 1,805 · Jun 10: 1,965). May 30's 3,394 kcal day rolled out of the average — that's the early-week drop to ~434.",h2:"FINDINGS",
- i1t:"Volume pulled back −38%",i1:"Today's squats: 8.1 t, 14 sets, 162 reps — down from 13.2 t Tuesday and below last Thursday's 9.3 t, with 2–3 fewer sets than your usual 16–17 template. Deliberate deload or cut short? Flag for Ivan either way.",
- i2t:"Strength HR trending down",i2:"Avg HR across strength sessions: 116 → 111 → 109 while loads stayed heavy — consistent with improving work capacity at 113–114 kg. Today's max 148 came with RHR back at 53.",
- i3t:"Eight-day streak now",i3:"Still no full rest day — the streak is now 8 with today's session. Tomorrow's Friday rest is the circuit breaker before Saturday's trap-bar deadlift day.",
- i4t:"HR bands cleanly separated",i4:"Max (139–162), avg (109–132) and RHR (53–58) never converge — the gap between RHR and session avg is your daily aerobic headroom, currently stable at ~55–75 bpm.",
- today:"Next 72h vs plan",rec:"Squat day done (8.1 t, avg 109 / max 148). Tomorrow (Fri): full rest — no open-water dips — first complete off-day in 8. Saturday: trap-bar deadlift day on fresh legs; last Sunday's 10.2 t is the mark. Sunday: rest, or Z2 hike/ride only if Saturday doesn't push RHR toward the 58 trigger.",
- days:['Fri 5','Sat 6','Sun 7','Mon 8','Tue 9','Wed 10','Thu 11'],daysM:['F5','S6','S7','M8','T9','W10','T11'],
- foot:"Data: 2026-06-05 → 2026-06-11 · Garmin fenix 8 + Hevy via Freddy",foot2:"plan: Mon swim N4N · Tue hack squat · Wed swim intervals · Thu squat · Fri rest · Sat trap-bar DL · Sun rest/hike/bike"},
- hr:{title:"PATRIKOV TRENING — ZADNJIH 7 DANA",k1:"Treninzi",k1d:"7/7 dana — bez punog odmora",k2:"Ukupno vrijeme",k2d:"prosj. 55m po treningu",k3:"Podignuti volumen",k3d:"3 treninga snage",k4:"Aktivne kalorije",k4d:"~543 kcal/dan uz unos 2.000",fAll:"Sve",fSwim:"Plivanje",fStr:"Snaga",mEff:"Napor",mDur:"Trajanje",mVol:"Volumen",mDist:"Udaljenost",lPool:"Bazen",lOws:"Otvorene vode",lStr:"Snaga",lMax:"Maks. puls",lAvg:"Prosj. puls",lEff:"napor = min × %HRR (maks 174 / mirovanje 53)",
- mlH:"PULS GLAVNE VJEŽBE — VRHOVI PO SERIJI",mlW:"Najteža serija (kg)",mlMx:"Maks. vrh serije",mlAv:"Prosj. vrh serije",mlD:"značka = Δ zadnja−prva serija",rAll:"SVE",mlNote:"Vrhovi po seriji iz 1s FIT zapisa pulsa: glavni blok usidren na minimumu nakon zagrijavanja (hodanje + DNS), prvih N vrhova gdje je N = broj serija glavne vježbe u Hevyju. * = detekcija označena za provjeru.",wsH:"ZADNJI VS PRETHODNI — VRHOVI PO SERIJI",wsPrev:"prethodni",wsLast:"zadnji", bH:"SASTAV POTROŠNJE VS CILJ",bBasal:"Bazalni (Garmin BMR 2.414)",bEx:"Trening (neto)",bInt:"Unos (prazan krug = pretpostavljeno 2.000)",bTgt:"Cilj 2.000",bBal:"značka = dnevna bilanca",bNote:"Neto trening = bruto − bazalno preklapanje (1,68 kcal/min). Dani bez zapisa pretpostavljaju planski unos 2.000 kcal. Prosj. bilanca ≈ −896 kcal/dan.",wH:"DNEVNI KCAL MOST",wNote:"Most dostupan samo za dane sa zabilježenim obrocima (9.6., 10.6.). Negativna bilanca = deficit.",wInt:"Unos",wBas:"Bazalni",wEx:"Trening",wBal:"Bilanca", eH:"ENERGETSKA BILANCA",eDaily:"Dnevna potrošnja",eAvg:"7-dnevni prosjek",eInt:"Zabilježeni unos",eTgt:"Cilj 2.000 kcal",eNote:"Unos zabilježen 2/7 dana (9.6.: 1.805 · 10.6.: 1.965). Dan od 30.5. s 3.394 kcal izašao je iz prosjeka — to je rani pad na ~434.",h2:"NALAZI",
- i1t:"Volumen smanjen −38%",i1:"Današnji squat: 8,1 t, 14 serija, 162 ponavljanja — manje od 13,2 t u utorak i ispod 9,3 t od prošlog četvrtka, s 2–3 serije manje od uobičajenog predloška 16–17. Namjerni deload ili skraćeno? Javi Ivanu u oba slučaja.",
- i2t:"Puls na snazi pada",i2:"Prosj. puls kroz treninge snage: 116 → 111 → 109 uz teška opterećenja — u skladu s rastućim radnim kapacitetom na 113–114 kg. Današnji maks 148 uz RHR ponovno na 53.",
- i3t:"Niz od 8 dana",i3:"I dalje bez punog odmora — niz je s današnjim treningom 8 dana. Sutrašnji petak je prekidač prije subotnjeg trap-bar mrtvog dizanja.",
- i4t:"Pulsne zone čisto razdvojene",i4:"Maks (139–162), prosjek (109–132) i RHR (53–58) se ne približavaju — razmak RHR-a i prosjeka treninga je dnevna aerobna rezerva, stabilno ~55–75 otkucaja.",
- today:"Sljedeća 72h vs plan",rec:"Squat dan odrađen (8,1 t, prosj. 109 / maks 148). Sutra (pet): puni odmor — bez kupanja — prvi potpuni slobodan dan u 8. Subota: trap-bar mrtvo dizanje na svježim nogama; mjerilo je 10,2 t od prošle nedjelje. Nedjelja: odmor ili Z2 samo ako subota ne digne RHR prema okidaču 58.",
- days:['Pet 5','Sub 6','Ned 7','Pon 8','Uto 9','Sri 10','Čet 11'],daysM:['P5','S6','N7','P8','U9','S10','Č11'],
- foot:"Podaci: 5.6. → 11.6.2026. · Garmin fenix 8 + Hevy putem Freddyja",foot2:"plan: pon plivanje N4N · uto hack squat · sri intervali · čet squat · pet odmor · sub trap-bar MD · ned odmor/planina/bicikl"}
+ en:{title:"PATRIK'S TRAINING — TRAILING 7 DAYS",k1:"Sessions",k2:"Total time",k3:"Lifted volume",k4:"Active calories",
+  fAll:"All",fSwim:"Swimming",fStr:"Strength",mEff:"Effort",mDur:"Duration",mVol:"Volume",mDist:"Distance",
+  lPool:"Pool swim",lOws:"Open water",lStr:"Strength",lMax:"Max HR",lAvg:"Avg HR",lEff:"effort = min × %HRR (max 174 / rest 53)",
+  mlH:"MAIN LIFT HR — SET PEAKS",mlW:"Top set weight (kg)",mlMx:"Max set peak",mlAv:"Avg set peak",mlD:"badge = Δ last−first set",rAll:"ALL",
+  mlNote:"Per-set peaks from 1s FIT heart-rate streams: main block anchored at the post-warmup trough, first N peaks where N = main-compound sets in Hevy. * = detection flagged for review.",
+  wsH:"LATEST VS PREVIOUS — PER-SET PEAKS",wsPrev:"previous",wsLast:"latest",
+  bH:"BURN COMPOSITION VS TARGET",bBasal:"Basal (Garmin BMR 2,414)",bEx:"Exercise (net)",bInt:"Intake (hollow = assumed 2,000)",bTgt:"2,000 target",bBal:"badge = daily balance",
+  wH:"DAILY KCAL BRIDGE",wInt:"Intake",wBas:"Basal",wEx:"Exercise",wBal:"Balance",
+  eH:"ENERGY BALANCE",eDaily:"Daily exercise burn",eAvg:"7-day avg burn",eInt:"Logged intake",eTgt:"2,000 kcal target",h2:"FINDINGS"},
+ hr:{title:"PATRIKOV TRENING — ZADNJIH 7 DANA",k1:"Treninzi",k2:"Ukupno vrijeme",k3:"Podignuti volumen",k4:"Aktivne kalorije",
+  fAll:"Sve",fSwim:"Plivanje",fStr:"Snaga",mEff:"Napor",mDur:"Trajanje",mVol:"Volumen",mDist:"Udaljenost",
+  lPool:"Bazen",lOws:"Otvorene vode",lStr:"Snaga",lMax:"Maks. puls",lAvg:"Prosj. puls",lEff:"napor = min × %HRR (maks 174 / mirovanje 53)",
+  mlH:"PULS GLAVNE VJEŽBE — VRHOVI PO SERIJI",mlW:"Najteža serija (kg)",mlMx:"Maks. vrh serije",mlAv:"Prosj. vrh serije",mlD:"značka = Δ zadnja−prva serija",rAll:"SVE",
+  mlNote:"Vrhovi po seriji iz 1s FIT zapisa pulsa: glavni blok usidren na minimumu nakon zagrijavanja, prvih N vrhova gdje je N = broj serija glavne vježbe u Hevyju. * = označeno za provjeru.",
+  wsH:"ZADNJI VS PRETHODNI — VRHOVI PO SERIJI",wsPrev:"prethodni",wsLast:"zadnji",
+  bH:"SASTAV POTROŠNJE VS CILJ",bBasal:"Bazalni (Garmin BMR 2.414)",bEx:"Trening (neto)",bInt:"Unos (prazan krug = pretpostavljeno 2.000)",bTgt:"Cilj 2.000",bBal:"značka = dnevna bilanca",
+  wH:"DNEVNI KCAL MOST",wInt:"Unos",wBas:"Bazalni",wEx:"Trening",wBal:"Bilanca",
+  eH:"ENERGETSKA BILANCA",eDaily:"Dnevna potrošnja",eAvg:"7-dnevni prosjek",eInt:"Zabilježeni unos",eTgt:"Cilj 2.000 kcal",h2:"NALAZI"}
 };
 let LBL=T.en;
+let DAT=null;
+let TYPE,NAMES,D,MAXHR,AVGHR,RHR;
+let EDAILY,EAVG,EINT,ETGT;
+let BMR,EXNET,INTAKE,LOGGED,BAL;
+let BR,MLD;
+let tr,en,bc,br,ml,ws;
 const fmt={effort:v=>Math.round(v),dur:v=>Math.round(v)+'m',kcal:v=>Math.round(v),vol:v=>v.toFixed(1)+'t',dist:v=>Math.round(v)+'m'};
-function inFilter(i){if(filter==='all')return true;if(filter==='swim')return TYPE[i]!=='str';return TYPE[i]==='str';}
-function colors(){return TYPE.map((t,i)=>{const c=TC[t];return inFilter(i)?c:c+'26';});}
-const overlay={id:'overlay',afterDatasetsDraw(ch){
- const{ctx}=ch;const meta=ch.getDatasetMeta(0);const data=D[metric];
- const M=layout==='mobile';
- ctx.save();ctx.textAlign='center';
- const fV=(M?'500 10px ':'500 12px ')+'sans-serif';
- const fH=(M?'400 11px ':'400 13px ')+'sans-serif';
- const fN=(M?'500 9px ':'500 11px ')+'sans-serif';
- meta.data.forEach((bar,i)=>{
-  if(data[i]==null||!inFilter(i))return;
-  ctx.font=fV;ctx.fillStyle=strong;ctx.fillText(fmt[metric](data[i]),bar.x,bar.y-6);
+function txtL(){return DAT.text[lang];}
+function inFilter(i){if(filter==='all')return true;if(filter==='swim')return TYPE[i]==='pool'||TYPE[i]==='ows';return TYPE[i]==='str';}
+function colors(){return TYPE.map((t,i)=>{const c=TC[t]||'#9b9b94';return inFilter(i)?c:c+'26';});}
+
+function fillKpis(){const k=DAT.num.kpis;const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};s('kv1',k.sessions);s('kv2',k.totalTime);s('kv3',k.volume);s('kv4',k.activeCals);}
+
+function init(){
+ const n=DAT.num;
+ TYPE=n.daily.type;NAMES=n.daily.names;
+ D={effort:n.daily.effort,dur:n.daily.dur,kcal:n.daily.kcal,vol:n.daily.vol,dist:n.daily.dist};
+ MAXHR=n.daily.maxhr;AVGHR=n.daily.avghr;RHR=n.daily.rhr;
+ EDAILY=n.energy.edaily;EAVG=n.energy.eavg;EINT=n.energy.eint;ETGT=n.energy.target;
+ BMR=n.burn.bmr;EXNET=n.burn.exnet;INTAKE=n.burn.intake;LOGGED=n.burn.logged;
+ BAL=INTAKE.map((v,i)=>v-(BMR+EXNET[i]));
+ BR=n.bridge;MLD=n.mld;
+
+ const overlay={id:'overlay',afterDatasetsDraw(ch){
+  const{ctx}=ch;const meta=ch.getDatasetMeta(0);const data=D[metric];
+  const M=layout==='mobile';
+  ctx.save();ctx.textAlign='center';
+  const fV=(M?'500 10px ':'500 12px ')+'sans-serif';
+  const fH=(M?'400 11px ':'400 13px ')+'sans-serif';
+  const fN=(M?'500 9px ':'500 11px ')+'sans-serif';
+  meta.data.forEach((bar,i)=>{if(data[i]==null||!inFilter(i))return;ctx.font=fV;ctx.fillStyle=strong;ctx.fillText(fmt[metric](data[i]),bar.x,bar.y-6);});
+  const sy=ch.scales.y1;
+  const draw=(arr,col,below)=>{meta.data.forEach((pt,i)=>{if(arr[i]==null)return;const x=pt.x,y=sy.getPixelForValue(arr[i]);
+   ctx.font=fH;ctx.fillStyle=col;ctx.fillText('♥',x,y+4);ctx.font=fN;const ly=below?y+16:y-9;
+   ctx.fillStyle=halo;ctx.fillRect(x-11,ly-9,22,11);ctx.fillStyle=col;ctx.fillText(arr[i],x,ly);});};
+  draw(MAXHR,HC.max,false);draw(AVGHR,HC.avg,false);draw(RHR,HC.rhr,true);
+  ctx.restore();
+ }};
+ const axUnitsT={id:'axut',afterDraw(ch){const{ctx}=ch;const s1=ch.scales.y1;if(!s1)return;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 10px ')+'sans-serif';ctx.fillStyle=txt;ctx.fillText('bpm♥',s1.left+s1.width/2+2,s1.top-6);ctx.restore();}};
+ tr=new Chart(document.getElementById('tr'),{
+  data:{labels:txtL().days,datasets:[
+   {type:'bar',data:D.effort,backgroundColor:colors(),borderWidth:0,maxBarThickness:56,yAxisID:'y',order:10},
+   {type:'line',label:'max',data:MAXHR,borderColor:HC.max,borderWidth:2.5,tension:0.3,pointRadius:0,yAxisID:'y1',order:1,spanGaps:false},
+   {type:'line',label:'avg',data:AVGHR,borderColor:HC.avg,borderWidth:2.5,borderDash:[8,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:2,spanGaps:false},
+   {type:'line',label:'rhr',data:RHR,borderColor:HC.rhr,borderWidth:2.5,borderDash:[3,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:3,spanGaps:true}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>NAMES[c[0].dataIndex],label:c=>{
+    if(c.datasetIndex===0){const v=D[metric][c.dataIndex];return v==null?'':fmt[metric](v)+' '+AX[metric].u;}
+    const nm={max:LBL.lMax,avg:LBL.lAvg,rhr:'RHR'}[c.dataset.label];return nm+': '+c.parsed.y+' bpm';}}}},
+   scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
+    y:{min:0,max:55,title:{display:true,text:'pts',color:txt},grid:{color:grid},ticks:{color:txt}},
+    y1:{position:'right',min:40,max:180,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}}}},
+  plugins:[bgPlug,overlay,axUnitsT]
  });
- const sy=ch.scales.y1;
- const draw=(arr,col,below)=>{
-  meta.data.forEach((pt,i)=>{
-   const x=pt.x,y=sy.getPixelForValue(arr[i]);
-   ctx.font=fH;ctx.fillStyle=col;ctx.fillText('♥',x,y+4);
-   ctx.font=fN;
-   const ly=below?y+16:y-9;
-   ctx.fillStyle=halo;ctx.fillRect(x-11,ly-9,22,11);
-   ctx.fillStyle=col;ctx.fillText(arr[i],x,ly);
-  });
- };
- draw(MAXHR,HC.max,false);
- draw(AVGHR,HC.avg,false);
- draw(RHR,HC.rhr,true);
- ctx.restore();
-}};
-const axUnitsT={id:'axut',afterDraw(ch){const{ctx}=ch;const s1=ch.scales.y1;if(!s1)return;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 10px ')+'sans-serif';ctx.fillStyle=txt;ctx.fillText('bpm♥',s1.left+s1.width/2+2,s1.top-6);ctx.restore();}};
-const tr=new Chart(document.getElementById('tr'),{
- data:{labels:T.en.days,datasets:[
-  {type:'bar',data:D.effort,backgroundColor:colors(),borderWidth:0,maxBarThickness:56,yAxisID:'y',order:10},
-  {type:'line',label:'max',data:MAXHR,borderColor:HC.max,borderWidth:2.5,tension:0.3,pointRadius:0,yAxisID:'y1',order:1},
-  {type:'line',label:'avg',data:AVGHR,borderColor:HC.avg,borderWidth:2.5,borderDash:[8,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:2},
-  {type:'line',label:'rhr',data:RHR,borderColor:HC.rhr,borderWidth:2.5,borderDash:[3,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:3}
- ]},
- options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18}},
-  plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>NAMES[c[0].dataIndex],label:c=>{
-   if(c.datasetIndex===0){const v=D[metric][c.dataIndex];return v==null?'':fmt[metric](v)+' '+AX[metric].u;}
-   const n={max:LBL.lMax,avg:LBL.lAvg,rhr:'RHR'}[c.dataset.label];return n+': '+c.parsed.y+' bpm';}}}},
-  scales:{
-   x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
-   y:{min:0,max:55,title:{display:true,text:'pts',color:txt},grid:{color:grid},ticks:{color:txt}},
-   y1:{position:'right',min:40,max:180,title:{display:false,text:'',color:txt},afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}}
-  }},
- plugins:[bgPlug,overlay,axUnitsT]
-});
-const EDAILY=[195,354,687,822,534,684,522];
-const EAVG=[868,434,437,469,545,561,543];
-const EINT=[null,null,null,null,1805,1965,null];
-const en=new Chart(document.getElementById('en'),{type:'line',
- data:{labels:T.en.days,datasets:[
-  {label:'burn',data:EDAILY,borderColor:'#BA7517',backgroundColor:'#BA7517',borderWidth:3,tension:0.3,pointRadius:3},
-  {label:'avg7',data:EAVG,borderColor:'#1D9E75',backgroundColor:'#1D9E75',borderWidth:2.5,borderDash:[6,4],tension:0.3,pointRadius:0},
-  {label:'intake',data:EINT,borderColor:'#2caaf0',backgroundColor:'#2caaf0',borderWidth:2,pointRadius:5,pointStyle:'circle',spanGaps:false},
-  {label:'target',data:[2000,2000,2000,2000,2000,2000,2000],borderColor:'#888780',borderWidth:1.5,borderDash:[2,4],pointRadius:0}
- ]},
- options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const n={burn:LBL.eDaily,avg7:LBL.eAvg,intake:LBL.eInt,target:LBL.eTgt}[c.dataset.label];return n+': '+Math.round(c.parsed.y)+' kcal';}}}},
-  scales:{
-   x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
-   y:{min:0,max:2200,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}
-  }},
- plugins:[bgPlug,{id:'envals',afterDatasetsDraw(ch){
-  const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 10px ':'500 12px ')+'sans-serif';
-  ch.getDatasetMeta(0).data.forEach((pt,i)=>{ctx.fillStyle='#BA7517';ctx.fillText(EDAILY[i],pt.x,pt.y-8);});
-  ch.getDatasetMeta(2).data.forEach((pt,i)=>{if(EINT[i]==null)return;ctx.fillStyle='#2caaf0';ctx.fillText(EINT[i].toLocaleString('en-US'),pt.x,pt.y-10);});
-  ctx.restore();
- }}]
-});
 
-const BMR=2414;
-const EXNET=[168,309,549,715,423,570,413];
-const INTAKE=[2000,2000,2000,2000,1805,1965,2000];
-const LOGGED=[false,false,false,false,true,true,false];
-const BAL=INTAKE.map((v,i)=>v-(BMR+EXNET[i]));
-const bc=new Chart(document.getElementById('bc'),{
- data:{labels:T.en.days,datasets:[
-  {type:'bar',label:'basal',data:EXNET.map(_=>BMR),backgroundColor:'#54718D',stack:'b',maxBarThickness:56,order:10},
-  {type:'bar',label:'ex',data:EXNET,backgroundColor:'#BA7517',stack:'b',maxBarThickness:56,order:10},
-  {type:'line',label:'intake',data:INTAKE,borderColor:'#2caaf0',backgroundColor:LOGGED.map(l=>l?'#2caaf0':'transparent'),pointBorderColor:'#2caaf0',pointBorderWidth:2,borderWidth:2,tension:0.2,pointRadius:5,order:1},
-  {type:'line',label:'target',data:[2000,2000,2000,2000,2000,2000,2000],borderColor:'#888780',borderWidth:1.5,borderDash:[2,4],pointRadius:0,order:2}
- ]},
- options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
-   if(c.dataset.label==='basal')return LBL.bBasal+': '+BMR;
-   if(c.dataset.label==='ex')return LBL.bEx+': '+EXNET[c.dataIndex];
-   if(c.dataset.label==='intake')return LBL.bInt.split(' (')[0]+': '+INTAKE[c.dataIndex]+(LOGGED[c.dataIndex]?'':' *');
-   return LBL.bTgt;}}}},
-  scales:{
-   x:{stacked:true,grid:{display:false},ticks:{autoSkip:false,color:txt}},
-   y:{stacked:true,min:0,max:3600,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}
-  }},
- plugins:[bgPlug,{id:'balbadge',afterDatasetsDraw(ch){
-  const{ctx}=ch;const meta=ch.getDatasetMeta(0);
-  ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
-  meta.data.forEach((bar,i)=>{
-   const topY=ch.scales.y.getPixelForValue(BMR+EXNET[i]);
-   const v=BAL[i];const sc=(v<0?'\u2212':'+')+Math.abs(v).toLocaleString('en-US');
-   const w=ctx.measureText(sc).width+10;
-   ctx.fillStyle=v<0?'#1D9E75':'#A32D2D';
-   ctx.beginPath();ctx.roundRect(bar.x-w/2,topY-18,w,14,7);ctx.fill();
-   ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,topY-7);
-  });
-  ctx.restore();
- }}]
-});
-let bday=1;
-const BR={
- 0:{int:1805,ex:423,bal:-1032},
- 1:{int:1965,ex:570,bal:-1019}
-};
-function brData(){const d=BR[bday];
- return{data:[[0,d.int],[d.int-BMR,d.int],[d.bal,d.int-BMR],[d.bal,0]],
-  vals:['+'+d.int.toLocaleString('en-US'),'\u2212'+BMR.toLocaleString('en-US'),'\u2212'+d.ex,(d.bal<0?'\u2212':'+')+Math.abs(d.bal).toLocaleString('en-US')]};}
-const br=new Chart(document.getElementById('br'),{type:'bar',
- data:{labels:[T.en.wInt||'Intake','Basal','Exercise','Balance'],datasets:[{data:brData().data,backgroundColor:['#2caaf0','#54718D','#BA7517','#1D9E75'],maxBarThickness:72,borderWidth:0}]},
- options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>brData().vals[c.dataIndex]+' kcal'}}},
-  scales:{
-   x:{grid:{display:false},ticks:{color:txt}},
-   y:{min:-1400,max:2200,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}
-  }},
- plugins:[bgPlug,{id:'brvals',afterDatasetsDraw(ch){
-  const{ctx}=ch;const meta=ch.getDatasetMeta(0);const v=brData().vals;
-  ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 10px ':'500 12px ')+'sans-serif';
-  meta.data.forEach((bar,i)=>{ctx.fillStyle=strong;const top=Math.min(bar.y,bar.base)-7;ctx.fillText(v[i],bar.x,top);});
-  const zy=ch.scales.y.getPixelForValue(0);
-  ctx.strokeStyle=txt;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ch.chartArea.left,zy);ctx.lineTo(ch.chartArea.right,zy);ctx.stroke();
-  ctx.restore();
- }}]
-});
+ en=new Chart(document.getElementById('en'),{type:'line',
+  data:{labels:txtL().days,datasets:[
+   {label:'burn',data:EDAILY,borderColor:'#BA7517',backgroundColor:'#BA7517',borderWidth:3,tension:0.3,pointRadius:3},
+   {label:'avg7',data:EAVG,borderColor:'#1D9E75',backgroundColor:'#1D9E75',borderWidth:2.5,borderDash:[6,4],tension:0.3,pointRadius:0},
+   {label:'intake',data:EINT,borderColor:'#2caaf0',backgroundColor:'#2caaf0',borderWidth:2,pointRadius:5,pointStyle:'circle',spanGaps:false},
+   {label:'target',data:EDAILY.map(_=>ETGT),borderColor:'#888780',borderWidth:1.5,borderDash:[2,4],pointRadius:0}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const nm={burn:LBL.eDaily,avg7:LBL.eAvg,intake:LBL.eInt,target:LBL.eTgt}[c.dataset.label];return nm+': '+Math.round(c.parsed.y)+' kcal';}}}},
+   scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},y:{min:0,max:2200,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}}},
+  plugins:[bgPlug,{id:'envals',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 10px ':'500 12px ')+'sans-serif';
+   ch.getDatasetMeta(0).data.forEach((pt,i)=>{if(EDAILY[i]==null)return;ctx.fillStyle='#BA7517';ctx.fillText(EDAILY[i],pt.x,pt.y-8);});
+   ch.getDatasetMeta(2).data.forEach((pt,i)=>{if(EINT[i]==null)return;ctx.fillStyle='#2caaf0';ctx.fillText(EINT[i].toLocaleString('en-US'),pt.x,pt.y-10);});
+   ctx.restore();}}]
+ });
+
+ bc=new Chart(document.getElementById('bc'),{
+  data:{labels:txtL().days,datasets:[
+   {type:'bar',label:'basal',data:EXNET.map(_=>BMR),backgroundColor:'#54718D',stack:'b',maxBarThickness:56,order:10},
+   {type:'bar',label:'ex',data:EXNET,backgroundColor:'#BA7517',stack:'b',maxBarThickness:56,order:10},
+   {type:'line',label:'intake',data:INTAKE,borderColor:'#2caaf0',backgroundColor:LOGGED.map(l=>l?'#2caaf0':'transparent'),pointBorderColor:'#2caaf0',pointBorderWidth:2,borderWidth:2,tension:0.2,pointRadius:5,order:1},
+   {type:'line',label:'target',data:EXNET.map(_=>ETGT),borderColor:'#888780',borderWidth:1.5,borderDash:[2,4],pointRadius:0,order:2}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+    if(c.dataset.label==='basal')return LBL.bBasal+': '+BMR;
+    if(c.dataset.label==='ex')return LBL.bEx+': '+EXNET[c.dataIndex];
+    if(c.dataset.label==='intake')return LBL.bInt.split(' (')[0]+': '+INTAKE[c.dataIndex]+(LOGGED[c.dataIndex]?'':' *');
+    return LBL.bTgt;}}}},
+   scales:{x:{stacked:true,grid:{display:false},ticks:{autoSkip:false,color:txt}},y:{stacked:true,min:0,max:3600,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}}},
+  plugins:[bgPlug,{id:'balbadge',afterDatasetsDraw(ch){const{ctx}=ch;const meta=ch.getDatasetMeta(0);
+   ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
+   meta.data.forEach((bar,i)=>{const topY=ch.scales.y.getPixelForValue(BMR+EXNET[i]);const v=BAL[i];const sc=(v<0?'−':'+')+Math.abs(v).toLocaleString('en-US');
+    const w=ctx.measureText(sc).width+10;ctx.fillStyle=v<0?'#1D9E75':'#A32D2D';ctx.beginPath();ctx.roundRect(bar.x-w/2,topY-18,w,14,7);ctx.fill();ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,topY-7);});
+   ctx.restore();}}]
+ });
+
+ br=new Chart(document.getElementById('br'),{type:'bar',
+  data:{labels:brLabels(),datasets:[{data:brData().data,backgroundColor:['#2caaf0','#54718D','#BA7517','#1D9E75'],maxBarThickness:72,borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>brData().vals[c.dataIndex]+' kcal'}}},
+   scales:{x:{grid:{display:false},ticks:{color:txt}},y:{min:-1400,max:2200,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}}},
+  plugins:[bgPlug,{id:'brvals',afterDatasetsDraw(ch){const{ctx}=ch;const meta=ch.getDatasetMeta(0);const v=brData().vals;
+   ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 10px ':'500 12px ')+'sans-serif';
+   meta.data.forEach((bar,i)=>{ctx.fillStyle=strong;const top=Math.min(bar.y,bar.base)-7;ctx.fillText(v[i],bar.x,top);});
+   const zy=ch.scales.y.getPixelForValue(0);ctx.strokeStyle=txt;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ch.chartArea.left,zy);ctx.lineTo(ch.chartArea.right,zy);ctx.stroke();ctx.restore();}}]
+ });
+
+ const mlPlug={id:'mlp',afterDatasetsDraw(ch){const{ctx}=ch;const rows=mlRows();
+  const mb=ch.getDatasetMeta(0),mmx=ch.getDatasetMeta(1),mav=ch.getDatasetMeta(2);
+  const M=layout==='mobile';const many=rows.length>9;
+  ctx.save();ctx.textAlign='center';
+  const fV=(M||many?'500 9px ':'500 11px ')+'sans-serif';const fH=(M?'400 10px ':'400 12px ')+'sans-serif';
+  mmx.data.forEach((pt,i)=>{ctx.font=fH;ctx.fillStyle='#E24B4A';ctx.fillText('♥',pt.x,pt.y+4);
+   ctx.font=fV;const lab=rows[i].mx+(rows[i].cf?'':'*');ctx.fillStyle=halo;ctx.fillRect(pt.x-13,pt.y-19,26,11);ctx.fillStyle='#E24B4A';ctx.fillText(lab,pt.x,pt.y-10);});
+  if(!many||M===false){mav.data.forEach((pt,i)=>{ctx.font=fV;ctx.fillStyle='#E0A53C';ctx.fillText(rows[i].av,pt.x,pt.y+14);});}
+  mb.data.forEach((bar,i)=>{ctx.font=fV;ctx.fillStyle='#fff';ctx.fillText(rows[i].w,bar.x,bar.y+12);
+   const d=rows[i].dl;const sc=(d<0?'−':'+')+Math.abs(d);ctx.font=(M||many?'500 8px ':'500 10px ')+'sans-serif';
+   const w=ctx.measureText(sc).width+8;ctx.fillStyle=d>=20?'#A35A1D':'#1D9E75';ctx.beginPath();ctx.roundRect(bar.x-w/2,ch.chartArea.bottom+4,w,12,6);ctx.fill();ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,ch.chartArea.bottom+13);});
+  ctx.restore();}};
+ ml=new Chart(document.getElementById('ml'),{
+  data:{labels:[],datasets:[
+   {type:'bar',data:[],backgroundColor:'#54718D',maxBarThickness:46,yAxisID:'y',order:10},
+   {type:'line',data:[],borderColor:'#E24B4A',borderWidth:2.5,tension:0.25,pointRadius:0,yAxisID:'y1',order:1},
+   {type:'line',data:[],borderColor:'#E0A53C',borderWidth:2.5,borderDash:[8,4],tension:0.25,pointRadius:0,yAxisID:'y1',order:2}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,bottom:18}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>{const r=mlRows()[c[0].dataIndex];return r.l+' · '+r.w+' kg';},label:c=>{const r=mlRows()[c.dataIndex];
+    if(c.datasetIndex===0)return LBL.mlW+': '+r.w;if(c.datasetIndex===1)return LBL.mlMx+': '+r.mx+' ('+r.pk.join(', ')+')';return LBL.mlAv+': '+r.av+' · Δ '+(r.dl<0?'−':'+')+Math.abs(r.dl);}}}},
+   scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt,maxRotation:60}},
+    y:{min:0,max:170,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,stepSize:40}},
+    y1:{position:'right',min:85,max:165,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}}}},
+  plugins:[bgPlug,mlPlug,{id:'axml',afterDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font='500 10px sans-serif';
+   const s1=ch.scales.y1;ctx.fillStyle=txt;ctx.fillText('bpm♥',s1.left+s1.width/2+2,s1.top-6);const s0=ch.scales.y;ctx.fillText('kg',s0.right-s0.width/2-2,s0.top-6);ctx.restore();}}]
+ });
+
+ const wsPlug={id:'wsp',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
+  [0,1].forEach(di=>{ch.getDatasetMeta(di).data.forEach((bar,i)=>{const v=ch.data.datasets[di].data[i];if(v==null)return;ctx.fillStyle=strong;ctx.fillText(v,bar.x,bar.y-5);});});ctx.restore();}};
+ ws=new Chart(document.getElementById('ws'),{type:'bar',
+  data:{labels:[],datasets:[{data:[],backgroundColor:'rgba(84,113,141,0.45)',maxBarThickness:40},{data:[],backgroundColor:'#D85A30',maxBarThickness:40}]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},
+   plugins:{legend:{display:false},tooltip:{enabled:true}},
+   scales:{x:{grid:{display:false},ticks:{color:txt}},y:{min:80,max:165,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,stepSize:20}}}},
+  plugins:[bgPlug,wsPlug]
+ });
+
+ fillKpis();
+ buildBridgeButtons();
+ setMetric('effort');
+ mlRefresh();
+ applyTheme(theme);
+ setLang('en');
+ applyResponsive();
+}
+
+let bday=0;
+function brData(){const d=BR[bday];return{data:[[0,d.int],[d.int-BMR,d.int],[d.bal,d.int-BMR],[d.bal,0]],
+ vals:['+'+d.int.toLocaleString('en-US'),'−'+BMR.toLocaleString('en-US'),'−'+d.ex,(d.bal<0?'−':'+')+Math.abs(d.bal).toLocaleString('en-US')]};}
 function brLabels(){return [LBL.wInt,LBL.wBas,LBL.wEx,LBL.wBal];}
-function setBday(d){bday=d;const nd=brData();br.data.datasets[0].data=nd.data;
- br.data.datasets[0].backgroundColor=['#2caaf0','#54718D','#BA7517',BR[bday].bal<0?'#1D9E75':'#A32D2D'];
- markBtns();br.update();}
+function buildBridgeButtons(){const row=document.getElementById('bridgerow');row.innerHTML='';BR.forEach((d,i)=>{const b=document.createElement('button');b.textContent=d.label;b.setAttribute('data-d',i);b.onclick=()=>setBday(i);row.appendChild(b);});}
+function setBday(d){bday=d;const nd=brData();br.data.datasets[0].data=nd.data;br.data.datasets[0].backgroundColor=['#2caaf0','#54718D','#BA7517',BR[bday].bal<0?'#1D9E75':'#A32D2D'];markBtns();br.update();}
 
-const MLD={"trap":[{"d":"2026-02-21","l":"Feb 21","w":100,"mx":139,"av":121,"dl":37,"pk":[98,94,123,137,139,135],"cf":1},{"d":"2026-02-28","l":"Feb 28","w":100,"mx":140,"av":130,"dl":-1,"pk":[137,140,117,116,134,136],"cf":1},{"d":"2026-03-08","l":"Mar 8","w":110,"mx":147,"av":134,"dl":25,"pk":[122,115,136,142,145,147],"cf":1},{"d":"2026-03-14","l":"Mar 14","w":100,"mx":143,"av":134,"dl":0,"pk":[120,138,143,141,143,120],"cf":1},{"d":"2026-03-21","l":"Mar 21","w":100,"mx":147,"av":134,"dl":43,"pk":[103,127,138,141,147,146],"cf":1},{"d":"2026-03-28","l":"Mar 28","w":110,"mx":137,"av":117,"dl":14,"pk":[95,117,111,134,137,109],"cf":0},{"d":"2026-04-11","l":"Apr 11","w":80,"mx":140,"av":137,"dl":4,"pk":[131,140,139,140,135],"cf":1},{"d":"2026-04-18","l":"Apr 18","w":100,"mx":137,"av":122,"dl":30,"pk":[107,111,126,127,137],"cf":1},{"d":"2026-04-25","l":"Apr 25","w":120,"mx":143,"av":126,"dl":45,"pk":[98,114,121,137,140,143],"cf":1},{"d":"2026-05-02","l":"May 2","w":125,"mx":140,"av":122,"dl":30,"pk":[110,122,137,100,140],"cf":1},{"d":"2026-05-08","l":"May 8","w":125,"mx":140,"av":124,"dl":31,"pk":[109,120,117,132,140],"cf":1},{"d":"2026-05-16","l":"May 16","w":130,"mx":147,"av":119,"dl":51,"pk":[96,103,115,140,113,147],"cf":1},{"d":"2026-05-22","l":"May 22","w":130,"mx":139,"av":119,"dl":21,"pk":[102,107,126,139,123],"cf":1},{"d":"2026-05-29","l":"May 29","w":140,"mx":151,"av":128,"dl":-28,"pk":[143,151,119,110,115],"cf":0},{"d":"2026-06-07","l":"Jun 7","w":140,"mx":136,"av":121,"dl":14,"pk":[111,117,117,136,125],"cf":1}],"goblet":[{"d":"2026-02-26","l":"Feb 26","w":40,"mx":145,"av":120,"dl":35,"pk":[110,100,125,145],"cf":1},{"d":"2026-03-12","l":"Mar 12","w":40,"mx":135,"av":110,"dl":39,"pk":[96,96,115,135],"cf":1},{"d":"2026-03-19","l":"Mar 19","w":40,"mx":140,"av":118,"dl":44,"pk":[96,97,137,140],"cf":1},{"d":"2026-03-26","l":"Mar 26","w":48,"mx":153,"av":149,"dl":8,"pk":[143,149,153,151],"cf":1},{"d":"2026-04-02","l":"Apr 2","w":48,"mx":147,"av":114,"dl":44,"pk":[103,107,100,147],"cf":1},{"d":"2026-04-23","l":"Apr 23","w":40,"mx":147,"av":127,"dl":44,"pk":[103,147,112,147],"cf":1},{"d":"2026-04-30","l":"Apr 30","w":48,"mx":133,"av":110,"dl":34,"pk":[99,103,103,133],"cf":1},{"d":"2026-05-21","l":"May 21","w":48,"mx":148,"av":125,"dl":47,"pk":[101,106,145,148],"cf":1},{"d":"2026-05-28","l":"May 28","w":48,"mx":144,"av":124,"dl":39,"pk":[105,105,143,144],"cf":1},{"d":"2026-06-04","l":"Jun 4","w":48,"mx":150,"av":139,"dl":32,"pk":[118,142,145,150],"cf":1},{"d":"2026-06-11","l":"Jun 11","w":48,"mx":137,"av":115,"dl":38,"pk":[99,105,120,137],"cf":1}],"hack":[{"d":"2026-05-12","l":"May 12","w":130,"mx":116,"av":109,"dl":11,"pk":[104,100,116,115],"cf":1},{"d":"2026-05-19","l":"May 19","w":120,"mx":136,"av":120,"dl":32,"pk":[104,112,129,136],"cf":1},{"d":"2026-05-26","l":"May 26","w":130,"mx":124,"av":108,"dl":28,"pk":[96,102,111,124],"cf":1},{"d":"2026-06-03","l":"Jun 3","w":130,"mx":131,"av":112,"dl":29,"pk":[102,102,115,131],"cf":1},{"d":"2026-06-09","l":"Jun 9","w":130,"mx":136,"av":122,"dl":12,"pk":[105,118,133,136,117],"cf":1}]};
 let liftSel='trap',rangeSel=0;
-const CUT={7:'2026-06-05',28:'2026-05-15',84:'2026-03-20',0:''};
+const CUT={7:'2026-06-07',28:'2026-05-16',84:'2026-03-21',0:''};
 function mlRows(){return MLD[liftSel].filter(r=>r.d>=CUT[rangeSel]);}
-const mlPlug={id:'mlp',afterDatasetsDraw(ch){
- const{ctx}=ch;const rows=mlRows();
- const mb=ch.getDatasetMeta(0),mmx=ch.getDatasetMeta(1),mav=ch.getDatasetMeta(2);
- const M=layout==='mobile';const many=rows.length>9;
- ctx.save();ctx.textAlign='center';
- const fV=(M||many?'500 9px ':'500 11px ')+'sans-serif';
- const fH=(M?'400 10px ':'400 12px ')+'sans-serif';
- mmx.data.forEach((pt,i)=>{ctx.font=fH;ctx.fillStyle='#E24B4A';ctx.fillText('\u2665',pt.x,pt.y+4);
-  ctx.font=fV;const lab=rows[i].mx+(rows[i].cf?'':'*');
-  ctx.fillStyle=halo;ctx.fillRect(pt.x-13,pt.y-19,26,11);ctx.fillStyle='#E24B4A';ctx.fillText(lab,pt.x,pt.y-10);});
- if(!many||M===false){mav.data.forEach((pt,i)=>{ctx.font=fV;ctx.fillStyle='#E0A53C';ctx.fillText(rows[i].av,pt.x,pt.y+14);});}
- mb.data.forEach((bar,i)=>{
-  ctx.font=fV;ctx.fillStyle='#fff';ctx.fillText(rows[i].w,bar.x,bar.y+12);
-  const d=rows[i].dl;const sc=(d<0?'\u2212':'+')+Math.abs(d);
-  ctx.font=(M||many?'500 8px ':'500 10px ')+'sans-serif';
-  const w=ctx.measureText(sc).width+8;
-  ctx.fillStyle=d>=20?'#A35A1D':'#1D9E75';
-  ctx.beginPath();ctx.roundRect(bar.x-w/2,ch.chartArea.bottom+4,w,12,6);ctx.fill();
-  ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,ch.chartArea.bottom+13);});
- ctx.restore();}};
-const ml=new Chart(document.getElementById('ml'),{
- data:{labels:[],datasets:[
-  {type:'bar',data:[],backgroundColor:'#54718D',maxBarThickness:46,yAxisID:'y',order:10},
-  {type:'line',data:[],borderColor:'#E24B4A',borderWidth:2.5,tension:0.25,pointRadius:0,yAxisID:'y1',order:1},
-  {type:'line',data:[],borderColor:'#E0A53C',borderWidth:2.5,borderDash:[8,4],tension:0.25,pointRadius:0,yAxisID:'y1',order:2}
- ]},
- options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,bottom:18}},
-  plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>{const r=mlRows()[c[0].dataIndex];return r.l+' · '+r.w+' kg';},label:c=>{const r=mlRows()[c.dataIndex];
-   if(c.datasetIndex===0)return LBL.mlW+': '+r.w;
-   if(c.datasetIndex===1)return LBL.mlMx+': '+r.mx+' ('+r.pk.join(', ')+')';
-   return LBL.mlAv+': '+r.av+' · \u0394 '+(r.dl<0?'\u2212':'+')+Math.abs(r.dl);}}}},
-  scales:{
-   x:{grid:{display:false},ticks:{autoSkip:false,color:txt,maxRotation:60}},
-   y:{min:0,max:170,title:{display:false,text:''},afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,stepSize:40}},
-   y1:{position:'right',min:85,max:165,title:{display:false,text:''},afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}}
-  }},
- plugins:[bgPlug,mlPlug,{id:'axml',afterDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font='500 10px sans-serif';
-  const s1=ch.scales.y1;ctx.fillStyle=txt;ctx.fillText('bpm\u2665',s1.left+s1.width/2+2,s1.top-6);
-  const s0=ch.scales.y;ctx.fillText('kg',s0.right-s0.width/2-2,s0.top-6);ctx.restore();}}]
-});
-const wsPlug={id:'wsp',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';
- ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
- [0,1].forEach(di=>{ch.getDatasetMeta(di).data.forEach((bar,i)=>{const v=ch.data.datasets[di].data[i];
-  if(v==null)return;ctx.fillStyle=strong;ctx.fillText(v,bar.x,bar.y-5);});});ctx.restore();}};
-const ws=new Chart(document.getElementById('ws'),{type:'bar',
- data:{labels:[],datasets:[
-  {data:[],backgroundColor:'rgba(84,113,141,0.45)',maxBarThickness:40},
-  {data:[],backgroundColor:'#D85A30',maxBarThickness:40}
- ]},
- options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},
-  plugins:{legend:{display:false},tooltip:{enabled:true}},
-  scales:{x:{grid:{display:false},ticks:{color:txt}},
-   y:{min:80,max:165,title:{display:false,text:''},afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,stepSize:20}}}},
- plugins:[bgPlug,wsPlug]
-});
 function mlRefresh(){
  const rows=mlRows();
- ml.data.labels=rows.map(r=>r.l);
- ml.data.datasets[0].data=rows.map(r=>r.w);
- ml.data.datasets[1].data=rows.map(r=>r.mx);
- ml.data.datasets[2].data=rows.map(r=>r.av);
- ml.update();
- const all=MLD[liftSel];
- const last=all[all.length-1],prev=all.length>1?all[all.length-2]:null;
- const n=Math.max(last.pk.length,prev?prev.pk.length:0);
- ws.data.labels=Array.from({length:n},(_,i)=>'S'+(i+1));
- ws.data.datasets[0].data=Array.from({length:n},(_,i)=>prev?prev.pk[i]??null:null);
- ws.data.datasets[1].data=Array.from({length:n},(_,i)=>last.pk[i]??null);
+ ml.data.labels=rows.map(r=>r.l);ml.data.datasets[0].data=rows.map(r=>r.w);ml.data.datasets[1].data=rows.map(r=>r.mx);ml.data.datasets[2].data=rows.map(r=>r.av);ml.update();
+ const all=MLD[liftSel];const last=all[all.length-1],prev=all.length>1?all[all.length-2]:null;
+ const cnt=Math.max(last.pk.length,prev?prev.pk.length:0);
+ ws.data.labels=Array.from({length:cnt},(_,i)=>'S'+(i+1));
+ ws.data.datasets[0].data=Array.from({length:cnt},(_,i)=>prev?prev.pk[i]??null:null);
+ ws.data.datasets[1].data=Array.from({length:cnt},(_,i)=>last.pk[i]??null);
  ws.update();
  const nm={trap:'Trap-bar DL',hack:'Hack Squat',goblet:'Goblet Squat'}[liftSel];
  document.getElementById('mlSub').textContent=nm+' — '+LBL.wsLast+': '+last.l+' @ '+last.w+' kg'+(prev?(' · '+LBL.wsPrev+': '+prev.l+' @ '+prev.w+' kg'):'');
@@ -429,58 +358,41 @@ function mlRefresh(){
 function setLift(l){liftSel=l;markBtns();mlRefresh();}
 function setRange(r){rangeSel=r;markBtns();mlRefresh();}
 
-function redraw(){
- tr.data.datasets[0].data=D[metric];
- tr.data.datasets[0].backgroundColor=colors();
- tr.options.scales.y.min=AX[metric].min;
- tr.options.scales.y.max=AX[metric].max;
- tr.options.scales.y.title.text=AX[metric].u;
- tr.update();
-}
-function setMetric(m){metric=m;markBtns();redraw();}
-function setFilter(f){filter=f;markBtns();redraw();}
-function applyTheme(t){theme=t;calc();
- document.getElementById('twrap').classList.toggle('dark',t==='dark');
- document.body.style.background=BG;
- const sc=tr.options.scales;sc.x.ticks.color=txt;sc.y.ticks.color=txt;sc.y.title.color=txt;sc.y.grid.color=grid;sc.y1.ticks.color=txt;sc.y1.title.color=txt;
+function redraw(){tr.data.datasets[0].data=D[metric];tr.data.datasets[0].backgroundColor=colors();tr.options.scales.y.min=AX[metric].min;tr.options.scales.y.max=AX[metric].max;tr.options.scales.y.title.text=AX[metric].u;tr.update();}
+function setMetric(m){metric=m;markBtns();if(tr)redraw();}
+function setFilter(f){filter=f;markBtns();if(tr)redraw();}
+function applyTheme(t){theme=t;calc();document.getElementById('twrap').classList.toggle('dark',t==='dark');document.body.style.background=BG;
+ if(!tr){markBtns();return;}
+ const sc=tr.options.scales;sc.x.ticks.color=txt;sc.y.ticks.color=txt;sc.y.title.color=txt;sc.y.grid.color=grid;sc.y1.ticks.color=txt;
  const se=en.options.scales;se.x.ticks.color=txt;se.y.ticks.color=txt;se.y.title.color=txt;se.y.grid.color=grid;
  [bc,br,ws].forEach(c=>{const q=c.options.scales;q.x.ticks.color=txt;q.y.ticks.color=txt;q.y.grid.color=grid;});
  const qm=ml.options.scales;qm.x.ticks.color=txt;qm.y.ticks.color=txt;qm.y.grid.color=grid;qm.y1.ticks.color=txt;
  markBtns();tr.update();en.update();bc.update();br.update();ml.update();ws.update();}
 function setLang(l){lang=l;LBL=T[l];
- document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
- tr.data.labels=layout==='mobile'?LBL.daysM:LBL.days;
- en.data.labels=layout==='mobile'?LBL.daysM:LBL.days;
- bc.data.labels=layout==='mobile'?LBL.daysM:LBL.days;
- br.data.labels=brLabels();
+ document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');let v=(LBL[k]!==undefined)?LBL[k]:(DAT?DAT.text[lang][k]:undefined);if(v!==undefined&&v!==null)el.textContent=v;});
+ if(!tr)return;
+ const dlabels=layout==='mobile'?txtL().daysM:txtL().days;
+ tr.data.labels=dlabels;en.data.labels=dlabels;bc.data.labels=dlabels;br.data.labels=brLabels();
  markBtns();tr.update();en.update();bc.update();br.update();mlRefresh();}
 function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want)return;layout=want;const M=want==='mobile';
  document.getElementById('twrap').classList.toggle('mobile',M);
- document.getElementById('trwrap').style.height=M?'420px':'380px';
- document.getElementById('enwrap').style.height=M?'320px':'300px';
- tr.data.labels=M?LBL.daysM:LBL.days;
- en.data.labels=M?LBL.daysM:LBL.days;
- tr.options.scales.x.ticks.font={size:M?10:12};
- tr.options.scales.y.ticks.font={size:M?10:12};
- tr.options.scales.y1.ticks.font={size:M?10:12};
- en.options.scales.x.ticks.font={size:M?10:12};
- en.options.scales.y.ticks.font={size:M?10:12};
- bc.data.labels=M?LBL.daysM:LBL.days;
+ document.getElementById('trwrap').style.height=M?'420px':'380px';document.getElementById('enwrap').style.height=M?'320px':'300px';
+ if(!tr)return;
+ const dlabels=M?txtL().daysM:txtL().days;
+ tr.data.labels=dlabels;en.data.labels=dlabels;bc.data.labels=dlabels;
+ tr.options.scales.x.ticks.font={size:M?10:12};tr.options.scales.y.ticks.font={size:M?10:12};tr.options.scales.y1.ticks.font={size:M?10:12};
+ en.options.scales.x.ticks.font={size:M?10:12};en.options.scales.y.ticks.font={size:M?10:12};
  [bc,br].forEach(c=>{c.options.scales.x.ticks.font={size:M?10:12};c.options.scales.y.ticks.font={size:M?10:12};});
- document.getElementById('bcwrap').style.height=M?'350px':'330px';
- document.getElementById('brwrap').style.height=M?'350px':'330px';
- document.getElementById('mlwrap').style.height=M?'380px':'360px';
- document.getElementById('wswrap').style.height=M?'300px':'280px';
+ document.getElementById('bcwrap').style.height=M?'350px':'330px';document.getElementById('brwrap').style.height=M?'350px':'330px';
+ document.getElementById('mlwrap').style.height=M?'380px':'360px';document.getElementById('wswrap').style.height=M?'300px':'280px';
  [ml,ws].forEach(c=>{c.options.scales.x.ticks.font={size:M?9:11};c.options.scales.y.ticks.font={size:M?10:12};});if(ml.options.scales.y1)ml.options.scales.y1.ticks.font={size:M?10:12};
  markBtns();
  requestAnimationFrame(()=>{tr.resize();en.resize();bc.resize();br.resize();ml.resize();ws.resize();tr.update();en.update();bc.update();br.update();ml.update();ws.update();});}
-function toggleFont(){fontbig=!fontbig;document.getElementById('twrap').classList.toggle('big',fontbig);markBtns();requestAnimationFrame(()=>{tr.resize();en.resize();bc.resize();br.resize();ml.resize();ws.resize();tr.update();en.update();bc.update();br.update();ml.update();ws.update();});}
+function toggleFont(){fontbig=!fontbig;document.getElementById('twrap').classList.toggle('big',fontbig);markBtns();if(tr)requestAnimationFrame(()=>{tr.resize();en.resize();bc.resize();br.resize();ml.resize();ws.resize();tr.update();en.update();bc.update();br.update();ml.update();ws.update();});}
 function markBtns(){
- const Dk=theme==='dark';
- const actBg=Dk?'#e8e8e6':'#444441',actFg=Dk?'#262624':'#ffffff';
- const inFg=Dk?'#e8e8e6':'#2c2c2a';
+ const Dk=theme==='dark';const actBg=Dk?'#e8e8e6':'#444441',actFg=Dk?'#262624':'#ffffff',inFg=Dk?'#e8e8e6':'#2c2c2a';
  const bd=Dk?'1px solid rgba(255,255,255,0.35)':'1px solid rgba(0,0,0,0.4)';
- const style=(b,on)=>{b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';};
+ const style=(b,on)=>{if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';};
  const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-lt':theme==='light','btn-dk':theme==='dark','btn-fs':fontbig};
  Object.entries(states).forEach(([id,on])=>style(document.getElementById(id),on));
  document.querySelectorAll('#filterrow button').forEach(b=>style(b,b.getAttribute('data-f')===filter));
@@ -489,12 +401,13 @@ function markBtns(){
  document.querySelectorAll('#liftrow button').forEach(b=>style(b,b.getAttribute('data-l')===liftSel));
  document.querySelectorAll('#rangerow button').forEach(b=>style(b,Number(b.getAttribute('data-r'))===rangeSel));
 }
-applyTheme(theme);
-setLang('en');
-applyResponsive();
+markBtns();
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
-setMetric('effort');
-mlRefresh();
+
+fetch('training-data.json')
+ .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(j=>{DAT=j;init();})
+ .catch(err=>{const e=document.querySelector('[data-i="rec"]');if(e)e.textContent='Could not load training-data.json ('+err.message+'). Serve over http (works on GitHub Pages).';});
 </script>
 </body>
 </html>
