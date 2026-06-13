@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "sleep_asof": "2026-05-05",
+    "training_asof": "2026-05-05",
+    "intake_asof": "2026-06-12",
+    "note": "sleep & training from Garmin GDPR export (frozen); intake logged live"
+  },
+  "sleep": {
+    "last": {
+      "score": 77, "durationMin": 391, "rhr": 54, "hrv": null,
+      "deepMin": 54, "lightMin": 255, "remMin": 64, "awakeMin": 18,
+      "respiration": 15.5, "bed": "21:19", "wake": "03:50"
+    },
+    "trailing7": [
+      { "d": "04-29", "score": 87 },
+      { "d": "05-01", "score": 89 },
+      { "d": "05-02", "score": 79 },
+      { "d": "05-03", "score": 84 },
+      { "d": "05-04", "score": 69 },
+      { "d": "05-05", "score": 77 }
+    ]
+  },
+  "training": {
+    "status": "MAINTAINING", "vo2max": 33.5, "rhr": 54, "fitnessAge": 49.4, "chronAge": 47,
+    "recent": [
+      { "day": "Mon", "type": "Swim 2200m N4x4", "kcal": 560, "effort": "Aerobic",  "hr": 138 },
+      { "day": "Tue", "type": "Gym · hack squat", "kcal": 310, "effort": "Anaerobic", "hr": 121 },
+      { "day": "Wed", "type": "Swim intervals",   "kcal": 540, "effort": "Aerobic",  "hr": 142 },
+      { "day": "Thu", "type": "Gym · squat",      "kcal": 340, "effort": "Anaerobic", "hr": 128 },
+      { "day": "Sat", "type": "Gym · trap-bar DL","kcal": 300, "effort": "Anaerobic", "hr": 131 }
+    ]
+  },
+  "intake": {
+    "date": "FRI 2026-06-12", "dayType": "rest day",
+    "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+    "total":  { "kcal": 1715, "p": 157, "c": 146, "f": 55 },
+    "tdee": 2490,
+    "log": [
+      { "name": "Sourdough 145g",                     "kcal": 355, "p": 12, "c": 68, "f": 2 },
+      { "name": "Chicken breast, cooked 242g",        "kcal": 265, "p": 56, "c": 0,  "f": 5 },
+      { "name": "Chili beans 227g",                   "kcal": 225, "p": 13, "c": 36, "f": 3 },
+      { "name": "Pilos high-protein yogurt 330g",     "kcal": 190, "p": 33, "c": 13, "f": 1 },
+      { "name": "Salad 500g (celery/carrot/cabbage)", "kcal": 130, "p": 4,  "c": 24, "f": 1 },
+      { "name": "EVOO 3 tbsp",                        "kcal": 360, "p": 0,  "c": 0,  "f": 40 },
+      { "name": "Whey ON Cookie & Cream 50g",         "kcal": 190, "p": 39, "c": 5,  "f": 3 }
+    ]
+  }
+}

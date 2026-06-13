@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patrik · Health Dashboard</title>
+<style>
+  :root {
+    --bg: #10141a; --panel: #181e27; --panel2: #1f2733;
+    --ink: #e8edf4; --muted: #8a96a6; --faint: #5c6878;
+    --green: #2dbd8a; --amber: #d99a3d; --blue: #4a9be8; --red: #e05a55;
+    --deep: #084a8f; --light: #2caaf0; --rem: #a64ce8; --awake: #f06fa0;
+    --line: rgba(255,255,255,0.06);
+    --mono: "SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans: -apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  [data-theme="light"] {
+    --bg: #f4f6f9; --panel: #ffffff; --panel2: #eef1f5;
+    --ink: #1a2230; --muted: #5a6676; --faint: #8a96a6;
+    --line: rgba(0,0,0,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); transition: background .2s,color .2s; }
+  .app { max-width: 600px; margin: 0 auto; padding: 18px 16px 56px; }
+
+  header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+  .brand { font-size: 15px; font-weight: 600; }
+  .asof { font-family: var(--mono); font-size: 10px; color: var(--faint); margin-top: 2px; }
+  .toggles { display: flex; gap: 6px; }
+  .tg { font-family: var(--mono); font-size: 10px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); padding: 5px 8px; border-radius: 6px; cursor: pointer; user-select: none; }
+  .tg:hover { color: var(--ink); }
+
+  nav { display: flex; gap: 6px; margin: 16px 0 4px; background: var(--panel); padding: 4px; border-radius: 10px; }
+  nav button { flex: 1; font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--muted); background: transparent; border: none; padding: 9px 0; border-radius: 7px; cursor: pointer; transition: all .15s; }
+  nav button.active { background: var(--panel2); color: var(--ink); }
+  nav button:hover:not(.active) { color: var(--ink); }
+
+  .page { display: none; animation: fade .2s; }
+  .page.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .sec { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin: 22px 0 10px; }
+  .cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+  .card { background: var(--panel); border-radius: 8px; padding: 10px; }
+  .card .l { font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+  .card .v { font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .card .s { font-size: 10px; color: var(--faint); margin-top: 2px; }
+  .g { color: var(--green); } .a { color: var(--amber); } .b { color: var(--blue); }
+
+  .bars { display: flex; flex-direction: column; gap: 11px; }
+  .brow .lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .brow .lbl b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .track { background: var(--panel2); height: 8px; border-radius: 4px; overflow: hidden; }
+  .fill { height: 100%; border-radius: 4px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); text-align: right; padding: 0 6px 6px; font-weight: 500; }
+  th:first-child { text-align: left; padding-left: 10px; }
+  td { padding: 7px 6px; text-align: right; font-variant-numeric: tabular-nums; }
+  td:first-child { text-align: left; color: var(--muted); padding-left: 10px; }
+  tbody tr { background: var(--panel); }
+  tbody tr:nth-child(odd) { background: var(--panel2); }
+  tfoot td { font-weight: 600; padding-top: 9px; }
+
+  .stagebar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; margin: 4px 0 10px; }
+  .stagebar > div { height: 100%; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 11px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+  .towers { display: flex; align-items: flex-end; justify-content: space-between; gap: 5px; height: 90px; padding-top: 6px; }
+  .tower { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+  .tower .bar { width: 70%; border-radius: 3px 3px 0 0; background: var(--blue); }
+  .tower .d { font-family: var(--mono); font-size: 9px; color: var(--faint); }
+  .tower .sc { font-size: 10px; font-weight: 600; }
+
+  .insight { background: var(--panel); border-left: 2px solid var(--blue); border-radius: 6px; padding: 9px 12px; font-size: 12px; line-height: 1.55; color: var(--muted); margin-bottom: 7px; }
+  .insight b { color: var(--ink); font-weight: 600; }
+  .insight.warn { border-left-color: var(--amber); }
+  .insight.ok { border-left-color: var(--green); }
+  svg text { font-family: var(--mono); }
+
+  .state { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 13px; }
+  .state.err { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <div class="brand" id="brand">Health dashboard</div>
+      <div class="asof" id="asof"></div>
+    </div>
+    <div class="toggles">
+      <div class="tg" id="langTg">HR</div>
+      <div class="tg" id="themeTg">☀</div>
+    </div>
+  </header>
+
+  <nav>
+    <button data-tab="sleep" class="active">Sleep</button>
+    <button data-tab="training">Training</button>
+    <button data-tab="intake">Intake</button>
+  </nav>
+
+  <section class="page active" id="page-sleep"><div class="state">Loading…</div></section>
+  <section class="page" id="page-training"></section>
+  <section class="page" id="page-intake"></section>
+</div>
+
+<script>
+/* ============================================================
+   DATA is now LOADED from data.json — edit that file to refresh.
+   Everything below (rendering) stays untouched.
+   ============================================================ */
+let DATA = null;
+
+const I18N = {
+  en: { brand:"Health dashboard", sleep:"Sleep", training:"Training", intake:"Intake",
+    lastNight:"Last night", trailing:"Trailing 7 days", score:"Score", dur:"Duration",
+    rhr:"RHR", hrv:"HRV", deep:"Deep", lightS:"Light", rem:"REM", awake:"Awake",
+    status:"Status", vo2:"VO₂max", fitAge:"Fitness age", week:"This week",
+    burn:"Burn", effort:"Effort", macros:"Macros vs target", fill:"Fill rate",
+    energy:"Energy balance", foodlog:"Food log", insights:"Insights", intakeWord:"Intake",
+    cal:"Calories", prot:"Protein", carb:"Carbs", fat:"Fat", total:"Total",
+    deficit:"deficit", target:"target", asofSleep:"sleep & training: Garmin export",
+    asofIntake:"intake: logged live" },
+  hr: { brand:"Zdravstveni pregled", sleep:"San", training:"Trening", intake:"Unos",
+    lastNight:"Sinoć", trailing:"Zadnjih 7 dana", score:"Ocjena", dur:"Trajanje",
+    rhr:"RHR", hrv:"HRV", deep:"Duboki", lightS:"Lagani", rem:"REM", awake:"Budan",
+    status:"Status", vo2:"VO₂max", fitAge:"Fitness dob", week:"Ovaj tjedan",
+    burn:"Potrošnja", effort:"Napor", macros:"Makroi vs cilj", fill:"Ispunjenost",
+    energy:"Energetska bilanca", foodlog:"Dnevnik prehrane", insights:"Uvidi", intakeWord:"Unos",
+    cal:"Kalorije", prot:"Proteini", carb:"UH", fat:"Masti", total:"Ukupno",
+    deficit:"deficit", target:"cilj", asofSleep:"san i trening: Garmin export",
+    asofIntake:"unos: uživo" }
+};
+let lang = "en";
+
+const $ = id => document.getElementById(id);
+const t = k => I18N[lang][k];
+const pct = (v,max) => Math.min(100, Math.round(v/max*100));
+const hm  = min => Math.floor(min/60)+"h "+(min%60)+"m";
+
+function renderSleep(){
+  const s = DATA.sleep.last, tr = DATA.sleep.trailing7;
+  const totalStage = s.deepMin + s.lightMin + s.remMin + s.awakeMin;
+  const w = x => (x/totalStage*100).toFixed(1)+"%";
+  return `
+  <div class="sec">${t("lastNight")} · ${DATA.meta.sleep_asof}</div>
+  <div class="cards">
+    <div class="card"><div class="l">${t("score")}</div><div class="v ${s.score>=80?'g':s.score>=70?'':'a'}">${s.score}</div><div class="s">/100</div></div>
+    <div class="card"><div class="l">${t("dur")}</div><div class="v">${hm(s.durationMin)}</div><div class="s">resp ${s.respiration}</div></div>
+    <div class="card"><div class="l">${t("rhr")} ♥</div><div class="v b">${s.rhr}</div><div class="s">bpm</div></div>
+    <div class="card"><div class="l">${t("hrv")}</div><div class="v">${s.hrv ?? '—'}</div><div class="s">${s.hrv?'ms':'Freddy only'}</div></div>
+  </div>
+  <div class="sec">${s.bed} → ${s.wake}</div>
+  <div class="stagebar">
+    <div style="width:${w(s.deepMin)};background:var(--deep)"></div>
+    <div style="width:${w(s.lightMin)};background:var(--light)"></div>
+    <div style="width:${w(s.remMin)};background:var(--rem)"></div>
+    <div style="width:${w(s.awakeMin)};background:var(--awake)"></div>
+  </div>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--deep)"></i>${t("deep")} ${s.deepMin}m</span>
+    <span><i class="dot" style="background:var(--light)"></i>${t("lightS")} ${s.lightMin}m</span>
+    <span><i class="dot" style="background:var(--rem)"></i>${t("rem")} ${s.remMin}m</span>
+    <span><i class="dot" style="background:var(--awake)"></i>${t("awake")} ${s.awakeMin}m</span>
+  </div>
+  <div class="sec">${t("trailing")}</div>
+  <div class="towers">
+    ${tr.map(n=>`<div class="tower">
+        <div class="sc" style="color:${n.score>=80?'var(--green)':n.score>=70?'var(--ink)':'var(--amber)'}">${n.score}</div>
+        <div class="bar" style="height:${n.score}%"></div>
+        <div class="d">${n.d}</div>
+      </div>`).join("")}
+  </div>
+  <div class="sec">${t("insights")}</div>
+  <div class="insight warn"><b>HRV blank in this snapshot</b> — the Garmin export doesn't carry HRV; it lives in Freddy. A Claude-refresh or backend fills this column.</div>
+  <div class="insight"><b>${t("rhr")} 54 bpm</b> — under the 58 bpm deload trigger. No accumulated-fatigue signal in this window.</div>`;
+}
+
+function renderTraining(){
+  const tg = DATA.training;
+  const maxK = Math.max(...tg.recent.map(r=>r.kcal));
+  return `
+  <div class="sec">${t("status")} · ${DATA.meta.training_asof}</div>
+  <div class="cards">
+    <div class="card"><div class="l">${t("status")}</div><div class="v" style="font-size:13px">${tg.status}</div><div class="s">trend</div></div>
+    <div class="card"><div class="l">${t("vo2")}</div><div class="v b">${tg.vo2max}</div><div class="s">ml/kg/min</div></div>
+    <div class="card"><div class="l">${t("rhr")} ♥</div><div class="v">${tg.rhr}</div><div class="s">bpm</div></div>
+    <div class="card"><div class="l">${t("fitAge")}</div><div class="v a">${tg.fitnessAge}</div><div class="s">vs ${tg.chronAge} actual</div></div>
+  </div>
+  <div class="sec">${t("week")} · ${t("burn")}</div>
+  <div class="bars">
+    ${tg.recent.map(r=>`<div class="brow">
+      <div class="lbl"><span>${r.day} · ${r.type}</span><b>${r.kcal} kcal · ♥${r.hr}</b></div>
+      <div class="track"><div class="fill" style="width:${pct(r.kcal,maxK)}%;background:${r.effort==='Aerobic'?'var(--light)':'#D85A30'}"></div></div>
+    </div>`).join("")}
+  </div>
+  <div class="legend" style="margin-top:10px">
+    <span><i class="dot" style="background:var(--light)"></i>${t("effort")}: Aerobic (swim)</span>
+    <span><i class="dot" style="background:#D85A30"></i>Anaerobic (strength)</span>
+  </div>
+  <div class="sec">${t("insights")}</div>
+  <div class="insight ok"><b>Fitness age ${tg.fitnessAge} vs ${tg.chronAge}</b> — gap closing as weight drops; RHR and VO₂max are the levers.</div>
+  <div class="insight"><b>Snapshot through ${DATA.meta.training_asof}</b> — your richer v1.42 dashboard (HR set-peaks, kcal bridge, burn composition) drops into this tab unchanged.</div>`;
+}
+
+function renderIntake(){
+  const k = DATA.intake, tgt = k.target, tot = k.total;
+  const deficit = k.tdee - tot.kcal;
+  const row = (lbl, val, max, over) => `<div class="brow">
+      <div class="lbl"><span>${lbl}</span><b style="color:${over?'var(--amber)':'var(--ink)'}">${pct(val,max)}%${over?' — over':''}</b></div>
+      <div class="track"><div class="fill" style="width:${pct(val,max)}%;background:${over?'var(--amber)':'var(--green)'}"></div></div>
+    </div>`;
+  return `
+  <div class="sec">${t("macros")} · ${k.date} · ${k.dayType}</div>
+  <div class="cards">
+    <div class="card"><div class="l">${t("cal")}</div><div class="v">${tot.kcal.toLocaleString()}</div><div class="s">/ ${tgt.kcal.toLocaleString()}</div></div>
+    <div class="card"><div class="l">${t("prot")}</div><div class="v g">${tot.p}g</div><div class="s">/ ${tgt.p}g ✓</div></div>
+    <div class="card"><div class="l">${t("carb")}</div><div class="v">${tot.c}g</div><div class="s">/ ${tgt.c}g</div></div>
+    <div class="card"><div class="l">${t("fat")}</div><div class="v">${tot.f}g</div><div class="s">/ ${tgt.f}g</div></div>
+  </div>
+  <div class="sec">${t("fill")}</div>
+  <div class="bars">
+    ${row(t("cal"), tot.kcal, tgt.kcal, false)}
+    ${row(t("prot"), tot.p, tgt.p, false)}
+    ${row(t("carb"), tot.c, tgt.c, tot.c>tgt.c)}
+    ${row(t("fat"), tot.f, tgt.f, tot.f>tgt.f)}
+  </div>
+  <div class="sec">${t("energy")}</div>
+  <svg viewBox="0 0 528 70" width="100%">
+    <text x="0" y="12" fill="var(--muted)" font-size="10">${t("burn")} (TDEE)</text>
+    <rect x="0" y="17" width="528" height="13" rx="6.5" fill="var(--panel2)"/>
+    <rect x="0" y="17" width="528" height="13" rx="6.5" fill="#374557"/>
+    <text x="528" y="12" fill="var(--ink)" font-size="10" text-anchor="end">~${k.tdee.toLocaleString()}</text>
+    <text x="0" y="48" fill="var(--muted)" font-size="10">${t("intakeWord")}</text>
+    <rect x="0" y="53" width="528" height="13" rx="6.5" fill="var(--panel2)"/>
+    <rect x="0" y="53" width="${(tot.kcal/k.tdee*528).toFixed(0)}" height="13" rx="6.5" fill="var(--blue)"/>
+    <text x="528" y="48" fill="var(--green)" font-size="10" text-anchor="end">${t("deficit")} −${deficit}</text>
+  </svg>
+  <div class="sec">${t("foodlog")}</div>
+  <table>
+    <thead><tr><th>Item</th><th>kcal</th><th>P</th><th>C</th><th>F</th></tr></thead>
+    <tbody>
+      ${k.log.map(f=>`<tr><td>${f.name}</td><td>${f.kcal}</td><td>${f.p}</td><td>${f.c}</td><td>${f.f}</td></tr>`).join("")}
+    </tbody>
+    <tfoot><tr><td>${t("total")}</td><td>${tot.kcal}</td><td>${tot.p}</td><td>${tot.c}</td><td>${tot.f}</td></tr></tfoot>
+  </table>
+  <div class="sec">${t("insights")}</div>
+  <div class="insight ok"><b>Protein ${tot.p}g ✓</b> — streak intact; the whey shake closed the gap.</div>
+  <div class="insight"><b>Deficit −${deficit}</b> on a ${k.dayType} — productive range. Full ${tgt.kcal} on trap-bar day.</div>`;
+}
+
+function renderAll(){
+  if(!DATA) return;
+  $("brand").textContent = t("brand");
+  $("asof").textContent = `${t("asofSleep")} (${DATA.meta.sleep_asof}) · ${t("asofIntake")} (${DATA.meta.intake_asof})`;
+  document.querySelectorAll('nav button').forEach(b=>{ b.textContent = t(b.dataset.tab); });
+  $("page-sleep").innerHTML = renderSleep();
+  $("page-training").innerHTML = renderTraining();
+  $("page-intake").innerHTML = renderIntake();
+}
+
+document.querySelectorAll('nav button').forEach(btn=>{
+  btn.onclick = ()=>{
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    $("page-"+btn.dataset.tab).classList.add('active');
+  };
+});
+$("themeTg").onclick = ()=>{
+  const html = document.documentElement;
+  const light = html.getAttribute('data-theme')==='light';
+  html.setAttribute('data-theme', light?'dark':'light');
+  $("themeTg").textContent = light?'☀':'🌙';
+};
+$("langTg").onclick = ()=>{
+  lang = lang==='en'?'hr':'en';
+  $("langTg").textContent = lang==='en'?'HR':'EN';
+  renderAll();
+};
+
+/* ---- load data ---- */
+fetch('data.json')
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(json => { DATA = json; renderAll(); })
+  .catch(err => {
+    $("page-sleep").innerHTML =
+      `<div class="state err">Couldn't load data.json (${err.message}).<br><br>
+       If you opened this file directly, serve it instead:<br>
+       <code>python3 -m http.server</code> then open localhost:8000</div>`;
+  });
+</script>
+</body>
+</html>
