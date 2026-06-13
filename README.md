@@ -1,89 +1,65 @@
-# Patrik · Health Dashboard
+# Patrik · Daily Dashboard
 
-A single-page dashboard integrating **Sleep**, **Training**, and **Intake** with tab
-navigation, dark/light + EN/HR toggles. All data lives in `data.json` — the rendering
-in `index.html` never changes, so refreshing the dashboard is a one-file edit.
+A single-page dashboard with three tabs — **Sleep & recovery**, **Training**, and
+**Intake**. `index.html` is a thin shell that embeds three standalone dashboard pages,
+each with its own dark/light + EN/HR + font-size controls.
 
 ```
-health-dashboard/
-├── index.html    ← markup + styles + rendering (don't touch to update data)
-├── data.json     ← THE data layer — edit this to refresh
+daily-dashboard/
+├── index.html     ← tab shell — embeds the three pages below, auto-sizes them
+├── sleep.html     ← rich sleep & recovery dashboard (Chart.js, self-contained)
+├── training.html  ← rich training dashboard (Chart.js, self-contained)
+├── intake.html    ← intake dashboard — reads data.json
+├── data.json      ← THE data layer for Intake — edit this to refresh intake
 └── README.md
 ```
+
+Each page also opens on its own (e.g. `sleep.html` directly) — the shell just stitches
+them into one tabbed view and resizes each embed to fit its content.
 
 ---
 
 ## Run it locally
 
-`index.html` fetches `data.json`, so it must be **served**, not opened as a file
-(browsers block `fetch()` over `file://`).
+The pages fetch (`data.json`) and embed each other, so they must be **served**, not
+opened as files (browsers block this over `file://`). Any static server works:
 
 ```bash
-cd health-dashboard
-python3 -m http.server 8000
-# open http://localhost:8000
+cd daily-dashboard
+python3 -m http.server 8000   # then open http://localhost:8000
+# or: npx serve   ·   or VS Code "Live Server"
 ```
-
-Any static server works (`npx serve`, VS Code Live Server, etc.).
 
 ---
 
-## Put it online (no backend)
+## It's live online (GitHub Pages)
 
-Pick one. All free, all serve static files.
+Pushed to GitHub and served via Pages. To update after editing any file:
 
-**GitHub Pages**
 ```bash
-git init && git add . && git commit -m "health dashboard"
-gh repo create patrik-health --public --source=. --push
-# repo → Settings → Pages → Branch: main / root → Save
+git add .
+git commit -m "describe the change"
+git push
 ```
 
-**Vercel** — `vercel --prod` from the folder.
-**Netlify** — drag the folder onto app.netlify.com/drop.
-
-You get a live URL in under a minute. It serves whatever is in `data.json`.
+Pages redeploys automatically within ~1 minute.
 
 ---
 
-## Refreshing the data (recommended: Claude-refresh)
+## Refreshing the data
 
-The data sources (Garmin sleep/HRV, Hevy strength) aren't directly callable from a
-browser. The low-friction path keeps Claude in the loop:
+- **Sleep & Training** (`sleep.html`, `training.html`) currently carry their data inline
+  (they're snapshots from a Claude/Freddy export). To refresh, regenerate the page in a
+  Claude chat and overwrite the file.
+- **Intake** (`intake.html`) reads `data.json` — the lightweight path:
+  1. Ask Claude (Freddy connected) to output an updated `data.json` in the same shape.
+  2. Replace `data.json`, then `git commit -am "refresh" && git push`.
 
-1. In a Claude chat with Freddy connected, ask it to pull the latest sleep / training
-   metrics and your logged intake, and to **output an updated `data.json`** in this
-   exact shape.
-2. Replace `data.json`.
-3. `git commit -am "refresh" && git push` (Pages/Vercel/Netlify redeploys automatically).
+No credentials live in the repo.
 
-No credentials live in the repo. Updates take seconds.
-
-### `data.json` shape (keep keys identical)
+### `data.json` shape (Intake — keep keys identical)
 - `meta` — as-of dates per source
-- `sleep.last` — score, durationMin, rhr, hrv, stage minutes, bed/wake
-- `sleep.trailing7` — `[{ d, score }]`, most recent last
-- `training` — status, vo2max, rhr, fitnessAge, `recent[]`
-- `intake` — date, dayType, target, total, tdee, `log[]`
+- `intake` — `date`, `dayType`, `target {kcal,p,c,f}`, `total {kcal,p,c,f}`, `tdee`, `log[]`
 
-`hrv: null` renders as "—". Fill it once a source provides it.
-
----
-
-## Going fully dynamic (optional, later)
-
-If you want auto-refresh without Claude in the loop, add a serverless function
-(Vercel/Netlify) that pulls from the **real** APIs and writes `data.json` on a schedule:
-
-| Source | API | Notes |
-|---|---|---|
-| Strength | Hevy official API | clean, API-key auth |
-| Workouts/plans | intervals.icu API | already connected |
-| Sleep / HRV / RHR | Garmin (unofficial lib) | needs your login server-side; grey-area ToS |
-
-Freddy stays the Claude-side analysis bridge — it isn't the web data source.
-Credentials live in the serverless env, never in the repo or the browser.
-
-Decision point: a 30-second daily paste-and-commit is often less hassle than
-maintaining a Garmin scraper. Start with the Claude-refresh; graduate only if you
-actually want it hands-off.
+(`sleep` and `training` keys may still exist in `data.json` from the earlier version;
+they're no longer read by the current pages and can be left or removed.)
