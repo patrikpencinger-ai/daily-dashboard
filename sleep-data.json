@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "version": "v1.39-auto",
+    "snapshot": "2026-06-13",
+    "footEn": "Data snapshot: 2026-06-13 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-06-13 · Garmin fenix 8 putem Freddyja"
+  },
+  "num": {
+    "lastNight": {
+      "score": 77,
+      "durationLabel": "6h 04m",
+      "bedWake": "22:40 → 04:44",
+      "rhr": 52,
+      "hrv": 45,
+      "readiness": 76,
+      "deepMin": 112,
+      "lightMin": 202,
+      "remMin": 50,
+      "awakeMin": 14
+    },
+    "week": {
+      "deep":  [1.12, 1.13, 1.20, 1.48, 2.08, 2.05, 1.87],
+      "light": [5.38, 3.30, 2.30, 4.40, 4.12, 4.17, 3.37],
+      "rem":   [2.02, 0.98, 0.85, 1.50, 1.73, 1.98, 0.83],
+      "awake": [0.42, 0.17, 0.00, 0.95, 0.17, 0.18, 0.23],
+      "scores":[84, 71, 58, 75, 89, 89, 77],
+      "hrv":   [40, 39, 31, 35, 42, 36, 45],
+      "rhr":   [53, 55, 58, 55, 53, 53, 52],
+      "hrvAvg": 38
+    },
+    "sleepWake": {
+      "bed":  [-1.55, 0.78, 1.40, -2.07, -1.93, -1.57, -1.33],
+      "wake": [6.97, 6.20, 5.75, 5.32, 5.98, 6.63, 4.73],
+      "bedL": ["22:27","00:47","01:24","21:56","22:04","22:26","22:40"],
+      "wakeL":["06:58","06:12","05:45","05:19","05:59","06:38","04:44"],
+      "dur":  ["8h31","5h25","4h21","7h23","7h55","8h12","6h04"]
+    }
+  },
+  "text": {
+    "en": {
+      "daysFull": ["Sun 7","Mon 8","Tue 9","Wed 10","Thu 11","Fri 12","Sat 13"],
+      "daysShort": ["S7","M8","T9","W10","T11","F12","S13"],
+      "scoreWord": "score 77",
+      "c1d": "−12 vs yesterday · short night",
+      "c2d": "−46m vs 7-day avg (6h 50m)",
+      "c3d": "−1 vs yesterday · −2 vs avg (54)",
+      "c4d": "+9 vs yesterday · +7 vs avg (38)",
+      "c5l": "High",
+      "c5d": "computed from sleep, HRV, RHR, stress & recent load",
+      "havg": "HRV 7d avg 38",
+      "today": "Today: trap-bar deadlift day",
+      "badge": "On plan",
+      "rec": "Short night (6h04, score 77) following a strong 8h12 (score 89) on Friday. Every autonomic marker is at week-best: RHR 52 (week-low), HRV 45 (week-high, +7 vs baseline), stress 14 (calmest of the week). Deep sleep was excellent (1h52). Today is trap-bar deadlift day and readiness supports it (computed 76) — the only limiter is fuel, not physiology, so don't train fasted on 6h sleep."
+    },
+    "hr": {
+      "daysFull": ["Ned 7","Pon 8","Uto 9","Sri 10","Čet 11","Pet 12","Sub 13"],
+      "daysShort": ["N7","P8","U9","S10","Č11","P12","S13"],
+      "scoreWord": "ocjena 77",
+      "c1d": "−12 vs jučer · kratka noć",
+      "c2d": "−46m vs 7-dnevni prosjek (6h 50m)",
+      "c3d": "−1 vs jučer · −2 vs prosjek (54)",
+      "c4d": "+9 vs jučer · +7 vs prosjek (38)",
+      "c5l": "Visoka",
+      "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
+      "havg": "HRV 7d prosjek 38",
+      "today": "Danas: trap-bar mrtvo dizanje",
+      "badge": "Po planu",
+      "rec": "Kratka noć (6h04, ocjena 77) nakon snažnih 8h12 (ocjena 89) u petak. Svi autonomni pokazatelji su na tjednom maksimumu: RHR 52 (najniži u tjednu), HRV 45 (najviši, +7 vs prosjek), stres 14 (najmirniji u tjednu). Duboki san bio je odličan (1h52). Danas je trap-bar mrtvo dizanje i spremnost to podržava (izračun 76) — jedino ograničenje je gorivo, ne fiziologija, pa ne treniraj natašte na 6h sna."
+    }
+  }
+}

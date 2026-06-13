@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's sleep and recovery — v1.38 — 2026-06-13</title>
+<title>Patrik's sleep and recovery</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><circle%20cx='16'%20cy='16'%20r='9.5'%20fill='none'%20stroke='%23084a8f'%20stroke-width='5'%20stroke-dasharray='15%2045'/><circle%20cx='16'%20cy='16'%20r='9.5'%20fill='none'%20stroke='%232caaf0'%20stroke-width='5'%20stroke-dasharray='30%2030'%20stroke-dashoffset='-15'/><circle%20cx='16'%20cy='16'%20r='9.5'%20fill='none'%20stroke='%23a64ce8'%20stroke-width='5'%20stroke-dasharray='14%2046'%20stroke-dashoffset='-45'/></svg>">
 <style>
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -42,51 +42,51 @@ body{padding:20px;transition:background .2s}
 <div class="cards">
   <div class="card">
     <div class="lab" data-i="c1">Sleep score</div>
-    <div style="font-size:24px;font-weight:500;">77</div>
-    <div class="dlt" data-i="c1d">±0 vs yesterday · tied best of week</div>
+    <div style="font-size:24px;font-weight:500;" id="v-score">—</div>
+    <div class="dlt" id="d-score"></div>
   </div>
   <div class="card">
     <div class="lab" data-i="c2">Sleep duration</div>
-    <div style="font-size:24px;font-weight:500;">6h 04m</div>
-    <div class="dlt" data-i="c2d">+1h 19m vs 7-day avg (6h 53m)</div>
+    <div style="font-size:24px;font-weight:500;" id="v-dur">—</div>
+    <div class="dlt" id="d-dur"></div>
   </div>
   <div class="card">
     <div class="lab">RHR</div>
-    <div style="font-size:24px;font-weight:500;"><span style="color:#E24B4A;font-size:18px;">&hearts;</span> 52 <span style="font-size:14px;font-weight:400;">bpm</span></div>
-    <div class="dlt" data-i="c3d">±0 vs yesterday · −2 vs avg (55)</div>
+    <div style="font-size:24px;font-weight:500;"><span style="color:#E24B4A;font-size:18px;">&hearts;</span> <span id="v-rhr">—</span> <span style="font-size:14px;font-weight:400;">bpm</span></div>
+    <div class="dlt" id="d-rhr"></div>
   </div>
   <div class="card">
     <div class="lab" data-i="c5">Readiness (computed)</div>
-    <div style="font-size:24px;font-weight:500;color:#1D9E75;">76 <span style="font-size:14px;font-weight:400;" data-i="c5l">High</span></div>
-    <div class="lab" style="font-size:12px;" data-i="c5d">calibrated to Garmin (watch: 74 today, 77 yest.)</div>
+    <div style="font-size:24px;font-weight:500;color:#1D9E75;"><span id="v-ready">—</span> <span style="font-size:14px;font-weight:400;" id="l-ready"></span></div>
+    <div class="lab" style="font-size:12px;" id="d-ready"></div>
   </div>
   <div class="card">
     <div class="lab" data-i="c4">HRV overnight</div>
-    <div style="font-size:24px;font-weight:500;">45 <span style="font-size:14px;font-weight:400;">ms</span></div>
-    <div class="dlt" data-i="c4d" style="color:var(--ts)">−6 vs yesterday · −1 vs avg (37)</div>
+    <div style="font-size:24px;font-weight:500;"><span id="v-hrv">—</span> <span style="font-size:14px;font-weight:400;">ms</span></div>
+    <div class="dlt" id="d-hrv" style="color:var(--ts)"></div>
   </div>
 </div>
 
 <div class="nightrow">
   <div style="position:relative;width:180px;height:180px;">
-    <canvas id="donut" role="img" aria-label="Donut chart of last night's sleep stages: deep 1h52, light 3h22, REM 50m, awake 14m"></canvas>
+    <canvas id="donut" role="img" aria-label="Donut chart of last night's sleep stages"></canvas>
   </div>
   <div class="stages" style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
     <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#084a8f;margin-right:6px;vertical-align:-1px;"></span><span data-i="deep">Deep</span></span><span style="font-weight:500;">1h 52m · 31%</span></div>
-      <div style="height:6px;background:var(--surf);border-radius:3px;"><div style="width:31%;height:6px;background:#084a8f;border-radius:3px;"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#084a8f;margin-right:6px;vertical-align:-1px;"></span><span data-i="deep">Deep</span></span><span style="font-weight:500;" id="st-deep-v"></span></div>
+      <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-deep-bar" style="width:0;height:6px;background:#084a8f;border-radius:3px;"></div></div>
     </div>
     <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2caaf0;margin-right:6px;vertical-align:-1px;"></span><span data-i="light">Light</span></span><span style="font-weight:500;">3h 22m · 55%</span></div>
-      <div style="height:6px;background:var(--surf);border-radius:3px;"><div style="width:55%;height:6px;background:#2caaf0;border-radius:3px;"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2caaf0;margin-right:6px;vertical-align:-1px;"></span><span data-i="light">Light</span></span><span style="font-weight:500;" id="st-light-v"></span></div>
+      <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-light-bar" style="width:0;height:6px;background:#2caaf0;border-radius:3px;"></div></div>
     </div>
     <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#a64ce8;margin-right:6px;vertical-align:-1px;"></span>REM</span><span style="font-weight:500;">50m · 14%</span></div>
-      <div style="height:6px;background:var(--surf);border-radius:3px;"><div style="width:14%;height:6px;background:#a64ce8;border-radius:3px;"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#a64ce8;margin-right:6px;vertical-align:-1px;"></span>REM</span><span style="font-weight:500;" id="st-rem-v"></span></div>
+      <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-rem-bar" style="width:0;height:6px;background:#a64ce8;border-radius:3px;"></div></div>
     </div>
     <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#f06fa0;margin-right:6px;vertical-align:-1px;"></span><span data-i="awake">Awake</span></span><span style="font-weight:500;">14m · 4%</span></div>
-      <div style="height:6px;background:var(--surf);border-radius:3px;"><div style="width:2%;height:6px;background:#f06fa0;border-radius:3px;"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#f06fa0;margin-right:6px;vertical-align:-1px;"></span><span data-i="awake">Awake</span></span><span style="font-weight:500;" id="st-awake-v"></span></div>
+      <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-awake-bar" style="width:0;height:6px;background:#f06fa0;border-radius:3px;"></div></div>
     </div>
   </div>
 </div>
@@ -98,7 +98,7 @@ body{padding:20px;transition:background .2s}
   <span data-i="swDur" style="display:flex;align-items:center;gap:4px;">label = sleep duration</span>
 </div>
 <div id="swwrap" style="position:relative;width:100%;height:300px;margin:0 0 2rem;">
-  <canvas id="sw" role="img" aria-label="Sleep and wake times for the last seven nights: bedtime dots connected across days, wake dots connected across days, vertical night spans with sleep duration labels">Bedtimes 21:57 to 01:25, wake times 05:46 to 07:24, durations 4h21 to 8h31.</canvas>
+  <canvas id="sw" role="img" aria-label="Sleep and wake times for the last seven nights"></canvas>
 </div>
 
 <div data-i="h2" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">TRAILING 7 DAYS</div>
@@ -109,23 +109,23 @@ body{padding:20px;transition:background .2s}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#a64ce8;"></span>REM</span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#f06fa0;"></span><span data-i="awake2">Awake</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:3px solid #1D9E75;"></span>HRV ms</span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #1D9E75;"></span><span data-i="havg">HRV 7d avg 36</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #1D9E75;"></span><span id="havg">HRV 7d avg</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="color:#E24B4A;">&hearts;</span><span style="width:14px;height:0;border-top:3px dashed #D85A30;"></span>RHR bpm</span>
   <span data-i="badge" style="display:flex;align-items:center;gap:4px;font-weight:500;">badge = sleep score</span>
 </div>
 <div id="weekwrap" style="position:relative;width:100%;height:380px;margin:0 0 1.5rem;">
-  <canvas id="week" role="img" aria-label="Stacked sleep stage bars June 7 to 13 with totals and score badges, HRV line overlay, RHR line overlay"></canvas>
+  <canvas id="week" role="img" aria-label="Stacked sleep stage bars with totals and score badges, HRV and RHR overlays"></canvas>
 </div>
 
 <div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin-bottom:0.25rem;">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" style="vertical-align:-4px" aria-hidden="true"><path d="M2 12h2M20 12h2M7 12h10"/><rect x="4" y="7" width="3" height="10" rx="1"/><rect x="17" y="7" width="3" height="10" rx="1"/></svg>
-    <span data-i="today" style="font-weight:500;font-size:15px;">Today: gym — squat day</span>
-    <span data-i="green" style="background:rgba(29,158,117,0.15);color:#1D9E75;font-size:12px;padding:4px 12px;border-radius:8px;">Green light</span>
+    <span id="today" style="font-weight:500;font-size:15px;">—</span>
+    <span id="badge-pill" style="background:rgba(29,158,117,0.15);color:#1D9E75;font-size:12px;padding:4px 12px;border-radius:8px;">—</span>
   </div>
-  <p class="lab" data-i="rec" style="margin:0;line-height:1.6;">Short night (6h04, score 77) but every autonomic marker is at week-best: RHR 52 (low), HRV 45 (high, +6 vs baseline), stress 14 (calmest of the week). Deep sleep was excellent (1h52) — recovery quality held despite clipped hours. Yesterday's full rest day did its job. Today is trap-bar deadlift day and readiness supports it (computed 76, watch 74); the only limiter is fuel, not physiology — don't train fasted on 6h sleep. Mark to beat: last Sunday's 10.2 t.</p>
+  <p class="lab" id="rec" style="margin:0;line-height:1.6;">—</p>
 </div>
-<p class="lab" style="font-size:11px;margin:10px 2px 0;"><span data-i="foot">Data snapshot: 2026-06-13 · Garmin fenix 8 via Freddy</span> · Sleep & Recovery Dashboard v1.38, 2026-06-13 07:10 · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+<p class="lab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · Sleep &amp; Recovery Dashboard · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -138,182 +138,187 @@ let BG,txt,strong,halo,grid,ptb;
 function calc(){const D=theme==='dark';BG=D?'#262624':'#ffffff';txt=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';strong=D?'#fff':'#1a1a18';halo=D?'rgba(38,38,36,0.85)':'rgba(255,255,255,0.85)';grid=D?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.08)';ptb=D?'#262624':'#ffffff';}
 calc();
 const bgPlug={id:'bg',beforeDraw(c){const x=c.ctx;x.save();x.globalCompositeOperation='destination-over';x.fillStyle=BG;x.fillRect(0,0,c.width,c.height);x.restore();}};
-const T={
- en:{title:"PATRIK'S SLEEP AND RECOVERY",h1:"LAST NIGHT",h2:"TRAILING 7 DAYS",c1:"Sleep score",c1d:"−12 vs yesterday · short night",c2:"Sleep duration",c2d:"−1h 04m vs 7-day avg (7h 08m)",c3d:"−1 vs yesterday · −2 vs avg (54)",c4:"HRV overnight",c5:"Readiness (computed)",c5l:"High",c5d:"sleep 33 · recovery 18 · HRV 12 · history 12 · load 9 · stress 8 · RHR 8",swH:"SLEEP & WAKE TIMES",swBed:"Bedtime",swWake:"Wake",swDur:"label = sleep duration",c4d:"+9 vs yesterday · +6 vs avg (39)",deep:"Deep",light:"Light",awake:"Awake",deep2:"Deep",light2:"Light",awake2:"Awake",havg:"HRV 7d avg 39",badge:"badge = sleep score",today:"Today: trap-bar deadlift day",green:"On plan",rec:"Short night (6h04, score 77) but every autonomic marker is at week-best: RHR 52 (low), HRV 45 (high, +6 vs baseline), stress 14 (calmest of the week). Deep sleep was excellent (1h52) — recovery quality held despite clipped hours. Yesterday's full rest day did its job. Today is trap-bar deadlift day and readiness supports it (computed 76, watch 74); the only limiter is fuel, not physiology — don't train fasted on 6h sleep. Mark to beat: last Sunday's 10.2 t.",score:"score 77",hours:"Hours",days:['Sun 7','Mon 8','Tue 9','Wed 10','Thu 11','Fri 12','Sat 13'],daysM:['S7','M8','T9','W10','T11','F12','S13'],foot:"Data snapshot: 2026-06-13 · Garmin fenix 8 via Freddy"},
- hr:{title:"PATRIKOV SAN I OPORAVAK",h1:"PROŠLA NOĆ",h2:"ZADNJIH 7 DANA",c1:"Ocjena sna",c1d:"−12 vs jučer · kratka noć",c2:"Trajanje sna",c2d:"−1h 04m vs 7-dnevni prosjek (7h 08m)",c3d:"−1 vs jučer · −2 vs prosjek (54)",c4:"HRV tijekom noći",c5:"Spremnost (izračunata)",c5l:"Visoka",c5d:"san 33 · oporavak 18 · HRV 12 · povijest 12 · opterećenje 9 · stres 8 · RHR 8",swH:"VRIJEME SPAVANJA I BUĐENJA",swBed:"Lijeganje",swWake:"Buđenje",swDur:"oznaka = trajanje sna",c4d:"+9 vs jučer · +6 vs prosjek (39)",deep:"Duboki",light:"Lagani",awake:"Budan",deep2:"Duboki",light2:"Lagani",awake2:"Budan",havg:"HRV 7d prosjek 39",badge:"značka = ocjena sna",today:"Danas: trap-bar mrtvo dizanje",green:"Po planu",rec:"Kratka noć (6h04, ocjena 77) ali svi autonomni pokazatelji su na tjednom maksimumu: RHR 52 (nisko), HRV 45 (visoko, +6 vs prosjek), stres 14 (najmirniji u tjednu). Duboki san odličan (1h52) — kvaliteta oporavka održana unatoč kraćim satima. Jučerašnji odmor odradio svoje. Danas je trap-bar mrtvo dizanje i spremnost to podržava (izračun 76, sat 74); jedino ograničenje je gorivo, ne fiziologija — ne treniraj natašte na 6h sna. Mjerilo: 10,2 t od prošle nedjelje.",score:"ocjena 77",hours:"Sati",days:['Ned 7','Pon 8','Uto 9','Sri 10','Čet 11','Pet 12','Sub 13'],daysM:['N7','P8','U9','S10','Č11','P12','S13'],foot:"Podaci: 2026-06-13 · Garmin fenix 8 putem Freddyja"}
-};
-let LBL=T.en,lang='en';
-const deep=[2.08,1.13,1.20,1.48,2.08,2.05,1.87];
-const light=[4.12,3.30,2.30,4.40,4.12,4.17,3.37];
-const rem=[1.73,0.98,0.85,1.50,1.73,1.98,0.83];
-const awake=[0.17,0.17,0,0.95,0.17,0.18,0.23];
-const scores=[89,71,58,75,89,89,77];
-const hrv=[42,39,31,35,42,36,45];
-const rhr=[53,55,58,55,53,53,52];
-const HRV_AVG=39;
-const totals=deep.map((d,i)=>d+light[i]+rem[i]+awake[i]);
-const hm=v=>Math.floor(v)+'h '+Math.round((v%1)*60)+'m';
-const dn=new Chart(document.getElementById('donut'),{type:'doughnut',
- data:{labels:['Deep','Light','REM','Awake'],datasets:[{data:[112,202,50,14],backgroundColor:[C.deep,C.light,C.rem,C.awake],borderWidth:0}]},
- options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+Math.floor(c.parsed/60)+'h '+(c.parsed%60)+'m'}}}},
- plugins:[bgPlug,{id:'center',afterDraw(ch){const{ctx,chartArea:a}=ch;ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=strong;ctx.font='500 18px sans-serif';ctx.fillText('6h 04m',(a.left+a.right)/2,(a.top+a.bottom)/2-14);ctx.fillStyle=txt;ctx.font='400 12px sans-serif';ctx.fillText(LBL.score,(a.left+a.right)/2,(a.top+a.bottom)/2+5);ctx.font='400 11px sans-serif';ctx.fillText('22:40 → 04:58',(a.left+a.right)/2,(a.top+a.bottom)/2+22);ctx.restore();}}]
-});
-const overlays={id:'overlays',afterDatasetsDraw(ch){
- const{ctx}=ch;
- const M=layout==='mobile';
- const barMeta=ch.getDatasetMeta(3),hrvMeta=ch.getDatasetMeta(4),rhrMeta=ch.getDatasetMeta(5);
- ctx.save();ctx.textAlign='center';
- const f1=M?'500 10px sans-serif':'500 12px sans-serif';
- const f2=M?'500 10px sans-serif':'500 11px sans-serif';
- barMeta.data.forEach((bar,i)=>{
-  const topY=ch.scales.y.getPixelForValue(totals[i]);
-  ctx.font=f1;ctx.fillStyle=strong;ctx.fillText(M?totals[i].toFixed(1)+'h':hm(totals[i]),bar.x,topY-26);
-  const sc=String(scores[i]);ctx.font=f2;
-  const w=ctx.measureText(sc).width+10;
-  ctx.fillStyle=scores[i]>=80?'#1D9E75':(scores[i]>=70?'#BA7517':'#A32D2D');
-  ctx.beginPath();ctx.roundRect(bar.x-w/2,topY-20,w,15,7);ctx.fill();
-  ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,topY-9);
- });
- ctx.font=f1;
- hrvMeta.data.forEach((pt,i)=>{ctx.fillStyle=halo;ctx.fillRect(pt.x-12,pt.y-23,24,14);ctx.fillStyle=C.hrv;ctx.fillText(hrv[i],pt.x,pt.y-12);});
- rhrMeta.data.forEach((pt,i)=>{const off=M?7:11;ctx.fillStyle=halo;ctx.fillRect(pt.x-17,pt.y+9,34,14);ctx.fillStyle=C.heart;ctx.fillText('\u2665',pt.x-off,pt.y+20);ctx.fillStyle=C.rhr;ctx.fillText(rhr[i],pt.x+(M?4:5),pt.y+20);});
- const yAvg=ch.scales.y1.getPixelForValue(HRV_AVG);
- ctx.strokeStyle=C.hrv;ctx.setLineDash([2,4]);ctx.lineWidth=1.5;ctx.globalAlpha=0.8;
- ctx.beginPath();ctx.moveTo(ch.chartArea.left,yAvg);ctx.lineTo(ch.chartArea.right,yAvg);ctx.stroke();
- ctx.restore();
-}};
-const axUnits={id:'axu',afterDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 10px ')+'sans-serif';
- const s1=ch.scales.y1;ctx.fillStyle=C.hrv;ctx.fillText('ms',s1.left+s1.width/2+2,s1.getPixelForValue(60)-10);
- const s2=ch.scales.y2;ctx.fillStyle=C.rhr;ctx.fillText('bpm',s2.left+s2.width/2+2,s2.getPixelForValue(65)-10);
- const s0=ch.scales.y;ctx.fillStyle=txt;ctx.fillText('h',s0.right-s0.width/2-2,s0.top-6);
- ctx.restore();}};
-const wk=new Chart(document.getElementById('week'),{
- data:{labels:T.en.days,datasets:[
-  {type:'bar',label:'Deep',data:deep,backgroundColor:C.deep,stack:'s',yAxisID:'y',order:10},
-  {type:'bar',label:'Light',data:light,backgroundColor:C.light,stack:'s',yAxisID:'y',order:10},
-  {type:'bar',label:'REM',data:rem,backgroundColor:C.rem,stack:'s',yAxisID:'y',order:10},
-  {type:'bar',label:'Awake',data:awake,backgroundColor:C.awake,stack:'s',yAxisID:'y',order:10},
-  {type:'line',label:'HRV',data:hrv,borderColor:C.hrv,backgroundColor:C.hrv,yAxisID:'y1',tension:0.3,borderWidth:3,pointRadius:4,pointBorderColor:ptb,pointBorderWidth:1.5,pointStyle:'circle',order:1},
-  {type:'line',label:'RHR',data:rhr,borderColor:C.rhr,backgroundColor:C.rhr,yAxisID:'y2',borderDash:[6,4],tension:0.3,borderWidth:3,pointRadius:4,pointBorderColor:ptb,pointBorderWidth:1.5,pointStyle:'rect',order:2}
- ]},
- options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{if(c.dataset.type==='bar')return c.dataset.label+': '+hm(c.parsed.y);return c.dataset.label+': '+c.parsed.y+(c.dataset.label==='HRV'?' ms':' bpm');}}}},
-  scales:{
-   x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
-   y:{stacked:true,min:0,max:11,title:{display:false,text:'',color:txt},afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,callback:v=>Math.round(v)+'h'}},
-   y1:{position:'right',min:-60,max:280,title:{display:false,text:'',color:txt},afterFit:a=>{a.width=Math.min(a.width,26)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20,callback:v=>(v<0||v>60)?'':Math.round(v)}},
-   y2:{position:'right',offset:true,min:45,max:160,title:{display:false,text:'',color:txt},afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20,callback:v=>(v>70)?'':Math.round(v)}}
-  }},
- plugins:[bgPlug,overlays,axUnits]
-});
 
-const BED=[-1.93,0.79,1.42,-2.05,-1.93,-1.57,-1.33];
-const WAKE=[6.17,6.37,5.77,6.28,6.17,6.82,4.97];
-const BEDL=['22:04','00:47','01:25','21:57','22:04','22:26','22:40'];
-const WAKEL=['06:10','06:22','05:46','06:17','06:10','06:49','04:58'];
-const SDUR=['7h56','5h25','4h21','7h23','7h56','8h12','6h04'];
+/* Static UI labels only. All data + analysis text comes from sleep-data.json */
+const T={
+ en:{title:"PATRIK'S SLEEP AND RECOVERY",h1:"LAST NIGHT",h2:"TRAILING 7 DAYS",swH:"SLEEP & WAKE TIMES",swBed:"Bedtime",swWake:"Wake",swDur:"label = sleep duration",
+   c1:"Sleep score",c2:"Sleep duration",c4:"HRV overnight",c5:"Readiness (computed)",
+   deep:"Deep",light:"Light",awake:"Awake",deep2:"Deep",light2:"Light",awake2:"Awake",badge:"badge = sleep score",hours:"Hours"},
+ hr:{title:"PATRIKOV SAN I OPORAVAK",h1:"PROŠLA NOĆ",h2:"ZADNJIH 7 DANA",swH:"VRIJEME SPAVANJA I BUĐENJA",swBed:"Lijeganje",swWake:"Buđenje",swDur:"oznaka = trajanje sna",
+   c1:"Ocjena sna",c2:"Trajanje sna",c4:"HRV tijekom noći",c5:"Spremnost (izračunata)",
+   deep:"Duboki",light:"Lagani",awake:"Budan",deep2:"Duboki",light2:"Lagani",awake2:"Budan",badge:"značka = ocjena sna",hours:"Sati"}
+};
+let lang='en', LBL=T.en;
+let DAT=null;
+let deep,light,rem,awake,scores,hrv,rhr,HRV_AVG,totals;
+let BED,WAKE,BEDL,WAKEL,SDUR;
+let dn,wk,swc;
+const hm=v=>Math.floor(v)+'h '+Math.round((v%1)*60)+'m';
+const hmMin=m=>Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m';
 const hh=v=>{let h=((Math.round(v)%24)+24)%24;return String(h).padStart(2,'0')+':00';};
-const swPlug={id:'swp',afterDatasetsDraw(ch){
- const{ctx}=ch;const mb=ch.getDatasetMeta(0),mw=ch.getDatasetMeta(1);
- ctx.save();ctx.textAlign='center';
- const fS=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
- const conn=theme==='dark'?'rgba(44,170,240,0.30)':'rgba(8,74,143,0.22)';
- mb.data.forEach((pb,i)=>{
-  const pw=mw.data[i];
-  ctx.strokeStyle=conn;ctx.lineWidth=6;ctx.lineCap='round';
-  ctx.beginPath();ctx.moveTo(pb.x,pb.y);ctx.lineTo(pw.x,pw.y);ctx.stroke();
+function txtL(){return DAT.text[lang];}
+
+function fillCards(){
+ const ln=DAT.num.lastNight, t=txtL();
+ const tot=ln.deepMin+ln.lightMin+ln.remMin+ln.awakeMin;
+ const setv=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+ setv('v-score',ln.score); setv('d-score',t.c1d);
+ setv('v-dur',ln.durationLabel); setv('d-dur',t.c2d);
+ setv('v-rhr',ln.rhr); setv('d-rhr',t.c3d);
+ setv('v-ready',ln.readiness); setv('l-ready',t.c5l); setv('d-ready',t.c5d);
+ setv('v-hrv',ln.hrv); setv('d-hrv',t.c4d);
+ const pc=m=>Math.round(m/tot*100);
+ const stage=(k,m)=>{setv('st-'+k+'-v',hmMin(m)+' · '+pc(m)+'%');const b=document.getElementById('st-'+k+'-bar');if(b)b.style.width=pc(m)+'%';};
+ stage('deep',ln.deepMin); stage('light',ln.lightMin); stage('rem',ln.remMin); stage('awake',ln.awakeMin);
+ setv('havg',t.havg); setv('today',t.today); setv('badge-pill',t.badge); setv('rec',t.rec);
+ setv('foot',lang==='en'?DAT.meta.footEn:DAT.meta.footHr);
+}
+
+function init(){
+ const n=DAT.num;
+ deep=n.week.deep; light=n.week.light; rem=n.week.rem; awake=n.week.awake;
+ scores=n.week.scores; hrv=n.week.hrv; rhr=n.week.rhr; HRV_AVG=n.week.hrvAvg;
+ totals=deep.map((d,i)=>d+light[i]+rem[i]+awake[i]);
+ BED=n.sleepWake.bed; WAKE=n.sleepWake.wake; BEDL=n.sleepWake.bedL; WAKEL=n.sleepWake.wakeL; SDUR=n.sleepWake.dur;
+ const ln=n.lastNight;
+
+ dn=new Chart(document.getElementById('donut'),{type:'doughnut',
+  data:{labels:['Deep','Light','REM','Awake'],datasets:[{data:[ln.deepMin,ln.lightMin,ln.remMin,ln.awakeMin],backgroundColor:[C.deep,C.light,C.rem,C.awake],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+Math.floor(c.parsed/60)+'h '+(c.parsed%60)+'m'}}}},
+  plugins:[bgPlug,{id:'center',afterDraw(ch){const{ctx,chartArea:a}=ch;ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=strong;ctx.font='500 18px sans-serif';ctx.fillText(ln.durationLabel,(a.left+a.right)/2,(a.top+a.bottom)/2-14);ctx.fillStyle=txt;ctx.font='400 12px sans-serif';ctx.fillText(txtL().scoreWord,(a.left+a.right)/2,(a.top+a.bottom)/2+5);ctx.font='400 11px sans-serif';ctx.fillText(ln.bedWake,(a.left+a.right)/2,(a.top+a.bottom)/2+22);ctx.restore();}}]
  });
- ctx.font=fS;
- mb.data.forEach((pb,i)=>{
-  const pw=mw.data[i];
-  ctx.fillStyle=halo;ctx.fillRect(pb.x-17,pb.y-22,34,12);
-  ctx.fillStyle='#084a8f';if(theme==='dark')ctx.fillStyle='#7cc4f5';
-  ctx.fillText(BEDL[i],pb.x,pb.y-12);
-  ctx.fillStyle=halo;ctx.fillRect(pw.x-17,pw.y+10,34,12);
-  ctx.fillStyle='#E0A53C';ctx.fillText(WAKEL[i],pw.x,pw.y+20);
-  const my=(pb.y+pw.y)/2;
-  ctx.fillStyle=halo;ctx.fillRect(pb.x-16,my-6,32,12);
-  ctx.fillStyle=strong;ctx.fillText(SDUR[i],pb.x,my+4);
+
+ const overlays={id:'overlays',afterDatasetsDraw(ch){
+  const{ctx}=ch;const M=layout==='mobile';
+  const barMeta=ch.getDatasetMeta(3),hrvMeta=ch.getDatasetMeta(4),rhrMeta=ch.getDatasetMeta(5);
+  ctx.save();ctx.textAlign='center';
+  const f1=M?'500 10px sans-serif':'500 12px sans-serif';
+  const f2=M?'500 10px sans-serif':'500 11px sans-serif';
+  barMeta.data.forEach((bar,i)=>{
+   const topY=ch.scales.y.getPixelForValue(totals[i]);
+   ctx.font=f1;ctx.fillStyle=strong;ctx.fillText(M?totals[i].toFixed(1)+'h':hm(totals[i]),bar.x,topY-26);
+   const sc=String(scores[i]);ctx.font=f2;
+   const w=ctx.measureText(sc).width+10;
+   ctx.fillStyle=scores[i]>=80?'#1D9E75':(scores[i]>=70?'#BA7517':'#A32D2D');
+   ctx.beginPath();ctx.roundRect(bar.x-w/2,topY-20,w,15,7);ctx.fill();
+   ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,topY-9);
+  });
+  ctx.font=f1;
+  hrvMeta.data.forEach((pt,i)=>{ctx.fillStyle=halo;ctx.fillRect(pt.x-12,pt.y-23,24,14);ctx.fillStyle=C.hrv;ctx.fillText(hrv[i],pt.x,pt.y-12);});
+  rhrMeta.data.forEach((pt,i)=>{const off=M?7:11;ctx.fillStyle=halo;ctx.fillRect(pt.x-17,pt.y+9,34,14);ctx.fillStyle=C.heart;ctx.fillText('♥',pt.x-off,pt.y+20);ctx.fillStyle=C.rhr;ctx.fillText(rhr[i],pt.x+(M?4:5),pt.y+20);});
+  const yAvg=ch.scales.y1.getPixelForValue(HRV_AVG);
+  ctx.strokeStyle=C.hrv;ctx.setLineDash([2,4]);ctx.lineWidth=1.5;ctx.globalAlpha=0.8;
+  ctx.beginPath();ctx.moveTo(ch.chartArea.left,yAvg);ctx.lineTo(ch.chartArea.right,yAvg);ctx.stroke();
+  ctx.restore();
+ }};
+ const axUnits={id:'axu',afterDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 10px ')+'sans-serif';
+  const s1=ch.scales.y1;ctx.fillStyle=C.hrv;ctx.fillText('ms',s1.left+s1.width/2+2,s1.getPixelForValue(60)-10);
+  const s2=ch.scales.y2;ctx.fillStyle=C.rhr;ctx.fillText('bpm',s2.left+s2.width/2+2,s2.getPixelForValue(65)-10);
+  const s0=ch.scales.y;ctx.fillStyle=txt;ctx.fillText('h',s0.right-s0.width/2-2,s0.top-6);
+  ctx.restore();}};
+ wk=new Chart(document.getElementById('week'),{
+  data:{labels:txtL().daysFull,datasets:[
+   {type:'bar',label:'Deep',data:deep,backgroundColor:C.deep,stack:'s',yAxisID:'y',order:10},
+   {type:'bar',label:'Light',data:light,backgroundColor:C.light,stack:'s',yAxisID:'y',order:10},
+   {type:'bar',label:'REM',data:rem,backgroundColor:C.rem,stack:'s',yAxisID:'y',order:10},
+   {type:'bar',label:'Awake',data:awake,backgroundColor:C.awake,stack:'s',yAxisID:'y',order:10},
+   {type:'line',label:'HRV',data:hrv,borderColor:C.hrv,backgroundColor:C.hrv,yAxisID:'y1',tension:0.3,borderWidth:3,pointRadius:4,pointBorderColor:ptb,pointBorderWidth:1.5,pointStyle:'circle',order:1},
+   {type:'line',label:'RHR',data:rhr,borderColor:C.rhr,backgroundColor:C.rhr,yAxisID:'y2',borderDash:[6,4],tension:0.3,borderWidth:3,pointRadius:4,pointBorderColor:ptb,pointBorderWidth:1.5,pointStyle:'rect',order:2}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{if(c.dataset.type==='bar')return c.dataset.label+': '+hm(c.parsed.y);return c.dataset.label+': '+c.parsed.y+(c.dataset.label==='HRV'?' ms':' bpm');}}}},
+   scales:{
+    x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
+    y:{stacked:true,min:0,max:11,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,callback:v=>Math.round(v)+'h'}},
+    y1:{position:'right',min:-60,max:280,afterFit:a=>{a.width=Math.min(a.width,26)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20,callback:v=>(v<0||v>60)?'':Math.round(v)}},
+    y2:{position:'right',offset:true,min:45,max:160,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20,callback:v=>(v>70)?'':Math.round(v)}}
+   }},
+  plugins:[bgPlug,overlays,axUnits]
  });
- ctx.restore();
-}};
-const swc=new Chart(document.getElementById('sw'),{type:'line',
- data:{labels:T.en.days,datasets:[
-  {label:'bed',data:BED,borderColor:theme==='dark'?'rgba(124,196,245,0.55)':'rgba(8,74,143,0.45)',backgroundColor:'#084a8f',borderWidth:2,tension:0.3,pointRadius:5,pointBackgroundColor:'#084a8f',pointBorderColor:'#2caaf0',pointBorderWidth:1.5},
-  {label:'wake',data:WAKE,borderColor:'rgba(224,165,60,0.5)',backgroundColor:'#E0A53C',borderWidth:2,tension:0.3,pointRadius:5,pointBorderColor:'#fff',pointBorderWidth:1.5}
- ]},
- options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,bottom:6}},
-  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.datasetIndex===0?(LBL.swBed+': '+BEDL[c.dataIndex]):(LBL.swWake+': '+WAKEL[c.dataIndex]+' · '+SDUR[c.dataIndex])}}},
-  scales:{
-   x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
-   y:{reverse:true,min:-3,max:9,grid:{color:grid},ticks:{color:txt,stepSize:2,callback:v=>hh(v)}}
-  }},
- plugins:[bgPlug,swPlug]
-});
+
+ const swPlug={id:'swp',afterDatasetsDraw(ch){
+  const{ctx}=ch;const mb=ch.getDatasetMeta(0),mw=ch.getDatasetMeta(1);
+  ctx.save();ctx.textAlign='center';
+  const fS=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
+  const conn=theme==='dark'?'rgba(44,170,240,0.30)':'rgba(8,74,143,0.22)';
+  mb.data.forEach((pb,i)=>{const pw=mw.data[i];ctx.strokeStyle=conn;ctx.lineWidth=6;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(pb.x,pb.y);ctx.lineTo(pw.x,pw.y);ctx.stroke();});
+  ctx.font=fS;
+  mb.data.forEach((pb,i)=>{
+   const pw=mw.data[i];
+   ctx.fillStyle=halo;ctx.fillRect(pb.x-17,pb.y-22,34,12);
+   ctx.fillStyle=theme==='dark'?'#7cc4f5':'#084a8f';ctx.fillText(BEDL[i],pb.x,pb.y-12);
+   ctx.fillStyle=halo;ctx.fillRect(pw.x-17,pw.y+10,34,12);
+   ctx.fillStyle='#E0A53C';ctx.fillText(WAKEL[i],pw.x,pw.y+20);
+   const my=(pb.y+pw.y)/2;
+   ctx.fillStyle=halo;ctx.fillRect(pb.x-16,my-6,32,12);
+   ctx.fillStyle=strong;ctx.fillText(SDUR[i],pb.x,my+4);
+  });
+  ctx.restore();
+ }};
+ swc=new Chart(document.getElementById('sw'),{type:'line',
+  data:{labels:txtL().daysFull,datasets:[
+   {label:'bed',data:BED,borderColor:theme==='dark'?'rgba(124,196,245,0.55)':'rgba(8,74,143,0.45)',backgroundColor:'#084a8f',borderWidth:2,tension:0.3,pointRadius:5,pointBackgroundColor:'#084a8f',pointBorderColor:'#2caaf0',pointBorderWidth:1.5},
+   {label:'wake',data:WAKE,borderColor:'rgba(224,165,60,0.5)',backgroundColor:'#E0A53C',borderWidth:2,tension:0.3,pointRadius:5,pointBorderColor:'#fff',pointBorderWidth:1.5}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,bottom:6}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.datasetIndex===0?(LBL.swBed+': '+BEDL[c.dataIndex]):(LBL.swWake+': '+WAKEL[c.dataIndex]+' · '+SDUR[c.dataIndex])}}},
+   scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},y:{reverse:true,min:-3,max:9,grid:{color:grid},ticks:{color:txt,stepSize:2,callback:v=>hh(v)}}}},
+  plugins:[bgPlug,swPlug]
+ });
+
+ fillCards();
+ applyTheme(theme);
+ setLang('en');
+ applyResponsive();
+}
 
 function restyle(){
- const sc=wk.options.scales;
- sc.x.ticks.color=txt;
- [sc.y,sc.y1,sc.y2].forEach(s=>{s.ticks.color=txt;s.title.color=txt;});
- sc.y.grid.color=grid;
- wk.data.datasets[4].pointBorderColor=ptb;
- wk.data.datasets[5].pointBorderColor=ptb;
+ if(!wk)return;
+ const sc=wk.options.scales;sc.x.ticks.color=txt;[sc.y,sc.y1,sc.y2].forEach(s=>{s.ticks.color=txt;});sc.y.grid.color=grid;
+ wk.data.datasets[4].pointBorderColor=ptb;wk.data.datasets[5].pointBorderColor=ptb;
  document.body.style.background=BG;
 }
-function applyTheme(t){
- theme=t;calc();
- document.getElementById('wrap').classList.toggle('dark',t==='dark');
- restyle();markBtns();
- dn.update();wk.update();
-}
+function applyTheme(t){theme=t;calc();document.getElementById('wrap').classList.toggle('dark',t==='dark');restyle();markBtns();if(dn){dn.update();wk.update();swc.update();}}
 function setLang(l){
  lang=l;LBL=T[l];
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k])el.textContent=LBL[k];});
+ if(DAT)fillCards();
  const dl={en:['Deep','Light','REM','Awake'],hr:['Duboki','Lagani','REM','Budan']}[l];
- dn.data.labels=dl;
- wk.data.labels=layout==='mobile'?LBL.daysM:LBL.days;
- wk.data.datasets[0].label=dl[0];wk.data.datasets[1].label=dl[1];wk.data.datasets[3].label=dl[3];
- wk.options.scales.y.title.text=LBL.hours;
+ if(dn){dn.data.labels=dl;
+  wk.data.labels=layout==='mobile'?txtL().daysShort:txtL().daysFull;
+  wk.data.datasets[0].label=dl[0];wk.data.datasets[1].label=dl[1];wk.data.datasets[3].label=dl[3];
+  swc.data.labels=layout==='mobile'?txtL().daysShort:txtL().daysFull;
+  dn.update();wk.update();swc.update();}
  markBtns();
- dn.update();wk.update();
 }
 function applyResponsive(){
- const want=window.innerWidth<560?'mobile':'desktop';
- if(layout===want)return;
- layout=want;
- const M=want==='mobile';
+ const want=window.innerWidth<560?'mobile':'desktop';if(layout===want)return;layout=want;const M=want==='mobile';
  document.getElementById('wrap').classList.toggle('mobile',M);
  document.getElementById('weekwrap').style.height=M?'460px':'380px';
- wk.data.labels=M?LBL.daysM:LBL.days;
- swc.data.labels=M?LBL.daysM:LBL.days;
  document.getElementById('swwrap').style.height=M?'320px':'300px';
+ if(!dn)return;
+ wk.data.labels=M?txtL().daysShort:txtL().daysFull;
+ swc.data.labels=M?txtL().daysShort:txtL().daysFull;
  swc.options.scales.x.ticks.font={size:M?10:12};swc.options.scales.y.ticks.font={size:M?10:12};
  wk.options.scales.x.ticks.font={size:M?10:12};
- [wk.options.scales.y,wk.options.scales.y1,wk.options.scales.y2].forEach(s=>{s.ticks.font={size:M?10:12};s.title.font={size:M?10:12};});
- markBtns();
+ [wk.options.scales.y,wk.options.scales.y1,wk.options.scales.y2].forEach(s=>{s.ticks.font={size:M?10:12};});
  requestAnimationFrame(()=>{wk.resize();dn.resize();swc.resize();wk.update();dn.update();swc.update();});
 }
-function toggleFont(){fontbig=!fontbig;document.getElementById('wrap').classList.toggle('big',fontbig);markBtns();requestAnimationFrame(()=>{dn.resize();wk.resize();swc.resize();dn.update();wk.update();swc.update();});}
+function toggleFont(){fontbig=!fontbig;document.getElementById('wrap').classList.toggle('big',fontbig);markBtns();if(dn)requestAnimationFrame(()=>{dn.resize();wk.resize();swc.resize();dn.update();wk.update();swc.update();});}
 function markBtns(){
  const D=theme==='dark';
- const actBg=D?'#e8e8e6':'#444441';
- const actFg=D?'#262624':'#ffffff';
- const inBg='transparent';
- const inFg=D?'#e8e8e6':'#2c2c2a';
+ const actBg=D?'#e8e8e6':'#444441',actFg=D?'#262624':'#ffffff',inFg=D?'#e8e8e6':'#2c2c2a';
  const bd=D?'1px solid rgba(255,255,255,0.35)':'1px solid rgba(0,0,0,0.4)';
  const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-lt':theme==='light','btn-dk':theme==='dark','btn-fs':fontbig};
- Object.entries(states).forEach(([id,on])=>{
-  const b=document.getElementById(id);
-  b.style.background=on?actBg:inBg;
-  b.style.color=on?actFg:inFg;
-  b.style.border=bd;
-  b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';
- });
+ Object.entries(states).forEach(([id,on])=>{const b=document.getElementById(id);if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';});
 }
-applyTheme(theme);
-setLang('en');
-applyResponsive();
+markBtns();
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
+
+fetch('sleep-data.json')
+ .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(j=>{DAT=j;init();})
+ .catch(err=>{const e=document.getElementById('rec');if(e)e.textContent='Could not load sleep-data.json ('+err.message+'). Serve over http (works on GitHub Pages).';});
 </script>
 </body>
 </html>
