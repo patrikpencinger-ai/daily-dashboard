@@ -78,6 +78,14 @@ function render(){
    <div class="track"><div class="fill" style="width:${w}%;background:${over?'#BA7517':'#1D9E75'}"></div></div></div>`;};
  const card=(lab,val,sub,col)=>`<div class="card"><div class="lab">${lab}</div><div style="font-size:24px;font-weight:500;${col?'color:'+col:''}">${val}</div><div class="sub">${sub}</div></div>`;
  const intakeW=Math.round(tot.kcal/k.tdee*100);
+ const pMet=tot.p>=tgt.p, pGap=tgt.p-tot.p;
+ const insColor=pMet?'#1D9E75':'#BA7517';
+ const insHeadEn=pMet?('Protein '+tot.p+'g — on target'):('Protein '+tot.p+'g — '+pGap+'g under target');
+ const insHeadHr=pMet?('Proteini '+tot.p+'g — na cilju'):('Proteini '+tot.p+'g — '+pGap+'g ispod cilja');
+ const balEn=bal>=0?(bal+' kcal deficit'):(Math.abs(bal)+' kcal surplus');
+ const balHr=bal>=0?(bal+' kcal deficit'):(Math.abs(bal)+' kcal višak');
+ const insBodyEn='Net balance is a '+balEn+' vs a ~'+k.tdee.toLocaleString()+' TDEE on a '+k.dayType+'. '+(pMet?('Protein hit the '+tgt.p+'g target. '):('Protein landed '+pGap+'g short of the '+tgt.p+'g target — worth topping up on a training day. '))+'Carbs '+tot.c+'g · fat '+tot.f+'g.';
+ const insBodyHr='Neto bilanca je '+balHr+' uz ~'+k.tdee.toLocaleString()+' TDEE, dan: '+k.dayType+'. '+(pMet?('Proteini su dosegli cilj od '+tgt.p+'g. '):('Proteini su '+pGap+'g ispod cilja od '+tgt.p+'g — vrijedi nadopuniti na dan treninga. '))+'UH '+tot.c+'g · masti '+tot.f+'g.';
  const html=`
   <div class="h">${LBL.macros}</div>
   <div class="cards">
@@ -109,12 +117,10 @@ function render(){
   <div class="h">${LBL.insights}</div>
   <div class="note">
    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-    <span style="font-weight:500;font-size:15px;">${lang==='en'?'Protein '+tot.p+'g — on target':'Proteini '+tot.p+'g — na cilju'}</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${insColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+    <span style="font-weight:500;font-size:15px;">${lang==='en'?insHeadEn:insHeadHr}</span>
    </div>
-   <p class="lab" style="margin:0;line-height:1.6;">${lang==='en'
-     ? 'Protein '+tot.p+'g hits the '+tgt.p+'g target (the whey shake closed the gap). Net balance is a '+(bal>=0?bal+' kcal deficit':Math.abs(bal)+' kcal surplus')+' against a '+k.tdee.toLocaleString()+' TDEE on a '+k.dayType+' — a productive range. Carbs and fat both sit under target, leaving room on a training day.'
-     : 'Proteini '+tot.p+'g dosežu cilj od '+tgt.p+'g (whey shake je zatvorio razliku). Neto bilanca je '+(bal>=0?bal+' kcal deficit':Math.abs(bal)+' kcal višak')+' uz TDEE '+k.tdee.toLocaleString()+' na dan '+k.dayType+' — produktivan raspon. UH i masti ispod cilja, ostavlja prostor na dan treninga.'}</p>
+   <p class="lab" style="margin:0;line-height:1.6;">${lang==='en'?insBodyEn:insBodyHr}</p>
   </div>`;
  document.getElementById('content').innerHTML=html;
 }
