@@ -43,6 +43,14 @@ body{padding:20px;transition:background .2s}
   <div class="tcard"><div class="tlab" data-i="k4">Active calories</div><div style="font-size:24px;font-weight:500;" id="kv4">—</div><div class="tlab" style="font-size:12px;" data-i="k4d"></div></div>
 </div>
 
+<div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1.5rem;">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16M9 16l2 2 4-4"/></svg>
+    <span data-i="today" style="font-weight:500;font-size:15px;">—</span>
+  </div>
+  <p class="tlab" data-i="rec" style="margin:0;line-height:1.6;">—</p>
+</div>
+
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;" id="filterrow">
   <button data-f="all" onclick="setFilter('all')" data-i="fAll">All</button>
   <button data-f="swim" onclick="setFilter('swim')" data-i="fSwim">Swimming</button>
@@ -125,6 +133,10 @@ body{padding:20px;transition:background .2s}
 <p class="tlab" style="font-size:11px;margin:0 0 1.2rem;" data-i="mlNote">Per-set peaks from 1s FIT heart-rate streams. * = detection flagged for review.</p>
 <div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">LATEST VS PREVIOUS — PER-SET PEAKS</div>
 <div class="tlab" id="mlSub" style="font-size:12px;margin:0 0 8px;"></div>
+<div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(84,113,141,0.45);"></span><span data-i="wsPrev">previous</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#D85A30;"></span><span data-i="wsLast">latest</span></span>
+</div>
 <div id="wswrap" style="position:relative;width:100%;height:280px;margin:0 0 1.5rem;">
   <canvas id="ws" role="img" aria-label="Per-set HR peaks of latest vs previous session"></canvas>
 </div>
@@ -137,13 +149,6 @@ body{padding:20px;transition:background .2s}
   <div class="icard"><span style="font-weight:500;" data-i="i4t"></span><br><span class="tlab" data-i="i4"></span></div>
 </div>
 
-<div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;">
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4M8 3v4M4 11h16M9 16l2 2 4-4"/></svg>
-    <span data-i="today" style="font-weight:500;font-size:15px;">—</span>
-  </div>
-  <p class="tlab" data-i="rec" style="margin:0;line-height:1.6;">—</p>
-</div>
 <p class="tlab" style="font-size:11px;margin:10px 2px 0;"><span data-i="foot"></span> · Training Dashboard · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a> · <span data-i="foot2"></span></p>
 </div>
 
@@ -224,8 +229,8 @@ function init(){
  tr=new Chart(document.getElementById('tr'),{
   data:{labels:txtL().days,datasets:[
    {type:'bar',data:D.effort,backgroundColor:colors(),borderWidth:0,maxBarThickness:56,yAxisID:'y',order:10},
-   {type:'line',label:'max',data:MAXHR,borderColor:HC.max,borderWidth:2.5,tension:0.3,pointRadius:0,yAxisID:'y1',order:1,spanGaps:false},
-   {type:'line',label:'avg',data:AVGHR,borderColor:HC.avg,borderWidth:2.5,borderDash:[8,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:2,spanGaps:false},
+   {type:'line',label:'max',data:MAXHR,borderColor:HC.max,borderWidth:2.5,tension:0.3,pointRadius:0,yAxisID:'y1',order:1,spanGaps:true},
+   {type:'line',label:'avg',data:AVGHR,borderColor:HC.avg,borderWidth:2.5,borderDash:[8,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:2,spanGaps:true},
    {type:'line',label:'rhr',data:RHR,borderColor:HC.rhr,borderWidth:2.5,borderDash:[3,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:3,spanGaps:true}
   ]},
   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18}},

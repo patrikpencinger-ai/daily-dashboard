@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "v1.45-auto",
+    "version": "v1.46-auto",
     "snapshot": "2026-06-14"
   },
   "num": {
@@ -13,8 +13,8 @@
       "kcal":  [822, 534, 684, 522, null, 598, null],
       "vol":   [null, 13.2, null, 8.1, null, 8.8, null],
       "dist":  [2200, null, 2200, null, null, null, null],
-      "maxhr": [162, 139, 151, 148, null, 165, null],
-      "avghr": [132, 111, 116, 109, null, 116, null],
+      "maxhr": [162, 139, 151, 148, 90, 165, 107],
+      "avghr": [132, 111, 116, 109, 61, 116, 56],
       "rhr":   [55, 58, 55, 53, 53, 52, 52]
     },
     "energy": {
