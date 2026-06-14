@@ -59,10 +59,18 @@ the sleep `today`/`badge`/`rec`, and the training `k1d`–`k4d`, findings (`i1t`
 `today`/`rec`, and the `eNote`/`bNote`/`wNote` (which cite specific numbers). Keep the
 voice concise and coaching-oriented, grounded only in the pulled data.
 
+## 3b. Food intake (data.json) — only when a food block is supplied
+
+`data.json` is NOT pulled from the connector — it's user-logged food. Only touch it when the
+triggering message includes a food JSON block (pasted from the "fitness journey" chat).
+When it does: write that block to `data.json` as-is (shape: `meta.intake_asof` +
+`intake{date,dayType,target,tdee,log[]}`). `total` is optional — the site auto-sums `log`,
+so it's fine to omit. If no food block is supplied, leave `data.json` unchanged.
+
 ## 4. Commit & push
 
 ```
-git add sleep-data.json training-data.json
+git add sleep-data.json training-data.json   # + data.json if food was updated
 git commit -m "refresh: data for <YYYY-MM-DD>"
 git push
 ```
