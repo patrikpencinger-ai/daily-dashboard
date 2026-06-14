@@ -315,7 +315,7 @@ function markBtns(){
 markBtns();
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
 
-fetch('sleep-data.json')
+fetch('sleep-data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
  .then(j=>{DAT=j;init();})
  .catch(err=>{const e=document.getElementById('rec');if(e)e.textContent='Could not load sleep-data.json ('+err.message+'). Serve over http (works on GitHub Pages).';});

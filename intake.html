@@ -145,7 +145,7 @@ function markBtns(){
 applyTheme(theme);applyResponsive();markBtns();
 window.addEventListener('resize',applyResponsive);
 
-fetch('data.json')
+fetch('data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
  .then(j=>{DATA=j;render();})
  .catch(err=>{document.getElementById('content').innerHTML=
