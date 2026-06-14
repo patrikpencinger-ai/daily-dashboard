@@ -20,18 +20,19 @@
     "energy": {
       "edaily": [718, 501, 545, 527, 48, 711, 4],
       "eavg":   [436, 436, 436, 436, 436, 436, 436],
-      "eint":   [null, null, null, null, 1715, 1517, null],
+      "eint":   [null, null, null, null, 1715, 1517, 745],
       "target": 2000
     },
     "burn": {
       "bmr": 2414,
       "exnet":  [718, 501, 545, 527, 48, 711, 4],
-      "intake": [2000, 2000, 2000, 2000, 1715, 1517, 2000],
-      "logged": [false, false, false, false, true, true, false]
+      "intake": [2000, 2000, 2000, 2000, 1715, 1517, 745],
+      "logged": [false, false, false, false, true, true, true]
     },
     "bridge": [
       { "label": "Fri 12", "int": 1715, "ex": 48, "bal": -747 },
-      { "label": "Sat 13", "int": 1517, "ex": 711, "bal": -1608 }
+      { "label": "Sat 13", "int": 1517, "ex": 711, "bal": -1608 },
+      { "label": "Sun 14", "int": 745, "ex": 4, "bal": -1673 }
     ],
     "mld": {"trap":[{"d":"2026-02-21","l":"Feb 21","w":100,"mx":139,"av":121,"dl":37,"pk":[98,94,123,137,139,135],"cf":1},{"d":"2026-02-28","l":"Feb 28","w":100,"mx":140,"av":130,"dl":-1,"pk":[137,140,117,116,134,136],"cf":1},{"d":"2026-03-08","l":"Mar 8","w":110,"mx":147,"av":134,"dl":25,"pk":[122,115,136,142,145,147],"cf":1},{"d":"2026-03-14","l":"Mar 14","w":100,"mx":143,"av":134,"dl":0,"pk":[120,138,143,141,143,120],"cf":1},{"d":"2026-03-21","l":"Mar 21","w":100,"mx":147,"av":134,"dl":43,"pk":[103,127,138,141,147,146],"cf":1},{"d":"2026-03-28","l":"Mar 28","w":110,"mx":137,"av":117,"dl":14,"pk":[95,117,111,134,137,109],"cf":0},{"d":"2026-04-11","l":"Apr 11","w":80,"mx":140,"av":137,"dl":4,"pk":[131,140,139,140,135],"cf":1},{"d":"2026-04-18","l":"Apr 18","w":100,"mx":137,"av":122,"dl":30,"pk":[107,111,126,127,137],"cf":1},{"d":"2026-04-25","l":"Apr 25","w":120,"mx":143,"av":126,"dl":45,"pk":[98,114,121,137,140,143],"cf":1},{"d":"2026-05-02","l":"May 2","w":125,"mx":140,"av":122,"dl":30,"pk":[110,122,137,100,140],"cf":1},{"d":"2026-05-08","l":"May 8","w":125,"mx":140,"av":124,"dl":31,"pk":[109,120,117,132,140],"cf":1},{"d":"2026-05-16","l":"May 16","w":130,"mx":147,"av":119,"dl":51,"pk":[96,103,115,140,113,147],"cf":1},{"d":"2026-05-22","l":"May 22","w":130,"mx":139,"av":119,"dl":21,"pk":[102,107,126,139,123],"cf":1},{"d":"2026-05-29","l":"May 29","w":140,"mx":151,"av":128,"dl":-28,"pk":[143,151,119,110,115],"cf":0},{"d":"2026-06-07","l":"Jun 7","w":140,"mx":136,"av":121,"dl":14,"pk":[111,117,117,136,125],"cf":1},{"d":"2026-06-13","l":"Jun 13","w":150,"mx":165,"av":152,"dl":23,"pk":[142,146,158,149,165],"cf":0}],"goblet":[{"d":"2026-02-26","l":"Feb 26","w":40,"mx":145,"av":120,"dl":35,"pk":[110,100,125,145],"cf":1},{"d":"2026-03-12","l":"Mar 12","w":40,"mx":135,"av":110,"dl":39,"pk":[96,96,115,135],"cf":1},{"d":"2026-03-19","l":"Mar 19","w":40,"mx":140,"av":118,"dl":44,"pk":[96,97,137,140],"cf":1},{"d":"2026-03-26","l":"Mar 26","w":48,"mx":153,"av":149,"dl":8,"pk":[143,149,153,151],"cf":1},{"d":"2026-04-02","l":"Apr 2","w":48,"mx":147,"av":114,"dl":44,"pk":[103,107,100,147],"cf":1},{"d":"2026-04-23","l":"Apr 23","w":40,"mx":147,"av":127,"dl":44,"pk":[103,147,112,147],"cf":1},{"d":"2026-04-30","l":"Apr 30","w":48,"mx":133,"av":110,"dl":34,"pk":[99,103,103,133],"cf":1},{"d":"2026-05-21","l":"May 21","w":48,"mx":148,"av":125,"dl":47,"pk":[101,106,145,148],"cf":1},{"d":"2026-05-28","l":"May 28","w":48,"mx":144,"av":124,"dl":39,"pk":[105,105,143,144],"cf":1},{"d":"2026-06-04","l":"Jun 4","w":48,"mx":150,"av":139,"dl":32,"pk":[118,142,145,150],"cf":1},{"d":"2026-06-11","l":"Jun 11","w":48,"mx":137,"av":115,"dl":38,"pk":[99,105,120,137],"cf":1}],"hack":[{"d":"2026-05-12","l":"May 12","w":130,"mx":116,"av":109,"dl":11,"pk":[104,100,116,115],"cf":1},{"d":"2026-05-19","l":"May 19","w":120,"mx":136,"av":120,"dl":32,"pk":[104,112,129,136],"cf":1},{"d":"2026-05-26","l":"May 26","w":130,"mx":124,"av":108,"dl":28,"pk":[96,102,111,124],"cf":1},{"d":"2026-06-03","l":"Jun 3","w":130,"mx":131,"av":112,"dl":29,"pk":[102,102,115,131],"cf":1},{"d":"2026-06-09","l":"Jun 9","w":130,"mx":136,"av":122,"dl":12,"pk":[105,118,133,136,117],"cf":1}]}
   },
@@ -40,9 +41,9 @@
       "k1d":"5/7 days · 2 rest days","k2d":"avg 66m per session","k3d":"3 logged lifts","k4d":"~436 kcal/day active vs 2,000 intake",
       "days":["Mon 8","Tue 9","Wed 10","Thu 11","Fri 12","Sat 13","Sun 14"],
       "daysM":["M8","T9","W10","T11","F12","S13","S14"],
-      "eNote":"Intake logged 2/7 days (Jun 12: 1,715; Jun 13: 1,517). Non-logged days assume the 2,000 kcal plan intake.",
-      "bNote":"Net exercise = Garmin active calories. Non-logged days assume 2,000 kcal. Avg balance ≈ −960 kcal/day.",
-      "wNote":"Bridge available for days with logged meals (Jun 12–13). Negative balance = deficit.",
+      "eNote":"Intake logged 3/7 days (Jun 12: 1,715; Jun 13: 1,517; Jun 14: 745 so far). Non-logged days assume the 2,000 kcal plan intake.",
+      "bNote":"Net exercise = Garmin active calories. Non-logged days assume 2,000 kcal. Avg balance ≈ −1,139 kcal/day (Sun in progress).",
+      "wNote":"Bridge available for days with logged meals (Jun 12–14; Sun 14 in progress). Negative balance = deficit.",
       "i1t":"Squat volume −39% vs Tuesday",
       "i1":"Thursday's barbell squats: 8.1 t over 14 sets (162 reps) — down 39% from Tuesday's 13.2 t hack-squat session. Lower-volume by design after back-to-back leg days; loads still moved at avg HR 109.",
       "i2t":"Strength HR climbed on the deadlift",
@@ -60,9 +61,9 @@
       "k1d":"5/7 dana · 2 dana odmora","k2d":"prosj. 66m po treningu","k3d":"3 zabilježena dizanja","k4d":"~436 kcal/dan aktivno uz unos 2.000",
       "days":["Pon 8","Uto 9","Sri 10","Čet 11","Pet 12","Sub 13","Ned 14"],
       "daysM":["P8","U9","S10","Č11","P12","S13","N14"],
-      "eNote":"Unos zabilježen 2/7 dana (12.6.: 1.715; 13.6.: 1.517). Dani bez zapisa pretpostavljaju planski unos 2.000 kcal.",
-      "bNote":"Neto trening = Garmin aktivne kalorije. Dani bez zapisa pretpostavljaju 2.000 kcal. Prosj. bilanca ≈ −960 kcal/dan.",
-      "wNote":"Most dostupan za dane sa zabilježenim obrocima (12.–13.6.). Negativna bilanca = deficit.",
+      "eNote":"Unos zabilježen 3/7 dana (12.6.: 1.715; 13.6.: 1.517; 14.6.: 745 zasad). Dani bez zapisa pretpostavljaju planski unos 2.000 kcal.",
+      "bNote":"Neto trening = Garmin aktivne kalorije. Dani bez zapisa pretpostavljaju 2.000 kcal. Prosj. bilanca ≈ −1.139 kcal/dan (ned u tijeku).",
+      "wNote":"Most dostupan za dane sa zabilježenim obrocima (12.–14.6.; ned 14. u tijeku). Negativna bilanca = deficit.",
       "i1t":"Volumen čučnja −39% vs utorak",
       "i1":"Četvrtak (šipka) čučnjevi: 8,1 t kroz 14 serija (162 ponavljanja) — 39% manje od utorkovih 13,2 t (hack squat). Niži volumen namjerno nakon uzastopnih dana za noge; opterećenja i dalje uz prosj. puls 109.",
       "i2t":"Puls na snazi rastao na mrtvom dizanju",
