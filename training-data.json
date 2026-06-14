@@ -1,78 +1,79 @@
 {
   "meta": {
-    "version": "v1.44-auto",
-    "snapshot": "2026-06-13"
+    "version": "v1.45-auto",
+    "snapshot": "2026-06-14"
   },
   "num": {
-    "kpis": { "sessions": "6", "totalTime": "6h 51m", "volume": "40.3 t", "activeCals": "3,847" },
+    "kpis": { "sessions": "5", "totalTime": "5h 29m", "volume": "30.1 t", "activeCals": "3,160" },
     "daily": {
-      "type":  ["str","pool","str","pool","str","rest","str"],
-      "names": ["Trap-bar DL 10.2t","Intervals 10x100 10x50","Hack squats 13.2t","Z2 swim w/drills","Squats 8.1t","Rest day","Trap-bar DL 8.8t"],
-      "effort":[43, 42, 32, 35, 30, null, 34],
-      "dur":   [82, 64, 66, 68, 65, null, 66],
-      "kcal":  [687, 822, 534, 684, 522, null, 598],
-      "vol":   [10.2, null, 13.2, null, 8.1, null, 8.8],
-      "dist":  [null, 2200, null, 2200, null, null, null],
-      "maxhr": [154, 162, 139, 151, 148, null, 165],
-      "avghr": [116, 132, 111, 116, 109, null, 116],
-      "rhr":   [53, 55, 58, 55, 53, 53, 52]
+      "type":  ["pool","str","pool","str","rest","str","rest"],
+      "names": ["Intervals 10x100 10x50","Hack squats 13.2t","Z2 swim w/drills","Squats 8.1t","Rest day","Trap-bar DL 8.8t","Rest day"],
+      "effort":[42, 32, 35, 30, null, 34, null],
+      "dur":   [64, 66, 68, 65, null, 66, null],
+      "kcal":  [822, 534, 684, 522, null, 598, null],
+      "vol":   [null, 13.2, null, 8.1, null, 8.8, null],
+      "dist":  [2200, null, 2200, null, null, null, null],
+      "maxhr": [162, 139, 151, 148, null, 165, null],
+      "avghr": [132, 111, 116, 109, null, 116, null],
+      "rhr":   [55, 58, 55, 53, 53, 52, 52]
     },
     "energy": {
-      "edaily": [711, 718, 501, 545, 527, 48, 518],
-      "eavg":   [510, 510, 510, 510, 510, 510, 510],
-      "eint":   [null, null, null, null, null, 1715, null],
+      "edaily": [718, 501, 545, 527, 48, 711, 4],
+      "eavg":   [436, 436, 436, 436, 436, 436, 436],
+      "eint":   [null, null, null, null, 1715, 1517, null],
       "target": 2000
     },
     "burn": {
       "bmr": 2414,
-      "exnet":  [711, 718, 501, 545, 527, 48, 518],
-      "intake": [2000, 2000, 2000, 2000, 2000, 1715, 2000],
-      "logged": [false, false, false, false, false, true, false]
+      "exnet":  [718, 501, 545, 527, 48, 711, 4],
+      "intake": [2000, 2000, 2000, 2000, 1715, 1517, 2000],
+      "logged": [false, false, false, false, true, true, false]
     },
     "bridge": [
-      { "label": "Fri 12", "int": 1715, "ex": 48, "bal": -747 }
+      { "label": "Fri 12", "int": 1715, "ex": 48, "bal": -747 },
+      { "label": "Sat 13", "int": 1517, "ex": 711, "bal": -1608 }
     ],
-    "mld": {"trap":[{"d":"2026-02-21","l":"Feb 21","w":100,"mx":139,"av":121,"dl":37,"pk":[98,94,123,137,139,135],"cf":1},{"d":"2026-02-28","l":"Feb 28","w":100,"mx":140,"av":130,"dl":-1,"pk":[137,140,117,116,134,136],"cf":1},{"d":"2026-03-08","l":"Mar 8","w":110,"mx":147,"av":134,"dl":25,"pk":[122,115,136,142,145,147],"cf":1},{"d":"2026-03-14","l":"Mar 14","w":100,"mx":143,"av":134,"dl":0,"pk":[120,138,143,141,143,120],"cf":1},{"d":"2026-03-21","l":"Mar 21","w":100,"mx":147,"av":134,"dl":43,"pk":[103,127,138,141,147,146],"cf":1},{"d":"2026-03-28","l":"Mar 28","w":110,"mx":137,"av":117,"dl":14,"pk":[95,117,111,134,137,109],"cf":0},{"d":"2026-04-11","l":"Apr 11","w":80,"mx":140,"av":137,"dl":4,"pk":[131,140,139,140,135],"cf":1},{"d":"2026-04-18","l":"Apr 18","w":100,"mx":137,"av":122,"dl":30,"pk":[107,111,126,127,137],"cf":1},{"d":"2026-04-25","l":"Apr 25","w":120,"mx":143,"av":126,"dl":45,"pk":[98,114,121,137,140,143],"cf":1},{"d":"2026-05-02","l":"May 2","w":125,"mx":140,"av":122,"dl":30,"pk":[110,122,137,100,140],"cf":1},{"d":"2026-05-08","l":"May 8","w":125,"mx":140,"av":124,"dl":31,"pk":[109,120,117,132,140],"cf":1},{"d":"2026-05-16","l":"May 16","w":130,"mx":147,"av":119,"dl":51,"pk":[96,103,115,140,113,147],"cf":1},{"d":"2026-05-22","l":"May 22","w":130,"mx":139,"av":119,"dl":21,"pk":[102,107,126,139,123],"cf":1},{"d":"2026-05-29","l":"May 29","w":140,"mx":151,"av":128,"dl":-28,"pk":[143,151,119,110,115],"cf":0},{"d":"2026-06-07","l":"Jun 7","w":140,"mx":136,"av":121,"dl":14,"pk":[111,117,117,136,125],"cf":1}],"goblet":[{"d":"2026-02-26","l":"Feb 26","w":40,"mx":145,"av":120,"dl":35,"pk":[110,100,125,145],"cf":1},{"d":"2026-03-12","l":"Mar 12","w":40,"mx":135,"av":110,"dl":39,"pk":[96,96,115,135],"cf":1},{"d":"2026-03-19","l":"Mar 19","w":40,"mx":140,"av":118,"dl":44,"pk":[96,97,137,140],"cf":1},{"d":"2026-03-26","l":"Mar 26","w":48,"mx":153,"av":149,"dl":8,"pk":[143,149,153,151],"cf":1},{"d":"2026-04-02","l":"Apr 2","w":48,"mx":147,"av":114,"dl":44,"pk":[103,107,100,147],"cf":1},{"d":"2026-04-23","l":"Apr 23","w":40,"mx":147,"av":127,"dl":44,"pk":[103,147,112,147],"cf":1},{"d":"2026-04-30","l":"Apr 30","w":48,"mx":133,"av":110,"dl":34,"pk":[99,103,103,133],"cf":1},{"d":"2026-05-21","l":"May 21","w":48,"mx":148,"av":125,"dl":47,"pk":[101,106,145,148],"cf":1},{"d":"2026-05-28","l":"May 28","w":48,"mx":144,"av":124,"dl":39,"pk":[105,105,143,144],"cf":1},{"d":"2026-06-04","l":"Jun 4","w":48,"mx":150,"av":139,"dl":32,"pk":[118,142,145,150],"cf":1},{"d":"2026-06-11","l":"Jun 11","w":48,"mx":137,"av":115,"dl":38,"pk":[99,105,120,137],"cf":1}],"hack":[{"d":"2026-05-12","l":"May 12","w":130,"mx":116,"av":109,"dl":11,"pk":[104,100,116,115],"cf":1},{"d":"2026-05-19","l":"May 19","w":120,"mx":136,"av":120,"dl":32,"pk":[104,112,129,136],"cf":1},{"d":"2026-05-26","l":"May 26","w":130,"mx":124,"av":108,"dl":28,"pk":[96,102,111,124],"cf":1},{"d":"2026-06-03","l":"Jun 3","w":130,"mx":131,"av":112,"dl":29,"pk":[102,102,115,131],"cf":1},{"d":"2026-06-09","l":"Jun 9","w":130,"mx":136,"av":122,"dl":12,"pk":[105,118,133,136,117],"cf":1}]}
+    "mld": {"trap":[{"d":"2026-02-21","l":"Feb 21","w":100,"mx":139,"av":121,"dl":37,"pk":[98,94,123,137,139,135],"cf":1},{"d":"2026-02-28","l":"Feb 28","w":100,"mx":140,"av":130,"dl":-1,"pk":[137,140,117,116,134,136],"cf":1},{"d":"2026-03-08","l":"Mar 8","w":110,"mx":147,"av":134,"dl":25,"pk":[122,115,136,142,145,147],"cf":1},{"d":"2026-03-14","l":"Mar 14","w":100,"mx":143,"av":134,"dl":0,"pk":[120,138,143,141,143,120],"cf":1},{"d":"2026-03-21","l":"Mar 21","w":100,"mx":147,"av":134,"dl":43,"pk":[103,127,138,141,147,146],"cf":1},{"d":"2026-03-28","l":"Mar 28","w":110,"mx":137,"av":117,"dl":14,"pk":[95,117,111,134,137,109],"cf":0},{"d":"2026-04-11","l":"Apr 11","w":80,"mx":140,"av":137,"dl":4,"pk":[131,140,139,140,135],"cf":1},{"d":"2026-04-18","l":"Apr 18","w":100,"mx":137,"av":122,"dl":30,"pk":[107,111,126,127,137],"cf":1},{"d":"2026-04-25","l":"Apr 25","w":120,"mx":143,"av":126,"dl":45,"pk":[98,114,121,137,140,143],"cf":1},{"d":"2026-05-02","l":"May 2","w":125,"mx":140,"av":122,"dl":30,"pk":[110,122,137,100,140],"cf":1},{"d":"2026-05-08","l":"May 8","w":125,"mx":140,"av":124,"dl":31,"pk":[109,120,117,132,140],"cf":1},{"d":"2026-05-16","l":"May 16","w":130,"mx":147,"av":119,"dl":51,"pk":[96,103,115,140,113,147],"cf":1},{"d":"2026-05-22","l":"May 22","w":130,"mx":139,"av":119,"dl":21,"pk":[102,107,126,139,123],"cf":1},{"d":"2026-05-29","l":"May 29","w":140,"mx":151,"av":128,"dl":-28,"pk":[143,151,119,110,115],"cf":0},{"d":"2026-06-07","l":"Jun 7","w":140,"mx":136,"av":121,"dl":14,"pk":[111,117,117,136,125],"cf":1},{"d":"2026-06-13","l":"Jun 13","w":150,"mx":165,"av":152,"dl":23,"pk":[142,146,158,149,165],"cf":0}],"goblet":[{"d":"2026-02-26","l":"Feb 26","w":40,"mx":145,"av":120,"dl":35,"pk":[110,100,125,145],"cf":1},{"d":"2026-03-12","l":"Mar 12","w":40,"mx":135,"av":110,"dl":39,"pk":[96,96,115,135],"cf":1},{"d":"2026-03-19","l":"Mar 19","w":40,"mx":140,"av":118,"dl":44,"pk":[96,97,137,140],"cf":1},{"d":"2026-03-26","l":"Mar 26","w":48,"mx":153,"av":149,"dl":8,"pk":[143,149,153,151],"cf":1},{"d":"2026-04-02","l":"Apr 2","w":48,"mx":147,"av":114,"dl":44,"pk":[103,107,100,147],"cf":1},{"d":"2026-04-23","l":"Apr 23","w":40,"mx":147,"av":127,"dl":44,"pk":[103,147,112,147],"cf":1},{"d":"2026-04-30","l":"Apr 30","w":48,"mx":133,"av":110,"dl":34,"pk":[99,103,103,133],"cf":1},{"d":"2026-05-21","l":"May 21","w":48,"mx":148,"av":125,"dl":47,"pk":[101,106,145,148],"cf":1},{"d":"2026-05-28","l":"May 28","w":48,"mx":144,"av":124,"dl":39,"pk":[105,105,143,144],"cf":1},{"d":"2026-06-04","l":"Jun 4","w":48,"mx":150,"av":139,"dl":32,"pk":[118,142,145,150],"cf":1},{"d":"2026-06-11","l":"Jun 11","w":48,"mx":137,"av":115,"dl":38,"pk":[99,105,120,137],"cf":1}],"hack":[{"d":"2026-05-12","l":"May 12","w":130,"mx":116,"av":109,"dl":11,"pk":[104,100,116,115],"cf":1},{"d":"2026-05-19","l":"May 19","w":120,"mx":136,"av":120,"dl":32,"pk":[104,112,129,136],"cf":1},{"d":"2026-05-26","l":"May 26","w":130,"mx":124,"av":108,"dl":28,"pk":[96,102,111,124],"cf":1},{"d":"2026-06-03","l":"Jun 3","w":130,"mx":131,"av":112,"dl":29,"pk":[102,102,115,131],"cf":1},{"d":"2026-06-09","l":"Jun 9","w":130,"mx":136,"av":122,"dl":12,"pk":[105,118,133,136,117],"cf":1}]}
   },
   "text": {
     "en": {
-      "k1d":"6/7 days · 1 rest day","k2d":"avg 68m per session","k3d":"4 logged lifts","k4d":"~549 kcal/day vs 2,000 intake",
-      "days":["Sun 7","Mon 8","Tue 9","Wed 10","Thu 11","Fri 12","Sat 13"],
-      "daysM":["S7","M8","T9","W10","T11","F12","S13"],
-      "eNote":"Intake logged 1/7 days (Jun 12: 1,715). Non-logged days assume the 2,000 kcal plan intake.",
-      "bNote":"Net exercise = Garmin active calories. Non-logged days assume 2,000 kcal. Avg balance ≈ −964 kcal/day.",
-      "wNote":"Bridge available only for days with logged meals (Jun 12). Negative balance = deficit.",
+      "k1d":"5/7 days · 2 rest days","k2d":"avg 66m per session","k3d":"3 logged lifts","k4d":"~436 kcal/day active vs 2,000 intake",
+      "days":["Mon 8","Tue 9","Wed 10","Thu 11","Fri 12","Sat 13","Sun 14"],
+      "daysM":["M8","T9","W10","T11","F12","S13","S14"],
+      "eNote":"Intake logged 2/7 days (Jun 12: 1,715; Jun 13: 1,517). Non-logged days assume the 2,000 kcal plan intake.",
+      "bNote":"Net exercise = Garmin active calories. Non-logged days assume 2,000 kcal. Avg balance ≈ −960 kcal/day.",
+      "wNote":"Bridge available for days with logged meals (Jun 12–13). Negative balance = deficit.",
       "i1t":"Squat volume −39% vs Tuesday",
-      "i1":"Thursday's squats: 8.1 t, 14 sets, 162 reps — down from Tuesday's hack-squat 13.2 t and 3 sets below your 17-set template. Deliberate deload or cut short? Flag for Ivan either way.",
-      "i2t":"Strength HR trending down",
-      "i2":"Avg HR on lifting days: 116 → 111 → 109 across the week while loads stayed heavy — consistent with improving work capacity. Saturday ran avg 116 / max 165.",
-      "i3t":"First full rest day in 8",
-      "i3":"Friday was your first complete off-day after an 8-day streak — the circuit breaker before Saturday's session. RHR fell to a week-low 52 by Saturday.",
+      "i1":"Thursday's barbell squats: 8.1 t over 14 sets (162 reps) — down 39% from Tuesday's 13.2 t hack-squat session. Lower-volume by design after back-to-back leg days; loads still moved at avg HR 109.",
+      "i2t":"Strength HR climbed on the deadlift",
+      "i2":"Avg HR across lifting days: 111 (hack) → 109 (squats) → 116 (trap-bar). Saturday's trap-bar deadlift drove the week's peak effort — max 165 on the 150 kg top set of 12.",
+      "i3t":"Two rest days this week",
+      "i3":"Friday and Sunday were full off-days, bracketing Saturday's deadlift. RHR sits at the week-low 52 on both Saturday and Sunday — recovery is keeping pace with load.",
       "i4t":"HR bands cleanly separated",
-      "i4":"Max (139–165), avg (109–132) and RHR (52–58) never converge — the gap between RHR and session avg is your aerobic headroom, stable at ~55–75 bpm.",
+      "i4":"Session max (139–165), avg (109–132) and RHR (52–58) never converge — the gap between RHR and session avg is your aerobic headroom, stable at ~55–75 bpm.",
       "today":"Next 72h vs plan",
-      "rec":"Saturday's trap-bar deadlift day logged: 8.8 t over 11 sets (112 reps), avg 116 / max 165, RHR at a week-low 52. Lighter than last Sunday's 10.2 t trap session — a controlled day on fresh legs after Friday's rest. Watch fuel: only 1,517 kcal / 99 g protein logged today, well under target on a training day. Sunday: rest, or Z2 hike/ride only if RHR stays off the 58 trigger.",
-      "foot":"Data: 2026-06-07 → 2026-06-13 · Garmin fenix 8 + Hevy + Intervals.icu via Freddy",
+      "rec":"Sunday is a rest day after Saturday's trap-bar deadlift (8.8 t, 11 sets, 112 reps; avg 116 / max 165, top set 150×12). The week closed at 5 sessions, 30.1 t, ~436 kcal/day active burn against a logged deficit (Sat balance −1,608). Recovery is green — sleep rebounded to 7h45 (score 86), RHR at the week-low 52. Keep today easy and refuel toward 2,000; optional Z2 hike/swim only if RHR stays off the 58 trigger. Next: Monday swim per plan.",
+      "foot":"Data: 2026-06-08 → 2026-06-14 · Garmin fenix 8 + Hevy + Intervals.icu via Freddy",
       "foot2":"plan: Mon swim · Tue hack squat · Wed swim intervals · Thu squat · Fri rest · Sat trap-bar DL · Sun rest/hike/bike"
     },
     "hr": {
-      "k1d":"6/7 dana · 1 dan odmora","k2d":"prosj. 68m po treningu","k3d":"4 zabilježena dizanja","k4d":"~549 kcal/dan uz unos 2.000",
-      "days":["Ned 7","Pon 8","Uto 9","Sri 10","Čet 11","Pet 12","Sub 13"],
-      "daysM":["N7","P8","U9","S10","Č11","P12","S13"],
-      "eNote":"Unos zabilježen 1/7 dana (12.6.: 1.715). Dani bez zapisa pretpostavljaju planski unos 2.000 kcal.",
-      "bNote":"Neto trening = Garmin aktivne kalorije. Dani bez zapisa pretpostavljaju 2.000 kcal. Prosj. bilanca ≈ −964 kcal/dan.",
-      "wNote":"Most dostupan samo za dane sa zabilježenim obrocima (12.6.). Negativna bilanca = deficit.",
+      "k1d":"5/7 dana · 2 dana odmora","k2d":"prosj. 66m po treningu","k3d":"3 zabilježena dizanja","k4d":"~436 kcal/dan aktivno uz unos 2.000",
+      "days":["Pon 8","Uto 9","Sri 10","Čet 11","Pet 12","Sub 13","Ned 14"],
+      "daysM":["P8","U9","S10","Č11","P12","S13","N14"],
+      "eNote":"Unos zabilježen 2/7 dana (12.6.: 1.715; 13.6.: 1.517). Dani bez zapisa pretpostavljaju planski unos 2.000 kcal.",
+      "bNote":"Neto trening = Garmin aktivne kalorije. Dani bez zapisa pretpostavljaju 2.000 kcal. Prosj. bilanca ≈ −960 kcal/dan.",
+      "wNote":"Most dostupan za dane sa zabilježenim obrocima (12.–13.6.). Negativna bilanca = deficit.",
       "i1t":"Volumen čučnja −39% vs utorak",
-      "i1":"Četvrtak squat: 8,1 t, 14 serija, 162 ponavljanja — manje od utorkovih 13,2 t (hack) i 3 serije ispod predloška od 17. Namjerni deload ili skraćeno? Javi Ivanu u oba slučaja.",
-      "i2t":"Puls na snazi pada",
-      "i2":"Prosj. puls na danima dizanja: 116 → 111 → 109 kroz tjedan uz teška opterećenja — u skladu s rastućim radnim kapacitetom. Subota prosj. 116 / maks 165.",
-      "i3t":"Prvi puni odmor u 8 dana",
-      "i3":"Petak je bio prvi potpuni slobodan dan nakon niza od 8 — prekidač prije subotnjeg treninga. RHR pao na tjedni minimum 52 do subote.",
+      "i1":"Četvrtak (šipka) čučnjevi: 8,1 t kroz 14 serija (162 ponavljanja) — 39% manje od utorkovih 13,2 t (hack squat). Niži volumen namjerno nakon uzastopnih dana za noge; opterećenja i dalje uz prosj. puls 109.",
+      "i2t":"Puls na snazi rastao na mrtvom dizanju",
+      "i2":"Prosj. puls na danima dizanja: 111 (hack) → 109 (čučanj) → 116 (trap-bar). Subotnje trap-bar mrtvo dizanje doseglo tjedni vrhunac napora — maks 165 na završnoj seriji 150 kg × 12.",
+      "i3t":"Dva dana odmora ovaj tjedan",
+      "i3":"Petak i nedjelja bili su potpuni slobodni dani, oko subotnjeg mrtvog dizanja. RHR na tjednom minimumu 52 i u subotu i u nedjelju — oporavak prati opterećenje.",
       "i4t":"Pulsne zone čisto razdvojene",
-      "i4":"Maks (139–165), prosjek (109–132) i RHR (52–58) se ne približavaju — razmak RHR-a i prosjeka treninga je aerobna rezerva, stabilno ~55–75 otkucaja.",
+      "i4":"Maks treninga (139–165), prosjek (109–132) i RHR (52–58) se ne približavaju — razmak RHR-a i prosjeka je aerobna rezerva, stabilno ~55–75 otkucaja.",
       "today":"Sljedeća 72h vs plan",
-      "rec":"Subotnji trap-bar dan zabilježen: 8,8 t kroz 11 serija (112 ponavljanja), prosj. 116 / maks 165, RHR na tjednom minimumu 52. Lakše od prošlonedjeljnih 10,2 t — kontroliran dan na svježim nogama nakon petka. Pazi na gorivo: danas samo 1.517 kcal / 99 g proteina, ispod cilja na dan treninga. Nedjelja: odmor ili Z2 samo ako RHR ostane ispod okidača 58.",
-      "foot":"Podaci: 7.6. → 13.6.2026. · Garmin fenix 8 + Hevy + Intervals.icu putem Freddyja",
+      "rec":"Nedjelja je dan odmora nakon subotnjeg trap-bar mrtvog dizanja (8,8 t, 11 serija, 112 ponavljanja; prosj. 116 / maks 165, završna 150×12). Tjedan zatvoren s 5 treninga, 30,1 t, ~436 kcal/dan aktivno uz zabilježeni deficit (subotnja bilanca −1.608). Oporavak je zelen — san se oporavio na 7h45 (ocjena 86), RHR na tjednom minimumu 52. Neka danas bude lagano i nadoknadi gorivo prema 2.000; Z2 planina/plivanje samo ako RHR ostane ispod okidača 58. Sljedeće: ponedjeljak plivanje po planu.",
+      "foot":"Podaci: 8.6. → 14.6.2026. · Garmin fenix 8 + Hevy + Intervals.icu putem Freddyja",
       "foot2":"plan: pon plivanje · uto hack squat · sri intervali · čet squat · pet odmor · sub trap-bar MD · ned odmor/planina/bicikl"
     }
   }
