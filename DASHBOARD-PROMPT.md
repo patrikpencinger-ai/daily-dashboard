@@ -1,59 +1,40 @@
-# Pushing data from the "fitness journey" chat → the dashboard
+# Food logging — instruction for the "fitness journey" chat
 
-The dashboard at **dash.er45.com** is a static site. Its data lives in three JSON files in
-the GitHub repo **`patrikpencinger-ai/daily-dashboard`** (branch `main`). Committing to that
-repo auto-deploys to Cloudflare in ~1 minute. The site reads:
+**How publishing works:** a claude.ai chat can't commit to the repo (its connectors are
+read-only). So the dashboard is published from **Claude Code** by saying
+`refresh the dashboard` (see the README "How to refresh"). The fitness-journey chat's job
+is just to **track food and hand you a JSON block** to paste into Claude Code.
 
-- `sleep-data.json` — sleep & recovery tab
-- `training-data.json` — training tab
-- `data.json` — food intake tab
-
-Paste the block below into your **fitness-journey chat** (best: set it as a project
-instruction so it's always available).
+Paste the block below into your fitness-journey chat (best: set it as a project instruction).
 
 ---
 
 ## ⬇️ Paste this into the fitness-journey chat
 
-> You can update my live health dashboard — the GitHub repo `patrikpencinger-ai/daily-dashboard`
-> (branch `main`). Committing there auto-deploys to dash.er45.com.
+> Track my food for the day. Whenever I ask "give me the food block" (or after any change),
+> output **only** a fenced ```json block in exactly this shape — no prose around it:
 >
-> **When I say "refresh the dashboard":**
-> 1. Pull my latest data from the connectors — Garmin sleep/HRV/RHR (Freddy), Hevy, Intervals.icu.
-> 2. In the repo, read `REFRESH.md`, `sleep-data.json` and `training-data.json` to learn the
->    exact shapes, then follow `REFRESH.md` precisely.
-> 3. Regenerate `sleep-data.json` and `training-data.json` with the freshest numbers and newly
->    written bilingual (EN + HR) insights, keeping every JSON key and structure identical.
-> 4. Commit both files to `main`, message `refresh: <YYYY-MM-DD>`. Do **not** touch `data.json`.
-> 5. Reply with one line summarising what changed.
+> ```json
+> {
+>   "meta": { "intake_asof": "YYYY-MM-DD" },
+>   "intake": {
+>     "date": "DDD YYYY-MM-DD",
+>     "dayType": "training day | rest day",
+>     "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+>     "tdee": 3000,
+>     "log": [ { "name": "<food>", "kcal": 0, "p": 0, "c": 0, "f": 0 } ]
+>   }
+> }
+> ```
 >
-> **When I say "update food":**
-> 1. Take today's food as we've tracked it in this chat.
-> 2. Write `data.json` in exactly this shape (totals are computed by the site — omit them):
->    ```json
->    {
->      "meta": { "intake_asof": "YYYY-MM-DD" },
->      "intake": {
->        "date": "DDD YYYY-MM-DD",
->        "dayType": "training day | rest day",
->        "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
->        "tdee": 3000,
->        "log": [ { "name": "Food 100g", "kcal": 0, "p": 0, "c": 0, "f": 0 } ]
->      }
->    }
->    ```
-> 3. Commit `data.json` to `main`, message `food: <YYYY-MM-DD>`.
-> 4. Edits during the day: when I add / change / remove an item, rewrite the **whole**
->    `data.json` and commit again.
->
-> **If you can't write to the repo:** instead of committing, output the complete file
-> contents in a code block and I'll commit them.
+> Rules: estimate macros per item; keep the **full running list** for the whole day; when I
+> add/remove/change something, re-output the **entire** updated block; whole numbers; don't
+> include totals (the dashboard computes them).
 
 ---
 
-## What the chat needs for "refresh the dashboard" to push by itself
-- The **health connectors** (it already has these — that's where your data + insights come from).
-- **Write access to the GitHub repo.** If the project has a GitHub connector/MCP, it commits
-  directly. If not, see the fallback above (it outputs the JSON, you commit).
+## Then publish it
 
-After any push, opening dash.er45.com (or hitting the **↻ Refresh** button) shows the update.
+Copy that block → in **Claude Code** (on this repo) paste it and say **`refresh the dashboard`**
+(or `update food` for food only). Claude writes `data.json`, pulls fresh sleep/training, and
+pushes → dash.er45.com updates in ~1 min.
