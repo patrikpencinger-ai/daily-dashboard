@@ -51,16 +51,20 @@ Pages redeploys automatically within ~1 minute.
 
 ## Refreshing the data
 
-- **Sleep & Training** pull automatically from the wearable connector (Garmin + Hevy +
-  Intervals.icu). A Claude agent runs the procedure in [`REFRESH.md`](REFRESH.md), which
-  rewrites `sleep-data.json` + `training-data.json` and pushes. On-demand: say *"refresh
-  the dashboard"* in a Claude session that has the connector + this repo. Daily auto:
-  via a scheduled cloud routine (same procedure).
-- **Intake** (`intake.html`) reads `data.json` — logged manually for now (food log).
-  Edit `data.json` (or have Claude output it) and push.
+The dashboard is a **dumb display** — it just renders whatever JSON is in the repo. The
+**"fitness journey" Claude chat** (which has the connectors + writes the insights) is what
+produces and pushes that JSON. Setup + the exact paste-in instructions are in
+[`DASHBOARD-PROMPT.md`](DASHBOARD-PROMPT.md); the data procedure itself is in
+[`REFRESH.md`](REFRESH.md).
+
+- **"refresh the dashboard"** → regenerates `sleep-data.json` + `training-data.json` (metrics
+  + bilingual insights) and commits → Cloudflare deploys.
+- **"update food"** → writes `data.json` from the day's tracked food (totals auto-computed by
+  the site, so the log alone is enough). Supports edits during the day.
+- The header **↻ Refresh** button just reloads the latest pushed JSON in the browser.
 
 No credentials live in the repo.
 
-### `data.json` shape (Intake — keep keys identical)
-- `meta` — as-of dates per source
-- `intake` — `date`, `dayType`, `target {kcal,p,c,f}`, `total {kcal,p,c,f}`, `tdee`, `log[]`
+### `data.json` shape (Intake — keep keys identical; `total` optional, auto-summed from `log`)
+- `meta` — `intake_asof`
+- `intake` — `date`, `dayType`, `target {kcal,p,c,f}`, `tdee`, `log[]` (each `{name,kcal,p,c,f}`)

@@ -70,7 +70,8 @@ const pct=(v,m)=>Math.min(100,Math.round(v/m*100));
 
 function render(){
  if(!DATA){return;}
- const k=DATA.intake,tgt=k.target,tot=k.total;
+ const k=DATA.intake,tgt=k.target;
+ const tot=k.total||k.log.reduce((a,f)=>({kcal:a.kcal+(+f.kcal||0),p:a.p+(+f.p||0),c:a.c+(+f.c||0),f:a.f+(+f.f||0)}),{kcal:0,p:0,c:0,f:0});
  const bal=k.tdee-tot.kcal;
  document.getElementById('sub').textContent=k.date+" · "+k.dayType;
  const bar=(lbl,val,max,unit)=>{const over=val>max;const w=pct(val,max);
