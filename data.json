@@ -1,22 +1,18 @@
 {
   "meta": {
-    "intake_asof": "2026-06-13",
+    "intake_asof": "2026-06-14",
     "note": "intake logged live; sleep & training auto-refreshed from the connector"
   },
   "intake": {
-    "date": "SAT 2026-06-13",
-    "dayType": "training day",
+    "date": "SUN 2026-06-14",
+    "dayType": "rest day",
     "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
-    "total":  { "kcal": 1517, "p": 99, "c": 171, "f": 48 },
-    "tdee": 3000,
+    "tdee": 2490,
     "log": [
-      { "name": "QNT BCAA 8000",          "kcal": 32,  "p": 7,  "c": 0,  "f": 0 },
-      { "name": "Banana",                  "kcal": 105, "p": 1,  "c": 27, "f": 0 },
-      { "name": "Szechuan soup",           "kcal": 130, "p": 7,  "c": 16, "f": 4 },
-      { "name": "Spicy beef",              "kcal": 450, "p": 32, "c": 22, "f": 26 },
-      { "name": "White rice ~200g",        "kcal": 260, "p": 5,  "c": 56, "f": 1 },
-      { "name": "Veg + gnocchi stir-fry",  "kcal": 350, "p": 8,  "c": 45, "f": 14 },
-      { "name": "Optimum C&C whey 50g",    "kcal": 190, "p": 39, "c": 5,  "f": 3 }
+      { "name": "Dukat protein caramel pudding",       "kcal": 130, "p": 13, "c": 15, "f": 3 },
+      { "name": "Sourdough 100g",                       "kcal": 245, "p": 8,  "c": 47, "f": 1 },
+      { "name": "Mayo 1 tbsp",                          "kcal": 95,  "p": 0,  "c": 0,  "f": 10 },
+      { "name": "Dimek dimljena pileća prsa 250g",      "kcal": 275, "p": 55, "c": 3,  "f": 5 }
     ]
   }
 }
