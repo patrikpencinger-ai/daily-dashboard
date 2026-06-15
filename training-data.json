@@ -1,7 +1,8 @@
 {
   "meta": {
     "version": "v1.47-auto",
-    "snapshot": "2026-06-15"
+    "snapshot": "2026-06-15",
+    "refreshedAt": "2026-06-15T06:20:50+02:00"
   },
   "num": {
     "kpis": { "sessions": "4", "totalTime": "4h 25m", "volume": "30.1 t", "activeCals": "2,338" },

@@ -49,6 +49,10 @@ array; flag `cf:0` if detection is uncertain (renders a `*`).
   `logged[]` flags which; balance computed in-page as `intake − (bmr + exnet)`.
 - Rest days: set `effort/dur/kcal/vol/dist/maxhr/avghr` to `null` (RHR stays).
 
+- Stamp `meta.refreshedAt` (ISO 8601 with offset, e.g. `2026-06-15T06:20:50+02:00`) on each
+  file you rewrite = the moment of refresh. The shell shows it on hover over the
+  Last-refresh chips. For `data.json`, set it when a food block is written.
+
 Keep the JSON **keys and structure identical** — only values change. See the current
 `sleep-data.json` / `training-data.json` as the canonical shape.
 
