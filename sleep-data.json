@@ -1,71 +1,71 @@
 {
   "meta": {
-    "version": "v1.40-auto",
-    "snapshot": "2026-06-14",
-    "footEn": "Data snapshot: 2026-06-14 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-06-14 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.41-auto",
+    "snapshot": "2026-06-15",
+    "footEn": "Data snapshot: 2026-06-15 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-06-15 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 86,
-      "durationLabel": "7h 45m",
-      "bedWake": "21:47 → 05:32",
-      "rhr": 52,
-      "hrv": 43,
-      "readiness": 85,
-      "deepMin": 124,
-      "lightMin": 237,
-      "remMin": 104,
-      "awakeMin": 31
+      "score": 70,
+      "durationLabel": "5h 19m",
+      "bedWake": "00:22 → 05:45",
+      "rhr": 53,
+      "hrv": 44,
+      "readiness": 72,
+      "deepMin": 45,
+      "lightMin": 208,
+      "remMin": 66,
+      "awakeMin": 4
     },
     "week": {
-      "deep":  [1.13, 1.20, 1.48, 2.08, 2.05, 1.87, 2.07],
-      "light": [3.30, 2.30, 4.40, 4.12, 4.17, 3.37, 3.95],
-      "rem":   [0.98, 0.85, 1.50, 1.73, 1.98, 0.83, 1.73],
-      "awake": [0.17, 0.00, 0.95, 0.17, 0.18, 0.23, 0.52],
-      "scores":[71, 58, 75, 89, 89, 77, 86],
-      "hrv":   [39, 31, 35, 42, 36, 45, 43],
-      "rhr":   [55, 58, 55, 53, 53, 52, 52],
+      "deep":  [1.20, 1.48, 2.08, 2.05, 1.87, 2.07, 0.75],
+      "light": [2.30, 4.40, 4.12, 4.17, 3.37, 3.95, 3.47],
+      "rem":   [0.85, 1.50, 1.73, 1.98, 0.83, 1.73, 1.10],
+      "awake": [0.00, 0.95, 0.17, 0.18, 0.23, 0.52, 0.07],
+      "scores":[58, 75, 89, 89, 77, 86, 70],
+      "hrv":   [31, 35, 42, 36, 45, 43, 44],
+      "rhr":   [58, 55, 53, 53, 52, 52, 53],
       "hrvAvg": 39
     },
     "sleepWake": {
-      "bed":  [0.78, 1.40, -2.07, -1.93, -1.57, -1.33, -2.22],
-      "wake": [6.20, 5.75, 5.32, 5.98, 6.63, 4.73, 5.53],
-      "bedL": ["00:47","01:24","21:56","22:04","22:26","22:40","21:47"],
-      "wakeL":["06:12","05:45","05:19","05:59","06:38","04:44","05:32"],
-      "dur":  ["5h25","4h21","7h23","7h55","8h12","6h04","7h45"]
+      "bed":  [1.40, -2.07, -1.93, -1.57, -1.33, -2.22, 0.37],
+      "wake": [5.75, 5.32, 5.98, 6.63, 4.73, 5.53, 5.75],
+      "bedL": ["01:24","21:56","22:04","22:26","22:40","21:47","00:22"],
+      "wakeL":["05:45","05:19","05:59","06:38","04:44","05:32","05:45"],
+      "dur":  ["4h21","7h23","7h55","8h12","6h04","7h45","5h19"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Mon 8","Tue 9","Wed 10","Thu 11","Fri 12","Sat 13","Sun 14"],
-      "daysShort": ["M8","T9","W10","T11","F12","S13","S14"],
-      "scoreWord": "score 86",
-      "c1d": "+9 vs yesterday · solid rebound",
-      "c2d": "+61m vs 7-day avg (6h 44m)",
-      "c3d": "0 vs yesterday · −2 vs avg (54)",
-      "c4d": "−2 vs yesterday · +4 vs avg (39)",
-      "c5l": "High",
+      "daysFull": ["Tue 9","Wed 10","Thu 11","Fri 12","Sat 13","Sun 14","Mon 15"],
+      "daysShort": ["T9","W10","T11","F12","S13","S14","M15"],
+      "scoreWord": "score 70",
+      "c1d": "−16 vs yesterday · short night",
+      "c2d": "−1h24 vs 7-day avg (6h 43m)",
+      "c3d": "+1 vs yesterday · −1 vs avg (54)",
+      "c4d": "+1 vs yesterday · +5 vs avg (39)",
+      "c5l": "Moderate",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
       "havg": "HRV 7d avg 39",
-      "today": "Today: rest & recovery",
-      "badge": "On plan",
-      "rec": "Strong rebound: 7h45 (score 86) after Saturday's short 6h04. Deep sleep hit 2h04 and REM recovered to 1h44 after Saturday's thin 50m. RHR holds at the week-low 52, stress fell to 15 (calmest of the week), and HRV is 43 — just off yesterday's 45 but +4 over the 7-day baseline (39). Only blemish was 31m awake. Coming off the trap-bar deadlift, every recovery marker is green — keep today easy and refuel."
+      "today": "Today: keep it light",
+      "badge": "Short night",
+      "rec": "Short night: 5h19 (score 70) after bedtime slipped to 00:22 — deep fell to 45m and REM to 1h06. The underlying recovery markers still held: RHR 53, HRV 44 (+5 over the 7-day baseline of 39), stress a calm 17, only 4m awake. Two rest days had already banked recovery from Saturday's deadlift, but Body Battery recharged just 47 overnight. Treat today as easy — an optional Z2 swim at most — and aim to be in bed earlier tonight."
     },
     "hr": {
-      "daysFull": ["Pon 8","Uto 9","Sri 10","Čet 11","Pet 12","Sub 13","Ned 14"],
-      "daysShort": ["P8","U9","S10","Č11","P12","S13","N14"],
-      "scoreWord": "ocjena 86",
-      "c1d": "+9 vs jučer · snažan oporavak",
-      "c2d": "+61m vs 7-dnevni prosjek (6h 44m)",
-      "c3d": "0 vs jučer · −2 vs prosjek (54)",
-      "c4d": "−2 vs jučer · +4 vs prosjek (39)",
-      "c5l": "Visoka",
+      "daysFull": ["Uto 9","Sri 10","Čet 11","Pet 12","Sub 13","Ned 14","Pon 15"],
+      "daysShort": ["U9","S10","Č11","P12","S13","N14","P15"],
+      "scoreWord": "ocjena 70",
+      "c1d": "−16 vs jučer · kratka noć",
+      "c2d": "−1h24 vs 7-dnevni prosjek (6h 43m)",
+      "c3d": "+1 vs jučer · −1 vs prosjek (54)",
+      "c4d": "+1 vs jučer · +5 vs prosjek (39)",
+      "c5l": "Umjerena",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
       "havg": "HRV 7d prosjek 39",
-      "today": "Danas: odmor i oporavak",
-      "badge": "Po planu",
-      "rec": "Snažan oporavak: 7h45 (ocjena 86) nakon subotnjih kratkih 6h04. Duboki san dosegao 2h04, a REM se oporavio na 1h44 nakon subotnjih tankih 50m. RHR ostaje na tjednom minimumu 52, stres pao na 15 (najmirniji u tjednu), a HRV je 43 — tek ispod jučerašnjih 45 ali +4 iznad 7-dnevne osnovice (39). Jedina mrlja bila je 31m budnosti. Nakon trap-bar mrtvog dizanja, svi pokazatelji oporavka su zeleni — neka danas bude lagano i nadoknadi gorivo."
+      "today": "Danas: lagano",
+      "badge": "Kratka noć",
+      "rec": "Kratka noć: 5h19 (ocjena 70) nakon što je odlazak na spavanje skliznuo na 00:22 — duboki san pao na 45m, REM na 1h06. Temeljni pokazatelji oporavka ipak su se održali: RHR 53, HRV 44 (+5 iznad 7-dnevne osnovice 39), stres miran 17, samo 4m budnosti. Dva dana odmora već su namirila oporavak od subotnjeg mrtvog dizanja, ali Body Battery se preko noći napunio tek 47. Neka danas bude lagano — najviše opcionalno Z2 plivanje — i lezi ranije večeras."
     }
   }
 }
