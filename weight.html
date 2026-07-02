@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patrik's weight mission</title>
+<link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><path%20d='M8%2024L16%208l8%2016'%20fill='none'%20stroke='%23a64ce8'%20stroke-width='4'%20stroke-linecap='round'%20stroke-linejoin='round'/><circle%20cx='16'%20cy='8'%20r='3.5'%20fill='%23f06fa0'/></svg>">
+<style>
+html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{padding:20px;transition:background .2s}
+#wwrap{--bg:#ffffff;--surf:#f1efe8;--tp:#1a1a18;--ts:rgba(0,0,0,0.62);--bd:rgba(0,0,0,0.28);background:var(--bg);color:var(--tp);padding:16px;border-radius:12px;width:100%;max-width:900px;margin:0 auto;box-sizing:border-box}
+#wwrap.dark{--bg:#262624;--surf:#33322f;--tp:#ffffff;--ts:rgba(255,255,255,0.72);--bd:rgba(255,255,255,0.22)}
+#wwrap.mobile{padding:14px}
+#wwrap.big{zoom:1.5;width:calc(100%/1.5);max-width:600px}
+.wcard{background:var(--surf);border-radius:8px;padding:0.85rem 1rem}
+.wlab{font-size:13px;color:var(--ts)}
+.wcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 1rem}
+#wwrap.mobile .wcards{grid-template-columns:1fr 1fr;gap:10px}
+#wwrap.mobile .ttl{font-size:16px}
+.pwrap{background:var(--surf);border-radius:8px;padding:0.85rem 1rem;margin:0 0 1.25rem}
+.pbar{position:relative;height:22px;background:var(--bg);border-radius:11px;margin-top:8px;overflow:visible}
+.pfill{position:absolute;left:0;top:0;height:22px;border-radius:11px;background:linear-gradient(90deg,#2caaf0,#1D9E75);transition:width .4s}
+.prun{position:absolute;top:-3px;font-size:18px;transform:translateX(-50%);transition:left .4s}
+.pgoal{position:absolute;right:-2px;top:-3px;font-size:18px}
+.ppct{position:absolute;left:50%;top:2px;transform:translateX(-50%);font-size:12px;font-weight:600;color:var(--tp)}
+.planner{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 1.25rem}
+#wwrap.mobile .planner{grid-template-columns:1fr}
+@media(max-width:520px){.planner{grid-template-columns:1fr}.wcards{grid-template-columns:1fr 1fr}}
+.planner .wcard label{display:flex;justify-content:space-between;font-size:13px;color:var(--ts);margin-bottom:2px}
+.planner input[type=range]{width:100%;accent-color:#a64ce8}
+.planner input[type=date]{font:inherit;font-size:13px;color:var(--tp);background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:4px 8px}
+.bigout{font-size:15px;font-weight:500;margin:6px 0 2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 1.25rem}
+.chip{font-size:12px;background:var(--surf);border-radius:999px;padding:5px 12px;color:var(--ts)}
+.chip b{color:var(--tp);font-weight:600}
+.equiv{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:0 0 1.25rem}
+.eq{background:var(--surf);border-radius:8px;padding:0.7rem 0.5rem;text-align:center}
+.eq .n{font-size:20px;font-weight:600}
+.eq .e{font-size:22px}
+.eq .t{font-size:11px;color:var(--ts)}
+</style>
+</head>
+<body>
+<div id="wwrap">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 1.25rem;flex-wrap:wrap;">
+  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">WEIGHT MISSION — THE SHRINKING OF PATRIK</div>
+  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+    <button id="btn-hr" onclick="setLang('hr')">HR</button>
+    <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
+  </div>
+</div>
+
+<div class="wcards">
+  <div class="wcard"><div class="wlab" data-i="c1">Current weight</div><div style="font-size:24px;font-weight:500;" id="v-now">—</div><div class="wlab" style="font-size:12px;" id="d-now"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c2">Last weigh-in</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-wk">—</div><div class="wlab" style="font-size:12px;" id="d-wk"></div></div>
+  <div class="wcard" id="card-lost" style="cursor:pointer;" title="Click for another comparison"><div class="wlab" data-i="c3">Total lost 🎉</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-lost">—</div><div class="wlab" style="font-size:12px;" id="d-lost"></div></div>
+  <div class="wcard"><div class="wlab">BMI</div><div style="font-size:24px;font-weight:500;" id="v-bmi">—</div><div class="wlab" style="font-size:12px;" id="d-bmi"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c5">Target</div><div style="font-size:24px;font-weight:500;color:#a64ce8;" id="v-tgt">—</div><div class="wlab" style="font-size:12px;" id="d-tgt"></div></div>
+</div>
+
+<div class="pwrap">
+  <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ts);"><span data-i="pT">Journey to target</span><span id="p-lbl"></span></div>
+  <div class="pbar"><div class="pfill" id="p-fill" style="width:0%"></div><span class="prun" id="p-run" style="left:0%">🏃</span><span class="pgoal">🏆</span><span class="ppct" id="p-pct"></span></div>
+</div>
+
+<div data-i="gH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.5rem;">THE JOURNEY</div>
+<div class="wlab" style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;font-size:12px;">
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:3px solid #2caaf0;"></span><span data-i="gW">Weekly avg (kg)</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2.5px dashed #E0A53C;"></span><span data-i="gP">Projection</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #1D9E75;"></span><span data-i="gT">Target</span></span>
+  <span data-i="gZ" style="display:flex;align-items:center;gap:4px;">bands = BMI zones</span>
+  <span>🏅/👑 <span data-i="gM">= milestones</span></span>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;" id="rangerow">
+  <button data-r="3" onclick="setView(3)">3M</button>
+  <button data-r="6" onclick="setView(6)">6M</button>
+  <button data-r="0" onclick="setView(0)" data-i="rAll">ALL</button>
+  <button data-r="9" onclick="setView(9)">🔮</button>
+</div>
+<div id="wgwrap" style="position:relative;width:100%;height:400px;margin:0 0 4px;">
+  <canvas id="wg" role="img" aria-label="Weight journey: weekly averages, BMI zones, projection to target"></canvas>
+</div>
+<p class="wlab" data-i="gHint" style="font-size:11px;margin:0 0 1.25rem;">🖱️ scroll = zoom · drag = pan · double-click = reset</p>
+
+<div class="planner">
+  <div class="wcard">
+    <div data-i="plH" style="font-size:14px;font-weight:500;margin-bottom:8px;">🎯 TARGET PLANNER</div>
+    <label><span data-i="plT">Target weight</span><b id="o-tgt" style="color:#a64ce8;"></b></label>
+    <input type="range" id="in-tgt" min="70" max="110" step="0.5">
+    <label style="margin-top:8px;"><span data-i="plR">Weight loss per month</span><b id="o-rate" style="color:#E0A53C;"></b></label>
+    <input type="range" id="in-rate" min="0.2" max="4" step="0.1">
+    <div class="bigout" id="o-eta">—</div>
+    <div class="wlab" style="font-size:12px;" id="o-eta2"></div>
+  </div>
+  <div class="wcard">
+    <div data-i="smH" style="font-size:14px;font-weight:500;margin-bottom:8px;">🔮 CRYSTAL BALL — weight on a date</div>
+    <input type="date" id="in-date">
+    <div class="bigout" id="o-sim">—</div>
+    <div class="wlab" style="font-size:12px;line-height:1.5;" id="o-sim2"></div>
+  </div>
+</div>
+
+<div data-i="mH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">MILESTONES</div>
+<div class="chips" id="mchips"></div>
+
+<div data-i="eH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">WHAT YOU'VE DROPPED SO FAR</div>
+<div class="equiv" id="equiv"></div>
+
+<p class="wlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · <span data-i="foot2">Weekly averages, updated manually — paste a new week or tell Claude.</span> · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+<script>
+if(window.ChartZoom){try{Chart.register(window.ChartZoom);}catch(e){}}
+let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+let lang='en',layout='',fontbig=false,viewSel=9,eqIdx=0;
+let BG,txt,strong,halo,grid;
+function calc(){const D=theme==='dark';BG=D?'#262624':'#ffffff';txt=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';strong=D?'#fff':'#1a1a18';halo=D?'rgba(38,38,36,0.85)':'rgba(255,255,255,0.85)';grid=D?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.08)';}
+calc();
+const bgPlug={id:'bg',beforeDraw(c){const x=c.ctx;x.save();x.globalCompositeOperation='destination-over';x.fillStyle=BG;x.fillRect(0,0,c.width,c.height);x.restore();}};
+
+const T={
+ en:{title:"WEIGHT MISSION — THE SHRINKING OF PATRIK",c1:"Current weight",c2:"Last weigh-in",c3:"Total lost 🎉",c5:"Target",
+  pT:"Journey to target",gH:"THE JOURNEY",gW:"Weekly avg (kg)",gP:"Projection",gT:"Target",gZ:"bands = BMI zones",gM:"= milestones",rAll:"ALL",
+  gHint:"🖱️ scroll = zoom · drag = pan · double-click = reset",
+  plH:"🎯 TARGET PLANNER",plT:"Target weight",plR:"Weight loss per month",smH:"🔮 CRYSTAL BALL — weight on a date",
+  mH:"MILESTONES",eH:"WHAT YOU'VE DROPPED SO FAR",foot2:"Weekly averages, updated manually — paste a new week or tell Claude.",c3tip:"Click for another comparison"},
+ hr:{title:"MISIJA KILAŽA — PATRIK U NESTAJANJU",c1:"Trenutna težina",c2:"Zadnje vaganje",c3:"Ukupno manje 🎉",c5:"Cilj",
+  pT:"Put do cilja",gH:"PUTOVANJE",gW:"Tjedni prosjek (kg)",gP:"Projekcija",gT:"Cilj",gZ:"pojasevi = BMI zone",gM:"= prekretnice",rAll:"SVE",
+  gHint:"🖱️ kotačić = zoom · povuci = pomak · dvoklik = reset",
+  plH:"🎯 PLANER CILJA",plT:"Ciljna težina",plR:"Gubitak po mjesecu",smH:"🔮 KRISTALNA KUGLA — težina na datum",
+  mH:"PREKRETNICE",eH:"ŠTO SI SVE SKINUO",foot2:"Tjedni prosjeci, ručno ažurirano — zalijepi novi tjedan ili reci Claudeu.",c3tip:"Klikni za drugu usporedbu"}
+};
+let LBL=T.en;
+const ZONES=[
+ {bmi:40,en:"BMI 40+ · final boss 💀",hr:"BMI 40+ · glavni boss 💀",col:'rgba(226,75,74,0.10)',lab:'#E24B4A'},
+ {bmi:35,en:"35–40 · mini-boss 👾",hr:"35–40 · mini-boss 👾",col:'rgba(216,90,48,0.09)',lab:'#D85A30'},
+ {bmi:30,en:"30–35 · levelling up 🎮",hr:"30–35 · level up 🎮",col:'rgba(224,165,60,0.08)',lab:'#BA7517'},
+ {bmi:25,en:"25–30 · endgame 🏹",hr:"25–30 · završnica 🏹",col:'rgba(151,196,89,0.10)',lab:'#639922'},
+ {bmi:0,en:"under 25 · ninja zone 🥷",hr:"ispod 25 · ninja zona 🥷",col:'rgba(29,158,117,0.10)',lab:'#1D9E75'}
+];
+const EQUIV=[
+ {e:'🐈',kg:4.5,en:'house cats',hr:'kućnih mačaka',hrd:'kućne mačke'},
+ {e:'🎳',kg:7.26,en:'bowling balls',hr:'kugli za kuglanje',hrd:'kugle za kuglanje'},
+ {e:'🛞',kg:9.5,en:'car tires',hr:'auto-guma',hrd:'auto-gume'},
+ {e:'👶',kg:12,en:'toddlers',hr:'mališana',hrd:'mališana'},
+ {e:'🍺',kg:15.6,en:'crates of beer',hr:'gajbi piva',hrd:'gajbe piva'},
+ {e:'🧳',kg:10,en:'cabin bags',hr:'ručnih torbi',hrd:'ručne torbe'}
+];
+const eqName=(q,dec)=>lang==='hr'?(dec?q.hrd:q.hr):q.en;
+let DAT=null,H2=1,WEEKS=[],START=0,LAST=null,TODAY=0,cfg={target:90,rate:1.8},MILES=[],wg=null,simDay=null;
+const DAY=86400000;
+const d2n=s=>Math.round((Date.parse(s)-START)/DAY);
+const n2d=n=>new Date(START+n*DAY);
+const loc=()=>lang==='hr'?'hr-HR':'en-GB';
+const fd=n=>n2d(n).toLocaleDateString(loc(),{day:'numeric',month:'short',year:'numeric'});
+const fdS=n=>n2d(n).toLocaleDateString(loc(),{day:'numeric',month:'short'});
+const bmi=w=>w/H2;
+const w4bmi=b=>b*H2;
+const f1=v=>v.toLocaleString(loc(),{minimumFractionDigits:1,maximumFractionDigits:1});
+function zoneOf(w){const b=bmi(w);return b>=40?0:b>=35?1:b>=30?2:b>=25?3:4;}
+
+function init(){
+ H2=DAT.config.heightM*DAT.config.heightM;
+ START=Date.parse(DAT.weeks[0].d);
+ WEEKS=DAT.weeks.map(x=>({day:d2n(x.d),w:x.w,d:x.d}));
+ LAST=WEEKS[WEEKS.length-1];
+ TODAY=Math.max(LAST.day,Math.floor((Date.now()-START)/DAY));
+ try{const s=JSON.parse(localStorage.getItem('wt-planner')||'{}');cfg.target=s.target??DAT.config.targetKg;cfg.rate=s.rate??DAT.config.ratePerMonth;}catch(e){cfg.target=DAT.config.targetKg;cfg.rate=DAT.config.ratePerMonth;}
+ buildMilestones();
+ document.getElementById('in-tgt').value=cfg.target;
+ document.getElementById('in-rate').value=cfg.rate;
+ const dd=document.getElementById('in-date');const def=n2d(TODAY+90);dd.value=def.toISOString().slice(0,10);dd.min=n2d(WEEKS[0].day).toISOString().slice(0,10);
+ simDay=TODAY+90;
+ dd.onchange=()=>{const v=Date.parse(dd.value);
+  if(isNaN(v)){simDay=null;}
+  else{simDay=Math.min(Math.max(Math.round((v-START)/DAY),WEEKS[0].day),LAST.day+1100);}
+  recompute();};
+ document.getElementById('in-tgt').oninput=e=>{cfg.target=+e.target.value;save();recompute();};
+ document.getElementById('in-rate').oninput=e=>{cfg.rate=+e.target.value;save();recompute();};
+ document.getElementById('card-lost').onclick=()=>{eqIdx=(eqIdx+1)%EQUIV.length;fillCards();fillPlanner();};
+ makeChart();
+ recompute();
+ applyTheme(theme);
+ setLang('en');
+ applyResponsive();
+}
+function save(){try{localStorage.setItem('wt-planner',JSON.stringify({target:cfg.target,rate:cfg.rate}));}catch(e){}}
+
+function buildMilestones(){
+ MILES=[];const start=WEEKS[0].w;
+ for(let k=5;k<=60;k+=5){const th=start-k;const hit=WEEKS.find(x=>x.w<=th);if(hit)MILES.push({day:hit.day,w:hit.w,e:'🏅',en:`−${k} kg`,hr:`−${k} kg`});}
+ [40,35,30,25].forEach(b=>{const th=w4bmi(b);const hit=WEEKS.find(x=>x.w<=th);if(hit)MILES.push({day:hit.day,w:hit.w,e:'👑',en:`BMI under ${b} 👋`,hr:`BMI ispod ${b} 👋`});});
+ let worst=null,best=null;
+ for(let i=1;i<WEEKS.length;i++){const d=WEEKS[i].w-WEEKS[i-1].w;if(d>0.4&&(!worst||d>worst.d))worst={i,d};if(!best||d<best.d)best={i,d};}
+ if(worst){const m=n2d(WEEKS[worst.i].day).getMonth();MILES.push({day:WEEKS[worst.i].day,w:WEEKS[worst.i].w,e:(m===11||m===0)?'🎄':'🍔',en:(m===11||m===0)?'holidays happened':'a feast happened',hr:(m===11||m===0)?'blagdani su se dogodili':'gozba se dogodila'});}
+ if(best)MILES.push({day:WEEKS[best.i].day,w:WEEKS[best.i].w,e:'🔥',en:`best drop: ${f1(Math.abs(best.d))} kg`,hr:`najveći pad: ${f1(Math.abs(best.d))} kg`});
+ MILES.sort((a,b)=>a.day-b.day);
+}
+
+function projection(){
+ const pts=[{x:LAST.day,y:LAST.w}];
+ if(LAST.w<=cfg.target)return{pts,eta:LAST.day};
+ const days=(LAST.w-cfg.target)/cfg.rate*30.44;
+ const eta=LAST.day+Math.round(days);
+ const cap=Math.min(eta,LAST.day+1100);
+ for(let x=LAST.day+7;x<=cap;x+=7)pts.push({x,y:Math.max(cfg.target,LAST.w-cfg.rate*(x-LAST.day)/30.44)});
+ pts.push({x:cap,y:Math.max(cfg.target,LAST.w-cfg.rate*(cap-LAST.day)/30.44)});
+ if(eta<=LAST.day+1100)pts.push({x:eta+45,y:cfg.target});
+ return{pts,eta};
+}
+
+const zonesPlug={id:'zones',beforeDatasetsDraw(ch){
+ const{ctx,chartArea:a,scales:{y}}=ch;if(!a)return;ctx.save();
+ const edges=[Infinity,w4bmi(40),w4bmi(35),w4bmi(30),w4bmi(25),0];
+ for(let i=0;i<5;i++){
+  const top=Math.max(a.top,i===0?a.top:y.getPixelForValue(edges[i]));
+  const bot=Math.min(a.bottom,y.getPixelForValue(edges[i+1]));
+  if(bot<=top)continue;
+  ctx.fillStyle=ZONES[i].col;ctx.fillRect(a.left,top,a.right-a.left,bot-top);
+  if(bot-top>16){ctx.font='500 10px sans-serif';ctx.fillStyle=ZONES[i].lab;ctx.textAlign='right';ctx.fillText(ZONES[i][lang],a.right-6,top+12);}
+ }
+ ctx.restore();
+}};
+const marksPlug={id:'marks',afterDatasetsDraw(ch){
+ const{ctx,scales:{x,y},chartArea:a}=ch;ctx.save();ctx.textAlign='center';
+ if(TODAY>=x.min&&TODAY<=x.max){const px=x.getPixelForValue(TODAY);
+  ctx.strokeStyle=txt;ctx.setLineDash([3,4]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px,a.top);ctx.lineTo(px,a.bottom);ctx.stroke();ctx.setLineDash([]);
+  ctx.font='500 10px sans-serif';ctx.fillStyle=txt;ctx.fillText(lang==='hr'?'danas':'today',px,a.top+10);}
+ ctx.font='14px sans-serif';
+ MILES.forEach(m=>{if(m.day<x.min||m.day>x.max)return;ctx.fillText(m.e,x.getPixelForValue(m.day),y.getPixelForValue(m.w)-12);});
+ if(simDay!=null&&simDay>=x.min&&simDay<=x.max){const sw=simW();if(sw!=null){
+  const px=x.getPixelForValue(simDay),py=y.getPixelForValue(sw);
+  ctx.font='600 11px sans-serif';ctx.fillStyle=halo;ctx.fillRect(px-24,py-26,48,13);
+  ctx.fillStyle='#f06fa0';ctx.fillText('~'+f1(sw),px,py-16);}}
+ ctx.restore();
+}};
+
+function simW(){
+ if(simDay==null)return null;
+ if(simDay>LAST.day)return Math.max(cfg.target,LAST.w-cfg.rate*(simDay-LAST.day)/30.44);
+ if(simDay<=WEEKS[0].day)return WEEKS[0].w;
+ for(let i=1;i<WEEKS.length;i++){
+  if(simDay<=WEEKS[i].day){const a=WEEKS[i-1],b=WEEKS[i];return a.w+(b.w-a.w)*(simDay-a.day)/(b.day-a.day);}
+ }
+ return LAST.w;
+}
+
+function makeChart(){
+ const p=projection();
+ const xmax=Math.min(p.eta+60,LAST.day+430);
+ wg=new Chart(document.getElementById('wg'),{type:'line',
+  data:{datasets:[
+   {label:'w',data:WEEKS.map(q=>({x:q.day,y:q.w})),borderColor:'#2caaf0',backgroundColor:'#2caaf0',borderWidth:3,tension:0.3,pointRadius:4,pointBorderColor:'#fff',pointBorderWidth:1.5,order:1},
+   {label:'proj',data:p.pts,borderColor:'#E0A53C',borderWidth:2.5,borderDash:[8,5],tension:0,pointRadius:0,order:2},
+   {label:'tgt',data:[{x:-10,y:cfg.target},{x:LAST.day+1200,y:cfg.target}],borderColor:'#1D9E75',borderWidth:2,borderDash:[2,5],pointRadius:0,order:3},
+   {label:'sim',data:[],borderColor:'#f06fa0',backgroundColor:'#f06fa0',pointStyle:'rectRot',pointRadius:7,pointBorderColor:'#fff',pointBorderWidth:1.5,showLine:false,order:0}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,animation:{duration:250},layout:{padding:{top:14}},
+   plugins:{legend:{display:false},
+    zoom:{
+     zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x'},
+     pan:{enabled:true,mode:'x'},
+     limits:{x:{min:-10,max:LAST.day+1150,minRange:28}}
+    },
+    tooltip:{mode:'nearest',intersect:false,filter:c=>c.dataset.label!=='tgt',callbacks:{
+     title:its=>{if(!its.length)return'';const c=its[0];
+      if(c.dataset.label==='w'){const wk=WEEKS[c.dataIndex];return fdS(wk.day)+' – '+fd(wk.day+6);}
+      return fd(Math.round(c.parsed.x));},
+     label:c=>{const v=c.parsed.y;const tag=c.dataset.label==='w'?'':(c.dataset.label==='sim'?(lang==='hr'?' · simulacija':' · simulated'):(lang==='hr'?' · projekcija':' · projection'));
+      return f1(v)+' kg · BMI '+f1(bmi(v))+tag;}}}},
+   scales:{
+    x:{type:'linear',min:-5,max:xmax,grid:{display:false},ticks:{color:txt,maxTicksLimit:9,callback:v=>n2d(v).toLocaleDateString(loc(),{day:'numeric',month:'short'})+" '"+String(n2d(v).getFullYear()).slice(2)}},
+    y:{min:Math.floor(Math.min(cfg.target,LAST.w)-4),max:Math.ceil(WEEKS[0].w+2),title:{display:false},grid:{color:grid},ticks:{color:txt,callback:v=>v+' kg'}}}},
+  plugins:[bgPlug,zonesPlug,marksPlug]
+ });
+ document.getElementById('wg').addEventListener('dblclick',()=>setView(9));
+}
+
+function setView(mode){
+ viewSel=mode;markBtns();if(!wg)return;
+ const p=projection();
+ let min,max;
+ if(mode===3){min=TODAY-91;max=TODAY+14;}
+ else if(mode===6){min=TODAY-182;max=TODAY+14;}
+ else if(mode===0){min=-5;max=LAST.day+15;}
+ else{min=-5;max=Math.min(p.eta+60,LAST.day+430);}
+ if(wg.zoomScale)wg.zoomScale('x',{min,max},'default');else{wg.options.scales.x.min=min;wg.options.scales.x.max=max;wg.update();}
+}
+
+function fillCards(){
+ const lost=WEEKS[0].w-LAST.w;
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.innerHTML=v;};
+ const prev=WEEKS[WEEKS.length-2];
+ const dw=LAST.w-prev.w;
+ const zi=zoneOf(LAST.w);
+ set('v-now',f1(LAST.w)+' kg');
+ set('d-now',(lang==='hr'?'tjedan ':'week ')+fdS(LAST.day)+' – '+fdS(LAST.day+6));
+ set('v-wk',(dw<0?'−':'+')+f1(Math.abs(dw))+' kg');
+ const bestRecent=Math.min(...WEEKS.slice(-8).map((q,i,arr)=>i?q.w-arr[i-1].w:0));
+ set('d-wk',(lang==='hr'?'vs prethodno vaganje':'vs previous weigh-in')+(dw<=bestRecent&&dw<0?' 🔥':''));
+ set('v-lost','−'+f1(lost)+' kg');
+ const eq=EQUIV[eqIdx];
+ set('d-lost','≈ '+f1(lost/eq.kg)+' '+eqName(eq,true)+' '+eq.e+' <span style="opacity:.55">↻</span>');
+ set('v-bmi',f1(bmi(LAST.w)));
+ const nextB=[40,35,30,25].find(b=>b<bmi(LAST.w));
+ set('d-bmi',nextB?(lang==='hr'?`sljedeća zona: <${nextB} na ${f1(w4bmi(nextB))} kg`:`next zone: <${nextB} at ${f1(w4bmi(nextB))} kg`):(lang==='hr'?'ninja zona 🥷':'ninja zone 🥷'));
+ set('v-tgt',f1(cfg.target)+' kg');
+ const p=projection();
+ set('d-tgt',LAST.w<=cfg.target?(lang==='hr'?'CILJ DOSTIGNUT 🏆':'TARGET REACHED 🏆'):('ETA '+fd(p.eta)+' · BMI '+f1(bmi(cfg.target))));
+ const pct=Math.max(0,Math.min(100,(WEEKS[0].w-LAST.w)/(WEEKS[0].w-cfg.target)*100));
+ document.getElementById('p-fill').style.width=pct+'%';
+ document.getElementById('p-run').style.left=pct+'%';
+ document.getElementById('p-pct').textContent=Math.round(pct)+'%';
+ document.getElementById('p-lbl').textContent=f1(WEEKS[0].w)+' → '+f1(cfg.target)+' kg';
+ document.getElementById('foot').textContent=(lang==='hr'?'Podaci do ':'Data through ')+fd(d2n(DAT.meta.asOf));
+}
+
+function fillPlanner(){
+ const p=projection();
+ document.getElementById('o-tgt').textContent=f1(cfg.target)+' kg';
+ document.getElementById('o-rate').textContent=f1(cfg.rate)+' kg';
+ const toGo=LAST.w-cfg.target;
+ if(toGo<=0){
+  document.getElementById('o-eta').textContent=lang==='hr'?'Cilj dostignut! 🏆':'Target reached! 🏆';
+  document.getElementById('o-eta2').textContent=lang==='hr'?'Vrijeme za tortu. Malu.':'Time for cake. A small one.';
+ }else{
+  const months=toGo/cfg.rate;
+  if(months>60){
+   document.getElementById('o-eta').textContent=lang==='hr'?'ETA: toplinska smrt svemira 🌌':'ETA: heat death of the universe 🌌';
+   document.getElementById('o-eta2').textContent=lang==='hr'?'Povuci klizač malo udesno…':'Try nudging the rate slider up…';
+  }else{
+   document.getElementById('o-eta').textContent=(lang==='hr'?'Cilj oko ':'Target around ')+fd(p.eta)+' 🏁';
+   document.getElementById('o-eta2').textContent=(lang==='hr'
+    ?`${f1(toGo)} kg do cilja · ~${f1(months)} mjeseca · ~${Math.ceil(months*4.35)} vaganja`
+    :`${f1(toGo)} kg to go · ~${f1(months)} months · ~${Math.ceil(months*4.35)} weigh-ins left`);
+  }
+ }
+ const sw=simW();
+ if(sw==null||simDay==null){document.getElementById('o-sim').textContent='—';document.getElementById('o-sim2').textContent='';}
+ else{
+  const eq=EQUIV[(eqIdx+1)%EQUIV.length];
+  document.getElementById('o-sim').textContent='~'+f1(sw)+' kg · BMI '+f1(bmi(sw));
+  if(simDay<=LAST.day){
+   const heavier=sw-LAST.w;
+   document.getElementById('o-sim2').textContent=lang==='hr'
+    ?`na ${fd(simDay)} (povijest) · ${f1(heavier)} kg teži nego danas — vidi ti njega 💪`
+    :`on ${fd(simDay)} (history) · ${f1(heavier)} kg heavier than today — look at you now 💪`;
+  }else{
+   const lostBy=LAST.w-sw;
+   const clamped=sw<=cfg.target+0.001&&LAST.w>cfg.target;
+   document.getElementById('o-sim2').textContent=clamped
+    ?(lang==='hr'?`Do tada si već na cilju (${fd(projection().eta)}) — dalje je održavanje i pokoja pizza 🍕`:`You'd already be at target by then (${fd(projection().eta)}) — after that it's maintenance and the occasional pizza 🍕`)
+    :(lang==='hr'?`na ${fd(simDay)} · ${f1(lostBy)} kg lakši nego danas ≈ ${f1(lostBy/eq.kg)} ${eqName(eq,true)} ${eq.e}`:`on ${fd(simDay)} · ${f1(lostBy)} kg lighter than today ≈ ${f1(lostBy/eq.kg)} ${eq.en} ${eq.e}`);
+  }
+ }
+}
+
+function fillChips(){
+ const c=document.getElementById('mchips');c.innerHTML='';
+ MILES.forEach(m=>{const s=document.createElement('span');s.className='chip';s.innerHTML=m.e+' <b>'+m[lang]+'</b> · '+fdS(m.day)+" '"+String(n2d(m.day).getFullYear()).slice(2);c.appendChild(s);});
+ const lost=WEEKS[0].w-LAST.w;
+ const nk=Math.floor(lost/5)*5+5;const nth=WEEKS[0].w-nk;
+ const s1=document.createElement('span');s1.className='chip';
+ s1.innerHTML='⏭️ '+(lang==='hr'?`sljedeće: <b>−${nk} kg</b> na ${f1(nth)} (još ${f1(LAST.w-nth)} 🤏)`:`next: <b>−${nk} kg</b> at ${f1(nth)} (${f1(LAST.w-nth)} to go 🤏)`);
+ c.appendChild(s1);
+ if(lost>=10){const s2=document.createElement('span');s2.className='chip';
+  s2.innerHTML='🧳✈️ '+(lang==='hr'?'skinuo si <b>više od Ryanair ručne prtljage</b>':'you\'ve dropped <b>more than a Ryanair cabin bag allowance</b>');
+  c.appendChild(s2);}
+}
+
+function fillEquiv(){
+ const lost=WEEKS[0].w-LAST.w;
+ const g=document.getElementById('equiv');g.innerHTML='';
+ EQUIV.forEach(q=>{const d=document.createElement('div');d.className='eq';
+  d.innerHTML=`<div class="e">${q.e}</div><div class="n">${f1(lost/q.kg)}</div><div class="t">${q[lang]}</div>`;g.appendChild(d);});
+ const kcal=lost*7700;
+ const d1=document.createElement('div');d1.className='eq';
+ d1.innerHTML=`<div class="e">🍕</div><div class="n">${Math.round(kcal/2000)}</div><div class="t">${lang==='hr'?'cijelih pizza (kcal)':'whole pizzas (kcal)'}</div>`;g.appendChild(d1);
+ const d2=document.createElement('div');d2.className='eq';
+ d2.innerHTML=`<div class="e">🥐</div><div class="n">${Math.round(kcal/600)}</div><div class="t">${lang==='hr'?'bureka (kcal)':'bureks (kcal)'}</div>`;g.appendChild(d2);
+}
+
+function recompute(){
+ if(!wg)return;
+ const p=projection();
+ wg.data.datasets[1].data=p.pts;
+ wg.data.datasets[2].data=[{x:-10,y:cfg.target},{x:LAST.day+1200,y:cfg.target}];
+ const sw=simW();
+ wg.data.datasets[3].data=(sw!=null)?[{x:simDay,y:sw}]:[];
+ wg.options.scales.y.min=Math.floor(Math.min(cfg.target,LAST.w)-4);
+ wg.update('none');
+ fillCards();fillPlanner();fillChips();fillEquiv();
+}
+
+function applyTheme(t){theme=t;calc();document.getElementById('wwrap').classList.toggle('dark',t==='dark');document.body.style.background=BG;
+ if(wg){wg.options.scales.x.ticks.color=txt;wg.options.scales.y.ticks.color=txt;wg.options.scales.y.grid.color=grid;wg.update();}
+ markBtns();}
+function setLang(l){lang=l;LBL=T[l];
+ document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
+ const cl=document.getElementById('card-lost');if(cl)cl.title=LBL.c3tip;
+ if(wg){recompute();wg.update();}
+ markBtns();}
+function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want)return;layout=want;const M=want==='mobile';
+ document.getElementById('wwrap').classList.toggle('mobile',M);
+ document.getElementById('wgwrap').style.height=M?'360px':'400px';
+ if(wg){wg.options.scales.x.ticks.font={size:M?10:12};wg.options.scales.y.ticks.font={size:M?10:12};requestAnimationFrame(()=>{wg.resize();wg.update();});}}
+function toggleFont(){fontbig=!fontbig;document.getElementById('wwrap').classList.toggle('big',fontbig);markBtns();if(wg)requestAnimationFrame(()=>{wg.resize();wg.update();});}
+function markBtns(){
+ const D=theme==='dark';const actBg=D?'#e8e8e6':'#444441',actFg=D?'#262624':'#ffffff',inFg=D?'#e8e8e6':'#2c2c2a';
+ const bd=D?'1px solid rgba(255,255,255,0.35)':'1px solid rgba(0,0,0,0.4)';
+ const style=(b,on)=>{if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';};
+ const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-fs':fontbig};
+ Object.entries(states).forEach(([id,on])=>style(document.getElementById(id),on));
+ document.querySelectorAll('#rangerow button').forEach(b=>style(b,Number(b.getAttribute('data-r'))===viewSel));
+}
+markBtns();
+let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
+
+fetch('weight-data.json',{cache:'no-store'})
+ .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(j=>{DAT=j;init();})
+ .catch(err=>{const e=document.getElementById('foot');if(e)e.textContent='Could not load weight-data.json ('+err.message+').';});
+</script>
+</body>
+</html>

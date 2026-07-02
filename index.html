@@ -23,6 +23,7 @@
   --sleep:#6c8cff;
   --train:#2caaf0;
   --food:#f0a23c;
+  --wt:#a64ce8;
 }
 [data-theme="dark"]{
   --bg:#0b0f17;          /* stylish near-black, slight navy tint */
@@ -59,7 +60,7 @@ header{display:flex;align-items:flex-start;justify-content:space-between;gap:10p
 .stat{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 11px;box-shadow:var(--shadow)}
 .stat b{color:var(--ink);font-weight:600}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
-.dot.sleep{background:var(--sleep)} .dot.train{background:var(--train)} .dot.food{background:var(--food)}
+.dot.sleep{background:var(--sleep)} .dot.train{background:var(--train)} .dot.food{background:var(--food)} .dot.wt{background:var(--wt)}
 
 /* Refresh tooltip (custom hover popover) */
 .refresh-wrap{position:relative}
@@ -99,6 +100,7 @@ nav button:hover:not(.active){color:var(--ink)}
             <li><span class="dot sleep"></span><span><span class="nm">Sleep &amp; recovery</span> — <code>sleep-data.json</code><br>Garmin fenix 8 via Freddy</span></li>
             <li><span class="dot train"></span><span><span class="nm">Training</span> — <code>training-data.json</code><br>Hevy + Intervals.icu</span></li>
             <li><span class="dot food"></span><span><span class="nm">Intake</span> — <code>data.json</code><br>manual food log</span></li>
+            <li><span class="dot wt"></span><span><span class="nm">Weight</span> — <code>weight-data.json</code><br>weekly scale averages, manual</span></li>
           </ul>
           <div class="note">To fetch fresh numbers, ask Claude to <em>“refresh the dashboard”</em> — that rewrites these files, then this button re-pulls them.</div>
         </div>
@@ -111,17 +113,20 @@ nav button:hover:not(.active){color:var(--ink)}
     <span class="stat"><span class="dot sleep"></span>Sleep <b id="ts-sleep">—</b></span>
     <span class="stat"><span class="dot train"></span>Training <b id="ts-train">—</b></span>
     <span class="stat"><span class="dot food"></span>Food <b id="ts-food">—</b></span>
+    <span class="stat"><span class="dot wt"></span>Weight <b id="ts-wt">—</b></span>
   </div>
 
   <nav>
     <button data-tab="sleep" class="active">Sleep &amp; recovery</button>
     <button data-tab="training">Training</button>
     <button data-tab="intake">Intake</button>
+    <button data-tab="weight">Weight</button>
   </nav>
 
   <iframe class="frame active" data-tab="sleep"    src="sleep.html"    title="Sleep & recovery" scrolling="no"></iframe>
   <iframe class="frame"        data-tab="training" src="training.html" title="Training"          scrolling="no"></iframe>
   <iframe class="frame"        data-tab="intake"   src="intake.html"   title="Intake"            scrolling="no"></iframe>
+  <iframe class="frame"        data-tab="weight"   src="weight.html"   title="Weight"            scrolling="no"></iframe>
 
   <div class="tip">Use 🌙 / ☀ to theme the shell. · Each tab has its own EN/HR, light/dark and font-size controls. · Hover <code>↻ Refresh</code> to see what each tab loads.</div>
 </div>
@@ -171,6 +176,7 @@ function themeAllFrames(){ document.querySelectorAll('.frame').forEach(themeFram
     pull('sleep-data.json',    j=>j.meta&&j.meta.snapshot,    'ts-sleep');
     pull('training-data.json', j=>j.meta&&j.meta.snapshot,    'ts-train');
     pull('data.json',          j=>j.meta&&j.meta.intake_asof, 'ts-food');
+    pull('weight-data.json',   j=>j.meta&&j.meta.asOf,        'ts-wt');
   };
   window.loadStatus();
 })();
@@ -179,7 +185,9 @@ function themeAllFrames(){ document.querySelectorAll('.frame').forEach(themeFram
 function fit(frame){
   try{
     const doc=frame.contentWindow.document;
-    const h=Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight);
+    /* body.scrollHeight tracks content; html.scrollHeight is floored at the
+       iframe's own height, which would make frames grow-only */
+    const h=doc.body.scrollHeight||doc.documentElement.scrollHeight;
     if(h>0) frame.style.height=h+'px';
   }catch(e){/* not loaded yet */}
 }

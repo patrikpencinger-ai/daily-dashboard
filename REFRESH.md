@@ -71,6 +71,14 @@ When it does: write that block to `data.json` as-is (shape: `meta.intake_asof` +
 `intake{date,dayType,target,tdee,log[]}`). `total` is optional — the site auto-sums `log`,
 so it's fine to omit. If no food block is supplied, leave `data.json` unchanged.
 
+## 3c. Weight (weight-data.json) — manual, like food
+
+`weight-data.json` holds weekly scale averages (`weeks[]` of `{d: week-start, w: avg kg}`)
+plus `config` (heightM, targetKg, ratePerMonth defaults). NOT pulled from the connector —
+update only when the user supplies new weekly averages ("update weight" + numbers). Append
+new weeks, bump `meta.asOf` (last measured day) and `meta.refreshedAt`. The scheduled
+morning refresh must never touch this file.
+
 ## 4. Commit & push
 
 ```
