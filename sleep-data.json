@@ -1,72 +1,72 @@
 {
   "meta": {
-    "version": "v1.47-auto",
-    "snapshot": "2026-07-02",
-    "refreshedAt": "2026-07-02T07:16:44+02:00",
-    "footEn": "Data snapshot: 2026-07-02 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-07-02 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.48-auto",
+    "snapshot": "2026-07-04",
+    "refreshedAt": "2026-07-04T07:52:00+02:00",
+    "footEn": "Data snapshot: 2026-07-04 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-07-04 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 85,
-      "durationLabel": "7h 32m",
-      "bedWake": "22:39 → 06:11",
-      "rhr": 56,
+      "score": 74,
+      "durationLabel": "5h 13m",
+      "bedWake": "00:11 → 05:25",
+      "rhr": 54,
       "hrv": 39,
-      "readiness": 78,
-      "deepMin": 110,
-      "lightMin": 215,
-      "remMin": 127,
-      "awakeMin": 19
+      "readiness": 70,
+      "deepMin": 94,
+      "lightMin": 151,
+      "remMin": 68,
+      "awakeMin": 1
     },
     "week": {
-      "deep":  [1.65, 1.02, 1.08, 1.22, 1.12, 1.33, 1.83],
-      "light": [4.50, 4.42, 3.38, 5.23, 4.05, 4.23, 3.58],
-      "rem":   [1.68, 2.12, 1.33, 1.67, 0.92, 1.75, 2.12],
-      "awake": [0.22, 0.30, 0.13, 0.17, 0.00, 0.35, 0.32],
-      "scores":[88, 82, 76, 89, 79, 84, 85],
-      "hrv":   [42, 31, 43, 50, 48, 37, 39],
-      "rhr":   [55, 57, 53, 52, 53, 55, 56],
+      "deep":  [1.02, 1.08, 1.22, 1.12, 1.33, 1.83, 1.57],
+      "light": [4.42, 3.38, 5.23, 4.05, 4.23, 3.58, 2.52],
+      "rem":   [2.12, 1.33, 1.67, 0.92, 1.75, 2.12, 1.13],
+      "awake": [0.30, 0.13, 0.17, 0.00, 0.35, 0.32, 0.02],
+      "scores":[82, 76, 89, 79, 84, 85, 74],
+      "hrv":   [31, 43, 50, 48, 37, 39, 39],
+      "rhr":   [57, 53, 52, 53, 55, 56, 54],
       "hrvAvg": 41
     },
     "sleepWake": {
-      "bed":  [-1.80, -1.03, 0.65, -2.37, -0.05, -2.20, -1.35],
-      "wake": [6.03, 6.52, 6.45, 5.75, 6.03, 5.12, 6.18],
-      "bedL": ["22:12","22:58","00:39","21:38","23:57","21:48","22:39"],
-      "wakeL":["06:02","06:31","06:27","05:45","06:02","05:07","06:11"],
-      "dur":  ["7h50","7h33","5h48","8h07","6h05","7h19","7h32"]
+      "bed":  [-1.03, 0.65, -2.37, -0.05, -2.20, -1.35, 0.18],
+      "wake": [6.52, 6.45, 5.75, 6.03, 5.12, 6.18, 5.42],
+      "bedL": ["22:58","00:39","21:38","23:57","21:48","22:39","00:11"],
+      "wakeL":["06:31","06:27","05:45","06:02","05:07","06:11","05:25"],
+      "dur":  ["7h33","5h48","8h07","6h05","7h19","7h32","5h13"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Fri 26","Sat 27","Sun 28","Mon 29","Tue 30","Wed 1","Thu 2"],
-      "daysShort": ["F26","S27","S28","M29","T30","W1","T2"],
-      "scoreWord": "score 85",
-      "c1d": "+1 vs yesterday · a solid 7h32 night",
-      "c2d": "+21m vs 7-day avg (7h 11m)",
-      "c3d": "+1 vs yesterday · +2 vs avg (54)",
-      "c4d": "+2 vs yesterday · −2 vs avg (41)",
-      "c5l": "Solid",
+      "daysFull": ["Sat 27","Sun 28","Mon 29","Tue 30","Wed 1","Thu 2","Sat 4"],
+      "daysShort": ["S27","S28","M29","T30","W1","T2","S4"],
+      "scoreWord": "score 74",
+      "c1d": "−11 vs Thu (85) · short night",
+      "c2d": "−1h35 vs 7-day avg (6h 48m)",
+      "c3d": "−2 vs yesterday · 0 vs avg (54)",
+      "c4d": "0 vs Thu · −2 vs avg (41)",
+      "c5l": "Moderate",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
       "havg": "HRV 7d avg 41",
-      "today": "Today: squat session per plan",
-      "badge": "Good recovery",
-      "rec": "A full night to reset — 7h32 (score 85), up +1 on yesterday, off a 22:39 lights-out. Deep 1h50, light 3h35 and a strong REM 2h07, with only 19m awake — both deep and REM landed high, so the architecture matched the duration. The autonomic read is recovering: HRV nudged back up to 39 (+2 vs yesterday, though still −2 under the 7-day baseline of 41) and RHR sits at 56 (+1), with morning stress low at 20. After the mid-week HRV dip this is a step back toward baseline rather than a full reset, so read the tank as solid-but-not-brimming. Today's plan is a squat session — fine on this recovery: warm up thoroughly and keep the top sets crisp and controlled rather than chasing maximal loads on a mid-40s HRV week. The full night has you set for a quality session."
+      "today": "Today: trap-bar DL — lift smart",
+      "badge": "Short night",
+      "rec": "Late night: lights-out at 00:11 brought just 5h13 (score 74) — but the sleep itself was dense. Deep hit an excellent 1h34 (30% of the night), REM 1h08, and you were awake for a single minute. The autonomic picture held steady too: HRV 39 (−2 under the 7-day baseline of 41), RHR 54 (−2 vs yesterday), and morning stress is a calm 21 after yesterday's stressy 43. Note Friday night wasn't tracked, so the chart shows the seven most recent recorded nights. Today is trap-bar deadlift per plan — the short night says lift smart: warm up fully, cap the top set, keep total volume moderate, and bank an early night tonight."
     },
     "hr": {
-      "daysFull": ["Pet 26","Sub 27","Ned 28","Pon 29","Uto 30","Sri 1","Čet 2"],
-      "daysShort": ["P26","S27","N28","P29","U30","S1","Č2"],
-      "scoreWord": "ocjena 85",
-      "c1d": "+1 vs jučer · solidna noć 7h32",
-      "c2d": "+21m vs 7-dnevni prosjek (7h 11m)",
-      "c3d": "+1 vs jučer · +2 vs prosjek (54)",
-      "c4d": "+2 vs jučer · −2 vs prosjek (41)",
-      "c5l": "Solidna",
+      "daysFull": ["Sub 27","Ned 28","Pon 29","Uto 30","Sri 1","Čet 2","Sub 4"],
+      "daysShort": ["S27","N28","P29","U30","S1","Č2","S4"],
+      "scoreWord": "ocjena 74",
+      "c1d": "−11 vs čet (85) · kratka noć",
+      "c2d": "−1h35 vs 7-dnevni prosjek (6h 48m)",
+      "c3d": "−2 vs jučer · 0 vs prosjek (54)",
+      "c4d": "0 vs čet · −2 vs prosjek (41)",
+      "c5l": "Umjerena",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
       "havg": "HRV 7d prosjek 41",
-      "today": "Danas: trening čučnja po planu",
-      "badge": "Dobar oporavak",
-      "rec": "Puna noć za reset — 7h32 (ocjena 85), +1 na jučer, uz lijeganje u 22:39. Duboki 1h50, lagani 3h35 i snažan REM 2h07, uz samo 19m budnosti — i duboki i REM su visoki, pa struktura sna prati trajanje. Autonomni pokazatelj se oporavlja: HRV se vratio na 39 (+2 vs jučer, iako još −2 ispod 7-dnevne osnovice 41), a RHR je na 56 (+1), uz nizak jutarnji stres 20. Nakon sredotjednog pada HRV-a ovo je korak natrag prema osnovici, a ne potpuni reset — pa čitaj spremnik kao solidan, ali ne prepun. Današnji plan je trening čučnja — u redu uz ovaj oporavak: dobro se zagrij i drži gornje serije oštre i kontrolirane, bez lova na maksimalna opterećenja u tjednu s HRV-om u sredini 40-ih. Puna noć te je pripremila za kvalitetnu sesiju."
+      "today": "Danas: trap-bar MD — pametno diži",
+      "badge": "Kratka noć",
+      "rec": "Kasna noć: gašenje svjetla u 00:11 donijelo je samo 5h13 (ocjena 74) — ali san je bio gust. Duboki je dosegao izvrsnih 1h34 (30% noći), REM 1h08, a budan si bio jednu jedinu minutu. Autonomna slika je stabilna: HRV 39 (−2 ispod 7-dnevne osnovice 41), RHR 54 (−2 vs jučer), a jutarnji stres miran 21 nakon jučerašnjih stresnih 43. Napomena: noć s petka nije zabilježena, pa graf prikazuje sedam najnovijih zabilježenih noći. Danas je po planu trap-bar mrtvo dizanje — kratka noć kaže: diži pametno. Zagrij se temeljito, ograniči završnu seriju, drži ukupni volumen umjerenim i večeras lezi rano."
     }
   }
 }
