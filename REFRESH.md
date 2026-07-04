@@ -37,6 +37,16 @@ For **per-set HR peaks** (best-effort): for each new strength session of a track
 main-compound set count from Hevy. Append the new session to the matching `mld.<lift>`
 array; flag `cf:0` if detection is uncertain (renders a `*`).
 
+## 1b. Night attribution — label nights by the EVENING they start
+
+Garmin dates a sleep record by its **wake** date (`calendarDate`). The dashboard instead
+labels every night by the **evening it belongs to = calendarDate − 1 day**, regardless of
+whether bedtime fell before or after midnight. Example: sleep 00:11 → 05:25 on Sat Jul 4
+(calendarDate 2026-07-04) is the **Friday–Saturday night** and is displayed under **Fri 3**.
+An "untracked night" is an *evening slot* with no record (calendarDate D missing ⇒ the
+D−1 evening is the untracked one). The "last night" panel on the morning of day D uses the
+record with calendarDate D (labeled D−1). User preference — do not revert to wake-date labels.
+
 ## 2. Transform into the JSON shapes
 
 - Seconds → hours (week stage arrays) or minutes (last-night stages).

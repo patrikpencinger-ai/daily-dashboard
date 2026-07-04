@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "v1.48-auto",
+    "version": "v1.49-auto",
     "snapshot": "2026-07-04",
-    "refreshedAt": "2026-07-04T07:52:00+02:00",
+    "refreshedAt": "2026-07-04T08:20:00+02:00",
     "footEn": "Data snapshot: 2026-07-04 · Garmin fenix 8 via Freddy",
     "footHr": "Podaci: 2026-07-04 · Garmin fenix 8 putem Freddyja"
   },
@@ -39,34 +39,34 @@
   },
   "text": {
     "en": {
-      "daysFull": ["Sat 27","Sun 28","Mon 29","Tue 30","Wed 1","Thu 2","Sat 4"],
-      "daysShort": ["S27","S28","M29","T30","W1","T2","S4"],
+      "daysFull": ["Fri 26","Sat 27","Sun 28","Mon 29","Tue 30","Wed 1","Fri 3"],
+      "daysShort": ["F26","S27","S28","M29","T30","W1","F3"],
       "scoreWord": "score 74",
-      "c1d": "−11 vs Thu (85) · short night",
+      "c1d": "−11 vs previous night (85) · short",
       "c2d": "−1h35 vs 7-day avg (6h 48m)",
       "c3d": "−2 vs yesterday · 0 vs avg (54)",
-      "c4d": "0 vs Thu · −2 vs avg (41)",
+      "c4d": "0 vs previous night · −2 vs avg (41)",
       "c5l": "Moderate",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
       "havg": "HRV 7d avg 41",
       "today": "Today: trap-bar DL — lift smart",
       "badge": "Short night",
-      "rec": "Late night: lights-out at 00:11 brought just 5h13 (score 74) — but the sleep itself was dense. Deep hit an excellent 1h34 (30% of the night), REM 1h08, and you were awake for a single minute. The autonomic picture held steady too: HRV 39 (−2 under the 7-day baseline of 41), RHR 54 (−2 vs yesterday), and morning stress is a calm 21 after yesterday's stressy 43. Note Friday night wasn't tracked, so the chart shows the seven most recent recorded nights. Today is trap-bar deadlift per plan — the short night says lift smart: warm up fully, cap the top set, keep total volume moderate, and bank an early night tonight."
+      "rec": "Late night: lights-out at 00:11 brought just 5h13 (score 74) — but the sleep itself was dense. Deep hit an excellent 1h34 (30% of the night), REM 1h08, and you were awake for a single minute. The autonomic picture held steady too: HRV 39 (−2 under the 7-day baseline of 41), RHR 54 (−2 vs yesterday), and morning stress is a calm 21 after yesterday's stressy 43. Nights are logged by the evening they start, so this one sits under Fri 3 (Friday–Saturday); the untracked night is Thursday's, and the chart shows the seven most recent recorded nights. Today is trap-bar deadlift per plan — the short night says lift smart: warm up fully, cap the top set, keep total volume moderate, and bank an early night tonight."
     },
     "hr": {
-      "daysFull": ["Sub 27","Ned 28","Pon 29","Uto 30","Sri 1","Čet 2","Sub 4"],
-      "daysShort": ["S27","N28","P29","U30","S1","Č2","S4"],
+      "daysFull": ["Pet 26","Sub 27","Ned 28","Pon 29","Uto 30","Sri 1","Pet 3"],
+      "daysShort": ["P26","S27","N28","P29","U30","S1","P3"],
       "scoreWord": "ocjena 74",
-      "c1d": "−11 vs čet (85) · kratka noć",
+      "c1d": "−11 vs prethodna noć (85) · kratka",
       "c2d": "−1h35 vs 7-dnevni prosjek (6h 48m)",
       "c3d": "−2 vs jučer · 0 vs prosjek (54)",
-      "c4d": "0 vs čet · −2 vs prosjek (41)",
+      "c4d": "0 vs prethodna noć · −2 vs prosjek (41)",
       "c5l": "Umjerena",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
       "havg": "HRV 7d prosjek 41",
       "today": "Danas: trap-bar MD — pametno diži",
       "badge": "Kratka noć",
-      "rec": "Kasna noć: gašenje svjetla u 00:11 donijelo je samo 5h13 (ocjena 74) — ali san je bio gust. Duboki je dosegao izvrsnih 1h34 (30% noći), REM 1h08, a budan si bio jednu jedinu minutu. Autonomna slika je stabilna: HRV 39 (−2 ispod 7-dnevne osnovice 41), RHR 54 (−2 vs jučer), a jutarnji stres miran 21 nakon jučerašnjih stresnih 43. Napomena: noć s petka nije zabilježena, pa graf prikazuje sedam najnovijih zabilježenih noći. Danas je po planu trap-bar mrtvo dizanje — kratka noć kaže: diži pametno. Zagrij se temeljito, ograniči završnu seriju, drži ukupni volumen umjerenim i večeras lezi rano."
+      "rec": "Kasna noć: gašenje svjetla u 00:11 donijelo je samo 5h13 (ocjena 74) — ali san je bio gust. Duboki je dosegao izvrsnih 1h34 (30% noći), REM 1h08, a budan si bio jednu jedinu minutu. Autonomna slika je stabilna: HRV 39 (−2 ispod 7-dnevne osnovice 41), RHR 54 (−2 vs jučer), a jutarnji stres miran 21 nakon jučerašnjih stresnih 43. Noći se bilježe prema večeri kojom počinju, pa ova stoji pod Pet 3 (petak–subota); nezabilježena je noć s četvrtka, a graf prikazuje sedam najnovijih zabilježenih noći. Danas je po planu trap-bar mrtvo dizanje — kratka noć kaže: diži pametno. Zagrij se temeljito, ograniči završnu seriju, drži ukupni volumen umjerenim i večeras lezi rano."
     }
   }
 }
