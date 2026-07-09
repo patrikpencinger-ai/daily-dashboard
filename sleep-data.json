@@ -1,72 +1,72 @@
 {
   "meta": {
-    "version": "v1.53-auto",
-    "snapshot": "2026-07-08",
-    "refreshedAt": "2026-07-08T07:18:49+02:00",
-    "footEn": "Data snapshot: 2026-07-08 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-07-08 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.54-auto",
+    "snapshot": "2026-07-09",
+    "refreshedAt": "2026-07-09T06:45:22+02:00",
+    "footEn": "Data snapshot: 2026-07-09 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-07-09 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 84,
-      "durationLabel": "7h 25m",
-      "bedWake": "22:44 → 06:09",
-      "rhr": 55,
-      "hrv": 38,
-      "readiness": 77,
-      "deepMin": 68,
-      "lightMin": 272,
-      "remMin": 105,
-      "awakeMin": 19
+      "score": 77,
+      "durationLabel": "6h 31m",
+      "bedWake": "22:27 → 04:58",
+      "rhr": 58,
+      "hrv": 32,
+      "readiness": 62,
+      "deepMin": 117,
+      "lightMin": 195,
+      "remMin": 79,
+      "awakeMin": 15
     },
     "week": {
-      "deep":  [1.33, 1.83, 1.57, 1.85, 0.77, 1.45, 1.13],
-      "light": [4.23, 3.58, 2.52, 2.68, 4.67, 4.47, 4.53],
-      "rem":   [1.75, 2.12, 1.13, 2.27, 1.90, 2.05, 1.75],
-      "awake": [0.35, 0.32, 0.02, 0.10, 0.35, 0.23, 0.32],
-      "scores":[84, 85, 74, 84, 86, 91, 84],
-      "hrv":   [37, 39, 39, 41, 51, 43, 38],
-      "rhr":   [55, 56, 54, 53, 52, 53, 55],
-      "hrvAvg": 41
+      "deep":  [1.83, 1.57, 1.85, 0.77, 1.45, 1.13, 1.95],
+      "light": [3.58, 2.52, 2.68, 4.67, 4.47, 4.53, 3.25],
+      "rem":   [2.12, 1.13, 2.27, 1.90, 2.05, 1.75, 1.32],
+      "awake": [0.32, 0.02, 0.10, 0.35, 0.23, 0.32, 0.25],
+      "scores":[85, 74, 84, 86, 91, 84, 77],
+      "hrv":   [39, 39, 41, 51, 43, 38, 32],
+      "rhr":   [56, 54, 53, 52, 53, 55, 58],
+      "hrvAvg": 40
     },
     "sleepWake": {
-      "bed":  [-2.20, -1.35, 0.18, -0.62, -1.35, -0.83, -1.27],
-      "wake": [5.12, 6.18, 5.40, 6.18, 5.98, 7.13, 6.15],
-      "bedL": ["21:48","22:39","00:11","23:23","22:39","23:10","22:44"],
-      "wakeL":["05:07","06:11","05:24","06:11","05:59","07:08","06:09"],
-      "dur":  ["7h19","7h32","5h13","6h48","7h20","7h58","7h25"]
+      "bed":  [-1.35, 0.18, -0.62, -1.35, -0.83, -1.27, -1.55],
+      "wake": [6.18, 5.40, 6.18, 5.98, 7.13, 6.15, 4.97],
+      "bedL": ["22:39","00:11","23:23","22:39","23:10","22:44","22:27"],
+      "wakeL":["06:11","05:24","06:11","05:59","07:08","06:09","04:58"],
+      "dur":  ["7h32","5h13","6h48","7h20","7h58","7h25","6h31"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Tue 30","Wed 1","Fri 3","Sat 4","Sun 5","Mon 6","Tue 7"],
-      "daysShort": ["T30","W1","F3","S4","S5","M6","T7"],
-      "scoreWord": "score 84",
-      "c1d": "−7 vs previous night (91) · good",
-      "c2d": "+20m vs 7-day avg (7h 05m)",
-      "c3d": "+2 vs yesterday · +1 vs avg (54)",
-      "c4d": "−5 vs previous night · −3 vs avg (41)",
-      "c5l": "Solid",
+      "daysFull": ["Wed 1","Fri 3","Sat 4","Sun 5","Mon 6","Tue 7","Wed 8"],
+      "daysShort": ["W1","F3","S4","S5","M6","T7","W8"],
+      "scoreWord": "score 77",
+      "c1d": "−7 vs previous night (84) · fair",
+      "c2d": "−27m vs 7-day avg (6h 58m)",
+      "c3d": "+3 vs yesterday · +4 vs avg (54)",
+      "c4d": "−6 vs previous night · −8 vs avg (40)",
+      "c5l": "Moderate",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
-      "havg": "HRV 7d avg 41",
-      "today": "Today: swim intervals",
-      "badge": "Solid night",
-      "rec": "Solid recovery morning: 7h25 at score 84 off a 22:44 bedtime — 20 minutes above the 7-day average and a genuinely good night, though a step down from Monday's exceptional 91. The architecture was balanced: deep 1h08, REM 1h45 and light 4h32, with only 19 minutes awake. The autonomic side softened after yesterday's hack-squat session: HRV eased to 38 (−5 from the previous night, three below the 7-day baseline of 41) and RHR ticked up to 55 (+2) — both mild and expected after a heavy lift, not red flags. Morning stress is a calm 18. Nights are labeled by the evening they start, so this one sits under Tue 7 (Tuesday–Wednesday); Thursday's night (Jul 2) remains the untracked slot on the chart. With a full, good-quality night behind you, you're recovered for today's planned swim-interval session."
+      "havg": "HRV 7d avg 40",
+      "today": "Today: squat session",
+      "badge": "Fair night",
+      "rec": "A shorter, fair night to cap the week: 6h31 at score 77 off a 22:27 bedtime — 27 minutes under the 7-day average (6h58) and a clear step down from the recent run of 84–91s. Deep sleep was actually the week's best at 1h57, but REM was compressed to 1h19 and an early 04:58 wake cut the night short. The autonomic side is the story this morning: HRV fell to 32 (−6 from the previous night and 8 below the 7-day baseline of 40) and RHR climbed to 58 (+3 vs yesterday, the highest reading of the week) — the cumulative cost of a full training week. Morning stress is still calm at 26. Nights are labeled by the evening they start, so this one sits under Wed 8 (Wednesday–Thursday); Thursday's night (Jul 2) remains the untracked slot on the chart. Readiness is moderate — the dip is expected after the week's load, not a red flag, but with a squat session planned today, treat the warm-up as the gauge and don't force the top set if the bar feels heavy."
     },
     "hr": {
-      "daysFull": ["Uto 30","Sri 1","Pet 3","Sub 4","Ned 5","Pon 6","Uto 7"],
-      "daysShort": ["U30","S1","P3","S4","N5","P6","U7"],
-      "scoreWord": "ocjena 84",
-      "c1d": "−7 vs prethodna noć (91) · dobro",
-      "c2d": "+20m vs 7-dnevni prosjek (7h 05m)",
-      "c3d": "+2 vs jučer · +1 vs prosjek (54)",
-      "c4d": "−5 vs prethodna noć · −3 vs prosjek (41)",
-      "c5l": "Solidna",
+      "daysFull": ["Sri 1","Pet 3","Sub 4","Ned 5","Pon 6","Uto 7","Sri 8"],
+      "daysShort": ["S1","P3","S4","N5","P6","U7","S8"],
+      "scoreWord": "ocjena 77",
+      "c1d": "−7 vs prethodna noć (84) · osrednje",
+      "c2d": "−27m vs 7-dnevni prosjek (6h 58m)",
+      "c3d": "+3 vs jučer · +4 vs prosjek (54)",
+      "c4d": "−6 vs prethodna noć · −8 vs prosjek (40)",
+      "c5l": "Umjerena",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
-      "havg": "HRV 7d prosjek 41",
-      "today": "Danas: intervali plivanja",
-      "badge": "Solidna noć",
-      "rec": "Solidan oporavak: 7h25 uz ocjenu 84 i lijeganje u 22:44 — 20 minuta iznad 7-dnevnog prosjeka i zbilja dobra noć, iako korak niže od ponedjeljkovih izvrsnih 91. Arhitektura je bila uravnotežena: duboki 1h08, REM 1h45 i lagani 4h32, uz samo 19 minuta budnosti. Autonomna slika se smekšala nakon jučerašnjeg hack squata: HRV se spustio na 38 (−5 u odnosu na prethodnu noć, tri ispod 7-dnevne osnovice od 41), a RHR se popeo na 55 (+2) — oboje blago i očekivano nakon teškog dizanja, ne alarm. Jutarnji stres miran 18. Noći se bilježe prema večeri kojom počinju, pa ova stoji pod Uto 7 (utorak–srijeda); četvrtkova noć (2.7.) i dalje je nezabilježeni termin na grafu. Uz punu, kvalitetnu noć iza sebe, oporavljen si za današnji planirani trening intervala plivanja."
+      "havg": "HRV 7d prosjek 40",
+      "today": "Danas: trening čučnja",
+      "badge": "Osrednja noć",
+      "rec": "Kraća, osrednja noć za kraj tjedna: 6h31 uz ocjenu 77 i lijeganje u 22:27 — 27 minuta ispod 7-dnevnog prosjeka (6h58) i jasan korak niže od nedavnog niza 84–91. Duboki san bio je zapravo najbolji u tjednu, 1h57, ali REM se stisnuo na 1h19, a rano buđenje u 04:58 skratilo je noć. Autonomna slika je glavna priča jutros: HRV je pao na 32 (−6 u odnosu na prethodnu noć i 8 ispod 7-dnevne osnovice od 40), a RHR se popeo na 58 (+3 vs jučer, najviše očitanje u tjednu) — kumulativna cijena punog tjedna treninga. Jutarnji stres i dalje miran, 26. Noći se bilježe prema večeri kojom počinju, pa ova stoji pod Sri 8 (srijeda–četvrtak); četvrtkova noć (2.7.) i dalje je nezabilježeni termin na grafu. Spremnost je umjerena — pad je očekivan nakon tjednog opterećenja, ne alarm, ali uz planirani trening čučnja danas, neka zagrijavanje bude mjerilo i ne forsiraj radnu seriju ako šipka djeluje teško."
     }
   }
 }
