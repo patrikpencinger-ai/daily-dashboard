@@ -1,72 +1,72 @@
 {
   "meta": {
-    "version": "v1.54-auto",
-    "snapshot": "2026-07-09",
-    "refreshedAt": "2026-07-09T06:45:22+02:00",
-    "footEn": "Data snapshot: 2026-07-09 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-07-09 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.55-auto",
+    "snapshot": "2026-07-10",
+    "refreshedAt": "2026-07-10T07:43:28+02:00",
+    "footEn": "Data snapshot: 2026-07-10 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-07-10 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 77,
-      "durationLabel": "6h 31m",
-      "bedWake": "22:27 → 04:58",
-      "rhr": 58,
-      "hrv": 32,
-      "readiness": 62,
-      "deepMin": 117,
-      "lightMin": 195,
-      "remMin": 79,
-      "awakeMin": 15
+      "score": 83,
+      "durationLabel": "8h 27m",
+      "bedWake": "22:05 → 07:00",
+      "rhr": 54,
+      "hrv": 40,
+      "readiness": 80,
+      "deepMin": 86,
+      "lightMin": 318,
+      "remMin": 103,
+      "awakeMin": 28
     },
     "week": {
-      "deep":  [1.83, 1.57, 1.85, 0.77, 1.45, 1.13, 1.95],
-      "light": [3.58, 2.52, 2.68, 4.67, 4.47, 4.53, 3.25],
-      "rem":   [2.12, 1.13, 2.27, 1.90, 2.05, 1.75, 1.32],
-      "awake": [0.32, 0.02, 0.10, 0.35, 0.23, 0.32, 0.25],
-      "scores":[85, 74, 84, 86, 91, 84, 77],
-      "hrv":   [39, 39, 41, 51, 43, 38, 32],
-      "rhr":   [56, 54, 53, 52, 53, 55, 58],
-      "hrvAvg": 40
+      "deep":  [1.57, 1.85, 0.77, 1.45, 1.13, 1.95, 1.43],
+      "light": [2.52, 2.68, 4.67, 4.47, 4.53, 3.25, 5.30],
+      "rem":   [1.13, 2.27, 1.90, 2.05, 1.75, 1.32, 1.72],
+      "awake": [0.02, 0.10, 0.35, 0.23, 0.32, 0.25, 0.47],
+      "scores":[74, 84, 86, 91, 84, 77, 83],
+      "hrv":   [39, 41, 51, 43, 38, 32, 40],
+      "rhr":   [54, 53, 52, 53, 55, 57, 54],
+      "hrvAvg": 41
     },
     "sleepWake": {
-      "bed":  [-1.35, 0.18, -0.62, -1.35, -0.83, -1.27, -1.55],
-      "wake": [6.18, 5.40, 6.18, 5.98, 7.13, 6.15, 4.97],
-      "bedL": ["22:39","00:11","23:23","22:39","23:10","22:44","22:27"],
-      "wakeL":["06:11","05:24","06:11","05:59","07:08","06:09","04:58"],
-      "dur":  ["7h32","5h13","6h48","7h20","7h58","7h25","6h31"]
+      "bed":  [0.18, -0.62, -1.35, -0.83, -1.27, -1.55, -1.92],
+      "wake": [5.40, 6.18, 5.98, 7.13, 6.15, 4.97, 7.00],
+      "bedL": ["00:11","23:23","22:39","23:10","22:44","22:27","22:05"],
+      "wakeL":["05:24","06:11","05:59","07:08","06:09","04:58","07:00"],
+      "dur":  ["5h13","6h48","7h20","7h58","7h25","6h31","8h27"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Wed 1","Fri 3","Sat 4","Sun 5","Mon 6","Tue 7","Wed 8"],
-      "daysShort": ["W1","F3","S4","S5","M6","T7","W8"],
-      "scoreWord": "score 77",
-      "c1d": "−7 vs previous night (84) · fair",
-      "c2d": "−27m vs 7-day avg (6h 58m)",
-      "c3d": "+3 vs yesterday · +4 vs avg (54)",
-      "c4d": "−6 vs previous night · −8 vs avg (40)",
-      "c5l": "Moderate",
+      "daysFull": ["Fri 3","Sat 4","Sun 5","Mon 6","Tue 7","Wed 8","Thu 9"],
+      "daysShort": ["F3","S4","S5","M6","T7","W8","T9"],
+      "scoreWord": "score 83",
+      "c1d": "+6 vs previous night (77) · good",
+      "c2d": "+1h21 vs 7-day avg (7h 06m)",
+      "c3d": "−3 vs yesterday · at 7-day avg (54)",
+      "c4d": "+8 vs previous night · −1 vs avg (41)",
+      "c5l": "Good",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
-      "havg": "HRV 7d avg 40",
-      "today": "Today: squat session",
-      "badge": "Fair night",
-      "rec": "A shorter, fair night to cap the week: 6h31 at score 77 off a 22:27 bedtime — 27 minutes under the 7-day average (6h58) and a clear step down from the recent run of 84–91s. Deep sleep was actually the week's best at 1h57, but REM was compressed to 1h19 and an early 04:58 wake cut the night short. The autonomic side is the story this morning: HRV fell to 32 (−6 from the previous night and 8 below the 7-day baseline of 40) and RHR climbed to 58 (+3 vs yesterday, the highest reading of the week) — the cumulative cost of a full training week. Morning stress is still calm at 26. Nights are labeled by the evening they start, so this one sits under Wed 8 (Wednesday–Thursday); Thursday's night (Jul 2) remains the untracked slot on the chart. Readiness is moderate — the dip is expected after the week's load, not a red flag, but with a squat session planned today, treat the warm-up as the gauge and don't force the top set if the bar feels heavy."
+      "havg": "HRV 7d avg 41",
+      "today": "Today: rest day",
+      "badge": "Good night",
+      "rec": "A strong recovery morning to close the week: 8h27 at score 83 off a 22:05 bedtime — the longest and one of the best nights of the window, 1h21 over the 7-day average (7h06). The autonomic picture rebounded after the midweek dip: HRV climbed back to 40 (+8 from the previous night, right on the 7-day baseline of 41) and RHR dropped to 54 (−3 vs yesterday, back to the weekly average). Morning stress is very calm at 17. The stage mix was light-heavy — 5h18 of light sleep — with deep at 1h26 and REM recovering to 1h43; 28 minutes awake. Nights are labeled by the evening they start, so this one sits under Thu 9 (Thursday–Friday). Readiness is good — the body has clearly absorbed the training week. Friday is a planned rest day, so there is nothing to push against: let the legs recover from yesterday's squat session ahead of Saturday's trap-bar deadlift."
     },
     "hr": {
-      "daysFull": ["Sri 1","Pet 3","Sub 4","Ned 5","Pon 6","Uto 7","Sri 8"],
-      "daysShort": ["S1","P3","S4","N5","P6","U7","S8"],
-      "scoreWord": "ocjena 77",
-      "c1d": "−7 vs prethodna noć (84) · osrednje",
-      "c2d": "−27m vs 7-dnevni prosjek (6h 58m)",
-      "c3d": "+3 vs jučer · +4 vs prosjek (54)",
-      "c4d": "−6 vs prethodna noć · −8 vs prosjek (40)",
-      "c5l": "Umjerena",
+      "daysFull": ["Pet 3","Sub 4","Ned 5","Pon 6","Uto 7","Sri 8","Čet 9"],
+      "daysShort": ["P3","S4","N5","P6","U7","S8","Č9"],
+      "scoreWord": "ocjena 83",
+      "c1d": "+6 vs prethodna noć (77) · dobro",
+      "c2d": "+1h21 vs 7-dnevni prosjek (7h 06m)",
+      "c3d": "−3 vs jučer · na 7-dnevnom prosjeku (54)",
+      "c4d": "+8 vs prethodna noć · −1 vs prosjek (41)",
+      "c5l": "Dobra",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
-      "havg": "HRV 7d prosjek 40",
-      "today": "Danas: trening čučnja",
-      "badge": "Osrednja noć",
-      "rec": "Kraća, osrednja noć za kraj tjedna: 6h31 uz ocjenu 77 i lijeganje u 22:27 — 27 minuta ispod 7-dnevnog prosjeka (6h58) i jasan korak niže od nedavnog niza 84–91. Duboki san bio je zapravo najbolji u tjednu, 1h57, ali REM se stisnuo na 1h19, a rano buđenje u 04:58 skratilo je noć. Autonomna slika je glavna priča jutros: HRV je pao na 32 (−6 u odnosu na prethodnu noć i 8 ispod 7-dnevne osnovice od 40), a RHR se popeo na 58 (+3 vs jučer, najviše očitanje u tjednu) — kumulativna cijena punog tjedna treninga. Jutarnji stres i dalje miran, 26. Noći se bilježe prema večeri kojom počinju, pa ova stoji pod Sri 8 (srijeda–četvrtak); četvrtkova noć (2.7.) i dalje je nezabilježeni termin na grafu. Spremnost je umjerena — pad je očekivan nakon tjednog opterećenja, ne alarm, ali uz planirani trening čučnja danas, neka zagrijavanje bude mjerilo i ne forsiraj radnu seriju ako šipka djeluje teško."
+      "havg": "HRV 7d prosjek 41",
+      "today": "Danas: dan odmora",
+      "badge": "Dobra noć",
+      "rec": "Snažno jutro oporavka za kraj tjedna: 8h27 uz ocjenu 83 i lijeganje u 22:05 — najduža i jedna od najboljih noći u prikazanom razdoblju, 1h21 iznad 7-dnevnog prosjeka (7h06). Autonomna slika se oporavila nakon pada sredinom tjedna: HRV se popeo natrag na 40 (+8 u odnosu na prethodnu noć, točno na 7-dnevnoj osnovici od 41), a RHR pao na 54 (−3 vs jučer, natrag na tjednom prosjeku). Jutarnji stres vrlo miran, 17. Struktura sna bila je bogata laganim snom — 5h18 — uz duboki san od 1h26 i REM oporavljen na 1h43; 28 minuta budnosti. Noći se bilježe prema večeri kojom počinju, pa ova stoji pod Čet 9 (četvrtak–petak). Spremnost je dobra — tijelo je očito apsorbiralo trenažni tjedan. Petak je planiran dan odmora, pa nema što forsirati: neka noge otpočinu od jučerašnjeg treninga čučnja prije subotnjeg trap-bar mrtvog dizanja."
     }
   }
 }
