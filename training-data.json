@@ -1,21 +1,21 @@
 {
   "meta": {
-    "version": "v1.61-auto",
+    "version": "v1.62-auto",
     "snapshot": "2026-07-11",
-    "refreshedAt": "2026-07-11T07:26:00+02:00"
+    "refreshedAt": "2026-07-11T07:56:00+02:00"
   },
   "num": {
     "kpis": { "sessions": "5", "totalTime": "5h 07m", "volume": "13,986 kg", "activeCals": "2,942" },
     "daily": {
       "type":  ["hike","rest","str","pool","str","rest","str"],
-      "names": ["Zagreb hike 7.1 km","Rest day","Hack squat","Pool intervals 2.2 km","Squat session","Rest day","Today (trap-bar DL planned)"],
-      "effort":[44, null, 34, 40, 27, null, null],
-      "dur":   [83, null, 62, 65, 59, null, null],
-      "kcal":  [731, null, 618, 769, 437, null, null],
+      "names": ["Zagreb hike 7.1 km","Rest day","Hack squat","Pool intervals 2.2 km","Squats + pool swim 0.8 km","Rest day","Today (trap-bar DL planned)"],
+      "effort":[44, null, 34, 40, 45, null, null],
+      "dur":   [83, null, 62, 65, 97, null, null],
+      "kcal":  [731, null, 618, 769, 824, null, null],
       "vol":   [null, null, 13986, null, null, null, null],
-      "dist":  [7091, null, null, 2225, null, null, null],
-      "maxhr": [153, 106, 155, 153, 142, 99, 98],
-      "avghr": [117, 64, 120, 127, 108, 64, 58],
+      "dist":  [7091, null, null, 2225, 775, null, null],
+      "maxhr": [153, 106, 155, 153, 147, 99, 98],
+      "avghr": [117, 64, 120, 127, 109, 64, 58],
       "rhr":   [53, 52, 53, 55, 57, 54, 54]
     },
     "energy": {
