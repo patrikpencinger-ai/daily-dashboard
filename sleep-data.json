@@ -1,72 +1,72 @@
 {
   "meta": {
-    "version": "v1.61-auto",
-    "snapshot": "2026-07-16",
-    "refreshedAt": "2026-07-16T07:41:11+02:00",
-    "footEn": "Data snapshot: 2026-07-16 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-07-16 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.62-auto",
+    "snapshot": "2026-07-28",
+    "refreshedAt": "2026-07-28T07:42:57+02:00",
+    "footEn": "Data snapshot: 2026-07-28 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-07-28 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 83,
-      "durationLabel": "6h 53m",
-      "bedWake": "23:33 → 06:30",
+      "score": 77,
+      "durationLabel": "6h 23m",
+      "bedWake": "23:49 → 06:25",
       "rhr": 55,
-      "hrv": 38,
-      "readiness": 77,
-      "deepMin": 96,
-      "lightMin": 229,
-      "remMin": 88,
-      "awakeMin": 4
+      "hrv": 37,
+      "readiness": 66,
+      "deepMin": 123,
+      "lightMin": 187,
+      "remMin": 73,
+      "awakeMin": 13
     },
     "week": {
-      "deep":  [1.43, 1.38, 0.87, 1.22, 0.63, 1.20, 1.60],
-      "light": [5.30, 4.18, 5.47, 5.12, 5.17, 5.50, 3.82],
-      "rem":   [1.72, 1.40, 1.38, 1.67, 1.92, 2.00, 1.47],
-      "awake": [0.47, 0.10, 0.50, 0.15, 0.28, 0.33, 0.07],
-      "scores":[83, 84, 78, 87, 79, 73, 83],
-      "hrv":   [40, 37, 37, 45, 40, 32, 38],
-      "rhr":   [54, 54, 54, 53, 55, 57, 55],
-      "hrvAvg": 38
+      "deep":  [1.05, 1.07, 0.87, 1.12, 1.38, 1.15, 2.05],
+      "light": [4.48, 4.32, 4.55, 3.57, 2.52, 4.57, 3.12],
+      "rem":   [1.67, 1.37, 1.43, 1.78, 0.80, 1.47, 1.22],
+      "awake": [0.17, 0.57, 0.25, 0.02, 0.17, 0.25, 0.22],
+      "scores":[85, 78, 80, 84, 64, 85, 77],
+      "hrv":   [42, 49, 42, 56, 46, 42, 37],
+      "rhr":   [55, 53, 54, 52, 53, 53, 55],
+      "hrvAvg": 45
     },
     "sleepWake": {
-      "bed":  [-1.90, -1.10, -1.73, -1.87, -1.03, -2.53, -0.45],
-      "wake": [7.02, 5.97, 6.48, 6.28, 6.97, 6.50, 6.50],
-      "bedL": ["22:06","22:54","22:16","22:08","22:58","21:28","23:33"],
-      "wakeL":["07:01","05:58","06:29","06:17","06:58","06:30","06:30"],
-      "dur":  ["8h27","6h58","7h43","8h00","7h43","8h42","6h53"]
+      "bed":  [-1.20, -1.47, -0.70, -0.52, 1.45, -1.48, -0.18],
+      "wake": [6.17, 5.85, 6.40, 5.97, 6.32, 5.95, 6.42],
+      "bedL": ["22:48","22:32","23:18","23:29","01:27","22:31","23:49"],
+      "wakeL":["06:10","05:51","06:24","05:58","06:19","05:57","06:25"],
+      "dur":  ["7h12","6h45","6h51","6h28","4h42","7h11","6h23"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Thu 9","Fri 10","Sat 11","Sun 12","Mon 13","Tue 14","Wed 15"],
-      "daysShort": ["T9","F10","S11","S12","M13","T14","W15"],
-      "scoreWord": "score 83",
-      "c1d": "+10 vs previous night (73) · good",
-      "c2d": "−54m vs 7-day avg (7h 47m)",
-      "c3d": "−2 vs yesterday (57) · level with 7-day avg (55)",
-      "c4d": "+6 vs previous night · level with avg (38)",
-      "c5l": "Good",
+      "daysFull": ["Mon 20","Tue 21","Wed 22","Thu 23","Fri 24","Sat 25","Mon 27"],
+      "daysShort": ["M20","T21","W22","T23","F24","S25","M27"],
+      "scoreWord": "score 77",
+      "c1d": "−8 vs previous recorded night (85) · fair",
+      "c2d": "−7m vs 7-day avg (6h 30m)",
+      "c3d": "+2 vs previous night (53) · +1 vs 7-day avg (54)",
+      "c4d": "−5 vs previous night · −8 vs avg (45)",
+      "c5l": "Moderate",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
-      "havg": "HRV 7d avg 38",
-      "today": "Today: squat (gym)",
-      "badge": "Good night",
-      "rec": "The shortest night of the window turned out to be the best one. A late 23:33 bedtime — two hours later than Tuesday's — capped sleep at 6h53, 54 minutes under the 7-day average (7h 47m), yet the score climbed to 83 and the architecture was the strongest of the seven: deep sleep hit a window-high 96 minutes, REM 88, and awake time collapsed to 4 minutes. Almost nothing was wasted in bed. The autonomics agree: HRV rebounded to 38 (+6 vs the previous night, back level with the 38 average), RHR eased to 55 (−2), and morning stress is the window's lowest at 21 — a clean reversal of yesterday's HRV 32 / RHR 57 dip. Wednesday's planned swim intervals didn't happen (95 active kcal, no session logged), and that unplanned rest is the most likely reason the markers reset. Nights are labeled by the evening they start, so this one sits under Wed 15 (Wednesday–Thursday). Readiness is good at 77. Squat is on today — the recovery markers back it, so take the session as planned; the only caution is the hours, not the state. If the day allows, pull bedtime back toward 22:30 tonight."
+      "havg": "HRV 7d avg 45",
+      "today": "Today: hack squat (gym)",
+      "badge": "Fair night",
+      "rec": "Deep sleep did the work last night, the autonomics did not. Bedtime slipped to 23:49 — the latest ordinary bedtime of the window — and the night closed at 6h23, 7 minutes under the 6h 30m average. Inside that short window the body went straight for depth: 123 minutes of deep sleep, far above anything else in the seven nights (next best 83m), with awake time held to 13m. REM paid for it at 73m, squeezed by the short window. Score 77, Garmin's 'fair'. The markers are the softer story: HRV fell to 37, the window's lowest and 8 below the 45 average, and RHR ticked up to 55, the window's highest. That is the expected next-morning signature of Monday's 2.2 km pool intervals — 65 min, avg HR 129, max 155, the hardest session of the week — landing on a night that was already short. Stress is still calm at 23. Note the gap in the chart: the Sunday-evening night has no record, so the seven bars run Mon 20 to Mon 27 and skip Sun 26. Readiness is moderate at 66. Hack squat is on today: train it, but hold the load at the last logged 160 kg × 10 rather than adding — the depth response says recovery is being spent, not banked. Tonight, get back under 23:00."
     },
     "hr": {
-      "daysFull": ["Čet 9","Pet 10","Sub 11","Ned 12","Pon 13","Uto 14","Sri 15"],
-      "daysShort": ["Č9","P10","S11","N12","P13","U14","S15"],
-      "scoreWord": "ocjena 83",
-      "c1d": "+10 vs prethodna noć (73) · dobra",
-      "c2d": "−54m vs 7-dnevni prosjek (7h 47m)",
-      "c3d": "−2 vs jučer (57) · u razini s 7-dnevnim prosjekom (55)",
-      "c4d": "+6 vs prethodna noć · u razini s prosjekom (38)",
-      "c5l": "Dobra",
+      "daysFull": ["Pon 20","Uto 21","Sri 22","Čet 23","Pet 24","Sub 25","Pon 27"],
+      "daysShort": ["P20","U21","S22","Č23","P24","S25","P27"],
+      "scoreWord": "ocjena 77",
+      "c1d": "−8 vs prethodna zabilježena noć (85) · solidna",
+      "c2d": "−7m vs 7-dnevni prosjek (6h 30m)",
+      "c3d": "+2 vs prethodna noć (53) · +1 vs 7-dnevni prosjek (54)",
+      "c4d": "−5 vs prethodna noć · −8 vs prosjek (45)",
+      "c5l": "Umjerena",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
-      "havg": "HRV 7d prosjek 38",
-      "today": "Danas: čučanj (teretana)",
-      "badge": "Dobra noć",
-      "rec": "Najkraća noć u prozoru ispala je najbolja. Kasno lijeganje u 23:33 — dva sata kasnije nego u utorak — ograničilo je san na 6h53, 54 minute ispod 7-dnevnog prosjeka (7h 47m), a ocjena je ipak porasla na 83 uz najbolju strukturu među sedam noći: duboki san dosegnuo je vrhunac prozora od 96 minuta, REM 88, a budnost je pala na samo 4 minute. Gotovo ništa nije protraćeno u krevetu. Autonomika se slaže: HRV se oporavio na 38 (+6 vs prethodna noć, natrag u razini s prosjekom od 38), RHR je pao na 55 (−2), a jutarnji stres najniži je u prozoru — 21. To je čist obrat jučerašnjeg pada (HRV 32 / RHR 57). Srijedini planirani bazenski intervali nisu se dogodili (95 aktivnih kcal, nema zabilježenog treninga) i taj neplanirani odmor najvjerojatniji je razlog zašto su se pokazatelji resetirali. Noći se bilježe prema večeri kojom počinju, pa ova stoji pod Sri 15 (srijeda–četvrtak). Spremnost je dobra — 77. Čučanj je danas na rasporedu: pokazatelji oporavka ga podupiru, pa odradi trening po planu; jedini oprez su sati, ne stanje. Ako dan dopusti, večeras vrati lijeganje prema 22:30."
+      "havg": "HRV 7d prosjek 45",
+      "today": "Danas: hack squat (teretana)",
+      "badge": "Solidna noć",
+      "rec": "Sinoć je posao odradio duboki san, ali ne i autonomika. Lijeganje je skliznulo na 23:49 — najkasnije redovno lijeganje u prozoru — pa je noć završila na 6h23, 7 minuta ispod prosjeka od 6h 30m. Unutar tog kratkog prozora tijelo je otišlo ravno u dubinu: 123 minute dubokog sna, daleko iznad svega ostalog u sedam noći (sljedeće najbolje 83m), uz budnost zadržanu na 13m. REM je to platio s 73m, stisnut kratkim prozorom. Ocjena 77, Garminovo 'solidno'. Pokazatelji su mekša priča: HRV je pao na 37, najniže u prozoru i 8 ispod prosjeka od 45, a RHR je porastao na 55, najviše u prozoru. To je očekivani jutarnji potpis ponedjeljkovih bazenskih intervala 2,2 km — 65 min, prosj. puls 129, maks 155, najteži trening tjedna — koji su pali na već kratku noć. Stres je i dalje miran, 23. Primijeti prazninu u grafu: noć s nedjelje navečer nema zapisa, pa sedam stupaca ide od Pon 20 do Pon 27 i preskače Ned 26. Spremnost je umjerena — 66. Hack squat je danas na rasporedu: odradi ga, ali zadrži teret na zadnjih zabilježenih 160 kg × 10 umjesto da dodaješ — reakcija dubokog sna govori da se oporavak troši, a ne štedi. Večeras natrag ispod 23:00."
     }
   }
 }
