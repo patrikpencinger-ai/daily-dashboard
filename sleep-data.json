@@ -1,72 +1,72 @@
 {
   "meta": {
-    "version": "v1.67-auto",
-    "snapshot": "2026-08-13",
-    "refreshedAt": "2026-08-13T07:30:47+02:00",
-    "footEn": "Data snapshot: 2026-08-13 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-08-13 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.68-auto",
+    "snapshot": "2026-08-14",
+    "refreshedAt": "2026-08-14T06:42:32+02:00",
+    "footEn": "Data snapshot: 2026-08-14 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-08-14 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 81,
-      "durationLabel": "6h 44m",
-      "bedWake": "23:33 → 06:25",
-      "rhr": 53,
+      "score": 68,
+      "durationLabel": "5h 08m",
+      "bedWake": "00:44 → 06:05",
+      "rhr": 55,
       "hrv": 34,
-      "readiness": 79,
-      "deepMin": 101,
-      "lightMin": 218,
-      "remMin": 85,
-      "awakeMin": 8
+      "readiness": 62,
+      "deepMin": 100,
+      "lightMin": 158,
+      "remMin": 50,
+      "awakeMin": 13
     },
     "week": {
-      "deep":  [1.37, 1.22, 1.55, 1.68, 1.02, 1.08, 1.68],
-      "light": [5.30, 4.13, 5.98, 4.30, 4.72, 5.07, 3.63],
-      "rem":   [1.89, 1.45, 2.44, 1.85, 1.50, 1.63, 1.42],
-      "awake": [0.23, 0.12, 0.42, 0.23, 0.35, 0.23, 0.13],
-      "scores":[86, 84, 74, 84, 82, 82, 81],
-      "hrv":   [42, 42, 34, 37, 42, 33, 34],
-      "rhr":   [54, 53, 55, 55, 53, 55, 53],
-      "hrvAvg": 38
+      "deep":  [1.22, 1.55, 1.68, 1.02, 1.08, 1.68, 1.67],
+      "light": [4.13, 5.98, 4.30, 4.72, 5.07, 3.63, 2.63],
+      "rem":   [1.45, 2.44, 1.85, 1.50, 1.63, 1.42, 0.83],
+      "awake": [0.12, 0.42, 0.23, 0.35, 0.23, 0.13, 0.22],
+      "scores":[84, 74, 84, 82, 82, 81, 68],
+      "hrv":   [42, 34, 37, 42, 33, 34, 34],
+      "rhr":   [53, 55, 55, 53, 55, 53, 55],
+      "hrvAvg": 37
     },
     "sleepWake": {
-      "bed":  [-0.68, -0.67, -2.50, -0.52, -1.42, -0.87, -0.45],
-      "wake": [8.10, 6.25, 7.88, 7.55, 6.17, 7.15, 6.42],
-      "bedL": ["23:19","23:20","21:30","23:29","22:35","23:08","23:33"],
-      "wakeL":["08:06","06:15","07:53","07:33","06:10","07:09","06:25"],
-      "dur":  ["8h33","6h48","9h58","7h50","7h14","7h47","6h44"]
+      "bed":  [-0.67, -2.50, -0.52, -1.42, -0.87, -0.45, 0.73],
+      "wake": [6.25, 7.88, 7.55, 6.17, 7.15, 6.42, 6.08],
+      "bedL": ["23:20","21:30","23:29","22:35","23:08","23:33","00:44"],
+      "wakeL":["06:15","07:53","07:33","06:10","07:09","06:25","06:05"],
+      "dur":  ["6h48","9h58","7h50","7h14","7h47","6h44","5h08"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Thu 6","Fri 7","Sat 8","Sun 9","Mon 10","Tue 11","Wed 12"],
-      "daysShort": ["T6","F7","S8","S9","M10","T11","W12"],
-      "scoreWord": "score 81",
-      "c1d": "−1 vs previous night (82) · good",
-      "c2d": "−1h 07m vs 7-night avg (7h 51m)",
-      "c3d": "−2 vs previous night (55) · −1 vs 7-night avg (54)",
-      "c4d": "+1 vs previous night (33) · −4 vs 7-night avg (38)",
-      "c5l": "Moderate",
+      "daysFull": ["Fri 7","Sat 8","Sun 9","Mon 10","Tue 11","Wed 12","Thu 13"],
+      "daysShort": ["F7","S8","S9","M10","T11","W12","T13"],
+      "scoreWord": "score 68",
+      "c1d": "−13 vs previous night (81) · fair",
+      "c2d": "−2h 13m vs 7-night avg (7h 21m)",
+      "c3d": "+2 vs previous night (53) · +1 vs 7-night avg (54)",
+      "c4d": "level with previous night (34) · −3 vs 7-night avg (37)",
+      "c5l": "Low",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
-      "havg": "HRV 7d avg 38",
-      "today": "Today: nothing logged yet (vacation)",
-      "badge": "Deep-sleep high",
-      "rec": "Lights out 23:33, up at 06:25 — 6h 44m asleep inside 6h 52m in bed, 98% efficiency and only 8 minutes awake. Short night, but the composition is the best of the window: 101 minutes of deep sleep, 25% of the night, tying Sunday's 101 for the window high and standing well above the 61 and 65 of the two nights before it. Deep has now run 82, 73, 93, 101, 61, 65, 101 across the seven nights — no sign of the thin-deep stretch that showed up two weeks ago. REM paid for the length: 85 minutes is the window low, down from 98 and 90, and that is what a 6h 44m night takes out first. Score 81, one under last night. The autonomics are the one thing that has drifted. HRV came in at 34 — a point up on last night's 33, but four under the 38 seven-night average, and 33 and 34 are the lowest consecutive pair on the chart. The window has been oddly split: 42, 42, then 34, 37, 42, then 33, 34. RHR has not followed it down at all — 53 this morning, the window low, and it has sat in a 53–55 band all seven nights. Morning stress reads 19 and the day is only a few hours old. Readiness 79, moderate: good sleep architecture and a clean RHR, held back by two soft HRV nights. Tracking is now complete — seven consecutive recorded nights, no gaps left on the chart. Timing is the loose thread. Bedtime has wandered from 21:30 on Saturday to 23:33 last night, and duration with it: 9h 58m, then 7h 50m, 7h 14m, 7h 47m, 6h 44m. Two short nights in the last three. If tonight lands before 23:00, the HRV dip most likely closes on its own."
+      "havg": "HRV 7d avg 37",
+      "today": "Today: nothing logged yet",
+      "badge": "Short night",
+      "rec": "Lights out 00:44, up at 06:05 — 5h 08m asleep inside 5h 21m in bed. The shortest night of the window by 1h 36m, and score 68 is the window low against 84, 74, 84, 82, 82, 81. The cause is not mysterious: wake time barely moved (06:05 against 06:25 yesterday) while bedtime slid from 23:33 to 00:44, so the entire 1h 36m came off the front of the night. Bedtimes across the window read 23:20, 21:30, 23:29, 22:35, 23:08, 23:33, 00:44 — last night is the outlier by more than an hour. What the body protected is worth noting. Deep sleep held at 100 minutes, one under the window high of 101 and effectively unchanged from last night despite losing a quarter of the night's length. That is 32% of the night against a typical 20–25%, the highest deep fraction on the chart, and deep now reads 73, 93, 101, 61, 65, 101, 100 across the seven nights. Everything else absorbed the cut. REM collapsed to 50 minutes from 85 — the window low by 35 minutes, against a run of 87, 147, 111, 90, 98, 85. Light sleep fell to 158 minutes, also the window low. Efficiency stayed respectable at 96% with 13 minutes awake. The autonomics have now drifted for a third straight night. HRV came in at 34, level with last night and three under the 37 seven-night average, making 33, 34, 34 the longest soft run on the chart after an opening pair of 42s. RHR moved for the first time: 55 this morning, up 2 from 53, at the top of the 53–55 band it has held all week. Morning stress reads 26. Readiness 62, low — short sleep, a thinned REM night, a flat HRV and a nudged-up RHR all pointing the same way. Yesterday's first gym session in fourteen days finished at 17:45 and the late night followed it; that combination, not the training itself, is what this morning is showing. One night before 23:00 should be enough to reset it."
     },
     "hr": {
-      "daysFull": ["Čet 6","Pet 7","Sub 8","Ned 9","Pon 10","Uto 11","Sri 12"],
-      "daysShort": ["Č6","P7","S8","N9","P10","U11","S12"],
-      "scoreWord": "ocjena 81",
-      "c1d": "−1 vs prethodna noć (82) · dobra",
-      "c2d": "−1h 07m vs prosjek 7 noći (7h 51m)",
-      "c3d": "−2 vs prethodna noć (55) · −1 vs prosjek 7 noći (54)",
-      "c4d": "+1 vs prethodna noć (33) · −4 vs prosjek 7 noći (38)",
-      "c5l": "Umjerena",
+      "daysFull": ["Pet 7","Sub 8","Ned 9","Pon 10","Uto 11","Sri 12","Čet 13"],
+      "daysShort": ["P7","S8","N9","P10","U11","S12","Č13"],
+      "scoreWord": "ocjena 68",
+      "c1d": "−13 vs prethodna noć (81) · osrednja",
+      "c2d": "−2h 13m vs prosjek 7 noći (7h 21m)",
+      "c3d": "+2 vs prethodna noć (53) · +1 vs prosjek 7 noći (54)",
+      "c4d": "isto kao prethodna noć (34) · −3 vs prosjek 7 noći (37)",
+      "c5l": "Niska",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
-      "havg": "HRV 7d prosjek 38",
-      "today": "Danas: još ništa zabilježeno (godišnji)",
-      "badge": "Rekord dubokog sna",
-      "rec": "Gašenje svjetla u 23:33, ustajanje u 06:25 — 6h 44m sna unutar 6h 52m u krevetu, 98% učinkovitosti i samo 8 minuta budnosti. Kratka noć, ali sastav je najbolji u prozoru: 101 minuta dubokog sna, 25% noći, izjednačeno s nedjeljnih 101 kao vrhunac prozora i znatno iznad 61 i 65 iz dvije prethodne noći. Duboki san kroz sedam noći ide 82, 73, 93, 101, 61, 65, 101 — nema traga onom nizu tankog dubokog sna otprije dva tjedna. REM je platio kraću noć: 85 minuta je minimum prozora, naspram 98 i 90, a upravo to prvo strada na noći od 6h 44m. Ocjena 81, jedna niže od prethodne noći. Autonomika je jedino što je odlutalo. HRV je 34 — bod više od sinoćnjih 33, ali četiri ispod sedmodnevnog prosjeka od 38, a 33 i 34 najniži su uzastopni par na grafu. Prozor je čudno podijeljen: 42, 42, pa 34, 37, 42, pa 33, 34. RHR ga uopće nije slijedio prema dolje — 53 jutros, minimum prozora, i cijelih sedam noći drži se u rasponu 53–55. Jutarnji stres pokazuje 19, a dan je star tek nekoliko sati. Spremnost 79, umjerena: dobra arhitektura sna i čist RHR, koje koče dvije mlake HRV noći. Praćenje je sad potpuno — sedam uzastopnih zabilježenih noći, bez rupa na grafu. Labava nit je raspored. Odlazak na spavanje odlutao je s 21:30 u subotu na 23:33 sinoć, a trajanje za njim: 9h 58m, pa 7h 50m, 7h 14m, 7h 47m, 6h 44m. Dvije kratke noći u zadnje tri. Ako večeras legneš prije 23:00, HRV pad će se najvjerojatnije sam zatvoriti."
+      "havg": "HRV 7d prosjek 37",
+      "today": "Danas: još ništa zabilježeno",
+      "badge": "Kratka noć",
+      "rec": "Gašenje svjetla u 00:44, ustajanje u 06:05 — 5h 08m sna unutar 5h 21m u krevetu. Najkraća noć u prozoru, i to za 1h 36m, a ocjena 68 je minimum prozora naspram 84, 74, 84, 82, 82, 81. Uzrok nije zagonetan: vrijeme buđenja jedva se pomaknulo (06:05 naspram jučerašnjih 06:25), dok je odlazak na spavanje skliznuo s 23:33 na 00:44, pa je cijelih 1h 36m otpalo s početka noći. Lijeganja kroz prozor idu 23:20, 21:30, 23:29, 22:35, 23:08, 23:33, 00:44 — sinoć odskače za više od sat vremena. Vrijedi primijetiti što je tijelo zaštitilo. Duboki san zadržao se na 100 minuta, jedna ispod vrhunca prozora od 101 i praktički nepromijenjen u odnosu na prethodnu noć, unatoč gubitku četvrtine duljine noći. To je 32% noći naspram uobičajenih 20–25%, najveći udio dubokog sna na grafu, a duboki san sada kroz sedam noći ide 73, 93, 101, 61, 65, 101, 100. Sve ostalo je podnijelo rez. REM je pao na 50 minuta s 85 — minimum prozora, i to za 35 minuta, naspram niza 87, 147, 111, 90, 98, 85. Lagani san pao je na 158 minuta, također minimum prozora. Učinkovitost je ostala solidnih 96% uz 13 minuta budnosti. Autonomika sada odstupa treću noć zaredom. HRV je 34, isto kao prethodne noći i tri ispod sedmodnevnog prosjeka od 37, čime 33, 34, 34 postaje najdulji mlaki niz na grafu nakon uvodnog para od 42. RHR se prvi put pomaknuo: 55 jutros, dva više od 53, na vrhu raspona 53–55 u kojem se držao cijeli tjedan. Jutarnji stres pokazuje 26. Spremnost 62, niska — kratak san, stanjena REM noć, ravan HRV i podignut RHR svi pokazuju u istom smjeru. Jučerašnji prvi trening u teretani nakon četrnaest dana završio je u 17:45, a kasna noć je uslijedila; ta kombinacija, a ne sam trening, ono je što ovo jutro pokazuje. Jedna noć s lijeganjem prije 23:00 trebala bi to vratiti na svoje."
     }
   }
 }
