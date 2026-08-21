@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "v1.71-auto",
+    "version": "v1.72-auto",
     "snapshot": "2026-08-21",
-    "refreshedAt": "2026-08-21T07:45:28+02:00",
+    "refreshedAt": "2026-08-21T07:58:21+02:00",
     "footEn": "Data snapshot: 2026-08-21 · Garmin fenix 8 via Freddy",
     "footHr": "Podaci: 2026-08-21 · Garmin fenix 8 putem Freddyja"
   },
@@ -10,7 +10,7 @@
     "lastNight": {
       "score": 79,
       "durationLabel": "7h 33m",
-      "bedWake": "22:41 → 06:14",
+      "bedWake": "22:41 → 06:56",
       "rhr": 54,
       "hrv": 34,
       "readiness": 72,
@@ -31,9 +31,9 @@
     },
     "sleepWake": {
       "bed":  [0.73, -0.02, -1.40, -0.35, 0.13, -1.00, -1.32],
-      "wake": [6.08, 6.12, 6.30, 6.38, 5.85, 6.45, 6.23],
+      "wake": [6.08, 6.12, 6.30, 6.70, 5.98, 6.50, 6.93],
       "bedL":  ["00:44","23:59","22:36","23:39","00:08","23:00","22:41"],
-      "wakeL": ["06:05","06:07","06:18","06:23","05:51","06:27","06:14"],
+      "wakeL": ["06:05","06:07","06:18","06:42","05:59","06:30","06:56"],
       "dur":  ["5h08","6h01","7h21","6h44","5h43","7h27","7h33"]
     }
   },
@@ -51,7 +51,7 @@
       "havg": "HRV 7d avg 40",
       "today": "Today: nothing logged yet",
       "badge": "Fourth of seven, solid not standout",
-      "rec": "There is no Garmin sleep record for last night (Thursday Aug 20 evening into this Friday morning) as of this refresh — that slot is untracked, not estimated or skipped by mistake. The most recent recorded night is Wednesday Aug 19 into Thursday Aug 20: lights out 22:41, up at 06:14, 7h 33m asleep inside 8h 15m in bed. The score came in at 79, fair, down 4 from Tuesday's good 83 but 59 minutes over the 6h 34m seven-night average and the second-longest night of the window: 68, 76, 84, 81, 76, 83, 79. The stage mix leaned toward deep for once — 84 minutes, 19% of the night, the best deep-sleep share of the window — while REM eased back to 97 minutes from Tuesday's unusually high 138. Awake time rose sharply to 42 minutes from 3 the night before, so efficiency fell to 92% from 99%, the most fragmented night since Sunday. HRV read 34, down 7 from Tuesday's 41 and 6 under the 40 seven-night average — the joint-softest reading of the window, tied with last Thursday. RHR is the good news: 54, level with the night before and with the 7-night average, and part of a real trend — every night from Aug 17 on has sat at 53 or 54, against the 55 that held through the whole previous window. That is the RHR drop the last refresh's easy-day advice was chasing. Today's Body Battery shows just 1 point charged and 0 drained so far — far short of a normal morning reading — which reads as more evidence the overnight sync simply has not landed yet rather than a real measurement of a bad night. Estimated readiness for the Wednesday-Thursday night: 72, fair — HRV and that day's stress reading of 37 (the window's highest) are what pull it down against a decent score and a good RHR. Nothing to act on until Garmin posts an actual record for last night; check again once it lands."
+      "rec": "There is no Garmin sleep record for last night (Thursday Aug 20 evening into this Friday morning) as of this refresh — that slot is untracked, not estimated or skipped by mistake. The most recent recorded night is Wednesday Aug 19 into Thursday Aug 20: lights out 22:41, up at 06:56, 7h 33m asleep inside 8h 15m in bed. The score came in at 79, fair, down 4 from Tuesday's good 83 but 59 minutes over the 6h 34m seven-night average and the longest night of the window: 68, 76, 84, 81, 76, 83, 79. The stage mix leaned toward deep for once — 84 minutes, 19% of the night, the highest deep-sleep share since last Thursday's 33% — while REM eased back to 97 minutes from Tuesday's unusually high 138. Awake time rose sharply to 42 minutes from 3 the night before, so efficiency fell to 92% from 99%, the most fragmented night since Sunday. HRV read 34, down 7 from Tuesday's 41 and 6 under the 40 seven-night average — the joint-softest reading of the window, tied with last Thursday. RHR is the good news: 54, level with the night before and with the 7-night average, and part of a real trend — every night from Aug 17 on has sat at 53 or 54, against the 55 that held through the whole previous window. That is the RHR drop the last refresh's easy-day advice was chasing. Today's Body Battery shows just 1 point charged and 0 drained so far — far short of a normal morning reading — which reads as more evidence the overnight sync simply has not landed yet rather than a real measurement of a bad night. Estimated readiness for the Wednesday-Thursday night: 72, fair — HRV and that day's stress reading of 37 (the window's highest) are what pull it down against a decent score and a good RHR. Nothing to act on until Garmin posts an actual record for last night; check again once it lands."
     },
     "hr": {
       "daysFull": ["Čet 13","Pet 14","Sub 15","Ned 16","Pon 17","Uto 18","Sri 19"],
@@ -66,7 +66,7 @@
       "havg": "HRV 7d prosjek 40",
       "today": "Danas: još ništa zabilježeno",
       "badge": "Četvrta od sedam, solidna, ne posebna",
-      "rec": "Za sinoć (večer četvrtka 20.8. do jutros) ne postoji Garminov zapis sna u trenutku ovog osvježavanja — taj utor je nepraćen, nije procijenjen niti slučajno preskočen. Zadnja zabilježena noć je srijeda 19.8. na četvrtak 20.8.: gašenje svjetla u 22:41, ustajanje u 06:14, 7h 33m sna unutar 8h 15m u krevetu. Ocjena je 79, osrednja, četiri manje od utorkove dobre 83, ali 59 minuta iznad sedmodnevnog prosjeka od 6h 34m i druga najdulja noć u prozoru: 68, 76, 84, 81, 76, 83, 79. Raspored faza ovaj put naginje dubokom snu — 84 minute, 19% noći, najbolji udio dubokog sna u prozoru — dok se REM vratio na 97 minuta s utorkovih neobično visokih 138. Budnost je naglo porasla na 42 minute s 3 prethodne noći, pa je učinkovitost pala na 92% s 99%, najnemirnija noć od nedjelje. HRV je iznosio 34, sedam manje od utorkovih 41 i šest ispod prosjeka od 40 — najslabije očitanje u prozoru, izjednačeno s prošlim četvrtkom. RHR je dobra vijest: 54, isto kao prethodna noć i kao sedmodnevni prosjek, i dio je stvarnog trenda — svaka noć od 17.8. nadalje sjedi na 53 ili 54, naspram 55 koje je držalo cijeli prethodni prozor. To je upravo pad RHR-a koji je tražio savjet iz prošlog osvježavanja o lakšem danu. Jutrošnji Body Battery pokazuje tek 1 bod napunjen i 0 potrošen — daleko od uobičajenog jutarnjeg očitanja — što više govori da sinkronizacija noći jednostavno još nije stigla, nego da je noć doista bila loša. Procijenjena spremnost za noć srijeda-četvrtak: 72, osrednja — HRV i taj dan zabilježeni stres od 37 (najviši u prozoru) povlače je dolje unatoč pristojnoj ocjeni i dobrom RHR-u. Nema akcije dok Garmin ne objavi stvarni zapis za sinoć; provjeri ponovno kad stigne."
+      "rec": "Za sinoć (večer četvrtka 20.8. do jutros) ne postoji Garminov zapis sna u trenutku ovog osvježavanja — taj utor je nepraćen, nije procijenjen niti slučajno preskočen. Zadnja zabilježena noć je srijeda 19.8. na četvrtak 20.8.: gašenje svjetla u 22:41, ustajanje u 06:56, 7h 33m sna unutar 8h 15m u krevetu. Ocjena je 79, osrednja, četiri manje od utorkove dobre 83, ali 59 minuta iznad sedmodnevnog prosjeka od 6h 34m i najdulja noć u prozoru: 68, 76, 84, 81, 76, 83, 79. Raspored faza ovaj put naginje dubokom snu — 84 minute, 19% noći, najveći udio dubokog sna otkad je prošli četvrtak iznosio 33% — dok se REM vratio na 97 minuta s utorkovih neobično visokih 138. Budnost je naglo porasla na 42 minute s 3 prethodne noći, pa je učinkovitost pala na 92% s 99%, najnemirnija noć od nedjelje. HRV je iznosio 34, sedam manje od utorkovih 41 i šest ispod prosjeka od 40 — najslabije očitanje u prozoru, izjednačeno s prošlim četvrtkom. RHR je dobra vijest: 54, isto kao prethodna noć i kao sedmodnevni prosjek, i dio je stvarnog trenda — svaka noć od 17.8. nadalje sjedi na 53 ili 54, naspram 55 koje je držalo cijeli prethodni prozor. To je upravo pad RHR-a koji je tražio savjet iz prošlog osvježavanja o lakšem danu. Jutrošnji Body Battery pokazuje tek 1 bod napunjen i 0 potrošen — daleko od uobičajenog jutarnjeg očitanja — što više govori da sinkronizacija noći jednostavno još nije stigla, nego da je noć doista bila loša. Procijenjena spremnost za noć srijeda-četvrtak: 72, osrednja — HRV i taj dan zabilježeni stres od 37 (najviši u prozoru) povlače je dolje unatoč pristojnoj ocjeni i dobrom RHR-u. Nema akcije dok Garmin ne objavi stvarni zapis za sinoć; provjeri ponovno kad stigne."
     }
   }
 }
