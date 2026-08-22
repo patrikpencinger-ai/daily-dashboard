@@ -1,72 +1,72 @@
 {
   "meta": {
-    "version": "v1.72-auto",
-    "snapshot": "2026-08-21",
-    "refreshedAt": "2026-08-21T07:58:21+02:00",
-    "footEn": "Data snapshot: 2026-08-21 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-08-21 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.73-auto",
+    "snapshot": "2026-08-22",
+    "refreshedAt": "2026-08-22T07:11:22+02:00",
+    "footEn": "Data snapshot: 2026-08-22 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-08-22 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 79,
-      "durationLabel": "7h 33m",
-      "bedWake": "22:41 → 06:56",
-      "rhr": 54,
-      "hrv": 34,
-      "readiness": 72,
-      "deepMin": 84,
-      "lightMin": 272,
-      "remMin": 97,
-      "awakeMin": 42
+      "score": 89,
+      "durationLabel": "6h 41m",
+      "bedWake": "00:01 → 06:47",
+      "rhr": 50,
+      "hrv": 50,
+      "readiness": 89,
+      "deepMin": 119,
+      "lightMin": 186,
+      "remMin": 96,
+      "awakeMin": 5
     },
     "week": {
-      "deep":  [1.67, 1.10, 1.08, 0.92, 0.75, 0.72, 1.40],
-      "light": [2.63, 3.88, 4.78, 4.45, 3.63, 4.43, 4.53],
-      "rem":   [0.83, 1.03, 1.48, 1.37, 1.33, 2.30, 1.62],
-      "awake": [0.22, 0.12, 0.35, 0.32, 0.13, 0.05, 0.70],
-      "scores":[68, 76, 84, 81, 76, 83, 79],
-      "hrv":   [34, 38, 39, 46, 47, 41, 34],
-      "rhr":   [55, 55, 55, 53, 53, 54, 54],
-      "hrvAvg": 40
+      "deep":  [1.08, 0.92, 0.75, 0.72, 1.40, 1.58, 1.98],
+      "light": [4.78, 4.45, 3.63, 4.43, 4.53, 3.98, 3.10],
+      "rem":   [1.48, 1.37, 1.33, 2.30, 1.62, 0.82, 1.61],
+      "awake": [0.35, 0.32, 0.13, 0.05, 0.70, 0.33, 0.08],
+      "scores":[84, 81, 76, 83, 79, 76, 89],
+      "hrv":   [39, 46, 47, 41, 34, 36, 50],
+      "rhr":   [55, 53, 53, 54, 54, 54, 50],
+      "hrvAvg": 42
     },
     "sleepWake": {
-      "bed":  [0.73, -0.02, -1.40, -0.35, 0.13, -1.00, -1.32],
-      "wake": [6.08, 6.12, 6.30, 6.70, 5.98, 6.50, 6.93],
-      "bedL":  ["00:44","23:59","22:36","23:39","00:08","23:00","22:41"],
-      "wakeL": ["06:05","06:07","06:18","06:42","05:59","06:30","06:56"],
-      "dur":  ["5h08","6h01","7h21","6h44","5h43","7h27","7h33"]
+      "bed":  [-1.40, -0.35, 0.13, -1.00, -1.32, -0.12, 0.02],
+      "wake": [6.30, 6.70, 5.98, 6.50, 6.93, 6.60, 6.78],
+      "bedL":  ["22:36","23:39","00:08","23:00","22:41","23:53","00:01"],
+      "wakeL": ["06:18","06:42","05:59","06:30","06:56","06:36","06:47"],
+      "dur":  ["7h21","6h44","5h43","7h27","7h33","6h23","6h41"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Thu 13","Fri 14","Sat 15","Sun 16","Mon 17","Tue 18","Wed 19"],
-      "daysShort": ["T13","F14","S15","S16","M17","T18","W19"],
-      "scoreWord": "score 79",
-      "c1d": "-4 vs previous night (83) · fair",
-      "c2d": "+59m vs 7-night avg (6h 34m)",
-      "c3d": "level with previous night (54) · level with 7-night avg (54)",
-      "c4d": "-7 vs previous night (41) · -6 vs 7-night avg (40)",
-      "c5l": "Fair",
+      "daysFull": ["Sat 15","Sun 16","Mon 17","Tue 18","Wed 19","Thu 20","Fri 21"],
+      "daysShort": ["S15","S16","M17","T18","W19","T20","F21"],
+      "scoreWord": "score 89",
+      "c1d": "+13 vs previous night (76) · good",
+      "c2d": "-9m vs 7-night avg (6h 50m)",
+      "c3d": "-4 vs previous night (54) · -3 vs 7-night avg (53)",
+      "c4d": "+14 vs previous night (36) · +8 vs 7-night avg (42)",
+      "c5l": "Very good",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
-      "havg": "HRV 7d avg 40",
+      "havg": "HRV 7d avg 42",
       "today": "Today: nothing logged yet",
-      "badge": "Fourth of seven, solid not standout",
-      "rec": "There is no Garmin sleep record for last night (Thursday Aug 20 evening into this Friday morning) as of this refresh — that slot is untracked, not estimated or skipped by mistake. The most recent recorded night is Wednesday Aug 19 into Thursday Aug 20: lights out 22:41, up at 06:56, 7h 33m asleep inside 8h 15m in bed. The score came in at 79, fair, down 4 from Tuesday's good 83 but 59 minutes over the 6h 34m seven-night average and the longest night of the window: 68, 76, 84, 81, 76, 83, 79. The stage mix leaned toward deep for once — 84 minutes, 19% of the night, the highest deep-sleep share since last Thursday's 33% — while REM eased back to 97 minutes from Tuesday's unusually high 138. Awake time rose sharply to 42 minutes from 3 the night before, so efficiency fell to 92% from 99%, the most fragmented night since Sunday. HRV read 34, down 7 from Tuesday's 41 and 6 under the 40 seven-night average — the joint-softest reading of the window, tied with last Thursday. RHR is the good news: 54, level with the night before and with the 7-night average, and part of a real trend — every night from Aug 17 on has sat at 53 or 54, against the 55 that held through the whole previous window. That is the RHR drop the last refresh's easy-day advice was chasing. Today's Body Battery shows just 1 point charged and 0 drained so far — far short of a normal morning reading — which reads as more evidence the overnight sync simply has not landed yet rather than a real measurement of a bad night. Estimated readiness for the Wednesday-Thursday night: 72, fair — HRV and that day's stress reading of 37 (the window's highest) are what pull it down against a decent score and a good RHR. Nothing to act on until Garmin posts an actual record for last night; check again once it lands."
+      "badge": "Best night of the seven",
+      "rec": "Last night — Friday evening into this Saturday morning — is the best night on the board: lights out 00:01, up at 06:47, 6h 41m asleep inside 6h 46m in bed. The score is 89, the highest of the seven (84, 81, 76, 83, 79, 76, 89) and 13 clear of Thursday's 76. Garmin graded every component excellent except total duration, which it calls fair — and that is the one genuine soft spot: 6h 41m sits 9 minutes under the 6h 50m seven-night average, and a midnight bedtime is the reason. Everything about the quality of those hours was outstanding. Deep sleep hit 119 minutes, 30% of the night and the deepest reading of the window by 24 minutes over Thursday's 95. REM recovered to 96 minutes from Thursday's washed-out 49. Awake time collapsed to 5 minutes from 20, putting efficiency at 99% — the cleanest, least fragmented night of the seven. The autonomic markers moved together and they moved hard. HRV came in at 50, up 14 overnight from 36 and 8 above the 42 average — the highest reading of the window and the first time it has cleared 47 since Monday. RHR dropped to 50, four under last night and three under the 53 average, breaking below the 53–55 band that has held every single night of the window. Average overnight stress read 10, against 27 the night before and 25–37 across the rest of the week — not a marginal improvement but a different order of magnitude. Readiness lands at 89, very good, held just short of the top band only by the short duration. Practically: this is a green light. Two nights ago the advice was to wait for recovery data before touching a trap-bar deadlift — the data has now arrived and it is emphatic. The posterior chain has had Thursday's hack squat plus a swim day and two nights behind it, and this morning's numbers say the system is charged. The one thing to fix is the bedtime; hold the wake time and move lights-out from 00:01 back toward 23:00 and the duration flag disappears without costing anything else."
     },
     "hr": {
-      "daysFull": ["Čet 13","Pet 14","Sub 15","Ned 16","Pon 17","Uto 18","Sri 19"],
-      "daysShort": ["Č13","P14","S15","N16","P17","U18","S19"],
-      "scoreWord": "ocjena 79",
-      "c1d": "-4 vs prethodna noć (83) · osrednja",
-      "c2d": "+59m vs prosjek 7 noći (6h 34m)",
-      "c3d": "isto kao prethodna noć (54) · isto kao prosjek 7 noći (54)",
-      "c4d": "-7 vs prethodna noć (41) · -6 vs prosjek 7 noći (40)",
-      "c5l": "Osrednja",
+      "daysFull": ["Sub 15","Ned 16","Pon 17","Uto 18","Sri 19","Čet 20","Pet 21"],
+      "daysShort": ["S15","N16","P17","U18","S19","Č20","P21"],
+      "scoreWord": "ocjena 89",
+      "c1d": "+13 vs prethodna noć (76) · dobra",
+      "c2d": "-9m vs prosjek 7 noći (6h 50m)",
+      "c3d": "-4 vs prethodna noć (54) · -3 vs prosjek 7 noći (53)",
+      "c4d": "+14 vs prethodna noć (36) · +8 vs prosjek 7 noći (42)",
+      "c5l": "Vrlo dobra",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
-      "havg": "HRV 7d prosjek 40",
+      "havg": "HRV 7d prosjek 42",
       "today": "Danas: još ništa zabilježeno",
-      "badge": "Četvrta od sedam, solidna, ne posebna",
-      "rec": "Za sinoć (večer četvrtka 20.8. do jutros) ne postoji Garminov zapis sna u trenutku ovog osvježavanja — taj utor je nepraćen, nije procijenjen niti slučajno preskočen. Zadnja zabilježena noć je srijeda 19.8. na četvrtak 20.8.: gašenje svjetla u 22:41, ustajanje u 06:56, 7h 33m sna unutar 8h 15m u krevetu. Ocjena je 79, osrednja, četiri manje od utorkove dobre 83, ali 59 minuta iznad sedmodnevnog prosjeka od 6h 34m i najdulja noć u prozoru: 68, 76, 84, 81, 76, 83, 79. Raspored faza ovaj put naginje dubokom snu — 84 minute, 19% noći, najveći udio dubokog sna otkad je prošli četvrtak iznosio 33% — dok se REM vratio na 97 minuta s utorkovih neobično visokih 138. Budnost je naglo porasla na 42 minute s 3 prethodne noći, pa je učinkovitost pala na 92% s 99%, najnemirnija noć od nedjelje. HRV je iznosio 34, sedam manje od utorkovih 41 i šest ispod prosjeka od 40 — najslabije očitanje u prozoru, izjednačeno s prošlim četvrtkom. RHR je dobra vijest: 54, isto kao prethodna noć i kao sedmodnevni prosjek, i dio je stvarnog trenda — svaka noć od 17.8. nadalje sjedi na 53 ili 54, naspram 55 koje je držalo cijeli prethodni prozor. To je upravo pad RHR-a koji je tražio savjet iz prošlog osvježavanja o lakšem danu. Jutrošnji Body Battery pokazuje tek 1 bod napunjen i 0 potrošen — daleko od uobičajenog jutarnjeg očitanja — što više govori da sinkronizacija noći jednostavno još nije stigla, nego da je noć doista bila loša. Procijenjena spremnost za noć srijeda-četvrtak: 72, osrednja — HRV i taj dan zabilježeni stres od 37 (najviši u prozoru) povlače je dolje unatoč pristojnoj ocjeni i dobrom RHR-u. Nema akcije dok Garmin ne objavi stvarni zapis za sinoć; provjeri ponovno kad stigne."
+      "badge": "Najbolja noć od sedam",
+      "rec": "Sinoć — večer petka do jutros u subotu — najbolja je noć na ploči: gašenje svjetla u 00:01, ustajanje u 06:47, 6h 41m sna unutar 6h 46m u krevetu. Ocjena je 89, najviša od sedam (84, 81, 76, 83, 79, 76, 89) i punih 13 iznad četvrtkovih 76. Garmin je svaku sastavnicu ocijenio izvrsnom osim ukupnog trajanja, koje naziva osrednjim — i to je jedina stvarna slaba točka: 6h 41m je 9 minuta ispod sedmodnevnog prosjeka od 6h 50m, a razlog je odlazak na spavanje u ponoć. Sve ostalo o kvaliteti tih sati bilo je vrhunsko. Duboki san dosegnuo je 119 minuta, 30% noći i najdublje očitanje u prozoru, 24 minute iznad četvrtkovih 95. REM se oporavio na 96 minuta s četvrtkovih ispranih 49. Budnost je pala na 5 minuta s 20, pa je učinkovitost 99% — najčišća, najmanje isprekidana noć od sedam. Autonomni pokazatelji pomaknuli su se zajedno i pomaknuli su se snažno. HRV je iznosio 50, 14 više nego prethodne noći (36) i 8 iznad prosjeka od 42 — najviše očitanje u prozoru i prvi put iznad 47 od ponedjeljka. RHR je pao na 50, četiri ispod sinoćnjeg i tri ispod prosjeka od 53, probivši se ispod raspona 53–55 koji je držao svaku noć u prozoru. Prosječni noćni stres iznosio je 10, naspram 27 prethodne noći i 25–37 kroz ostatak tjedna — to nije rubno poboljšanje nego drugi red veličine. Spremnost je 89, vrlo dobra, a od najvišeg razreda dijeli je samo kratko trajanje. Praktično: ovo je zeleno svjetlo. Prije dva dana savjet je bio pričekati podatke o oporavku prije trap-bar mrtvog dizanja — podaci su sada stigli i nedvosmisleni su. Stražnji lanac iza sebe ima četvrtkov hack čučanj, plivački dan i dvije noći, a jutrošnji brojevi kažu da je sustav napunjen. Jedino što treba popraviti je vrijeme lijeganja; zadrži vrijeme buđenja i pomakni gašenje svjetla s 00:01 prema 23:00 i oznaka za trajanje nestaje bez ikakve druge cijene."
     }
   }
 }
