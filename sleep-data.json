@@ -1,72 +1,72 @@
 {
   "meta": {
-    "version": "v1.76-auto",
-    "snapshot": "2026-08-28",
-    "refreshedAt": "2026-08-28T06:43:54+02:00",
-    "footEn": "Data snapshot: 2026-08-28 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-08-28 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.77-auto",
+    "snapshot": "2026-08-29",
+    "refreshedAt": "2026-08-29T07:10:54+02:00",
+    "footEn": "Data snapshot: 2026-08-29 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-08-29 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 79,
-      "durationLabel": "6h 27m",
-      "bedWake": "23:39 → 06:26",
-      "rhr": 54,
-      "hrv": 39,
-      "readiness": 77,
-      "deepMin": 104,
-      "lightMin": 220,
-      "remMin": 63,
-      "awakeMin": 20
+      "score": 73,
+      "durationLabel": "6h 16m",
+      "bedWake": "23:46 → 06:44",
+      "rhr": 55,
+      "hrv": 36,
+      "readiness": 71,
+      "deepMin": 62,
+      "lightMin": 263,
+      "remMin": 51,
+      "awakeMin": 42
     },
     "week": {
-      "deep":  [1.40, 1.58, 1.98, 0.83, 0.55, 0.92, 1.73],
-      "light": [4.53, 3.98, 3.10, 5.37, 4.72, 4.87, 3.67],
-      "rem":   [1.62, 0.82, 1.61, 1.80, 1.60, 1.50, 1.05],
-      "awake": [0.70, 0.33, 0.08, 0.47, 0.20, 0.68, 0.33],
-      "scores":[79, 76, 89, 80, 78, 70, 79],
-      "hrv":   [34, 36, 50, 41, 38, 36, 39],
-      "rhr":   [54, 54, 50, 54, 54, 57, 54],
+      "deep":  [1.58, 1.98, 0.83, 0.55, 0.92, 1.73, 1.03],
+      "light": [3.98, 3.10, 5.37, 4.72, 4.87, 3.67, 4.38],
+      "rem":   [0.82, 1.61, 1.80, 1.60, 1.50, 1.05, 0.85],
+      "awake": [0.33, 0.08, 0.47, 0.20, 0.68, 0.33, 0.70],
+      "scores":[76, 89, 80, 78, 70, 79, 73],
+      "hrv":   [36, 50, 41, 38, 36, 39, 36],
+      "rhr":   [54, 50, 54, 54, 57, 54, 55],
       "hrvAvg": 39
     },
     "sleepWake": {
-      "bed":  [-1.32, -0.12, 0.02, -1.67, -0.87, -0.43, -0.35],
-      "wake": [6.93, 6.60, 6.78, 6.80, 6.20, 7.53, 6.43],
-      "bedL":  ["22:41","23:53","00:01","22:20","23:08","23:34","23:39"],
-      "wakeL": ["06:56","06:36","06:47","06:48","06:12","07:32","06:26"],
-      "dur":  ["7h33","6h23","6h41","8h00","6h52","7h17","6h27"]
+      "bed":  [-0.12, 0.02, -1.67, -0.87, -0.43, -0.35, -0.23],
+      "wake": [6.60, 6.78, 6.80, 6.20, 7.53, 6.43, 6.73],
+      "bedL":  ["23:53","00:01","22:20","23:08","23:34","23:39","23:46"],
+      "wakeL": ["06:36","06:47","06:48","06:12","07:32","06:26","06:44"],
+      "dur":  ["6h23","6h41","8h00","6h52","7h17","6h27","6h16"]
     }
   },
   "text": {
     "en": {
-      "daysFull": ["Wed 19","Thu 20","Fri 21","Mon 24","Tue 25","Wed 26","Thu 27"],
-      "daysShort": ["W19","T20","F21","M24","T25","W26","T27"],
-      "scoreWord": "score 79",
-      "c1d": "+9 vs last night (70) · good",
-      "c2d": "-35m vs 7-night avg (7h 02m)",
-      "c3d": "-3 vs last night (57) · 0 vs 7-night avg (54)",
-      "c4d": "+3 vs last night (36) · 0 vs 7-night avg (39)",
-      "c5l": "Good",
+      "daysFull": ["Thu 20","Fri 21","Mon 24","Tue 25","Wed 26","Thu 27","Fri 28"],
+      "daysShort": ["T20","F21","M24","T25","W26","T27","F28"],
+      "scoreWord": "score 73",
+      "c1d": "-6 vs last night (79) · fair",
+      "c2d": "-35m vs 7-night avg (6h 51m)",
+      "c3d": "+1 vs last night (54) · +1 vs 7-night avg (54)",
+      "c4d": "-3 vs last night (39) · -3 vs 7-night avg (39)",
+      "c5l": "Fair",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
       "havg": "HRV 7d avg 39",
       "today": "Today: nothing logged yet",
-      "badge": "Most deep sleep since Fri 21",
-      "rec": "Short night, but the best-built one in a week. The score is 79 on 6h 27m, lights out 23:39 and awake 06:26. Take the two nights together and the story is a clean rebound: Wednesday evening was the weakest night of the seven — score 70, 41 minutes awake, RHR up at 57 — and last night undid almost all of it. Deep sleep is the headline. 1h 44m, 27% of the night, nearly double Wednesday's 55 minutes and the most since Friday 21's 1h 59m. Deep has been the one number this board kept flagging: 33 minutes on Tuesday evening, 55 on Wednesday, now 104. That is the recovery machinery working, and it came the night after the biggest single lifting session of the window. The trade-off sits in REM. 63 minutes, 16% of the night, is the thinnest REM slice of the seven and well under the 90–96 you were logging earlier in the week. That is what a short night costs — REM is back-loaded, so the hours you cut come out of it first. Efficiency was 95%, with 20 minutes awake, and light sleep took 3h 40m. The autonomic picture is fully recovered. HRV came back to 39, three above Wednesday's 36 and exactly on the seven-night average. RHR dropped three beats to 54, straight back to baseline after Wednesday's 57. Overnight stress read 16, the lowest of the whole window, and Body Battery charged 58 — the best charge of the week. Readiness lands at 77, good, and it is a genuinely better 77 than the last two mornings because the underlying markers, not just the score, moved the right way. So the only complaint is length. 6h 27m is 35 minutes under the 7h 02m average and the second-shortest night on the board. Bedtime is drifting: 23:08, 23:34, 23:39 — three nights walking later while Wednesday's 07:32 wake was a one-off and you were back at 06:26 today. Monday's 22:20 is still the only night this week that bought eight hours. Pull lights out back to 22:45 tonight; with deep sleep and HRV already where you want them, length is the last thing left to fix."
+      "badge": "Shortest night of the seven",
+      "rec": "You took a full rest day and slept worse. That is the finding this morning, and it is the useful one. Score 73 on 6h 16m, lights out 23:46 and awake 06:44 — the shortest night on the board and 35 minutes under the 6h 51m average. The night before, after the heaviest lifting day of the block, you scored 79 on 6h 27m. So yesterday's zero-training day bought nothing. The problem is not load. It is fragmentation and bedtime. You woke six separate times against three the night before, 42 minutes awake in total, which is the most of any night here. Efficiency fell to 90% — the worst of the seven, and the only night this week under 91. Garmin's own read agrees: awake count and restlessness both came back fair. That is a night spent surfacing, not a night spent short. Bedtime is the other half. 23:08, 23:34, 23:39, 23:46 — four nights walking steadily later while your wake time stays pinned in the 06:12–06:44 band. You are not choosing shorter sleep, you are losing it 10 minutes at a time off the front. Monday's 22:20 is still the only lights-out this window that produced eight hours. The stage split is not the villain. Deep held at 1h 02m, 16% of the night, and it is the one component Garmin graded good — down from Thursday's exceptional 1h 44m but still ahead of Monday, Tuesday and Wednesday. REM took the hit at 51 minutes, 14%, second-thinnest of the seven, which is the standard cost of a short and broken night since REM is back-loaded. Light sleep filled 4h 23m. Autonomics softened but did not break. HRV came in at 36, three below both last night and the seven-night average, and level with the two weakest readings of the window. RHR ticked up one to 55, one over baseline. Overnight stress read 19 against 16 yesterday, and Body Battery charged 53 versus 58. Every one of those is a small step the wrong way, none is alarming, and together they read as one poor night rather than accumulating fatigue. Readiness lands at 71, fair — enough for a swim or a controlled lift, not for a session you would need to be sharp for. One lever tonight: lights out by 22:45. You have the wake time already; nothing else on this board needs fixing first."
     },
     "hr": {
-      "daysFull": ["Sri 19","Čet 20","Pet 21","Pon 24","Uto 25","Sri 26","Čet 27"],
-      "daysShort": ["S19","Č20","P21","P24","U25","S26","Č27"],
-      "scoreWord": "ocjena 79",
-      "c1d": "+9 vs sinoć (70) · dobra",
-      "c2d": "-35m vs prosjek 7 noći (7h 02m)",
-      "c3d": "-3 vs sinoć (57) · 0 vs prosjek 7 noći (54)",
-      "c4d": "+3 vs sinoć (36) · 0 vs prosjek 7 noći (39)",
-      "c5l": "Dobra",
+      "daysFull": ["Čet 20","Pet 21","Pon 24","Uto 25","Sri 26","Čet 27","Pet 28"],
+      "daysShort": ["Č20","P21","P24","U25","S26","Č27","P28"],
+      "scoreWord": "ocjena 73",
+      "c1d": "-6 vs sinoć (79) · solidna",
+      "c2d": "-35m vs prosjek 7 noći (6h 51m)",
+      "c3d": "+1 vs sinoć (54) · +1 vs prosjek 7 noći (54)",
+      "c4d": "-3 vs sinoć (39) · -3 vs prosjek 7 noći (39)",
+      "c5l": "Solidna",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
       "havg": "HRV 7d prosjek 39",
       "today": "Danas: još ništa zabilježeno",
-      "badge": "Najviše dubokog sna od petka 21.",
-      "rec": "Kratka noć, ali najbolje građena u tjednu. Ocjena je 79 uz 6h 27m, svjetlo u 23:39, buđenje u 06:26. Uzmeš li dvije noći zajedno, priča je čist oporavak: srijeda navečer bila je najslabija noć od sedam — ocjena 70, 41 minuta budnosti, RHR povišen na 57 — a sinoćnja je gotovo sve to poništila. Duboki san je glavna vijest. 1h 44m, 27% noći, gotovo dvostruko više od srijedinih 55 minuta i najviše od petka 21. i njegovih 1h 59m. Duboki san bio je onaj broj koji je ova ploča stalno isticala: 33 minute u utorak navečer, 55 u srijedu, sada 104. To je mehanizam oporavka koji radi, i došao je u noći nakon najvećeg pojedinačnog treninga dizanja u prozoru. Cijena je u REM-u. 63 minute, 16% noći, najtanji je REM udio od sedam noći i znatno ispod 90–96 koliko si bilježio ranije u tjednu. To je ono što kratka noć košta — REM dolazi pred kraj, pa se sati koje odrežeš prvo oduzimaju njemu. Učinkovitost je bila 95%, uz 20 minuta budnosti, a laki san uzeo je 3h 40m. Autonomna slika je potpuno oporavljena. HRV se vratio na 39, tri iznad srijedinih 36 i točno na sedmodnevnom prosjeku. RHR je pao za tri otkucaja na 54, ravno natrag na osnovicu nakon srijedinih 57. Noćni stres iznosio je 16, najniže u cijelom prozoru, a Body Battery napunio se 58 — najbolje punjenje u tjednu. Spremnost je 77, dobra, i to je stvarno bolja 77 nego zadnja dva jutra jer su se pomaknuli sami pokazatelji, a ne samo ocjena. Jedina zamjerka je dakle trajanje. 6h 27m je 35 minuta ispod prosjeka od 7h 02m i druga najkraća noć na ploči. Lijeganje klizi: 23:08, 23:34, 23:39 — tri noći koje hodaju sve kasnije, dok je srijedino buđenje u 07:32 bilo jednokratno, a danas si opet bio budan u 06:26. Ponedjeljkovih 22:20 i dalje je jedina noć ovog tjedna koja je kupila osam sati. Vrati gašenje svjetla na 22:45 večeras; kad su duboki san i HRV već tamo gdje ih želiš, trajanje je zadnje što treba popraviti."
+      "badge": "Najkraća noć od sedam",
+      "rec": "Uzeo si potpuni dan odmora i spavao lošije. To je nalaz ovog jutra i to je onaj koristan. Ocjena 73 uz 6h 16m, svjetlo u 23:46, buđenje u 06:44 — najkraća noć na ploči i 35 minuta ispod prosjeka od 6h 51m. Noć prije, nakon najtežeg dana dizanja u bloku, imao si 79 uz 6h 27m. Dakle jučerašnji dan bez treninga nije kupio ništa. Problem nije opterećenje. Problem su isprekidanost i lijeganje. Budio si se šest puta, naspram tri prethodne noći, ukupno 42 minute budnosti, što je najviše od svih noći ovdje. Učinkovitost je pala na 90% — najlošija od sedam i jedina noć ovaj tjedan ispod 91. Garminova vlastita ocjena se slaže: broj buđenja i nemir oboje su ocijenjeni kao solidni. To je noć provedena u izranjanju, a ne noć provedena kratko. Lijeganje je druga polovica. 23:08, 23:34, 23:39, 23:46 — četiri noći koje ravnomjerno kasne, dok ti buđenje ostaje prikovano u pojasu 06:12–06:44. Ne biraš kraći san, gubiš ga po 10 minuta s prednje strane. Ponedjeljkovih 22:20 i dalje je jedino gašenje svjetla u ovom prozoru koje je proizvelo osam sati. Raspodjela faza nije krivac. Duboki san zadržao se na 1h 02m, 16% noći, i to je jedina komponenta koju je Garmin ocijenio dobrom — niže od četvrtkovih izvanrednih 1h 44m, ali i dalje ispred ponedjeljka, utorka i srijede. REM je platio cijenu sa 51 minutom, 14%, drugi najtanji udio od sedam, što je standardni trošak kratke i isprekidane noći jer REM dolazi pred kraj. Laki san ispunio je 4h 23m. Autonomika je popustila, ali nije pukla. HRV je 36, tri ispod i sinoćnjeg i sedmodnevnog prosjeka, u ravni s dva najslabija očitanja u prozoru. RHR je porastao za jedan na 55, jedan iznad osnovice. Noćni stres iznosio je 19 naspram jučerašnjih 16, a Body Battery napunio se 53 naspram 58. Svaki od tih pomaka je mali korak u krivom smjeru, nijedan nije zabrinjavajući, a zajedno se čitaju kao jedna loša noć, a ne kao nakupljeni umor. Spremnost je 71, solidna — dovoljno za plivanje ili kontrolirano dizanje, ne za trening u kojem bi trebao biti oštar. Jedna poluga večeras: svjetlo gasi do 22:45. Vrijeme buđenja već imaš; ništa drugo na ovoj ploči ne treba popraviti prije toga."
     }
   }
 }
