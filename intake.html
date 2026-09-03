@@ -29,6 +29,8 @@ th:first-child{text-align:left;padding-left:4px}
 td{padding:8px;text-align:right;font-variant-numeric:tabular-nums;border-top:0.5px solid var(--bd)}
 td:first-child{text-align:left;color:var(--ts);padding-left:4px}
 tfoot td{font-weight:600;border-top:1px solid var(--bd)}
+#wrap.mobile #daysum table{font-size:11px}
+#wrap.mobile #daysum th,#wrap.mobile #daysum td{padding:5px 4px}
 .note{background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin-bottom:0.25rem;line-height:1.6}
 .state{text-align:center;padding:60px 20px;color:var(--ts);font-size:13px}
 </style>
@@ -63,10 +65,12 @@ const shortLabel=d=>{const parts=d.split(' ');const dm=parts[1].split('-');retur
 const T={
  en:{title:"PATRIK'S INTAKE",macros:"MACROS VS TARGET",fill:"FILL RATE",energy:"ENERGY BALANCE",foodlog:"FOOD LOG",insights:"INSIGHTS",
    cal:"Calories",prot:"Protein",carb:"Carbs",fat:"Fat",total:"Total",deficit:"deficit",surplus:"surplus",over:"over",target:"target",
-   burn:"Burn (TDEE)",intake:"Intake",item:"Item",foot:"Intake logged live · macro targets per plan"},
+   burn:"Burn (TDEE)",intake:"Intake",item:"Item",foot:"Intake logged live · macro targets per plan",
+   sDay:"Day",sBase:"Base",sEx:"Exercise",sDeficit:"Deficit (+ = surplus)",avg:"average"},
  hr:{title:"PATRIKOV UNOS",macros:"MAKROI VS CILJ",fill:"ISPUNJENOST",energy:"ENERGETSKA BILANCA",foodlog:"DNEVNIK PREHRANE",insights:"UVIDI",
    cal:"Kalorije",prot:"Proteini",carb:"UH",fat:"Masti",total:"Ukupno",deficit:"deficit",surplus:"višak",over:"iznad",target:"cilj",
-   burn:"Potrošnja (TDEE)",intake:"Unos",item:"Stavka",foot:"Unos uživo · ciljevi makroa po planu"}
+   burn:"Potrošnja (TDEE)",intake:"Unos",item:"Stavka",foot:"Unos uživo · ciljevi makroa po planu",
+   sDay:"Dan",sBase:"Baza",sEx:"Trening",sDeficit:"Deficit (+ = višak)",avg:"prosjek"}
 };
 let LBL=T.en;
 const pct=(v,m)=>Math.min(100,Math.round(v/m*100));
@@ -135,7 +139,7 @@ function applyTheme(t){theme=t;document.getElementById('wrap').classList.toggle(
  document.body.style.background=t==='dark'?'#262624':'#ffffff';markBtns();}
 function setLang(l){lang=l;LBL=T[l];
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
- render();markBtns();}
+ render();renderSummary();markBtns();}
 function toggleFont(){fontbig=!fontbig;document.getElementById('wrap').classList.toggle('big',fontbig);markBtns();}
 function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want)return;layout=want;
  document.getElementById('wrap').classList.toggle('mobile',want==='mobile');}
@@ -159,18 +163,32 @@ function renderDayBtns(){
 function renderSummary(){
  const el=document.getElementById('daysum');
  if(!el||!DAYS.length)return;
- const rows=DAYS.map((d,i)=>{
-  const tot=d.log.reduce((a,f)=>a+(+f.kcal||0),0);
-  const bal=tot-d.tdee;
-  const sel=i===daySel;
-  const col=bal<=0?'#1D9E75':'#A32D2D';
-  return `<div style="display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:6px 4px;${i>0?'border-top:0.5px solid var(--bd);':''}">
-   <span style="min-width:50px;color:${sel?'var(--tp)':'var(--ts)'};font-weight:${sel?'600':'400'};">${sel?'▸ ':''}${shortLabel(d.date)}</span>
-   <span style="color:var(--ts);flex:1;text-align:right;">${tot.toLocaleString()} / ${d.target.kcal.toLocaleString()} kcal</span>
-   <span style="color:${col};font-weight:500;min-width:55px;text-align:right;">${bal<=0?'−'+Math.abs(bal):'+'+bal}</span>
-  </div>`;
+ const base=(DATA.athlete&&DATA.athlete.restTdee)||0;
+ const rows=DAYS.map(d=>{
+  const intake=d.log.reduce((a,f)=>a+(+f.kcal||0),0);
+  const tdee=d.tdee;
+  const ex=Math.max(0,tdee-base);
+  const deficit=tdee-intake;
+  return{intake,base,ex,tdee,deficit};
+ });
+ const n=rows.length;
+ const avg=k=>Math.round(rows.reduce((a,r)=>a+r[k],0)/n);
+ const avgRow={intake:avg('intake'),base:avg('base'),ex:avg('ex'),tdee:avg('tdee'),deficit:avg('deficit')};
+ const fmt=v=>v.toLocaleString();
+ const defCell=v=>{const col=v>=0?'#1D9E75':(theme==='dark'?'#E24B4A':'#A32D2D');const txt=v>=0?fmt(v):'+'+fmt(Math.abs(v));
+  return `<td style="color:${col};font-weight:500;">${txt}</td>`;};
+ const trs=DAYS.map((d,i)=>{
+  const r=rows[i],sel=i===daySel;
+  return `<tr onclick="selectDay(${i})" style="cursor:pointer;${sel?'font-weight:600;':''}">
+   <td style="${sel?'color:var(--tp);':''}">${sel?'▸ ':''}${shortLabel(d.date)}</td>
+   <td>${fmt(r.intake)}</td><td>${fmt(r.base)}</td><td>${fmt(r.ex)}</td><td>${fmt(r.tdee)}</td>${defCell(r.deficit)}
+  </tr>`;
  }).join('');
- el.innerHTML=`<div class="card" style="padding:0.4rem 0.75rem;">${rows}</div>`;
+ el.innerHTML=`<div style="overflow-x:auto;"><table style="margin:0;">
+  <thead><tr><th>${LBL.sDay}</th><th>${LBL.intake}</th><th>${LBL.sBase}</th><th>${LBL.sEx}</th><th>TDEE</th><th>${LBL.sDeficit}</th></tr></thead>
+  <tbody>${trs}</tbody>
+  <tfoot><tr><td>${LBL.avg}</td><td>${fmt(avgRow.intake)}</td><td>${fmt(avgRow.base)}</td><td>${fmt(avgRow.ex)}</td><td>${fmt(avgRow.tdee)}</td>${defCell(avgRow.deficit)}</tr></tfoot>
+ </table></div>`;
 }
 applyTheme(theme);applyResponsive();markBtns();
 window.addEventListener('resize',applyResponsive);
