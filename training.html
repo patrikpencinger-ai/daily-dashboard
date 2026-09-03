@@ -139,6 +139,33 @@ body{padding:20px;transition:background .2s}
   <canvas id="ws" role="img" aria-label="Per-set HR peaks of latest vs previous session"></canvas>
 </div>
 
+<div id="gymSec" style="display:none;">
+<div data-i="gH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">GYM — VOLUME, HR &amp; TEMPERATURE</div>
+<div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#54718D;"></span><span data-i="gVol">Volume</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="color:#E24B4A;">♥</span><span data-i="lMax">Max HR</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2.5px dashed #E0A53C;"></span><span data-i="lAvg">Avg HR</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:1.5px dotted #8B5FBF;"></span><span data-i="gTmp">Temp</span></span>
+</div>
+<div id="gmwrap" style="position:relative;width:100%;height:340px;margin:0 0 1.5rem;">
+  <canvas id="gm" role="img" aria-label="Gym sessions: lifted volume bars with max and average heart rate lines and the day's temperature"></canvas>
+</div>
+</div>
+
+<div id="swSec" style="display:none;">
+<div data-i="swH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">SWIM — PACE PER SESSION</div>
+<div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2caaf0;"></span><span data-i="swPace">Pace</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2caaf0;"></span><span data-i="lPool">Pool swim</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#084a8f;"></span><span data-i="lOws">Open water</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="color:#E24B4A;">♥</span><span data-i="lMax">Max HR</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2.5px dashed #E0A53C;"></span><span data-i="lAvg">Avg HR</span></span>
+</div>
+<div id="swwrap" style="position:relative;width:100%;height:340px;margin:0 0 1.5rem;">
+  <canvas id="sw" role="img" aria-label="Swim sessions: pace per 100 meters, axis inverted so a faster pace sits higher, with max and average heart rate"></canvas>
+</div>
+</div>
+
 <div data-i="h2" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">FINDINGS</div>
 <div class="igrid">
   <div class="icard"><span style="font-weight:500;" data-i="i1t"></span><br><span class="tlab" data-i="i1"></span></div>
@@ -171,6 +198,8 @@ const T={
   mlH:"MAIN LIFT HR — SET PEAKS",mlW:"Top set weight (kg)",mlMx:"Max set peak",mlAv:"Avg set peak",mlD:"badge = Δ last−first set",rAll:"ALL",
   mlNote:"Per-set peaks from 1s FIT heart-rate streams: main block anchored at the post-warmup trough, first N peaks where N = main-compound sets in Hevy. * = detection flagged for review.",
   wsH:"LATEST VS PREVIOUS — PER-SET PEAKS",wsPrev:"previous",wsLast:"latest",
+  gH:"GYM — VOLUME, HR & TEMPERATURE",gVol:"Volume",gTmp:"Temp",
+  swH:"SWIM — PACE PER SESSION",swPace:"Pace",
   bH:"BURN COMPOSITION VS TARGET",bBasal:"Basal (Garmin BMR 2,414)",bEx:"Exercise (net)",bInt:"Intake (hollow = assumed 2,000)",bTgt:"2,000 target",bBal:"badge = daily balance",
   wH:"DAILY KCAL BRIDGE",wInt:"Intake",wBas:"Basal",wEx:"Exercise",wBal:"Balance",
   eH:"ENERGY BALANCE",eDaily:"Daily exercise burn",eAvg:"7-day avg burn",eInt:"Logged intake",eTgt:"2,000 kcal target",h2:"FINDINGS"},
@@ -180,6 +209,8 @@ const T={
   mlH:"PULS GLAVNE VJEŽBE — VRHOVI PO SERIJI",mlW:"Najteža serija (kg)",mlMx:"Maks. vrh serije",mlAv:"Prosj. vrh serije",mlD:"značka = Δ zadnja−prva serija",rAll:"SVE",
   mlNote:"Vrhovi po seriji iz 1s FIT zapisa pulsa: glavni blok usidren na minimumu nakon zagrijavanja, prvih N vrhova gdje je N = broj serija glavne vježbe u Hevyju. * = označeno za provjeru.",
   wsH:"ZADNJI VS PRETHODNI — VRHOVI PO SERIJI",wsPrev:"prethodni",wsLast:"zadnji",
+  gH:"TERETANA — VOLUMEN, PULS I TEMPERATURA",gVol:"Volumen",gTmp:"Temperatura",
+  swH:"PLIVANJE — TEMPO PO TRENINGU",swPace:"Tempo",
   bH:"SASTAV POTROŠNJE VS CILJ",bBasal:"Bazalni (Garmin BMR 2.414)",bEx:"Trening (neto)",bInt:"Unos (prazan krug = pretpostavljeno 2.000)",bTgt:"Cilj 2.000",bBal:"značka = dnevna bilanca",
   wH:"DNEVNI KCAL MOST",wInt:"Unos",wBas:"Bazalni",wEx:"Trening",wBal:"Bilanca",
   eH:"ENERGETSKA BILANCA",eDaily:"Dnevna potrošnja",eAvg:"7-dnevni prosjek",eInt:"Zabilježeni unos",eTgt:"Cilj 2.000 kcal",h2:"NALAZI"}
@@ -190,7 +221,8 @@ let TYPE,NAMES,D,MAXHR,AVGHR,RHR;
 let EDAILY,EAVG,EINT,ETGT;
 let BMR,EXNET,INTAKE,LOGGED,BAL;
 let BR,MLD;
-let tr,en,bc,br,ml,ws;
+let GYM,SWIM;
+let tr,en,bc,br,ml,ws,gm,sw;
 const fmt={effort:v=>Math.round(v),dur:v=>Math.round(v)+'m',kcal:v=>Math.round(v),vol:v=>v.toFixed(1)+'t',dist:v=>Math.round(v)+'m'};
 function txtL(){return DAT.text[lang];}
 function inFilter(i){if(filter==='all')return true;if(filter==='swim')return TYPE[i]==='pool'||TYPE[i]==='ows';return TYPE[i]==='str';}
@@ -207,6 +239,10 @@ function init(){
  BMR=n.burn.bmr;EXNET=n.burn.exnet;INTAKE=n.burn.intake;LOGGED=n.burn.logged;
  BAL=INTAKE.map((v,i)=>v-(BMR+EXNET[i]));
  BR=n.bridge;MLD=n.mld;
+ GYM=(n.gym&&n.gym.length)?n.gym:null;
+ SWIM=(n.swim&&n.swim.length)?n.swim:null;
+ document.getElementById('gymSec').style.display=GYM?'':'none';
+ document.getElementById('swSec').style.display=SWIM?'':'none';
 
  const overlay={id:'overlay',afterDatasetsDraw(ch){
   const{ctx}=ch;const meta=ch.getDatasetMeta(0);const data=D[metric];
@@ -327,6 +363,72 @@ function init(){
   plugins:[bgPlug,wsPlug]
  });
 
+ const AXP=sec=>{if(sec==null)return'';const m=Math.floor(sec/60),s=Math.round(sec%60);return m+':'+String(s).padStart(2,'0');};
+ const swimIsOws=r=>/open water/i.test(r.t||'');
+ const swimLabels=()=>{const seen={};return SWIM.map(r=>{seen[r.d]=(seen[r.d]||0)+1;const n=seen[r.d];return n>1?r.l+' ('+n+')':r.l;});};
+ if(GYM){
+  const gmTip={mode:'index',intersect:false,
+   filter:it=>{const r=GYM[it.dataIndex];if(it.datasetIndex===0)return r.vol!=null;const lb=it.dataset.label;if(lb==='mx')return r.mx!=null;if(lb==='av')return r.av!=null;if(lb==='tmax')return r.tmax!=null&&r.tmin!=null;return true;},
+   callbacks:{title:c=>c.length?(GYM[c[0].dataIndex].t||''):'',
+    label:c=>{const r=GYM[c.dataIndex];
+     if(c.datasetIndex===0){let s=LBL.gVol+': '+r.vol.toLocaleString('en-US')+' kg';if(r.sets!=null&&r.reps!=null)s+=' ('+r.sets+'×'+r.reps+')';return s;}
+     const lb=c.dataset.label;
+     if(lb==='mx')return LBL.lMax+': '+r.mx+' bpm';
+     if(lb==='av')return LBL.lAvg+': '+r.av+' bpm';
+     if(lb==='tmax')return LBL.gTmp+': '+r.tmax.toFixed(1)+' / '+r.tmin.toFixed(1)+' °C';
+    }}};
+  gm=new Chart(document.getElementById('gm'),{
+   data:{labels:GYM.map(r=>r.l),datasets:[
+    {type:'bar',data:GYM.map(r=>r.vol??null),backgroundColor:'#54718D',maxBarThickness:46,yAxisID:'y',order:10},
+    {type:'line',label:'mx',data:GYM.map(r=>r.mx??null),borderColor:HC.max,borderWidth:2.5,tension:0.25,pointRadius:0,yAxisID:'y1',order:1,spanGaps:true},
+    {type:'line',label:'av',data:GYM.map(r=>r.av??null),borderColor:HC.avg,borderWidth:2.5,borderDash:[8,4],tension:0.25,pointRadius:0,yAxisID:'y1',order:2,spanGaps:true},
+    {type:'line',label:'tmax',data:GYM.map(r=>r.tmax??null),borderColor:'#8B5FBF',borderWidth:1.5,borderDash:[1,3],tension:0.25,pointRadius:0,yAxisID:'y2',order:3,spanGaps:true}
+   ]},
+   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18}},
+    plugins:{legend:{display:false},tooltip:gmTip},
+    scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt,maxRotation:60}},
+     y:{min:0,title:{display:true,text:'kg',color:txt},grid:{color:grid},ticks:{color:txt}},
+     y1:{position:'right',min:40,max:180,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}},
+     y2:{display:false}
+    }},
+   plugins:[bgPlug,{id:'axgm',afterDraw(ch){const{ctx}=ch;const s1=ch.scales.y1;if(!s1)return;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 10px ')+'sans-serif';ctx.fillStyle=txt;ctx.fillText('bpm♥',s1.left+s1.width/2+2,s1.top-6);ctx.restore();}}]
+  });
+ }
+
+ if(SWIM){
+  const swTip={mode:'index',intersect:false,
+   filter:it=>{const r=SWIM[it.dataIndex];if(it.datasetIndex===0)return r.sec100!=null;const lb=it.dataset.label;if(lb==='mx')return r.mx!=null;if(lb==='av')return r.av!=null;return true;},
+   callbacks:{title:c=>c.length?(SWIM[c[0].dataIndex].t||''):'',
+    label:c=>{const r=SWIM[c.dataIndex];
+     if(c.datasetIndex===0){const lines=[LBL.swPace+': '+(r.pace||AXP(r.sec100))+' /100m'];
+      if(r.dist!=null)lines.push(LBL.mDist+': '+r.dist.toLocaleString('en-US')+' m');
+      const extra=[];if(r.lengths!=null)extra.push(r.lengths+' lengths');if(r.spm!=null)extra.push(r.spm+' spm');
+      if(extra.length)lines.push(extra.join(' · '));
+      return lines;}
+     const lb=c.dataset.label;
+     if(lb==='mx')return LBL.lMax+': '+r.mx+' bpm';
+     if(lb==='av')return LBL.lAvg+': '+r.av+' bpm';
+    }}};
+  sw=new Chart(document.getElementById('sw'),{
+   data:{labels:swimLabels(),datasets:[
+    {type:'line',label:'pace',data:SWIM.map(r=>r.sec100??null),borderColor:TC.pool,backgroundColor:TC.pool,pointBackgroundColor:SWIM.map(r=>swimIsOws(r)?TC.ows:TC.pool),pointBorderColor:SWIM.map(r=>swimIsOws(r)?TC.ows:TC.pool),borderWidth:2.5,tension:0.25,pointRadius:4,yAxisID:'y',order:1,spanGaps:true},
+    {type:'line',label:'mx',data:SWIM.map(r=>r.mx??null),borderColor:HC.max,borderWidth:2,tension:0.25,pointRadius:0,yAxisID:'y1',order:2,spanGaps:true},
+    {type:'line',label:'av',data:SWIM.map(r=>r.av??null),borderColor:HC.avg,borderWidth:2,borderDash:[8,4],tension:0.25,pointRadius:0,yAxisID:'y1',order:3,spanGaps:true}
+   ]},
+   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
+    plugins:{legend:{display:false},tooltip:swTip},
+    scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt,maxRotation:60}},
+     y:{reverse:true,title:{display:true,text:'min/100m',color:txt},grid:{color:grid},ticks:{color:txt,callback:v=>AXP(v)}},
+     y1:{position:'right',min:40,max:180,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}}
+    }},
+   plugins:[bgPlug,
+    {id:'swpace',afterDatasetsDraw(ch){const{ctx}=ch;const meta=ch.getDatasetMeta(0);ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
+     meta.data.forEach((pt,i)=>{const r=SWIM[i];if(r.sec100==null)return;ctx.fillStyle=strong;ctx.fillText(r.pace||AXP(r.sec100),pt.x,pt.y-10);});ctx.restore();}},
+    {id:'axsw',afterDraw(ch){const{ctx}=ch;const s1=ch.scales.y1;if(!s1)return;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 10px ')+'sans-serif';ctx.fillStyle=txt;ctx.fillText('bpm♥',s1.left+s1.width/2+2,s1.top-6);ctx.restore();}}
+   ]
+  });
+ }
+
  fillKpis();
  buildBridgeButtons();
  setMetric('effort');
@@ -370,13 +472,15 @@ function applyTheme(t){theme=t;calc();document.getElementById('twrap').classList
  const se=en.options.scales;se.x.ticks.color=txt;se.y.ticks.color=txt;se.y.title.color=txt;se.y.grid.color=grid;
  [bc,br,ws].forEach(c=>{const q=c.options.scales;q.x.ticks.color=txt;q.y.ticks.color=txt;q.y.grid.color=grid;});
  const qm=ml.options.scales;qm.x.ticks.color=txt;qm.y.ticks.color=txt;qm.y.grid.color=grid;qm.y1.ticks.color=txt;
- markBtns();tr.update();en.update();bc.update();br.update();ml.update();ws.update();}
+ if(gm){const qg=gm.options.scales;qg.x.ticks.color=txt;qg.y.ticks.color=txt;qg.y.title.color=txt;qg.y.grid.color=grid;qg.y1.ticks.color=txt;}
+ if(sw){const qs=sw.options.scales;qs.x.ticks.color=txt;qs.y.ticks.color=txt;qs.y.title.color=txt;qs.y.grid.color=grid;qs.y1.ticks.color=txt;}
+ markBtns();tr.update();en.update();bc.update();br.update();ml.update();ws.update();if(gm)gm.update();if(sw)sw.update();}
 function setLang(l){lang=l;LBL=T[l];
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');let v=(LBL[k]!==undefined)?LBL[k]:(DAT?DAT.text[lang][k]:undefined);if(v!==undefined&&v!==null)el.textContent=v;});
  if(!tr)return;
  const dlabels=layout==='mobile'?txtL().daysM:txtL().days;
  tr.data.labels=dlabels;en.data.labels=dlabels;bc.data.labels=dlabels;br.data.labels=brLabels();
- markBtns();tr.update();en.update();bc.update();br.update();mlRefresh();}
+ markBtns();tr.update();en.update();bc.update();br.update();mlRefresh();if(gm)gm.update();if(sw)sw.update();}
 function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want)return;layout=want;const M=want==='mobile';
  document.getElementById('twrap').classList.toggle('mobile',M);
  document.getElementById('trwrap').style.height=M?'420px':'380px';document.getElementById('enwrap').style.height=M?'320px':'300px';
@@ -389,9 +493,12 @@ function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';i
  document.getElementById('bcwrap').style.height=M?'350px':'330px';document.getElementById('brwrap').style.height=M?'350px':'330px';
  document.getElementById('mlwrap').style.height=M?'380px':'360px';document.getElementById('wswrap').style.height=M?'300px':'280px';
  [ml,ws].forEach(c=>{c.options.scales.x.ticks.font={size:M?9:11};c.options.scales.y.ticks.font={size:M?10:12};});if(ml.options.scales.y1)ml.options.scales.y1.ticks.font={size:M?10:12};
+ document.getElementById('gmwrap').style.height=M?'380px':'340px';document.getElementById('swwrap').style.height=M?'380px':'340px';
+ if(gm){gm.options.scales.x.ticks.font={size:M?9:11};gm.options.scales.y.ticks.font={size:M?10:12};gm.options.scales.y1.ticks.font={size:M?10:12};}
+ if(sw){sw.options.scales.x.ticks.font={size:M?9:11};sw.options.scales.y.ticks.font={size:M?10:12};sw.options.scales.y1.ticks.font={size:M?10:12};}
  markBtns();
- requestAnimationFrame(()=>{tr.resize();en.resize();bc.resize();br.resize();ml.resize();ws.resize();tr.update();en.update();bc.update();br.update();ml.update();ws.update();});}
-function toggleFont(){fontbig=!fontbig;document.getElementById('twrap').classList.toggle('big',fontbig);markBtns();if(tr)requestAnimationFrame(()=>{tr.resize();en.resize();bc.resize();br.resize();ml.resize();ws.resize();tr.update();en.update();bc.update();br.update();ml.update();ws.update();});}
+ requestAnimationFrame(()=>{tr.resize();en.resize();bc.resize();br.resize();ml.resize();ws.resize();if(gm)gm.resize();if(sw)sw.resize();tr.update();en.update();bc.update();br.update();ml.update();ws.update();if(gm)gm.update();if(sw)sw.update();});}
+function toggleFont(){fontbig=!fontbig;document.getElementById('twrap').classList.toggle('big',fontbig);markBtns();if(tr)requestAnimationFrame(()=>{tr.resize();en.resize();bc.resize();br.resize();ml.resize();ws.resize();if(gm)gm.resize();if(sw)sw.resize();tr.update();en.update();bc.update();br.update();ml.update();ws.update();if(gm)gm.update();if(sw)sw.update();});}
 function markBtns(){
  const Dk=theme==='dark';const actBg=Dk?'#e8e8e6':'#444441',actFg=Dk?'#262624':'#ffffff',inFg=Dk?'#e8e8e6':'#2c2c2a';
  const bd=Dk?'1px solid rgba(255,255,255,0.35)':'1px solid rgba(0,0,0,0.4)';
