@@ -3,16 +3,16 @@
     "intake_asof": "2026-09-03",
     "refreshedAt": "2026-09-03T18:20:00+02:00",
     "weekStart": "2026-08-31",
-    "note": "intake logged manually (multi-day); sleep & training auto-refreshed from the connector"
+    "note": "intake logged manually (multi-day); sleep & training auto-refreshed from the connector. BMR 1935 = Mifflin-St Jeor (108.4 kg, 173 cm, 47 y, male); restTdee 2420 = BMR x 1.25; basal during exercise ~81 kcal/h = BMR/24. Rebased 2026-09-03 from the 114 kg figures (BMR 1991 / restTdee 2490)."
   },
-  "athlete": { "weightKg": 108.4, "bmr": 1991, "restTdee": 2490 },
+  "athlete": { "weightKg": 108.4, "bmr": 1935, "restTdee": 2420 },
   "days": [
     {
       "date": "Tue 2026-09-01",
       "dayType": "training day",
       "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
-      "tdee": 3114,
-      "tdeeNote": "rest base 2490 + 624 net gym burn (728 gross Garmin deadlift session, 75 min − ~83 basal/h)",
+      "tdee": 3047,
+      "tdeeNote": "rest base 2420 + 627 net gym burn (728 gross Garmin deadlift session, 75 min − ~81 basal/h)",
       "log": [
         { "name": "Banana, medium",                                  "kcal": 105, "p": 1,  "c": 27, "f": 0 },
         { "name": "Carrots x3",                                      "kcal": 75,  "p": 2,  "c": 17, "f": 0 },
@@ -32,8 +32,8 @@
       "date": "Wed 2026-09-02",
       "dayType": "rest day",
       "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
-      "tdee": 2490,
-      "tdeeNote": "rest base 2490, no session — Garmin logged 43 active kcal / 2,249 steps",
+      "tdee": 2420,
+      "tdeeNote": "rest base 2420, no session — Garmin logged 43 active kcal / 2,249 steps",
       "log": [
         { "name": "Optimum Cookie & Cream whey 50g",   "kcal": 190, "p": 39,  "c": 5,  "f": 3 },
         { "name": "Grilled chicken breast 470g (cooked)", "kcal": 775, "p": 146, "c": 0,  "f": 17 },
@@ -50,8 +50,8 @@
       "date": "Thu 2026-09-03",
       "dayType": "training day",
       "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
-      "tdee": 3090,
-      "tdeeNote": "rest base 2490 + 600 net gym burn (750 gross − ~83 basal/h)",
+      "tdee": 3060,
+      "tdeeNote": "rest base 2420 + 640 net gym burn (752 gross Garmin hack-squat session, 83 min − ~81 basal/h)",
       "log": [
         { "name": "Ground beef, lean, cooked 400g",     "kcal": 720, "p": 104, "c": 0,  "f": 32 },
         { "name": "Tomato soup 300 ml",                 "kcal": 60,  "p": 3,   "c": 10, "f": 1 },
