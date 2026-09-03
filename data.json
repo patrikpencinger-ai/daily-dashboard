@@ -1,22 +1,66 @@
 {
   "meta": {
-    "intake_asof": "2026-06-14",
-    "refreshedAt": "2026-06-14T14:56:24+02:00",
-    "note": "intake logged live; sleep & training auto-refreshed from the connector"
+    "intake_asof": "2026-09-03",
+    "refreshedAt": "2026-09-03T18:20:00+02:00",
+    "weekStart": "2026-08-31",
+    "note": "intake logged manually (multi-day); sleep & training auto-refreshed from the connector"
   },
-  "intake": {
-    "date": "SUN 2026-06-14",
-    "dayType": "rest day",
-    "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
-    "tdee": 2490,
-    "log": [
-      { "name": "Dukat protein caramel pudding",                          "kcal": 130, "p": 13, "c": 15, "f": 3 },
-      { "name": "Sourdough 100g",                                          "kcal": 245, "p": 8,  "c": 47, "f": 1 },
-      { "name": "Mayo 1 tbsp",                                             "kcal": 95,  "p": 0,  "c": 0,  "f": 10 },
-      { "name": "Dimek dimljena pileća prsa 250g",                         "kcal": 275, "p": 55, "c": 3,  "f": 5 },
-      { "name": "Beef goulash 2 plates (brothy, little meat/potato, carrot)", "kcal": 450, "p": 30, "c": 28, "f": 24 },
-      { "name": "Bread 1 slice",                                           "kcal": 90,  "p": 3,  "c": 17, "f": 1 },
-      { "name": "Green salad + 1 tbsp EVOO",                               "kcal": 150, "p": 2,  "c": 5,  "f": 14 }
-    ]
-  }
+  "athlete": { "weightKg": 108.4, "bmr": 1991, "restTdee": 2490 },
+  "days": [
+    {
+      "date": "Tue 2026-09-01",
+      "dayType": "training day",
+      "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+      "tdee": 3114,
+      "tdeeNote": "rest base 2490 + 624 net gym burn (728 gross Garmin deadlift session, 75 min − ~83 basal/h)",
+      "log": [
+        { "name": "Banana, medium",                                  "kcal": 105, "p": 1,  "c": 27, "f": 0 },
+        { "name": "Carrots x3",                                      "kcal": 75,  "p": 2,  "c": 17, "f": 0 },
+        { "name": "Optimum Cookie & Cream whey 50g",                 "kcal": 190, "p": 39, "c": 5,  "f": 3 },
+        { "name": "Tomato soup 1 L (Metro pelati + Vegeta, no oil)",  "kcal": 200, "p": 10, "c": 32, "f": 2 },
+        { "name": "Peas 100g",                                       "kcal": 80,  "p": 5,  "c": 14, "f": 0 },
+        { "name": "Dimcek dimljena pileća prsa 250g",                "kcal": 275, "p": 55, "c": 3,  "f": 5 },
+        { "name": "President zrnati sir 200g",                       "kcal": 190, "p": 23, "c": 6,  "f": 9 },
+        { "name": "Zott protein pudding vanilla 200g",               "kcal": 150, "p": 20, "c": 12, "f": 2 },
+        { "name": "Olives x10",                                      "kcal": 50,  "p": 0,  "c": 1,  "f": 5 },
+        { "name": "Carrot 300g",                                     "kcal": 125, "p": 3,  "c": 29, "f": 1 },
+        { "name": "Green salad + 1 tbsp EVOO",                       "kcal": 150, "p": 2,  "c": 5,  "f": 14 },
+        { "name": "Parmigiano 30g",                                  "kcal": 120, "p": 11, "c": 0,  "f": 8 }
+      ]
+    },
+    {
+      "date": "Wed 2026-09-02",
+      "dayType": "rest day",
+      "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+      "tdee": 2490,
+      "tdeeNote": "rest base 2490, no session — Garmin logged 43 active kcal / 2,249 steps",
+      "log": [
+        { "name": "Optimum Cookie & Cream whey 50g",   "kcal": 190, "p": 39,  "c": 5,  "f": 3 },
+        { "name": "Grilled chicken breast 470g (cooked)", "kcal": 775, "p": 146, "c": 0,  "f": 17 },
+        { "name": "Sourdough 200g",                    "kcal": 490, "p": 16,  "c": 94, "f": 3 },
+        { "name": "Mayo 1 tbsp",                       "kcal": 95,  "p": 0,   "c": 0,  "f": 10 },
+        { "name": "Sriracha 2 tbsp",                   "kcal": 15,  "p": 0,   "c": 3,  "f": 0 },
+        { "name": "Olives x10",                        "kcal": 50,  "p": 0,   "c": 1,  "f": 5 },
+        { "name": "Kaufland bio tomato-veg juice 1 L", "kcal": 180, "p": 8,   "c": 35, "f": 1 },
+        { "name": "Cottage cheese 200g",               "kcal": 190, "p": 23,  "c": 6,  "f": 9 },
+        { "name": "Zott protein pudding vanilla",      "kcal": 150, "p": 20,  "c": 12, "f": 2 }
+      ]
+    },
+    {
+      "date": "Thu 2026-09-03",
+      "dayType": "training day",
+      "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+      "tdee": 3090,
+      "tdeeNote": "rest base 2490 + 600 net gym burn (750 gross − ~83 basal/h)",
+      "log": [
+        { "name": "Ground beef, lean, cooked 400g",     "kcal": 720, "p": 104, "c": 0,  "f": 32 },
+        { "name": "Tomato soup 300 ml",                 "kcal": 60,  "p": 3,   "c": 10, "f": 1 },
+        { "name": "Sourdough 135g",                     "kcal": 330, "p": 11,  "c": 63, "f": 2 },
+        { "name": "Optimum Cookie & Cream whey 50g",    "kcal": 190, "p": 39,  "c": 5,  "f": 3 },
+        { "name": "Pasta Rummo 200g (cooked)",          "kcal": 250, "p": 9,   "c": 50, "f": 1 },
+        { "name": "Ground beef, lean, cooked 150g",     "kcal": 270, "p": 39,  "c": 0,  "f": 12 },
+        { "name": "Tomato soup 120 ml",                 "kcal": 25,  "p": 1,   "c": 4,  "f": 0 }
+      ]
+    }
+  ]
 }

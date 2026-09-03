@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's intake — today — 2026-06-13</title>
+<title>Patrik's intake</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%231D9E75'/><path%20d='M11%208v7a3%203%200%200%200%206%200V8M14%2015v9'%20fill='none'%20stroke='%23fff'%20stroke-width='2'%20stroke-linecap='round'/><path%20d='M22%208c-2%200-3%203-3%207s1%204%203%204%200-2%200-5-1-6-3-6z'%20fill='%23fff'/></svg>">
 <style>
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -36,7 +36,7 @@ tfoot td{font-weight:600;border-top:1px solid var(--bd)}
 <body>
 <div id="wrap">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 1.25rem;flex-wrap:wrap;">
-  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">PATRIK'S INTAKE — TODAY</div>
+  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">PATRIK'S INTAKE</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
     <button id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hr" onclick="setLang('hr')">HR</button>
@@ -45,6 +45,9 @@ tfoot td{font-weight:600;border-top:1px solid var(--bd)}
 </div>
 
 <div id="sub" class="sub" style="margin:0 0 1rem;"></div>
+
+<div id="daybtns" style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;"></div>
+<div id="daysum" style="margin:0 0 1.25rem;"></div>
 
 <div id="content"><div class="state">Loading…</div></div>
 
@@ -55,11 +58,13 @@ tfoot td{font-weight:600;border-top:1px solid var(--bd)}
 let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 let lang='en',fontbig=false,layout='';
 let DATA=null;
+let DAYS=[],daySel=0;
+const shortLabel=d=>{const parts=d.split(' ');const dm=parts[1].split('-');return parts[0]+' '+parseInt(dm[2],10);};
 const T={
- en:{title:"PATRIK'S INTAKE — TODAY",macros:"MACROS VS TARGET",fill:"FILL RATE",energy:"ENERGY BALANCE",foodlog:"FOOD LOG",insights:"INSIGHTS",
+ en:{title:"PATRIK'S INTAKE",macros:"MACROS VS TARGET",fill:"FILL RATE",energy:"ENERGY BALANCE",foodlog:"FOOD LOG",insights:"INSIGHTS",
    cal:"Calories",prot:"Protein",carb:"Carbs",fat:"Fat",total:"Total",deficit:"deficit",surplus:"surplus",over:"over",target:"target",
    burn:"Burn (TDEE)",intake:"Intake",item:"Item",foot:"Intake logged live · macro targets per plan"},
- hr:{title:"PATRIKOV UNOS — DANAS",macros:"MAKROI VS CILJ",fill:"ISPUNJENOST",energy:"ENERGETSKA BILANCA",foodlog:"DNEVNIK PREHRANE",insights:"UVIDI",
+ hr:{title:"PATRIKOV UNOS",macros:"MAKROI VS CILJ",fill:"ISPUNJENOST",energy:"ENERGETSKA BILANCA",foodlog:"DNEVNIK PREHRANE",insights:"UVIDI",
    cal:"Kalorije",prot:"Proteini",carb:"UH",fat:"Masti",total:"Ukupno",deficit:"deficit",surplus:"višak",over:"iznad",target:"cilj",
    burn:"Potrošnja (TDEE)",intake:"Unos",item:"Stavka",foot:"Unos uživo · ciljevi makroa po planu"}
 };
@@ -67,11 +72,12 @@ let LBL=T.en;
 const pct=(v,m)=>Math.min(100,Math.round(v/m*100));
 
 function render(){
- if(!DATA){return;}
- const k=DATA.intake,tgt=k.target;
+ if(!DATA||!DAYS.length){return;}
+ const k=DAYS[daySel],tgt=k.target;
  const tot=k.total||k.log.reduce((a,f)=>({kcal:a.kcal+(+f.kcal||0),p:a.p+(+f.p||0),c:a.c+(+f.c||0),f:a.f+(+f.f||0)}),{kcal:0,p:0,c:0,f:0});
  const bal=k.tdee-tot.kcal;
- document.getElementById('sub').textContent=k.date+" · "+k.dayType;
+ const wKg=DATA.athlete&&DATA.athlete.weightKg;
+ document.getElementById('sub').textContent=k.date+" · "+k.dayType+(wKg?" · "+wKg+" kg":"");
  const bar=(lbl,val,max,unit)=>{const over=val>max;const w=pct(val,max);
   return `<div class="brow"><div class="bl"><span>${lbl}</span><b style="color:${over?'#BA7517':'var(--tp)'}">${val}${unit} / ${max}${unit} · ${w}%${over?' · '+LBL.over:''}</b></div>
    <div class="track"><div class="fill" style="width:${w}%;background:${over?'#BA7517':'#1D9E75'}"></div></div></div>`;};
@@ -104,6 +110,7 @@ function render(){
   <div style="margin:0 0 1.5rem;">
    <div class="bl" style="display:flex;justify-content:space-between;font-size:13px;color:var(--ts);margin-bottom:5px;"><span>${LBL.burn}</span><b style="color:var(--tp)">~${k.tdee.toLocaleString()}</b></div>
    <div class="track" style="height:13px;margin-bottom:12px;"><div class="fill" style="width:100%;background:#54718D"></div></div>
+   ${k.tdeeNote?`<div class="sub" style="margin:-6px 0 10px;font-size:11px;font-style:italic;" title="${k.tdeeNote}">${k.tdeeNote}</div>`:''}
    <div class="bl" style="display:flex;justify-content:space-between;font-size:13px;color:var(--ts);margin-bottom:5px;"><span>${LBL.intake}</span><b style="color:${bal>=0?'#1D9E75':'#BA7517'}">${tot.kcal.toLocaleString()} · ${bal>=0?LBL.deficit+' −'+bal:LBL.surplus+' +'+Math.abs(bal)}</b></div>
    <div class="track" style="height:13px;"><div class="fill" style="width:${intakeW}%;background:#2caaf0"></div></div>
   </div>
@@ -140,13 +147,37 @@ function markBtns(){
  const style=(b,on)=>{if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';};
  const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-fs':fontbig};
  Object.entries(states).forEach(([id,on])=>style(document.getElementById(id),on));
+ document.querySelectorAll('.daybtn').forEach(b=>style(b,+b.getAttribute('data-idx')===daySel));
+}
+function selectDay(i){daySel=i;render();renderSummary();markBtns();}
+function renderDayBtns(){
+ const el=document.getElementById('daybtns');
+ if(!el)return;
+ el.innerHTML=DAYS.map((d,i)=>`<button class="daybtn" data-idx="${i}" onclick="selectDay(${i})">${shortLabel(d.date)}</button>`).join('');
+ markBtns();
+}
+function renderSummary(){
+ const el=document.getElementById('daysum');
+ if(!el||!DAYS.length)return;
+ const rows=DAYS.map((d,i)=>{
+  const tot=d.log.reduce((a,f)=>a+(+f.kcal||0),0);
+  const bal=tot-d.tdee;
+  const sel=i===daySel;
+  const col=bal<=0?'#1D9E75':'#A32D2D';
+  return `<div style="display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:6px 4px;${i>0?'border-top:0.5px solid var(--bd);':''}">
+   <span style="min-width:50px;color:${sel?'var(--tp)':'var(--ts)'};font-weight:${sel?'600':'400'};">${sel?'▸ ':''}${shortLabel(d.date)}</span>
+   <span style="color:var(--ts);flex:1;text-align:right;">${tot.toLocaleString()} / ${d.target.kcal.toLocaleString()} kcal</span>
+   <span style="color:${col};font-weight:500;min-width:55px;text-align:right;">${bal<=0?'−'+Math.abs(bal):'+'+bal}</span>
+  </div>`;
+ }).join('');
+ el.innerHTML=`<div class="card" style="padding:0.4rem 0.75rem;">${rows}</div>`;
 }
 applyTheme(theme);applyResponsive();markBtns();
 window.addEventListener('resize',applyResponsive);
 
 fetch('data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
- .then(j=>{DATA=j;render();})
+ .then(j=>{DATA=j;DAYS=DATA.days||(DATA.intake?[DATA.intake]:[]);daySel=DAYS.length-1;renderDayBtns();renderSummary();render();})
  .catch(err=>{document.getElementById('content').innerHTML=
    `<div class="state">Couldn't load data.json (${err.message}).<br><br>If you opened this file directly, serve it over http (it works on GitHub Pages).</div>`;});
 </script>
