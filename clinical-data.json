@@ -1,0 +1,10 @@
+{
+  "meta": {
+    "version": "cl-1.0",
+    "refreshedAt": "2026-09-05T21:06:00+02:00",
+    "note": "manual clinical markers, medications/supplements and symptoms; never touched by the automated refresh"
+  },
+  "markers": [],
+  "meds": [],
+  "symptoms": []
+}

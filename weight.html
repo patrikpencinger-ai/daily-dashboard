@@ -38,6 +38,11 @@ body{padding:20px;transition:background .2s}
 .eq .n{font-size:20px;font-weight:600}
 .eq .e{font-size:22px}
 .eq .t{font-size:11px;color:var(--ts)}
+.stalechip{font-size:12px;border-radius:999px;padding:5px 12px;font-weight:600;display:none}
+.wsub{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px solid #2caaf0;outline-offset:2px;border-radius:6px}
+#wwrap.mobile input[type=date]{min-height:40px;padding:8px;box-sizing:border-box}
+#wwrap.mobile .planner input[type=range]{height:40px;margin:0;box-sizing:border-box}
 </style>
 </head>
 <body>
@@ -45,6 +50,7 @@ body{padding:20px;transition:background .2s}
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 1.25rem;flex-wrap:wrap;">
   <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">WEIGHT MISSION — THE SHRINKING OF PATRIK</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+    <span id="staleChip" class="stalechip"></span>
     <button id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hr" onclick="setLang('hr')">HR</button>
     <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
@@ -54,9 +60,10 @@ body{padding:20px;transition:background .2s}
 <div class="wcards">
   <div class="wcard"><div class="wlab" data-i="c1">Current weight</div><div style="font-size:24px;font-weight:500;" id="v-now">—</div><div class="wlab" style="font-size:12px;" id="d-now"></div></div>
   <div class="wcard"><div class="wlab" data-i="c2">Last weigh-in</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-wk">—</div><div class="wlab" style="font-size:12px;" id="d-wk"></div></div>
-  <div class="wcard" id="card-lost" style="cursor:pointer;" title="Click for another comparison"><div class="wlab" data-i="c3">Total lost 🎉</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-lost">—</div><div class="wlab" style="font-size:12px;" id="d-lost"></div></div>
+  <div class="wcard" id="card-lost" style="cursor:pointer;" title="Click for another comparison" tabindex="0" role="button"><div class="wlab" data-i="c3">Total lost 🎉</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-lost">—</div><div class="wlab" style="font-size:12px;" id="d-lost"></div></div>
   <div class="wcard"><div class="wlab">BMI</div><div style="font-size:24px;font-weight:500;" id="v-bmi">—</div><div class="wlab" style="font-size:12px;" id="d-bmi"></div></div>
-  <div class="wcard"><div class="wlab" data-i="c5">Target</div><div style="font-size:24px;font-weight:500;color:#a64ce8;" id="v-tgt">—</div><div class="wlab" style="font-size:12px;" id="d-tgt"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c5">Target</div><div style="font-size:24px;font-weight:500;color:#a64ce8;" id="v-tgt">—</div><div class="wlab" style="font-size:12px;" id="d-tgt"></div><div class="wlab" style="font-size:11px;margin-top:2px;" id="d-tgt-note"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c6">Measured rate</div><div style="font-size:22px;font-weight:500;" id="v-rate">—</div><div class="wlab" style="font-size:12px;" id="d-rate"></div></div>
 </div>
 
 <div class="pwrap">
@@ -81,13 +88,28 @@ body{padding:20px;transition:background .2s}
 <div id="wgwrap" style="position:relative;width:100%;height:400px;margin:0 0 4px;">
   <canvas id="wg" role="img" aria-label="Weight journey: weekly averages, BMI zones, projection to target"></canvas>
 </div>
-<p class="wlab" data-i="gHint" style="font-size:11px;margin:0 0 1.25rem;">🖱️ scroll = zoom · drag = pan · double-click = reset</p>
+<p class="wlab" data-i="gHint" style="font-size:11px;margin:0 0 0.6rem;">🖱️ scroll = zoom · drag = pan · double-click = reset</p>
+
+<div data-i="rH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">RATE OF LOSS (kg/week)</div>
+<div id="rgwrap" style="position:relative;width:100%;height:120px;margin:0 0 4px;">
+  <canvas id="rg" role="img" aria-label="Rate of weight loss between weigh-ins, kg per week, with 0.5 to 1.0 safety band"></canvas>
+</div>
+<div class="wlab" style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 4px;font-size:11px;" id="rLegend">
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block;"></span><span data-i="rLtoofast">too fast</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E0A53C;display:inline-block;"></span><span data-i="rLfast">fast</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;display:inline-block;"></span><span data-i="rLband">in band</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E0A53C;display:inline-block;"></span><span data-i="rLslow">slow</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#9b9b93;display:inline-block;"></span><span data-i="rLflat">flat</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block;"></span><span data-i="rLregain">regain</span></span>
+</div>
+<p class="wlab" id="rFoot" style="font-size:11px;margin:0 0 1.25rem;"></p>
 
 <div class="planner">
   <div class="wcard">
     <div data-i="plH" style="font-size:14px;font-weight:500;margin-bottom:8px;">🎯 TARGET PLANNER</div>
     <label><span data-i="plT">Target weight</span><b id="o-tgt" style="color:#a64ce8;"></b></label>
     <input type="range" id="in-tgt" min="70" max="110" step="0.5">
+    <div class="wlab" style="font-size:11px;margin:2px 0 6px;" id="pl-tgt-note"></div>
     <label style="margin-top:8px;"><span data-i="plR">Weight loss per month</span><b id="o-rate" style="color:#E0A53C;"></b></label>
     <input type="range" id="in-rate" min="0.2" max="4" step="0.1">
     <div class="bigout" id="o-eta">—</div>
@@ -103,6 +125,16 @@ body{padding:20px;transition:background .2s}
 
 <div data-i="mH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">MILESTONES</div>
 <div class="chips" id="mchips"></div>
+
+<div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">WAIST (VISCERAL FAT CHECK)</div>
+<div class="wcard" id="card-waist" style="margin:0 0 1.25rem;">
+  <div id="waist-empty" class="wlab" style="font-style:italic;"></div>
+  <div id="waist-data" hidden>
+    <div class="wsub"><div style="font-size:20px;font-weight:500;" id="v-waist">—</div><div class="wlab" style="font-size:12px;" id="d-waist"></div></div>
+    <div style="position:relative;width:100%;height:90px;margin:8px 0 4px;"><canvas id="wcv" role="img" aria-label="Waist circumference over time"></canvas></div>
+    <div class="wlab" style="font-size:11px;" id="waist-note"></div>
+  </div>
+</div>
 
 <div data-i="eH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">WHAT YOU'VE DROPPED SO FAR</div>
 <div class="equiv" id="equiv"></div>
@@ -123,14 +155,18 @@ calc();
 const bgPlug={id:'bg',beforeDraw(c){const x=c.ctx;x.save();x.globalCompositeOperation='destination-over';x.fillStyle=BG;x.fillRect(0,0,c.width,c.height);x.restore();}};
 
 const T={
- en:{title:"WEIGHT MISSION — THE SHRINKING OF PATRIK",c1:"Current weight",c2:"Last weigh-in",c3:"Total lost 🎉",c5:"Target",
+ en:{title:"WEIGHT MISSION — THE SHRINKING OF PATRIK",c1:"Current weight",c2:"Last weigh-in",c3:"Total lost 🎉",c5:"Target",c6:"Measured rate",
   pT:"Journey to target",gH:"THE JOURNEY",gW:"Weekly avg (kg)",gP:"Projection",gT:"Target",gZ:"bands = BMI zones",gM:"= milestones",rAll:"ALL",
   gHint:"🖱️ scroll = zoom · drag = pan · double-click = reset",
+  rH:"RATE OF LOSS (kg/week)",wsH:"WAIST (visceral fat check)",
+  rLtoofast:"too fast",rLfast:"fast",rLband:"in band",rLslow:"slow",rLflat:"flat",rLregain:"regain",
   plH:"🎯 TARGET PLANNER",plT:"Target weight",plR:"Weight loss per month",smH:"🔮 CRYSTAL BALL — weight on a date",
   mH:"MILESTONES",eH:"WHAT YOU'VE DROPPED SO FAR",foot2:"Weekly averages, updated manually — paste a new week or tell Claude.",c3tip:"Click for another comparison"},
- hr:{title:"MISIJA KILAŽA — PATRIK U NESTAJANJU",c1:"Trenutna težina",c2:"Zadnje vaganje",c3:"Ukupno manje 🎉",c5:"Cilj",
+ hr:{title:"MISIJA KILAŽA — PATRIK U NESTAJANJU",c1:"Trenutna težina",c2:"Zadnje vaganje",c3:"Ukupno manje 🎉",c5:"Cilj",c6:"Izmjerena stopa",
   pT:"Put do cilja",gH:"PUTOVANJE",gW:"Tjedni prosjek (kg)",gP:"Projekcija",gT:"Cilj",gZ:"pojasevi = BMI zone",gM:"= prekretnice",rAll:"SVE",
   gHint:"🖱️ kotačić = zoom · povuci = pomak · dvoklik = reset",
+  rH:"STOPA GUBITKA (kg/tjedan)",wsH:"STRUK (provjera visceralne masti)",
+  rLtoofast:"prebrzo",rLfast:"brzo",rLband:"u pojasu",rLslow:"sporo",rLflat:"stagnacija",rLregain:"vraćanje",
   plH:"🎯 PLANER CILJA",plT:"Ciljna težina",plR:"Gubitak po mjesecu",smH:"🔮 KRISTALNA KUGLA — težina na datum",
   mH:"PREKRETNICE",eH:"ŠTO SI SVE SKINUO",foot2:"Tjedni prosjeci, ručno ažurirano — zalijepi novi tjedan ili reci Claudeu.",c3tip:"Klikni za drugu usporedbu"}
 };
@@ -151,7 +187,7 @@ const EQUIV=[
  {e:'🧳',kg:10,en:'cabin bags',hr:'ručnih torbi',hrd:'ručne torbe'}
 ];
 const eqName=(q,dec)=>lang==='hr'?(dec?q.hrd:q.hr):q.en;
-let DAT=null,H2=1,WEEKS=[],START=0,LAST=null,TODAY=0,cfg={target:90,rate:1.8},MILES=[],wg=null,simDay=null;
+let DAT=null,H2=1,WEEKS=[],START=0,LAST=null,TODAY=0,cfg={target:90,rate:1.8},MILES=[],wg=null,rg=null,wc=null,simDay=null;
 const DAY=86400000;
 const d2n=s=>Math.round((Date.parse(s)-START)/DAY);
 const n2d=n=>new Date(START+n*DAY);
@@ -162,9 +198,97 @@ const bmi=w=>w/H2;
 const w4bmi=b=>b*H2;
 const f1=v=>v.toLocaleString(loc(),{minimumFractionDigits:1,maximumFractionDigits:1});
 function zoneOf(w){const b=bmi(w);return b>=40?0:b>=35?1:b>=30?2:b>=25?3:4;}
+function bmiClassLabel(b){if(b>=40)return{en:'class III',hr:'klasa III'};if(b>=35)return{en:'class II',hr:'klasa II'};if(b>=30)return{en:'class I',hr:'klasa I'};if(b>=25)return{en:'overweight',hr:'prekomjerna težina'};return{en:'normal',hr:'normalna težina'};}
+function dayWordHr(n){return (n%10===1&&n%100!==11)?'dan':'dana';}
+function waypointNote(targetKg){
+ const b=bmi(targetKg);if(b<30)return'';
+ const cls=bmiClassLabel(b);const w30=w4bmi(30),w25=w4bmi(25);
+ return lang==='hr'
+  ?`= BMI ${f1(b)} — i dalje pretilost (${cls.hr}); shvati kao usputnu postaju. BMI <30 treba <${f1(w30)} kg, <25 treba <${f1(w25)} kg`
+  :`= BMI ${f1(b)} — still obesity ${cls.en}; treat as a waypoint. BMI <30 needs <${f1(w30)} kg, <25 needs <${f1(w25)} kg`;
+}
+function computeRates(){
+ const pts=[];
+ for(let i=1;i<WEEKS.length;i++){
+  const a=WEEKS[i-1],b=WEEKS[i];const days=b.day-a.day;const wks=days/7;
+  const lr=wks>0?(a.w-b.w)/wks:0; // positive = lost weight
+  pts.push({day:b.day,days,lr});
+ }
+ return pts;
+}
+function rollingRate(){
+ const win=WEEKS.filter(p=>p.day>=TODAY-28);
+ if(win.length<2)return null;
+ const n=win.length,mx=win.reduce((s,p)=>s+p.day,0)/n,my=win.reduce((s,p)=>s+p.w,0)/n;
+ let num=0,den=0;win.forEach(p=>{num+=(p.day-mx)*(p.w-my);den+=(p.day-mx)*(p.day-mx);});
+ if(den===0)return null;
+ return -(num/den)*7; // kg/week, positive = losing
+}
+function sincePreviousRate(){
+ if(WEEKS.length<2)return null;
+ const a=WEEKS[WEEKS.length-2],b=WEEKS[WEEKS.length-1];const wks=(b.day-a.day)/7;
+ return wks>0?(a.w-b.w)/wks:null;
+}
+function journeyRate(){
+ const wks=(LAST.day-WEEKS[0].day)/7;if(wks<=0)return null;
+ return (WEEKS[0].w-LAST.w)/wks;
+}
+function updateStale(){
+ const chip=document.getElementById('staleChip');if(!chip||!DAT||!DAT.meta||!DAT.meta.asOf)return;
+ const asOfDay=d2n(DAT.meta.asOf);const daysStale=TODAY-asOfDay;
+ if(daysStale>14){
+  const D=theme==='dark';
+  chip.style.background=D?'rgba(224,165,60,0.22)':'rgba(224,165,60,0.18)';
+  chip.style.color=D?'#F0C868':'#8a5a10';
+  chip.textContent='⚠ '+(lang==='hr'?`podaci zastarjeli — ${daysStale} ${dayWordHr(daysStale)}`:`stale data — ${daysStale}d`);
+  chip.style.display='inline-block';
+ }else{chip.style.display='none';}
+}
+function fillRateKPI(){
+ const r4=rollingRate(),rp=sincePreviousRate(),rj=journeyRate();
+ const planPerWeek=cfg.rate/30.44*7;
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+ set('v-rate',rp!=null?f1(rp)+' kg/'+(lang==='hr'?'tj':'wk'):'—');
+ const wku=lang==='hr'?'kg/tj':'kg/wk';
+ const parts=[];
+ parts.push((lang==='hr'?'4tj: ':'4wk: ')+(r4!=null?f1(r4)+' '+wku:'—'));
+ parts.push((lang==='hr'?'put: ':'journey: ')+(rj!=null?f1(rj)+' '+wku:'—'));
+ if(rp!=null){
+  const gap=rp-planPerWeek,ahead=gap>=0;
+  parts.push((lang==='hr'?'plan ':'plan ')+f1(planPerWeek)+' '+wku+' ('+(lang==='hr'?(ahead?'ispred ':'iza ')+f1(Math.abs(gap)):(ahead?'ahead by ':'behind by ')+f1(Math.abs(gap)))+')');
+ }
+ set('d-rate',parts.join(' · '));
+}
+function fillWaist(){
+ const waist=(DAT&&DAT.waist)||[];
+ const emptyEl=document.getElementById('waist-empty'),dataEl=document.getElementById('waist-data');
+ if(!emptyEl||!dataEl)return;
+ if(!waist.length){
+  dataEl.hidden=true;emptyEl.style.display='';
+  emptyEl.textContent=lang==='hr'?'Još nema mjerenja opsega struka — mjeri oko pupka, mjesečno.':'No waist measurements yet — tape at navel, monthly.';
+  return;
+ }
+ emptyEl.style.display='none';dataEl.hidden=false;
+ const last=waist[waist.length-1],prev=waist.length>1?waist[waist.length-2]:null;
+ document.getElementById('v-waist').textContent=f1(last.cm)+' cm';
+ document.getElementById('d-waist').textContent=prev?((last.cm-prev.cm<0?'−':'+')+f1(Math.abs(last.cm-prev.cm))+' cm'):'';
+ document.getElementById('waist-note').textContent=lang==='hr'
+  ?'Opseg struka bolje prati visceralnu mast od BMI-ja kod tvoje mišićne mase.'
+  :'Waist tracks visceral fat better than BMI at your muscle mass.';
+ const pts=waist.map(x=>({x:d2n(x.d),y:x.cm}));
+ if(!wc){
+  wc=new Chart(document.getElementById('wcv'),{type:'line',
+   data:{datasets:[{data:pts,borderColor:'#a64ce8',backgroundColor:'#a64ce8',borderWidth:2,pointRadius:3,tension:0.25}]},
+   options:{responsive:true,maintainAspectRatio:false,animation:{duration:250},plugins:{legend:{display:false}},
+    scales:{x:{type:'linear',ticks:{color:txt,callback:v=>n2d(v).toLocaleDateString(loc(),{day:'numeric',month:'short'})}},
+     y:{ticks:{color:txt,callback:v=>v+' cm'},grid:{color:grid}}}},
+   plugins:[bgPlug]});
+ }else{wc.data.datasets[0].data=pts;wc.update('none');}
+}
 
 function init(){
  H2=DAT.config.heightM*DAT.config.heightM;
+ if(!DAT.waist)DAT.waist=[];
  START=Date.parse(DAT.weeks[0].d);
  WEEKS=DAT.weeks.map(x=>({day:d2n(x.d),w:x.w,d:x.d}));
  LAST=WEEKS[WEEKS.length-1];
@@ -182,7 +306,9 @@ function init(){
  document.getElementById('in-tgt').oninput=e=>{cfg.target=+e.target.value;save();recompute();};
  document.getElementById('in-rate').oninput=e=>{cfg.rate=+e.target.value;save();recompute();};
  document.getElementById('card-lost').onclick=()=>{eqIdx=(eqIdx+1)%EQUIV.length;fillCards();fillPlanner();};
+ document.getElementById('card-lost').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();document.getElementById('card-lost').click();}};
  makeChart();
+ makeRateChart();
  recompute();
  applyTheme(theme);
  setLang('en');
@@ -249,6 +375,49 @@ function simW(){
  return LAST.w;
 }
 
+const bandPlug={id:'band',beforeDatasetsDraw(ch){
+ const{ctx,chartArea:a,scales:{y}}=ch;if(!a)return;ctx.save();
+ const top=y.getPixelForValue(1.0),bot=y.getPixelForValue(0.5);
+ ctx.fillStyle=theme==='dark'?'rgba(29,158,117,0.16)':'rgba(29,158,117,0.12)';
+ ctx.fillRect(a.left,Math.min(top,bot),a.right-a.left,Math.abs(bot-top));
+ ctx.restore();
+}};
+const gapPlug={id:'gap',afterDatasetsDraw(ch){
+ const{ctx,scales:{x,y},chartArea:a}=ch;const pts=computeRates();ctx.save();ctx.textAlign='center';ctx.font='600 10px sans-serif';ctx.fillStyle='#E0A53C';
+ pts.forEach(p=>{if(p.days>14&&p.day>=x.min&&p.day<=x.max){
+  const px=x.getPixelForValue(p.day);
+  const py=p.lr>=0?y.getPixelForValue(p.lr)-14:y.getPixelForValue(p.lr)+18;
+  ctx.fillText('⚠ '+p.days+'d',px,py);
+ }});
+ ctx.restore();
+}};
+const RED='#E24B4A',AMBER='#E0A53C',GREEN='#1D9E75',GREY='#9b9b93';
+function rateState(lr){
+ if(lr>1.5)return{c:RED,en:'too fast',hr:'prebrzo'};
+ if(lr>1.0)return{c:AMBER,en:'fast',hr:'brzo'};
+ if(lr>=0.5)return{c:GREEN,en:'in band',hr:'u pojasu'};
+ if(lr>=0.1)return{c:AMBER,en:'slow',hr:'sporo'};
+ if(lr>-0.1)return{c:GREY,en:'flat',hr:'stagnacija'};
+ return{c:RED,en:'regain',hr:'vraćanje'};
+}
+function makeRateChart(){
+ const pts=computeRates();
+ rg=new Chart(document.getElementById('rg'),{type:'bar',
+  data:{datasets:[{label:'rate',data:pts.map(p=>({x:p.day,y:p.lr})),backgroundColor:pts.map(p=>rateState(p.lr).c),borderRadius:3,barPercentage:0.6}]},
+  options:{responsive:true,maintainAspectRatio:false,animation:{duration:250},
+   plugins:{legend:{display:false},
+    tooltip:{callbacks:{
+     title:its=>{if(!its.length)return'';return fd(pts[its[0].dataIndex].day);},
+     label:its=>{const p=pts[its.dataIndex];const wku=lang==='hr'?'kg/tj':'kg/wk';const st=rateState(p.lr);
+      return f1(p.lr)+' '+wku+' · '+(lang==='hr'?st.hr:st.en)+(p.days>14?(lang==='hr'?' · razmak '+p.days+' d':' · gap '+p.days+'d'):'');}
+    }}},
+   scales:{
+    x:{type:'linear',min:-5,max:LAST.day+15,grid:{display:false},ticks:{color:txt,maxTicksLimit:9,callback:v=>n2d(v).toLocaleDateString(loc(),{day:'numeric',month:'short'})}},
+    y:{grid:{color:grid},ticks:{color:txt,callback:v=>v+(lang==='hr'?' kg/tj':' kg/wk')}}
+   }},
+  plugins:[bgPlug,bandPlug,gapPlug]
+ });
+}
 function makeChart(){
  const p=projection();
  const xmax=Math.min(p.eta+60,LAST.day+430);
@@ -298,7 +467,8 @@ function fillCards(){
  const dw=LAST.w-prev.w;
  const zi=zoneOf(LAST.w);
  set('v-now',f1(LAST.w)+' kg');
- set('d-now',(lang==='hr'?'tjedan ':'week ')+fdS(LAST.day)+' – '+fdS(LAST.day+6));
+ const daysSinceLast=TODAY-LAST.day;
+ set('d-now',(lang==='hr'?'tjedan ':'week ')+fdS(LAST.day)+' – '+fdS(LAST.day+6)+' · '+(lang==='hr'?`prije ${daysSinceLast} ${dayWordHr(daysSinceLast)}`:`${daysSinceLast} day${daysSinceLast===1?'':'s'} ago`));
  set('v-wk',(dw<0?'−':'+')+f1(Math.abs(dw))+' kg');
  const bestRecent=Math.min(...WEEKS.slice(-8).map((q,i,arr)=>i?q.w-arr[i-1].w:0));
  set('d-wk',(lang==='hr'?'vs prethodno vaganje':'vs previous weigh-in')+(dw<=bestRecent&&dw<0?' 🔥':''));
@@ -307,10 +477,12 @@ function fillCards(){
  set('d-lost','≈ '+f1(lost/eq.kg)+' '+eqName(eq,true)+' '+eq.e+' <span style="opacity:.55">↻</span>');
  set('v-bmi',f1(bmi(LAST.w)));
  const nextB=[40,35,30,25].find(b=>b<bmi(LAST.w));
- set('d-bmi',nextB?(lang==='hr'?`sljedeća zona: <${nextB} na ${f1(w4bmi(nextB))} kg`:`next zone: <${nextB} at ${f1(w4bmi(nextB))} kg`):(lang==='hr'?'ninja zona 🥷':'ninja zone 🥷'));
+ const curCls=bmiClassLabel(bmi(LAST.w));
+ set('d-bmi',(lang==='hr'?curCls.hr:curCls.en)+' · '+(nextB?(lang==='hr'?`sljedeća zona: <${nextB} na ${f1(w4bmi(nextB))} kg`:`next zone: <${nextB} at ${f1(w4bmi(nextB))} kg`):(lang==='hr'?'ninja zona 🥷':'ninja zone 🥷')));
  set('v-tgt',f1(cfg.target)+' kg');
  const p=projection();
  set('d-tgt',LAST.w<=cfg.target?(lang==='hr'?'CILJ DOSTIGNUT 🏆':'TARGET REACHED 🏆'):('ETA '+fd(p.eta)+' · BMI '+f1(bmi(cfg.target))));
+ set('d-tgt-note',waypointNote(cfg.target));
  const pct=Math.max(0,Math.min(100,(WEEKS[0].w-LAST.w)/(WEEKS[0].w-cfg.target)*100));
  document.getElementById('p-fill').style.width=pct+'%';
  document.getElementById('p-run').style.left=pct+'%';
@@ -322,6 +494,7 @@ function fillCards(){
 function fillPlanner(){
  const p=projection();
  document.getElementById('o-tgt').textContent=f1(cfg.target)+' kg';
+ document.getElementById('pl-tgt-note').textContent=waypointNote(cfg.target);
  document.getElementById('o-rate').textContent=f1(cfg.rate)+' kg';
  const toGo=LAST.w-cfg.target;
  if(toGo<=0){
@@ -394,25 +567,43 @@ function recompute(){
  wg.options.scales.y.min=Math.floor(Math.min(cfg.target,LAST.w)-4);
  wg.update('none');
  fillCards();fillPlanner();fillChips();fillEquiv();
+ fillRateKPI();updateStale();fillWaist();
+ const rf=document.getElementById('rFoot');
+ if(rf){const early=(typeof computeRates==='function'?computeRates():[]).slice(0,3).map(p=>p.lr).filter(v=>v!=null&&v>1.0);
+  const fmtR=v=>lang==='hr'?v.toFixed(1).replace('.',','):v.toFixed(1);
+  const lst=early.map(fmtR).join(', ');
+  rf.textContent=!early.length?''
+   :(lang==='hr'?`Prva vaganja (${lst} kg/tj) uglavnom su glikogen i voda, ne mast.`
+                :`The first weigh-ins (${lst} kg/wk) were mostly glycogen and water, not fat.`);}
 }
 
 function applyTheme(t){theme=t;calc();document.getElementById('wwrap').classList.toggle('dark',t==='dark');document.body.style.background=BG;
  if(wg){wg.options.scales.x.ticks.color=txt;wg.options.scales.y.ticks.color=txt;wg.options.scales.y.grid.color=grid;wg.update();}
+ if(rg){rg.options.scales.x.ticks.color=txt;rg.options.scales.y.ticks.color=txt;rg.options.scales.y.grid.color=grid;rg.update();}
+ if(wc){wc.options.scales.x.ticks.color=txt;wc.options.scales.y.ticks.color=txt;wc.options.scales.y.grid.color=grid;wc.update();}
+ updateStale();
  markBtns();}
 function setLang(l){lang=l;LBL=T[l];
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
  const cl=document.getElementById('card-lost');if(cl)cl.title=LBL.c3tip;
  if(wg){recompute();wg.update();}
+ if(rg)rg.update();
+ if(wc)wc.update();
  markBtns();}
-function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want)return;layout=want;const M=want==='mobile';
+function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want){markBtns();return;}layout=want;const M=want==='mobile';
  document.getElementById('wwrap').classList.toggle('mobile',M);
  document.getElementById('wgwrap').style.height=M?'360px':'400px';
- if(wg){wg.options.scales.x.ticks.font={size:M?10:12};wg.options.scales.y.ticks.font={size:M?10:12};requestAnimationFrame(()=>{wg.resize();wg.update();});}}
-function toggleFont(){fontbig=!fontbig;document.getElementById('wwrap').classList.toggle('big',fontbig);markBtns();if(wg)requestAnimationFrame(()=>{wg.resize();wg.update();});}
+ const rw=document.getElementById('rgwrap');if(rw)rw.style.height=M?'100px':'120px';
+ if(wg){wg.options.scales.x.ticks.font={size:M?10:12};wg.options.scales.y.ticks.font={size:M?10:12};requestAnimationFrame(()=>{wg.resize();wg.update();});}
+ if(rg){rg.options.scales.x.ticks.font={size:M?10:12};rg.options.scales.y.ticks.font={size:M?10:12};requestAnimationFrame(()=>{rg.resize();rg.update();});}
+ if(wc)requestAnimationFrame(()=>{wc.resize();wc.update();});
+ markBtns();}
+function toggleFont(){fontbig=!fontbig;document.getElementById('wwrap').classList.toggle('big',fontbig);markBtns();if(wg)requestAnimationFrame(()=>{wg.resize();wg.update();});if(rg)requestAnimationFrame(()=>{rg.resize();rg.update();});}
 function markBtns(){
  const D=theme==='dark';const actBg=D?'#e8e8e6':'#444441',actFg=D?'#262624':'#ffffff',inFg=D?'#e8e8e6':'#2c2c2a';
  const bd=D?'1px solid rgba(255,255,255,0.35)':'1px solid rgba(0,0,0,0.4)';
- const style=(b,on)=>{if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';};
+ const M=layout==='mobile';
+ const style=(b,on)=>{if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding=M?'10px 14px':'4px 10px';b.style.minHeight=M?'40px':'';b.style.fontSize=M?'13px':'12px';b.style.fontWeight='500';b.style.cursor='pointer';};
  const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-fs':fontbig};
  Object.entries(states).forEach(([id,on])=>style(document.getElementById(id),on));
  document.querySelectorAll('#rangerow button').forEach(b=>style(b,Number(b.getAttribute('data-r'))===viewSel));

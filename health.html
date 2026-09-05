@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patrik's health record</title>
+<link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><path%20d='M16%209v14M9%2016h14'%20fill='none'%20stroke='%23e0524c'%20stroke-width='4'%20stroke-linecap='round'/></svg>">
+<style>
+html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{padding:20px;transition:background .2s}
+#hwrap{--bg:#ffffff;--surf:#f1efe8;--tp:#1a1a18;--ts:rgba(0,0,0,0.62);--bd:rgba(0,0,0,0.28);
+ --amber:#8a5a00;--amberBg:rgba(224,165,60,0.16);--amberBd:rgba(138,90,0,0.35);
+ --danger:#a4342a;
+ background:var(--bg);color:var(--tp);padding:16px;border-radius:12px;width:100%;max-width:900px;margin:0 auto;box-sizing:border-box}
+#hwrap.dark{--bg:#262624;--surf:#33322f;--tp:#ffffff;--ts:rgba(255,255,255,0.72);--bd:rgba(255,255,255,0.22);
+ --amber:#f0b429;--amberBg:rgba(240,180,41,0.14);--amberBd:rgba(240,180,41,0.4);
+ --danger:#ff8a80}
+#hwrap.mobile{padding:14px}
+#hwrap.big{zoom:1.35;width:calc(100%/1.35);max-width:660px}
+#hwrap .ttl{font-size:20px;font-weight:500;letter-spacing:0.04em}
+#hwrap.mobile .ttl{font-size:16px}
+.hcard{background:var(--surf);border-radius:8px;padding:0.85rem 1rem}
+.hlab{font-size:13px;color:var(--ts)}
+.disclaimer{background:var(--amberBg);border:1px solid var(--amberBd);color:var(--tp);border-radius:8px;padding:0.7rem 1rem;font-size:12.5px;line-height:1.5;margin:0 0 1.1rem}
+.disclaimer b{color:var(--amber)}
+.sectionH{font-size:14px;font-weight:600;letter-spacing:0.06em;margin:1.6rem 0 0.6rem;text-transform:uppercase;color:var(--ts)}
+.sectionH.firstsec{margin-top:0}
+.tblwrap{overflow-x:auto;background:var(--surf);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+#hwrap.mobile table{font-size:12px;min-width:560px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ts);font-weight:600}
+td.wrap,th.wrap{white-space:normal}
+tr:last-child td{border-bottom:none}
+tr.nodata td.valcol{color:var(--amber);font-weight:600;background:var(--amberBg)}
+tr.overdue td.valcol{color:var(--amber);background:var(--amberBg)}
+tr.nsaid td{background:var(--amberBg)}
+.tblcaption{font-size:11px;color:var(--ts);margin:6px 2px 0;line-height:1.5}
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0 0 0.4rem}
+#hwrap.mobile .groups{grid-template-columns:1fr}
+.gcard{background:var(--surf);border-radius:8px;padding:0.8rem 0.9rem}
+.gcard .gt{font-size:12.5px;font-weight:600;margin-bottom:4px}
+.gcard .gd{font-size:12.5px;line-height:1.5;color:var(--ts)}
+.actionlist{background:var(--surf);border-radius:8px;padding:0.85rem 1rem;margin:0.8rem 0 0}
+.actionlist ol{margin:6px 0 0;padding-left:1.2rem}
+.actionlist li{font-size:13px;line-height:1.6}
+.emptystate{font-size:13px;color:var(--ts);font-style:italic;padding:10px 12px}
+.howto{background:var(--surf);border-radius:8px;padding:0.85rem 1rem}
+.howto pre{background:var(--bg);border-radius:6px;padding:10px 12px;font-size:11.5px;line-height:1.55;overflow-x:auto;margin:8px 0;color:var(--tp)}
+.howto .ex{color:var(--amber);font-weight:600}
+.howto p{font-size:13px;line-height:1.6;margin:6px 0}
+</style>
+</head>
+<body>
+<div id="hwrap">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 0.9rem;flex-wrap:wrap;">
+  <div class="ttl" data-i="title">HEALTH — CLINICAL MARKERS</div>
+  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+    <button id="btn-hr" onclick="setLang('hr')">HR</button>
+    <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
+  </div>
+</div>
+
+<div class="disclaimer"><b data-i="dTag">Not medical advice.</b> <span data-i="dBody">Educational decision support built from self-tracked data — not a diagnosis. Discuss every marker below with a physician before acting on it.</span></div>
+
+<div class="sectionH firstsec" data-i="h1H">Clinical markers</div>
+<div class="tblwrap">
+<table id="mtbl">
+ <thead><tr>
+  <th data-i="th1">Marker</th><th data-i="th2">Latest value</th><th data-i="th3">Date</th><th data-i="th4">Days since</th><th class="wrap" data-i="th5">Reference range</th>
+ </tr></thead>
+ <tbody id="mtbody"></tbody>
+</table>
+</div>
+<p class="tblcaption" data-i="mCaption">Reference ranges are shown for information only — this dashboard does not interpret them or flag abnormal results. Adult male, SI units. Rows in amber are overdue or never measured.</p>
+
+<div class="sectionH" data-i="h2H">Why these matter</div>
+<div class="groups" id="groups"></div>
+<div class="actionlist">
+  <div class="gt" data-i="alH" style="font-size:13px;font-weight:600;">What the physician's review flagged to act on</div>
+  <ol id="actions"></ol>
+</div>
+
+<div class="sectionH" data-i="h3aH">Medications &amp; supplements</div>
+<div class="tblwrap">
+<table id="medtbl">
+ <thead><tr><th data-i="mth1">Date</th><th data-i="mth2">Name</th><th data-i="mth3">Dose</th><th data-i="mth4">Kind</th><th class="wrap" data-i="mth5">Note</th></tr></thead>
+ <tbody id="medtbody"></tbody>
+</table>
+</div>
+<p class="tblcaption" data-i="nsaidNote">NSAIDs (ibuprofen, naproxen, diclofenac…) taken alongside high protein intake and open-water swimming can add extra load on the kidneys, especially if you're dehydrated — flagged rows are highlighted.</p>
+
+<div class="sectionH" data-i="h3bH">Symptom log</div>
+<div class="tblwrap">
+<table id="symtbl">
+ <thead><tr><th data-i="sth1">Date</th><th data-i="sth2">Type</th><th class="wrap" data-i="sth3">Note</th></tr></thead>
+ <tbody id="symtbody"></tbody>
+</table>
+</div>
+
+<div class="sectionH" data-i="h4H">How to update this record</div>
+<div class="howto">
+ <p data-i="howto1">This file is a manual record. The automated dashboard refresh never touches it. To add an entry, tell Claude something like:</p>
+ <p><em data-i="howto2">"add clinical: BP 128/82 on 2026-09-05"</em> <span data-i="howto2b">or</span> <em data-i="howto3">"add clinical: started ibuprofen 400mg for a strained shoulder"</em></p>
+ <p><span data-i="howto4">Claude reads your message and writes the corresponding row(s) into</span> <code>clinical-data.json</code>. <span data-i="howto4b">The shape (any field may be omitted) is:</span></p>
+<pre>{
+  "markers": [{"d":"YYYY-MM-DD","bp_sys":n,"bp_dia":n,"glucose":n,"hba1c":n,
+               "tc":n,"ldl":n,"hdl":n,"tg":n,"creat":n,"egfr":n,
+               "alt":n,"ast":n,"ggt":n,"urate":n,"tsh":n,
+               "ferritin":n,"vitd":n,"waist":n,"note":""}],
+  "meds":     [{"d":"YYYY-MM-DD","name":"","dose":"","kind":"medication|supplement|nsaid","note":""}],
+  "symptoms": [{"d":"YYYY-MM-DD","type":"chest_pressure|dyspnoea|palpitations|near_syncope|ruq_pain|dark_urine|other","note":""}]
+}
+
+<span class="ex">EXAMPLE ROW (not stored — illustration only):</span>
+{"d":"2026-09-05","bp_sys":128,"bp_dia":82,"waist":98,"note":"pre-gym check"}</pre>
+</div>
+
+<p class="hlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+</div>
+
+<script>
+let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+let lang='en',layout='',fontbig=false;
+let DAT=null;
+
+const T={
+ en:{title:"HEALTH — CLINICAL MARKERS",
+  dTag:"Not medical advice.",
+  dBody:"Educational decision support built from self-tracked data — not a diagnosis. Discuss every marker below with a physician before acting on it.",
+  h1H:"Clinical markers",
+  th1:"Marker",th2:"Latest value",th3:"Date",th4:"Days since",th5:"Reference range",
+  mCaption:"Reference ranges are shown for information only — this dashboard does not interpret them or flag abnormal results. Adult male, SI units. Rows in amber are overdue or never measured.",
+  h2H:"Why these matter",
+  alH:"What the physician's review flagged to act on",
+  h3aH:"Medications & supplements",
+  mth1:"Date",mth2:"Name",mth3:"Dose",mth4:"Kind",mth5:"Note",
+  nsaidNote:"NSAIDs (ibuprofen, naproxen, diclofenac…) taken alongside high protein intake and open-water swimming can add extra load on the kidneys, especially if you're dehydrated — flagged rows are highlighted.",
+  h3bH:"Symptom log",
+  sth1:"Date",sth2:"Type",sth3:"Note",
+  h4H:"How to update this record",
+  howto1:"This file is a manual record. The automated dashboard refresh never touches it. To add an entry, tell Claude something like:",
+  howto2:"“add clinical: BP 128/82 on 2026-09-05”",
+  howto2b:"or",
+  howto3:"“add clinical: started ibuprofen 400mg for a strained shoulder”",
+  howto4:"Claude reads your message and writes the corresponding row(s) into",
+  howto4b:"The shape (any field may be omitted) is:",
+  notMeasured:"not yet measured",
+  none:"none recorded",
+  daysUnit:"d",
+  overdue:"overdue",
+  medication:"medication",supplement:"supplement",nsaid:"NSAID",
+  chest_pressure:"chest pressure",dyspnoea:"breathlessness",palpitations:"palpitations",near_syncope:"near-fainting",ruq_pain:"right-upper-abdo pain",dark_urine:"dark urine",other:"other",
+  foot:"Data through"
+ },
+ hr:{title:"ZDRAVLJE — KLINIČKI POKAZATELJI",
+  dTag:"Ovo nije medicinski savjet.",
+  dBody:"Edukativna potpora za odlučivanje na temelju samostalno praćenih podataka — nije dijagnoza. O svakom pokazatelju ispod razgovaraj s liječnikom prije nego što na temelju njega nešto poduzmeš.",
+  h1H:"Klinički pokazatelji",
+  th1:"Pokazatelj",th2:"Zadnja vrijednost",th3:"Datum",th4:"Dana od zadnjeg",th5:"Referentni raspon",
+  mCaption:"Referentni rasponi prikazani su isključivo informativno — ova nadzorna ploča ih ne tumači niti označava odstupanja. Odrasli muškarac, SI jedinice. Retci u jantarnoj boji su zakašnjeli ili nikad izmjereni.",
+  h2H:"Zašto su bitni",
+  alH:"Što je liječnički pregled preporučio poduzeti",
+  h3aH:"Lijekovi i dodaci prehrani",
+  mth1:"Datum",mth2:"Naziv",mth3:"Doza",mth4:"Vrsta",mth5:"Bilješka",
+  nsaidNote:"NSAID lijekovi (ibuprofen, naproksen, diklofenak…) uz visok unos proteina i plivanje u otvorenim vodama mogu dodatno opteretiti bubrege, pogotovo uz dehidraciju — označeni retci su istaknuti.",
+  h3bH:"Dnevnik simptoma",
+  sth1:"Datum",sth2:"Vrsta",sth3:"Bilješka",
+  h4H:"Kako ažurirati ovaj zapis",
+  howto1:"Ova datoteka je ručni zapis. Automatsko osvježavanje nadzorne ploče je nikad ne dira. Za novi unos reci Claudeu nešto poput:",
+  howto2:"“add clinical: BP 128/82 on 2026-09-05”",
+  howto2b:"ili",
+  howto3:"“add clinical: started ibuprofen 400mg for a strained shoulder”",
+  howto4:"Claude pročita tvoju poruku i upiše odgovarajuće retke u",
+  howto4b:"Oblik (bilo koje polje može biti izostavljeno) je:",
+  notMeasured:"nije još izmjereno",
+  none:"nema unosa",
+  daysUnit:"d",
+  overdue:"zakašnjelo",
+  medication:"lijek",supplement:"dodatak prehrani",nsaid:"NSAID",
+  chest_pressure:"pritisak u prsima",dyspnoea:"otežano disanje",palpitations:"palpitacije",near_syncope:"skoro nesvjestica",ruq_pain:"bol desno gore u trbuhu",dark_urine:"taman urin",other:"ostalo",
+  foot:"Podaci do"
+ }
+};
+let LBL=T.en;
+
+const MARKERS=[
+ {field:'bp_sys', group:'bp', unit:'mmHg', ref:'<130 optimal', label:{en:'Blood pressure — systolic',hr:'Krvni tlak — sistolički'}},
+ {field:'bp_dia', group:'bp', unit:'mmHg', ref:'<85 optimal', label:{en:'Blood pressure — diastolic',hr:'Krvni tlak — dijastolički'}},
+ {field:'glucose', group:'glucose', unit:'mmol/L', ref:'3.9–5.5 (fasting)', label:{en:'Fasting glucose',hr:'Glukoza natašte'}},
+ {field:'hba1c', group:'glucose', unit:'%', ref:'<5.7', label:{en:'HbA1c',hr:'HbA1c'}},
+ {field:'tc', group:'lipids', unit:'mmol/L', ref:'<5.0', label:{en:'Total cholesterol',hr:'Ukupni kolesterol'}},
+ {field:'ldl', group:'lipids', unit:'mmol/L', ref:'<3.0', label:{en:'LDL cholesterol',hr:'LDL kolesterol'}},
+ {field:'hdl', group:'lipids', unit:'mmol/L', ref:'>1.0', label:{en:'HDL cholesterol',hr:'HDL kolesterol'}},
+ {field:'tg', group:'lipids', unit:'mmol/L', ref:'<1.7', label:{en:'Triglycerides',hr:'Trigliceridi'}},
+ {field:'creat', group:'kidney', unit:'µmol/L', ref:'62–106', label:{en:'Creatinine',hr:'Kreatinin'}},
+ {field:'egfr', group:'kidney', unit:'mL/min', ref:'>90', label:{en:'eGFR',hr:'eGFR'}},
+ {field:'alt', group:'liver', unit:'U/L', ref:'<41', label:{en:'ALT',hr:'ALT'}},
+ {field:'ast', group:'liver', unit:'U/L', ref:'<40', label:{en:'AST',hr:'AST'}},
+ {field:'ggt', group:'liver', unit:'U/L', ref:'<60', label:{en:'GGT',hr:'GGT'}},
+ {field:'urate', group:'other', unit:'µmol/L', ref:'200–420', label:{en:'Urate (uric acid)',hr:'Urati (mokraćna kiselina)'}},
+ {field:'tsh', group:'other', unit:'mIU/L', ref:'0.4–4.0', label:{en:'TSH',hr:'TSH'}},
+ {field:'ferritin', group:'other', unit:'µg/L', ref:'30–300', label:{en:'Ferritin',hr:'Feritin'}},
+ {field:'vitd', group:'other', unit:'nmol/L', ref:'50–125', label:{en:'Vitamin D',hr:'Vitamin D'}},
+ {field:'waist', group:'other', unit:'cm', ref:'<94 low risk · ≥102 high', label:{en:'Waist circumference',hr:'Opseg struka'}}
+];
+
+const GROUPS=[
+ {key:'bp', t:{en:'Blood pressure',hr:'Krvni tlak'}, d:{
+   en:"Heavy compounds braced with a Valsalva manoeuvre — your 200 kg hack squat — drive large transient BP spikes; a resting baseline before the next big session is worth having, and worth asking your doctor about.",
+   hr:"Teški compoundi uz Valsalva manevar — tvoj hack squat od 200 kg — izazivaju velike privremene skokove tlaka; vrijedi imati mirujuću osnovnu vrijednost prije sljedeće velike sesije i pitati liječnika o tome."}},
+ {key:'glucose', t:{en:'Glucose & HbA1c',hr:'Glukoza i HbA1c'}, d:{
+   en:"22 kg down from a starting BMI of 43.6 should show up as a real metabolic improvement — but with no fasting glucose or HbA1c ever recorded, that improvement is currently invisible. Worth a baseline now.",
+   hr:"22 kg manje od početnog BMI 43,6 trebalo bi se odraziti kao stvarno metaboličko poboljšanje — ali bez ikad izmjerene glukoze natašte ili HbA1c, to poboljšanje je trenutno nevidljivo. Vrijedi napraviti osnovno mjerenje sada."}},
+ {key:'lipids', t:{en:'Lipids',hr:'Lipidi'}, d:{
+   en:"~210 g/day of protein comes with real variation in saturated fat and cholesterol depending on source; a lipid panel would show whether that's moved LDL or triglycerides — worth raising with your doctor.",
+   hr:"~210 g/dan proteina nosi sa sobom stvarnu varijaciju u zasićenim mastima i kolesterolu ovisno o izvoru; lipidogram bi pokazao je li se to odrazilo na LDL ili trigliceride — vrijedi pokrenuti temu s liječnikom."}},
+ {key:'kidney', t:{en:'Kidney function',hr:'Bubrežna funkcija'}, d:{
+   en:"Sustained high protein intake raises the filtration load on the kidneys; creatinine and eGFR are a simple way to confirm they're keeping up, especially alongside open-water swimming and heat exposure.",
+   hr:"Trajno visok unos proteina povećava opterećenje filtracije bubrega; kreatinin i eGFR jednostavan su način provjere da bubrezi to prate, pogotovo uz plivanje u otvorenim vodama i izloženost vrućini."}},
+ {key:'liver', t:{en:'Liver enzymes',hr:'Jetreni enzimi'}, d:{
+   en:"Rapid fat loss and a high protein turnover both pass through the liver; ALT, AST and GGT are a simple check that neither is placing it under strain.",
+   hr:"Brz gubitak masnog tkiva i visok promet proteina prolaze kroz jetru; ALT, AST i GGT jednostavna su provjera da ni jedno ni drugo ne opterećuje jetru."}},
+ {key:'other', t:{en:'Other: thyroid, iron, vitamin D, waist',hr:'Ostalo: štitnjača, željezo, vitamin D, struk'}, d:{
+   en:"TSH relates to metabolism and weight; ferritin matters for an endurance swimmer; vitamin D isn't guaranteed by outdoor swimming alone; and waist tracks visceral risk independently of a BMI that heavy strength training can skew upward.",
+   hr:"TSH je povezan s metabolizmom i težinom; feritin je bitan za plivača na izdržljivost; vitamin D nije zajamčen samim plivanjem na otvorenom; a opseg struka prati visceralni rizik neovisno o BMI-u koji teški trening snage može umjetno povisiti."}}
+];
+
+const ACTIONS=[
+ {en:"Check blood pressure before the next 200 kg hack squat session.",
+  hr:"Provjeri krvni tlak prije sljedeće sesije hack squata sa 200 kg."},
+ {en:"Get baseline bloods now that 22 kg is off — glucose/HbA1c, lipids, kidney and liver panels.",
+  hr:"Napravi osnovne pretrage krvi sada kad je 22 kg manje — glukoza/HbA1c, lipidi, bubrežni i jetreni panel."},
+ {en:"Ask about a resting ECG given the open-water swimming plus one suspect 174 bpm reading; swim with a buddy and use a chest strap.",
+  hr:"Pitaj o EKG-u u mirovanju s obzirom na plivanje u otvorenim vodama i jedno sumnjivo očitanje od 174 otkucaja/min; plivaj s partnerom i koristi pojas za mjerenje pulsa."},
+ {en:"Measure waist monthly; 90 kg (BMI 30.1) is the next waypoint.",
+  hr:"Mjeri opseg struka mjesečno; 90 kg (BMI 30,1) sljedeća je prekretnica."}
+];
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function todayN(){ return Date.now(); }
+const DAY=86400000;
+
+function latestFor(markers,field){
+ let val=null,date=null;
+ const sorted=markers.slice().filter(r=>r&&r.d).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+ for(let i=sorted.length-1;i>=0;i--){
+  const row=sorted[i];
+  if(row[field]!==undefined&&row[field]!==null&&row[field]!==''){ val=row[field]; date=row.d; break; }
+ }
+ return {val,date};
+}
+
+function renderMarkers(){
+ const markers=(DAT&&DAT.markers)||[];
+ const tb=document.getElementById('mtbody'); tb.innerHTML='';
+ MARKERS.forEach(m=>{
+  const {val,date}=latestFor(markers,m.field);
+  const tr=document.createElement('tr');
+  if(val==null){
+   tr.className='nodata';
+   tr.innerHTML=`<td>${m.label[lang]}</td><td class="valcol">${LBL.notMeasured}</td><td>—</td><td>—</td><td class="wrap">${m.ref}</td>`;
+  }else{
+   const days=Math.floor((todayN()-Date.parse(date))/DAY);
+   const overdue=days>180;
+   if(overdue) tr.className='overdue';
+   const daysTxt=days+' '+LBL.daysUnit+(overdue?' ⚠ '+LBL.overdue:'');
+   tr.innerHTML=`<td>${m.label[lang]}</td><td class="valcol">${esc(val)} ${m.unit}</td><td>${date}</td><td>${daysTxt}</td><td class="wrap">${m.ref}</td>`;
+  }
+  tb.appendChild(tr);
+ });
+}
+
+function renderGroups(){
+ const g=document.getElementById('groups'); g.innerHTML='';
+ GROUPS.forEach(x=>{
+  const d=document.createElement('div'); d.className='gcard';
+  d.innerHTML=`<div class="gt">${x.t[lang]}</div><div class="gd">${x.d[lang]}</div>`;
+  g.appendChild(d);
+ });
+ const ol=document.getElementById('actions'); ol.innerHTML='';
+ ACTIONS.forEach(a=>{ const li=document.createElement('li'); li.textContent=a[lang]; ol.appendChild(li); });
+}
+
+function renderMeds(){
+ const meds=(DAT&&DAT.meds)||[];
+ const tb=document.getElementById('medtbody'); tb.innerHTML='';
+ if(!meds.length){
+  tb.innerHTML=`<tr><td colspan="5" class="emptystate">${LBL.none}</td></tr>`;
+  return;
+ }
+ meds.slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0).forEach(m=>{
+  const tr=document.createElement('tr');
+  const isNsaid=m.kind==='nsaid';
+  if(isNsaid) tr.className='nsaid';
+  const kindTxt=m.kind==='medication'?LBL.medication:m.kind==='supplement'?LBL.supplement:m.kind==='nsaid'?LBL.nsaid:(m.kind||'—');
+  tr.innerHTML=`<td>${esc(m.d)||'—'}</td><td>${esc(m.name)||'—'}</td><td>${esc(m.dose)||'—'}</td><td>${kindTxt}${isNsaid?' ⚠':''}</td><td class="wrap">${esc(m.note)}</td>`;
+  tb.appendChild(tr);
+ });
+}
+
+function renderSymptoms(){
+ const syms=(DAT&&DAT.symptoms)||[];
+ const tb=document.getElementById('symtbody'); tb.innerHTML='';
+ if(!syms.length){
+  tb.innerHTML=`<tr><td colspan="3" class="emptystate">${LBL.none}</td></tr>`;
+  return;
+ }
+ syms.slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0).forEach(s=>{
+  const tr=document.createElement('tr');
+  const typeTxt=LBL[s.type]!==undefined?LBL[s.type]:esc(s.type||'—');
+  tr.innerHTML=`<td>${esc(s.d)||'—'}</td><td>${typeTxt}</td><td class="wrap">${esc(s.note)}</td>`;
+  tb.appendChild(tr);
+ });
+}
+
+function renderAll(){ renderMarkers(); renderGroups(); renderMeds(); renderSymptoms(); }
+
+function init(){
+ renderAll();
+ const f=document.getElementById('foot');
+ if(f) f.textContent=LBL.foot+' '+((DAT&&DAT.meta&&DAT.meta.refreshedAt)?DAT.meta.refreshedAt.slice(0,10):'—');
+ applyTheme(theme);
+ setLang('en');
+ applyResponsive();
+}
+
+function applyTheme(t){
+ theme=t;
+ document.getElementById('hwrap').classList.toggle('dark',t==='dark');
+ document.body.style.background=t==='dark'?'#262624':'#ffffff';
+ markBtns();
+}
+function setLang(l){
+ lang=l; LBL=T[l];
+ document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
+ if(DAT) renderAll();
+ const f=document.getElementById('foot');
+ if(f&&DAT) f.textContent=LBL.foot+' '+((DAT.meta&&DAT.meta.refreshedAt)?DAT.meta.refreshedAt.slice(0,10):'—');
+ markBtns();
+}
+function applyResponsive(){
+ const want=window.innerWidth<560?'mobile':'desktop';
+ if(layout===want) return;
+ layout=want;
+ document.getElementById('hwrap').classList.toggle('mobile',want==='mobile');
+}
+function toggleFont(){
+ fontbig=!fontbig;
+ document.getElementById('hwrap').classList.toggle('big',fontbig);
+ markBtns();
+}
+function markBtns(){
+ const D=theme==='dark';const actBg=D?'#e8e8e6':'#444441',actFg=D?'#262624':'#ffffff',inFg=D?'#e8e8e6':'#2c2c2a';
+ const bd=D?'1px solid rgba(255,255,255,0.35)':'1px solid rgba(0,0,0,0.4)';
+ const style=(b,on)=>{if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';};
+ const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-fs':fontbig};
+ Object.entries(states).forEach(([id,on])=>style(document.getElementById(id),on));
+}
+markBtns();
+let _rt; window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
+
+fetch('clinical-data.json',{cache:'no-store'})
+ .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(j=>{DAT=j;init();})
+ .catch(err=>{
+  DAT={meta:{},markers:[],meds:[],symptoms:[]};
+  init();
+  const e=document.getElementById('foot'); if(e)e.textContent='Could not load clinical-data.json ('+err.message+').';
+ });
+</script>
+</body>
+</html>

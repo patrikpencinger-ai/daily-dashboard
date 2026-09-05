@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "v1.82-auto",
+    "version": "v1.83-auto",
     "snapshot": "2026-09-05",
-    "refreshedAt": "2026-09-05T07:47:13+02:00",
+    "refreshedAt": "2026-09-05T10:30:00+02:00",
     "footEn": "Data snapshot: 2026-09-05 · Garmin fenix 8 via Freddy",
     "footHr": "Podaci: 2026-09-05 · Garmin fenix 8 putem Freddyja"
   },
@@ -131,7 +131,828 @@
         "6h12",
         "7h27"
       ]
-    }
+    },
+    "trend": [
+      {
+        "d": "2026-06-07",
+        "rhr": 53,
+        "hrv": 40,
+        "score": 84,
+        "durH": 8.52,
+        "deepH": 1.12,
+        "awakeMin": 25
+      },
+      {
+        "d": "2026-06-08",
+        "rhr": 55,
+        "hrv": 39,
+        "score": 71,
+        "durH": 5.42,
+        "deepH": 1.13,
+        "awakeMin": 10
+      },
+      {
+        "d": "2026-06-09",
+        "rhr": 58,
+        "hrv": 31,
+        "score": 58,
+        "durH": 4.35,
+        "deepH": 1.2,
+        "awakeMin": 0
+      },
+      {
+        "d": "2026-06-10",
+        "rhr": 55,
+        "hrv": 35,
+        "score": 75,
+        "durH": 7.38,
+        "deepH": 1.48,
+        "awakeMin": 57
+      },
+      {
+        "d": "2026-06-11",
+        "rhr": 53,
+        "hrv": 42,
+        "score": 89,
+        "durH": 7.92,
+        "deepH": 2.08,
+        "awakeMin": 10
+      },
+      {
+        "d": "2026-06-12",
+        "rhr": 53,
+        "hrv": 36,
+        "score": 89,
+        "durH": 8.2,
+        "deepH": 2.05,
+        "awakeMin": 11
+      },
+      {
+        "d": "2026-06-13",
+        "rhr": 52,
+        "hrv": 45,
+        "score": 77,
+        "durH": 6.07,
+        "deepH": 1.87,
+        "awakeMin": 14
+      },
+      {
+        "d": "2026-06-14",
+        "rhr": 52,
+        "hrv": 43,
+        "score": 86,
+        "durH": 7.75,
+        "deepH": 2.07,
+        "awakeMin": 31
+      },
+      {
+        "d": "2026-06-15",
+        "rhr": 53,
+        "hrv": 44,
+        "score": 70,
+        "durH": 5.32,
+        "deepH": 0.75,
+        "awakeMin": 4
+      },
+      {
+        "d": "2026-06-16",
+        "rhr": 54,
+        "hrv": 39,
+        "score": 83,
+        "durH": 7.33,
+        "deepH": 1.05,
+        "awakeMin": 24
+      },
+      {
+        "d": "2026-06-17",
+        "rhr": 56,
+        "hrv": 38,
+        "score": 82,
+        "durH": 7.07,
+        "deepH": 1.17,
+        "awakeMin": 12
+      },
+      {
+        "d": "2026-06-18",
+        "rhr": 57,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-06-19",
+        "rhr": 57,
+        "hrv": 31,
+        "score": 76,
+        "durH": 7.6,
+        "deepH": 1.62,
+        "awakeMin": 17
+      },
+      {
+        "d": "2026-06-20",
+        "rhr": 50,
+        "hrv": 52,
+        "score": 84,
+        "durH": 6.58,
+        "deepH": 1.1,
+        "awakeMin": 9
+      },
+      {
+        "d": "2026-06-21",
+        "rhr": 53,
+        "hrv": 45,
+        "score": 80,
+        "durH": 6.25,
+        "deepH": 1.18,
+        "awakeMin": 17
+      },
+      {
+        "d": "2026-06-22",
+        "rhr": 53,
+        "hrv": 42,
+        "score": 78,
+        "durH": 6.65,
+        "deepH": 1.12,
+        "awakeMin": 19
+      },
+      {
+        "d": "2026-06-23",
+        "rhr": 56,
+        "hrv": 35,
+        "score": 81,
+        "durH": 8.0,
+        "deepH": 1.0,
+        "awakeMin": 26
+      },
+      {
+        "d": "2026-06-24",
+        "rhr": 55,
+        "hrv": 36,
+        "score": 80,
+        "durH": 6.85,
+        "deepH": 1.32,
+        "awakeMin": 21
+      },
+      {
+        "d": "2026-06-25",
+        "rhr": 58,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-06-26",
+        "rhr": 55,
+        "hrv": 42,
+        "score": 88,
+        "durH": 7.83,
+        "deepH": 1.65,
+        "awakeMin": 13
+      },
+      {
+        "d": "2026-06-27",
+        "rhr": 57,
+        "hrv": 31,
+        "score": 82,
+        "durH": 7.55,
+        "deepH": 1.02,
+        "awakeMin": 18
+      },
+      {
+        "d": "2026-06-28",
+        "rhr": 53,
+        "hrv": 43,
+        "score": 76,
+        "durH": 5.8,
+        "deepH": 1.08,
+        "awakeMin": 8
+      },
+      {
+        "d": "2026-06-29",
+        "rhr": 52,
+        "hrv": 50,
+        "score": 89,
+        "durH": 8.12,
+        "deepH": 1.22,
+        "awakeMin": 10
+      },
+      {
+        "d": "2026-06-30",
+        "rhr": 53,
+        "hrv": 48,
+        "score": 79,
+        "durH": 6.08,
+        "deepH": 1.12,
+        "awakeMin": 0
+      },
+      {
+        "d": "2026-07-01",
+        "rhr": 55,
+        "hrv": 37,
+        "score": 84,
+        "durH": 7.32,
+        "deepH": 1.33,
+        "awakeMin": 21
+      },
+      {
+        "d": "2026-07-02",
+        "rhr": 56,
+        "hrv": 39,
+        "score": 85,
+        "durH": 7.53,
+        "deepH": 1.83,
+        "awakeMin": 19
+      },
+      {
+        "d": "2026-07-03",
+        "rhr": 56,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-07-04",
+        "rhr": 54,
+        "hrv": 39,
+        "score": 74,
+        "durH": 5.22,
+        "deepH": 1.57,
+        "awakeMin": 1
+      },
+      {
+        "d": "2026-07-05",
+        "rhr": 53,
+        "hrv": 41,
+        "score": 84,
+        "durH": 6.8,
+        "deepH": 1.85,
+        "awakeMin": 6
+      },
+      {
+        "d": "2026-07-06",
+        "rhr": 52,
+        "hrv": 51,
+        "score": 86,
+        "durH": 7.33,
+        "deepH": 0.77,
+        "awakeMin": 21
+      },
+      {
+        "d": "2026-07-07",
+        "rhr": 53,
+        "hrv": 43,
+        "score": 91,
+        "durH": 7.97,
+        "deepH": 1.45,
+        "awakeMin": 14
+      },
+      {
+        "d": "2026-07-08",
+        "rhr": 55,
+        "hrv": 38,
+        "score": 84,
+        "durH": 7.42,
+        "deepH": 1.13,
+        "awakeMin": 19
+      },
+      {
+        "d": "2026-07-09",
+        "rhr": 57,
+        "hrv": 32,
+        "score": 77,
+        "durH": 6.52,
+        "deepH": 1.95,
+        "awakeMin": 15
+      },
+      {
+        "d": "2026-07-10",
+        "rhr": 54,
+        "hrv": 40,
+        "score": 83,
+        "durH": 8.45,
+        "deepH": 1.43,
+        "awakeMin": 28
+      },
+      {
+        "d": "2026-07-11",
+        "rhr": 54,
+        "hrv": 37,
+        "score": 84,
+        "durH": 6.97,
+        "deepH": 1.38,
+        "awakeMin": 6
+      },
+      {
+        "d": "2026-07-12",
+        "rhr": 54,
+        "hrv": 37,
+        "score": 78,
+        "durH": 7.72,
+        "deepH": 0.87,
+        "awakeMin": 30
+      },
+      {
+        "d": "2026-07-13",
+        "rhr": 53,
+        "hrv": 45,
+        "score": 87,
+        "durH": 8.0,
+        "deepH": 1.22,
+        "awakeMin": 9
+      },
+      {
+        "d": "2026-07-14",
+        "rhr": 55,
+        "hrv": 40,
+        "score": 79,
+        "durH": 7.72,
+        "deepH": 0.63,
+        "awakeMin": 17
+      },
+      {
+        "d": "2026-07-15",
+        "rhr": 57,
+        "hrv": 32,
+        "score": 73,
+        "durH": 8.7,
+        "deepH": 1.2,
+        "awakeMin": 20
+      },
+      {
+        "d": "2026-07-16",
+        "rhr": 55,
+        "hrv": 38,
+        "score": 83,
+        "durH": 6.88,
+        "deepH": 1.6,
+        "awakeMin": 4
+      },
+      {
+        "d": "2026-07-17",
+        "rhr": 56,
+        "hrv": 32,
+        "score": 81,
+        "durH": 6.93,
+        "deepH": 1.68,
+        "awakeMin": 14
+      },
+      {
+        "d": "2026-07-18",
+        "rhr": 55,
+        "hrv": 39,
+        "score": 68,
+        "durH": 5.18,
+        "deepH": 0.95,
+        "awakeMin": 11
+      },
+      {
+        "d": "2026-07-19",
+        "rhr": 57,
+        "hrv": 33,
+        "score": 72,
+        "durH": 6.17,
+        "deepH": 1.15,
+        "awakeMin": 18
+      },
+      {
+        "d": "2026-07-20",
+        "rhr": 56,
+        "hrv": 38,
+        "score": 85,
+        "durH": 7.78,
+        "deepH": 1.23,
+        "awakeMin": 7
+      },
+      {
+        "d": "2026-07-21",
+        "rhr": 55,
+        "hrv": 42,
+        "score": 85,
+        "durH": 7.2,
+        "deepH": 1.05,
+        "awakeMin": 10
+      },
+      {
+        "d": "2026-07-22",
+        "rhr": 53,
+        "hrv": 49,
+        "score": 78,
+        "durH": 6.75,
+        "deepH": 1.07,
+        "awakeMin": 34
+      },
+      {
+        "d": "2026-07-23",
+        "rhr": 54,
+        "hrv": 42,
+        "score": 80,
+        "durH": 6.85,
+        "deepH": 0.87,
+        "awakeMin": 15
+      },
+      {
+        "d": "2026-07-24",
+        "rhr": 52,
+        "hrv": 56,
+        "score": 84,
+        "durH": 6.47,
+        "deepH": 1.12,
+        "awakeMin": 1
+      },
+      {
+        "d": "2026-07-25",
+        "rhr": 53,
+        "hrv": 46,
+        "score": 64,
+        "durH": 4.7,
+        "deepH": 1.38,
+        "awakeMin": 10
+      },
+      {
+        "d": "2026-07-26",
+        "rhr": 53,
+        "hrv": 42,
+        "score": 85,
+        "durH": 7.18,
+        "deepH": 1.15,
+        "awakeMin": 15
+      },
+      {
+        "d": "2026-07-27",
+        "rhr": 53,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-07-28",
+        "rhr": 55,
+        "hrv": 37,
+        "score": 77,
+        "durH": 6.38,
+        "deepH": 2.05,
+        "awakeMin": 13
+      },
+      {
+        "d": "2026-07-29",
+        "rhr": 55,
+        "hrv": 42,
+        "score": 72,
+        "durH": 5.45,
+        "deepH": 0.92,
+        "awakeMin": 13
+      },
+      {
+        "d": "2026-07-30",
+        "rhr": 55,
+        "hrv": 34,
+        "score": 84,
+        "durH": 7.57,
+        "deepH": 1.78,
+        "awakeMin": 9
+      },
+      {
+        "d": "2026-07-31",
+        "rhr": 57,
+        "hrv": 31,
+        "score": 66,
+        "durH": 5.08,
+        "deepH": 1.63,
+        "awakeMin": 8
+      },
+      {
+        "d": "2026-08-01",
+        "rhr": 57,
+        "hrv": 31,
+        "score": 74,
+        "durH": 6.78,
+        "deepH": 0.8,
+        "awakeMin": 16
+      },
+      {
+        "d": "2026-08-02",
+        "rhr": 53,
+        "hrv": 35,
+        "score": 74,
+        "durH": 8.24,
+        "deepH": 0.8,
+        "awakeMin": 40
+      },
+      {
+        "d": "2026-08-03",
+        "rhr": 53,
+        "hrv": 40,
+        "score": 81,
+        "durH": 6.78,
+        "deepH": 1.02,
+        "awakeMin": 3
+      },
+      {
+        "d": "2026-08-04",
+        "rhr": 59,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-08-05",
+        "rhr": 60,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-08-06",
+        "rhr": 55,
+        "hrv": 36,
+        "score": 77,
+        "durH": 8.53,
+        "deepH": 0.83,
+        "awakeMin": 36
+      },
+      {
+        "d": "2026-08-07",
+        "rhr": 54,
+        "hrv": 42,
+        "score": 86,
+        "durH": 8.56,
+        "deepH": 1.37,
+        "awakeMin": 14
+      },
+      {
+        "d": "2026-08-08",
+        "rhr": 53,
+        "hrv": 42,
+        "score": 84,
+        "durH": 6.8,
+        "deepH": 1.22,
+        "awakeMin": 7
+      },
+      {
+        "d": "2026-08-09",
+        "rhr": 55,
+        "hrv": 34,
+        "score": 74,
+        "durH": 9.98,
+        "deepH": 1.55,
+        "awakeMin": 25
+      },
+      {
+        "d": "2026-08-10",
+        "rhr": 55,
+        "hrv": 37,
+        "score": 84,
+        "durH": 7.83,
+        "deepH": 1.68,
+        "awakeMin": 14
+      },
+      {
+        "d": "2026-08-11",
+        "rhr": 53,
+        "hrv": 42,
+        "score": 82,
+        "durH": 7.23,
+        "deepH": 1.02,
+        "awakeMin": 21
+      },
+      {
+        "d": "2026-08-12",
+        "rhr": 55,
+        "hrv": 33,
+        "score": 82,
+        "durH": 7.78,
+        "deepH": 1.08,
+        "awakeMin": 14
+      },
+      {
+        "d": "2026-08-13",
+        "rhr": 53,
+        "hrv": 34,
+        "score": 81,
+        "durH": 6.73,
+        "deepH": 1.68,
+        "awakeMin": 8
+      },
+      {
+        "d": "2026-08-14",
+        "rhr": 55,
+        "hrv": 34,
+        "score": 68,
+        "durH": 5.13,
+        "deepH": 1.67,
+        "awakeMin": 13
+      },
+      {
+        "d": "2026-08-15",
+        "rhr": 55,
+        "hrv": 38,
+        "score": 76,
+        "durH": 6.02,
+        "deepH": 1.1,
+        "awakeMin": 7
+      },
+      {
+        "d": "2026-08-16",
+        "rhr": 55,
+        "hrv": 39,
+        "score": 84,
+        "durH": 7.35,
+        "deepH": 1.08,
+        "awakeMin": 21
+      },
+      {
+        "d": "2026-08-17",
+        "rhr": 53,
+        "hrv": 46,
+        "score": 81,
+        "durH": 6.73,
+        "deepH": 0.92,
+        "awakeMin": 19
+      },
+      {
+        "d": "2026-08-18",
+        "rhr": 53,
+        "hrv": 47,
+        "score": 76,
+        "durH": 5.72,
+        "deepH": 0.75,
+        "awakeMin": 8
+      },
+      {
+        "d": "2026-08-19",
+        "rhr": 54,
+        "hrv": 41,
+        "score": 83,
+        "durH": 7.45,
+        "deepH": 0.72,
+        "awakeMin": 3
+      },
+      {
+        "d": "2026-08-20",
+        "rhr": 54,
+        "hrv": 34,
+        "score": 79,
+        "durH": 7.55,
+        "deepH": 1.4,
+        "awakeMin": 42
+      },
+      {
+        "d": "2026-08-21",
+        "rhr": 54,
+        "hrv": 36,
+        "score": 76,
+        "durH": 6.38,
+        "deepH": 1.58,
+        "awakeMin": 20
+      },
+      {
+        "d": "2026-08-22",
+        "rhr": 50,
+        "hrv": 50,
+        "score": 89,
+        "durH": 6.69,
+        "deepH": 1.98,
+        "awakeMin": 5
+      },
+      {
+        "d": "2026-08-23",
+        "rhr": 57,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-08-24",
+        "rhr": 57,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-08-25",
+        "rhr": 54,
+        "hrv": 41,
+        "score": 80,
+        "durH": 8.0,
+        "deepH": 0.83,
+        "awakeMin": 28
+      },
+      {
+        "d": "2026-08-26",
+        "rhr": 54,
+        "hrv": 38,
+        "score": 78,
+        "durH": 6.87,
+        "deepH": 0.55,
+        "awakeMin": 12
+      },
+      {
+        "d": "2026-08-27",
+        "rhr": 57,
+        "hrv": 36,
+        "score": 70,
+        "durH": 7.28,
+        "deepH": 0.92,
+        "awakeMin": 41
+      },
+      {
+        "d": "2026-08-28",
+        "rhr": 54,
+        "hrv": 39,
+        "score": 79,
+        "durH": 6.45,
+        "deepH": 1.73,
+        "awakeMin": 20
+      },
+      {
+        "d": "2026-08-29",
+        "rhr": 55,
+        "hrv": 36,
+        "score": 73,
+        "durH": 6.27,
+        "deepH": 1.03,
+        "awakeMin": 42
+      },
+      {
+        "d": "2026-08-30",
+        "rhr": 54,
+        "hrv": 37,
+        "score": 65,
+        "durH": 6.8,
+        "deepH": 1.47,
+        "awakeMin": 64
+      },
+      {
+        "d": "2026-08-31",
+        "rhr": 53,
+        "hrv": 43,
+        "score": 94,
+        "durH": 7.65,
+        "deepH": 1.25,
+        "awakeMin": 0
+      },
+      {
+        "d": "2026-09-01",
+        "rhr": 53,
+        "hrv": 49,
+        "score": 82,
+        "durH": 6.72,
+        "deepH": 1.07,
+        "awakeMin": 11
+      },
+      {
+        "d": "2026-09-02",
+        "rhr": 53,
+        "hrv": 39,
+        "score": 85,
+        "durH": 8.1,
+        "deepH": 1.13,
+        "awakeMin": 9
+      },
+      {
+        "d": "2026-09-03",
+        "rhr": 53,
+        "hrv": 45,
+        "score": 82,
+        "durH": 6.96,
+        "deepH": 1.12,
+        "awakeMin": 6
+      },
+      {
+        "d": "2026-09-04",
+        "rhr": 53,
+        "hrv": 50,
+        "score": 79,
+        "durH": 6.2,
+        "deepH": 0.87,
+        "awakeMin": 18
+      },
+      {
+        "d": "2026-09-05",
+        "rhr": 51,
+        "hrv": 46,
+        "score": 87,
+        "durH": 7.45,
+        "deepH": 2.18,
+        "awakeMin": 24
+      }
+    ]
   },
   "text": {
     "en": {
@@ -163,7 +984,7 @@
       "havg": "HRV 7d avg 44",
       "today": "Today: nothing logged yet",
       "badge": "Deepest night of the seven — 2h 11m",
-      "rec": "Score 87 on 7h 27m, 23:36 to 07:27. Eight points up on last night's 79 and nineteen minutes over the 7h 08m seven-night average — the second-longest night on this board and, by a wide margin, the deepest. Deep sleep came in at 2h 11m, 29% of the night. The next-best deep total in this window is 1h 28m and the worst, last night, was 52m; 2h 11m is more than double what you got twenty-four hours ago. REM added 1h 36m at 21% and light 3h 40m at 49%. Deep and REM together made 3h 47m — 51% of the night, against 32% the night before. That is the restorative block that has been missing all week, delivered in one go. The autonomic side agrees. RHR dropped to 51, two under last night and two under the 53 seven-night average, and it is the lowest resting heart rate anywhere in this window — the first night in six that it has come off 53. Body battery charged 75 points overnight and drained nothing at all. Average stress reads 12 so far today. HRV eased to 46, four down on last night's 50 but still two above the 44 average and the third-highest of the seven; after a 75-point charge and a new RHR floor, that is a settled reading, not a warning. Twenty-four minutes awake, 95% sleep efficiency. Friday's swim — 2,250 m in 63 minutes, avg HR 125, max 150, 662 kcal — left no autonomic mark; RHR went down, not up. One honest caveat on where the extra time came from. Lights-out was 23:36, eleven minutes earlier than last night but still the third-latest of the seven. The night was long because you woke at 07:27 — the latest wake of the window by 43 minutes — not because you went to bed early. That is a weekend repayment, not a fix. The pattern from the earlier nights still holds: 22:18 bought 8h 06m without borrowing from the morning. Readiness 88. Deepest night of the seven, RHR at a window low, a full overnight charge and nothing drained — this is the strongest recovery reading on the board and it should be spent. Goblet squat is 86 days out from Jun 11 and remains the oldest gap you have; trap bar stays blocked until roughly Sep 9 by Tuesday's 120 kg pulls. Train today, and tonight take the lever the weekend just made easy: lights out at 22:30 and keep the hours without needing the lie-in."
+      "rec": "Last night scored 87 on 7h 27m (23:36–07:27): RHR 51 against a 28-day baseline of 54, HRV 46 against 40, and 2h 11m of deep sleep — the deepest of the seven nights. Flag: sleep debt — four of the last seven nights were under 7 h, a shortfall of 3.4 h against a 7.5 h target, and last night's length came from a 07:27 wake, not an earlier bedtime. Next session: front squat 4 × 8 at 80 kg — recovery supports a full session today. Lever: bedtime. The 22:18 lights-out earlier this week bought 8h 06m without a lie-in; aim for 22:30 tonight."
     },
     "hr": {
       "daysFull": [
@@ -194,7 +1015,7 @@
       "havg": "HRV 7d prosjek 44",
       "today": "Danas: još ništa zabilježeno",
       "badge": "Najdublja noć od sedam — 2h 11m",
-      "rec": "Ocjena 87 uz 7h 27m, od 23:36 do 07:27. Osam bodova iznad sinoćnjih 79 i devetnaest minuta iznad prosjeka od 7h 08m kroz sedam noći — druga najdulja noć na ovoj ploči i, uvjerljivo, najdublja. Duboki san bio je 2h 11m, 29% noći. Sljedeći najbolji duboki zbroj u ovom prozoru je 1h 28m, a najlošiji, sinoć, bio je 52m; 2h 11m je više nego dvostruko od onoga što si dobio prije dvadeset četiri sata. REM je dodao 1h 36m i 21%, a laki san 3h 40m i 49%. Duboki i REM zajedno dali su 3h 47m — 51% noći, naspram 32% prethodne noći. To je obnavljajući blok koji je nedostajao cijeli tjedan, isporučen odjednom. Autonomna strana se slaže. RHR je pao na 51, dva ispod sinoć, dva ispod prosjeka od 53 i najniži puls mirovanja bilo gdje u ovom prozoru — prva noć u šest da se maknuo s 53. Body battery se preko noći napunio za 75 bodova i nije ispraznio ništa. Prosječni stres danas zasad čita 12. HRV je popustio na 46, četiri ispod sinoćnjih 50, ali i dalje dva iznad prosjeka od 44 i treći najviši od sedam; nakon punjenja od 75 bodova i novog dna RHR-a, to je smireno očitanje, a ne upozorenje. Dvadeset četiri minute budnosti, 95% učinkovitost. Petkovo plivanje — 2.250 m u 63 minute, prosječni puls 125, maksimalni 150, 662 kcal — nije ostavilo autonomni trag; RHR je pao, a ne porastao. Jedna poštena ograda o tome odakle je došlo dodatno vrijeme. Svjetlo se ugasilo u 23:36, jedanaest minuta ranije nego sinoć, ali i dalje treće najkasnije od sedam. Noć je bila duga jer si se probudio u 07:27 — najkasnije buđenje u prozoru za 43 minute — a ne zato što si rano legao. To je vikend-otplata, a ne rješenje. Obrazac iz ranijih noći i dalje stoji: 22:18 je kupilo 8h 06m bez posuđivanja od jutra. Spremnost 88. Najdublja noć od sedam, RHR na dnu prozora, potpuno noćno punjenje i ništa ispražnjeno — ovo je najjače očitanje oporavka na ploči i treba ga potrošiti. Goblet čučanj je na 86 dana od 11.6. i ostaje najstarija rupa koju imaš; trap bar ostaje blokiran do otprilike 9.9. utorkovim dizanjem 120 kg. Treniraj danas, a večeras povuci polugu koju ti je vikend upravo olakšao: svjetlo u 22:30 i zadrži sate bez potrebe za odspavanjem ujutro."
+      "rec": "Sinoć ocjena 87 uz 7h 27m (23:36–07:27): RHR 51 naspram 28-dnevne osnove 54, HRV 46 naspram 40 i 2h 11m dubokog sna — najdublja od sedam noći. Zastavica: dug sna — četiri od zadnjih sedam noći bile su ispod 7 h, manjak od 3,4 h prema cilju od 7,5 h, a sinoćnja duljina došla je od buđenja u 07:27, ne od ranijeg lijeganja. Sljedeći trening: prednji čučanj 4 × 8 s 80 kg — oporavak podržava puni trening danas. Poluga: lijeganje. Gašenje svjetla u 22:18 ranije ovaj tjedan donijelo je 8h 06m bez odspavanja ujutro; večeras ciljaj 22:30."
     }
   }
 }

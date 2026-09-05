@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "v1.89-auto",
+    "version": "v1.90-auto",
     "snapshot": "2026-09-05",
-    "refreshedAt": "2026-09-05T07:49:41+02:00"
+    "refreshedAt": "2026-09-05T21:07:49+02:00"
   },
   "num": {
     "kpis": {
@@ -826,7 +826,14 @@
         "mx": 148,
         "av": 112,
         "tmax": 20.3,
-        "tmin": 15.1
+        "tmin": 15.1,
+        "dur": 65,
+        "kcal": 574,
+        "lift": "hack",
+        "top": {
+          "w": 130,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-04",
@@ -838,7 +845,14 @@
         "mx": 156,
         "av": 118,
         "tmax": 24.0,
-        "tmin": 11.8
+        "tmin": 11.8,
+        "dur": 64,
+        "kcal": 649,
+        "lift": "squat",
+        "top": {
+          "w": 48,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-07",
@@ -850,7 +864,14 @@
         "mx": 154,
         "av": 116,
         "tmax": 26.8,
-        "tmin": 15.0
+        "tmin": 15.0,
+        "dur": 82,
+        "kcal": 687,
+        "lift": "trap",
+        "top": {
+          "w": 140,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-09",
@@ -862,7 +883,14 @@
         "mx": 139,
         "av": 111,
         "tmax": 30.4,
-        "tmin": 18.6
+        "tmin": 18.6,
+        "dur": 66,
+        "kcal": 534,
+        "lift": "hack",
+        "top": {
+          "w": 130,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-11",
@@ -874,7 +902,14 @@
         "mx": 148,
         "av": 109,
         "tmax": 18.0,
-        "tmin": 12.2
+        "tmin": 12.2,
+        "dur": 65,
+        "kcal": 522,
+        "lift": "squat",
+        "top": {
+          "w": 48,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-13",
@@ -886,7 +921,14 @@
         "mx": 165,
         "av": 116,
         "tmax": 28.1,
-        "tmin": 14.9
+        "tmin": 14.9,
+        "dur": 66,
+        "kcal": 598,
+        "lift": "trap",
+        "top": {
+          "w": 150,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-16",
@@ -898,7 +940,14 @@
         "mx": 151,
         "av": 113,
         "tmax": 26.0,
-        "tmin": 13.3
+        "tmin": 13.3,
+        "dur": 67,
+        "kcal": 596,
+        "lift": "hack",
+        "top": {
+          "w": 140,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-18",
@@ -910,7 +959,14 @@
         "mx": 157,
         "av": 120,
         "tmax": 29.5,
-        "tmin": 18.5
+        "tmin": 18.5,
+        "dur": 68,
+        "kcal": 687,
+        "lift": "squat",
+        "top": {
+          "w": 48,
+          "reps": 12
+        }
       },
       {
         "d": "2026-06-20",
@@ -922,7 +978,14 @@
         "mx": 148,
         "av": 113,
         "tmax": 32.2,
-        "tmin": 21.1
+        "tmin": 21.1,
+        "dur": 53,
+        "kcal": 469,
+        "lift": "trap",
+        "top": {
+          "w": 150,
+          "reps": 8
+        }
       },
       {
         "d": "2026-06-23",
@@ -934,7 +997,11 @@
         "mx": 142,
         "av": 114,
         "tmax": 30.6,
-        "tmin": 20.4
+        "tmin": 20.4,
+        "dur": 63,
+        "kcal": 553,
+        "lift": "hack",
+        "top": null
       },
       {
         "d": "2026-06-25",
@@ -946,7 +1013,11 @@
         "mx": 154,
         "av": 113,
         "tmax": 33.2,
-        "tmin": 20.9
+        "tmin": 20.9,
+        "dur": 74,
+        "kcal": 520,
+        "lift": "other",
+        "top": null
       },
       {
         "d": "2026-06-27",
@@ -958,7 +1029,14 @@
         "mx": 147,
         "av": 108,
         "tmax": 35.1,
-        "tmin": 22.2
+        "tmin": 22.2,
+        "dur": 53,
+        "kcal": 403,
+        "lift": "trap",
+        "top": {
+          "w": 150,
+          "reps": 8
+        }
       },
       {
         "d": "2026-06-30",
@@ -970,7 +1048,14 @@
         "mx": 147,
         "av": 113,
         "tmax": 35.9,
-        "tmin": 24.0
+        "tmin": 24.0,
+        "dur": 63,
+        "kcal": 554,
+        "lift": "hack",
+        "top": {
+          "w": 140,
+          "reps": 12
+        }
       },
       {
         "d": "2026-07-02",
@@ -982,7 +1067,14 @@
         "mx": 153,
         "av": 114,
         "tmax": 27.0,
-        "tmin": 18.9
+        "tmin": 18.9,
+        "dur": 61,
+        "kcal": 537,
+        "lift": "squat",
+        "top": {
+          "w": 48,
+          "reps": 12
+        }
       },
       {
         "d": "2026-07-04",
@@ -994,7 +1086,14 @@
         "mx": 136,
         "av": 105,
         "tmax": 27.4,
-        "tmin": 16.7
+        "tmin": 16.7,
+        "dur": 55,
+        "kcal": 399,
+        "lift": "trap",
+        "top": {
+          "w": 100,
+          "reps": 6
+        }
       },
       {
         "d": "2026-07-07",
@@ -1006,7 +1105,14 @@
         "mx": 155,
         "av": 120,
         "tmax": 30.1,
-        "tmin": 17.8
+        "tmin": 17.8,
+        "dur": 62,
+        "kcal": 618,
+        "lift": "hack",
+        "top": {
+          "w": 150,
+          "reps": 12
+        }
       },
       {
         "d": "2026-07-09",
@@ -1018,7 +1124,11 @@
         "mx": 142,
         "av": 108,
         "tmax": 27.1,
-        "tmin": 16.6
+        "tmin": 16.6,
+        "dur": 59,
+        "kcal": 437,
+        "lift": "other",
+        "top": null
       },
       {
         "d": "2026-07-11",
@@ -1030,7 +1140,11 @@
         "mx": 149,
         "av": 119,
         "tmax": 27.9,
-        "tmin": 19.6
+        "tmin": 19.6,
+        "dur": 49,
+        "kcal": 497,
+        "lift": "other",
+        "top": null
       },
       {
         "d": "2026-07-14",
@@ -1042,7 +1156,11 @@
         "mx": 154,
         "av": 121,
         "tmax": 31.8,
-        "tmin": 20.5
+        "tmin": 20.5,
+        "dur": 60,
+        "kcal": 606,
+        "lift": "other",
+        "top": null
       },
       {
         "d": "2026-07-17",
@@ -1054,7 +1172,14 @@
         "mx": 143,
         "av": 112,
         "tmax": 29.7,
-        "tmin": 20.2
+        "tmin": 20.2,
+        "dur": 59,
+        "kcal": 491,
+        "lift": "squat",
+        "top": {
+          "w": 70,
+          "reps": 8
+        }
       },
       {
         "d": "2026-07-19",
@@ -1066,7 +1191,14 @@
         "mx": 143,
         "av": 107,
         "tmax": 29.6,
-        "tmin": 17.9
+        "tmin": 17.9,
+        "dur": 87,
+        "kcal": 623,
+        "lift": "bbdl",
+        "top": {
+          "w": 110,
+          "reps": 8
+        }
       },
       {
         "d": "2026-07-21",
@@ -1078,7 +1210,14 @@
         "mx": 147,
         "av": 115,
         "tmax": 26.4,
-        "tmin": 17.9
+        "tmin": 17.9,
+        "dur": 59,
+        "kcal": 533,
+        "lift": "hack",
+        "top": {
+          "w": 160,
+          "reps": 10
+        }
       },
       {
         "d": "2026-07-23",
@@ -1090,7 +1229,14 @@
         "mx": 151,
         "av": 112,
         "tmax": 23.7,
-        "tmin": 14.8
+        "tmin": 14.8,
+        "dur": 57,
+        "kcal": 474,
+        "lift": "front",
+        "top": {
+          "w": 80,
+          "reps": 10
+        }
       },
       {
         "d": "2026-07-25",
@@ -1102,7 +1248,14 @@
         "mx": 136,
         "av": 105,
         "tmax": 28.4,
-        "tmin": 14.0
+        "tmin": 14.0,
+        "dur": 57,
+        "kcal": 411,
+        "lift": "bbdl",
+        "top": {
+          "w": 110,
+          "reps": 8
+        }
       },
       {
         "d": "2026-07-28",
@@ -1114,7 +1267,14 @@
         "mx": 143,
         "av": 111,
         "tmax": 29.5,
-        "tmin": 19.4
+        "tmin": 19.4,
+        "dur": 62,
+        "kcal": 496,
+        "lift": "hack",
+        "top": {
+          "w": 185,
+          "reps": 6
+        }
       },
       {
         "d": "2026-07-30",
@@ -1126,7 +1286,14 @@
         "mx": 159,
         "av": 116,
         "tmax": 34.0,
-        "tmin": 21.9
+        "tmin": 21.9,
+        "dur": 57,
+        "kcal": 530,
+        "lift": "front",
+        "top": {
+          "w": 80,
+          "reps": 10
+        }
       },
       {
         "d": "2026-08-13",
@@ -1138,7 +1305,14 @@
         "mx": 156,
         "av": 118,
         "tmax": 30.1,
-        "tmin": 18.5
+        "tmin": 18.5,
+        "dur": 67,
+        "kcal": 603,
+        "lift": "front",
+        "top": {
+          "w": 80,
+          "reps": 10
+        }
       },
       {
         "d": "2026-08-17",
@@ -1150,7 +1324,14 @@
         "mx": 145,
         "av": 112,
         "tmax": 29.7,
-        "tmin": 19.9
+        "tmin": 19.9,
+        "dur": 84,
+        "kcal": 668,
+        "lift": "bbdl",
+        "top": {
+          "w": 120,
+          "reps": 8
+        }
       },
       {
         "d": "2026-08-20",
@@ -1162,7 +1343,14 @@
         "mx": 155,
         "av": 123,
         "tmax": 34.6,
-        "tmin": 22.1
+        "tmin": 22.1,
+        "dur": 74,
+        "kcal": 737,
+        "lift": "hack",
+        "top": {
+          "w": 160,
+          "reps": 12
+        }
       },
       {
         "d": "2026-08-23",
@@ -1174,7 +1362,14 @@
         "mx": 158,
         "av": 116,
         "tmax": 25.1,
-        "tmin": 17.4
+        "tmin": 17.4,
+        "dur": 74,
+        "kcal": 642,
+        "lift": "front",
+        "top": {
+          "w": 80,
+          "reps": 8
+        }
       },
       {
         "d": "2026-08-25",
@@ -1186,7 +1381,14 @@
         "mx": 150,
         "av": 123,
         "tmax": 25.3,
-        "tmin": 17.2
+        "tmin": 17.2,
+        "dur": 82,
+        "kcal": 781,
+        "lift": "bbdl",
+        "top": {
+          "w": 120,
+          "reps": 8
+        }
       },
       {
         "d": "2026-08-27",
@@ -1198,7 +1400,14 @@
         "mx": 145,
         "av": 112,
         "tmax": 33.4,
-        "tmin": 19.9
+        "tmin": 19.9,
+        "dur": 85,
+        "kcal": 639,
+        "lift": "hack",
+        "top": {
+          "w": 170,
+          "reps": 12
+        }
       },
       {
         "d": "2026-08-29",
@@ -1210,7 +1419,14 @@
         "mx": 150,
         "av": 112,
         "tmax": 27.1,
-        "tmin": 19.5
+        "tmin": 19.5,
+        "dur": 84,
+        "kcal": 646,
+        "lift": "front",
+        "top": {
+          "w": 80,
+          "reps": 8
+        }
       },
       {
         "d": "2026-09-01",
@@ -1222,7 +1438,14 @@
         "mx": 157,
         "av": 122,
         "tmax": 27.2,
-        "tmin": 18.0
+        "tmin": 18.0,
+        "dur": 75,
+        "kcal": 728,
+        "lift": "bbdl",
+        "top": {
+          "w": 120,
+          "reps": 10
+        }
       },
       {
         "d": "2026-09-03",
@@ -1234,7 +1457,14 @@
         "mx": 153,
         "av": 122,
         "tmax": 30.0,
-        "tmin": 17.8
+        "tmin": 17.8,
+        "dur": 83,
+        "kcal": 752,
+        "lift": "hack",
+        "top": {
+          "w": 200,
+          "reps": 6
+        }
       }
     ],
     "swim": [
@@ -1250,7 +1480,9 @@
         "lengths": 74,
         "spm": 26,
         "tmax": 22.1,
-        "tmin": 16.3
+        "tmin": 16.3,
+        "dur": 59,
+        "kcal": 600
       },
       {
         "d": "2026-06-06",
@@ -1264,7 +1496,9 @@
         "lengths": null,
         "spm": 23,
         "tmax": 23.3,
-        "tmin": 12.6
+        "tmin": 12.6,
+        "dur": 9,
+        "kcal": 119
       },
       {
         "d": "2026-06-06",
@@ -1278,7 +1512,9 @@
         "lengths": null,
         "spm": 28,
         "tmax": 23.3,
-        "tmin": 12.6
+        "tmin": 12.6,
+        "dur": 18,
+        "kcal": 235
       },
       {
         "d": "2026-06-08",
@@ -1292,7 +1528,9 @@
         "lengths": 88,
         "spm": 28,
         "tmax": 28.5,
-        "tmin": 15.7
+        "tmin": 15.7,
+        "dur": 64,
+        "kcal": 822
       },
       {
         "d": "2026-06-10",
@@ -1306,7 +1544,9 @@
         "lengths": 88,
         "spm": 23,
         "tmax": 24.4,
-        "tmin": 16.0
+        "tmin": 16.0,
+        "dur": 68,
+        "kcal": 684
       },
       {
         "d": "2026-06-15",
@@ -1320,7 +1560,9 @@
         "lengths": 88,
         "spm": 28,
         "tmax": 21.2,
-        "tmin": 14.7
+        "tmin": 14.7,
+        "dur": 64,
+        "kcal": 851
       },
       {
         "d": "2026-06-18",
@@ -1334,7 +1576,9 @@
         "lengths": null,
         "spm": 24,
         "tmax": 29.5,
-        "tmin": 18.5
+        "tmin": 18.5,
+        "dur": 34,
+        "kcal": 413
       },
       {
         "d": "2026-06-19",
@@ -1348,7 +1592,9 @@
         "lengths": null,
         "spm": 18,
         "tmax": 31.0,
-        "tmin": 20.3
+        "tmin": 20.3,
+        "dur": 54,
+        "kcal": 347
       },
       {
         "d": "2026-06-22",
@@ -1362,7 +1608,9 @@
         "lengths": 89,
         "spm": 27,
         "tmax": 31.8,
-        "tmin": 22.4
+        "tmin": 22.4,
+        "dur": 66,
+        "kcal": 743
       },
       {
         "d": "2026-06-26",
@@ -1376,7 +1624,9 @@
         "lengths": null,
         "spm": 2,
         "tmax": 34.3,
-        "tmin": 21.1
+        "tmin": 21.1,
+        "dur": 152,
+        "kcal": 722
       },
       {
         "d": "2026-06-26",
@@ -1390,7 +1640,9 @@
         "lengths": 85,
         "spm": 29,
         "tmax": 34.3,
-        "tmin": 21.1
+        "tmin": 21.1,
+        "dur": 64,
+        "kcal": 789
       },
       {
         "d": "2026-06-29",
@@ -1404,7 +1656,9 @@
         "lengths": 88,
         "spm": 27,
         "tmax": 36.8,
-        "tmin": 24.5
+        "tmin": 24.5,
+        "dur": 61,
+        "kcal": 773
       },
       {
         "d": "2026-07-01",
@@ -1418,7 +1672,9 @@
         "lengths": 88,
         "spm": 25,
         "tmax": 31.9,
-        "tmin": 21.8
+        "tmin": 21.8,
+        "dur": 68,
+        "kcal": 723
       },
       {
         "d": "2026-07-02",
@@ -1432,7 +1688,9 @@
         "lengths": null,
         "spm": 20,
         "tmax": 27.0,
-        "tmin": 18.9
+        "tmin": 18.9,
+        "dur": 44,
+        "kcal": 357
       },
       {
         "d": "2026-07-03",
@@ -1446,7 +1704,9 @@
         "lengths": null,
         "spm": 20,
         "tmax": 29.1,
-        "tmin": 19.9
+        "tmin": 19.9,
+        "dur": 49,
+        "kcal": 334
       },
       {
         "d": "2026-07-08",
@@ -1460,7 +1720,9 @@
         "lengths": 89,
         "spm": 27,
         "tmax": 28.1,
-        "tmin": 20.7
+        "tmin": 20.7,
+        "dur": 65,
+        "kcal": 769
       },
       {
         "d": "2026-07-09",
@@ -1474,7 +1736,9 @@
         "lengths": 31,
         "spm": 26,
         "tmax": 27.1,
-        "tmin": 16.6
+        "tmin": 16.6,
+        "dur": 38,
+        "kcal": 387
       },
       {
         "d": "2026-07-12",
@@ -1488,7 +1752,9 @@
         "lengths": 40,
         "spm": 24,
         "tmax": 28.7,
-        "tmin": 18.1
+        "tmin": 18.1,
+        "dur": 37,
+        "kcal": 366
       },
       {
         "d": "2026-07-13",
@@ -1502,7 +1768,9 @@
         "lengths": 89,
         "spm": 29,
         "tmax": 30.3,
-        "tmin": 18.2
+        "tmin": 18.2,
+        "dur": 64,
+        "kcal": 819
       },
       {
         "d": "2026-07-18",
@@ -1516,7 +1784,9 @@
         "lengths": null,
         "spm": 17,
         "tmax": 27.7,
-        "tmin": 21.2
+        "tmin": 21.2,
+        "dur": 35,
+        "kcal": 235
       },
       {
         "d": "2026-07-18",
@@ -1530,7 +1800,9 @@
         "lengths": null,
         "spm": 27,
         "tmax": 27.7,
-        "tmin": 21.2
+        "tmin": 21.2,
+        "dur": 35,
+        "kcal": 435
       },
       {
         "d": "2026-07-20",
@@ -1544,7 +1816,9 @@
         "lengths": 89,
         "spm": 28,
         "tmax": 25.2,
-        "tmin": 16.2
+        "tmin": 16.2,
+        "dur": 66,
+        "kcal": 826
       },
       {
         "d": "2026-07-27",
@@ -1558,7 +1832,9 @@
         "lengths": 89,
         "spm": 28,
         "tmax": 30.4,
-        "tmin": 18.6
+        "tmin": 18.6,
+        "dur": 65,
+        "kcal": 759
       },
       {
         "d": "2026-07-31",
@@ -1572,7 +1848,9 @@
         "lengths": null,
         "spm": 25,
         "tmax": 35.4,
-        "tmin": 22.0
+        "tmin": 22.0,
+        "dur": 34,
+        "kcal": 404
       },
       {
         "d": "2026-08-03",
@@ -1586,7 +1864,9 @@
         "lengths": null,
         "spm": 28,
         "tmax": 36.0,
-        "tmin": 22.7
+        "tmin": 22.7,
+        "dur": 17,
+        "kcal": 210
       },
       {
         "d": "2026-08-03",
@@ -1600,7 +1880,9 @@
         "lengths": null,
         "spm": 27,
         "tmax": 36.0,
-        "tmin": 22.7
+        "tmin": 22.7,
+        "dur": 19,
+        "kcal": 224
       },
       {
         "d": "2026-08-04",
@@ -1614,7 +1896,9 @@
         "lengths": null,
         "spm": 26,
         "tmax": 36.6,
-        "tmin": 23.5
+        "tmin": 23.5,
+        "dur": 18,
+        "kcal": 215
       },
       {
         "d": "2026-08-04",
@@ -1628,7 +1912,9 @@
         "lengths": null,
         "spm": 24,
         "tmax": 36.6,
-        "tmin": 23.5
+        "tmin": 23.5,
+        "dur": 15,
+        "kcal": 135
       },
       {
         "d": "2026-08-04",
@@ -1642,7 +1928,9 @@
         "lengths": null,
         "spm": 27,
         "tmax": 36.6,
-        "tmin": 23.5
+        "tmin": 23.5,
+        "dur": 18,
+        "kcal": 205
       },
       {
         "d": "2026-08-04",
@@ -1656,7 +1944,9 @@
         "lengths": null,
         "spm": 27,
         "tmax": 36.6,
-        "tmin": 23.5
+        "tmin": 23.5,
+        "dur": 17,
+        "kcal": 202
       },
       {
         "d": "2026-08-05",
@@ -1670,7 +1960,9 @@
         "lengths": null,
         "spm": 26,
         "tmax": 36.1,
-        "tmin": 25.4
+        "tmin": 25.4,
+        "dur": 37,
+        "kcal": 443
       },
       {
         "d": "2026-08-06",
@@ -1684,7 +1976,9 @@
         "lengths": null,
         "spm": 16,
         "tmax": 36.9,
-        "tmin": 22.8
+        "tmin": 22.8,
+        "dur": 11,
+        "kcal": 96
       },
       {
         "d": "2026-08-06",
@@ -1698,7 +1992,9 @@
         "lengths": null,
         "spm": 21,
         "tmax": 36.9,
-        "tmin": 22.8
+        "tmin": 22.8,
+        "dur": 12,
+        "kcal": 120
       },
       {
         "d": "2026-08-06",
@@ -1712,7 +2008,9 @@
         "lengths": null,
         "spm": 25,
         "tmax": 36.9,
-        "tmin": 22.8
+        "tmin": 22.8,
+        "dur": 16,
+        "kcal": 188
       },
       {
         "d": "2026-08-06",
@@ -1726,7 +2024,9 @@
         "lengths": null,
         "spm": 25,
         "tmax": 36.9,
-        "tmin": 22.8
+        "tmin": 22.8,
+        "dur": 8,
+        "kcal": 82
       },
       {
         "d": "2026-08-07",
@@ -1740,7 +2040,9 @@
         "lengths": null,
         "spm": 15,
         "tmax": 32.7,
-        "tmin": 24.9
+        "tmin": 24.9,
+        "dur": 13,
+        "kcal": 98
       },
       {
         "d": "2026-08-07",
@@ -1754,7 +2056,9 @@
         "lengths": null,
         "spm": 21,
         "tmax": 32.7,
-        "tmin": 24.9
+        "tmin": 24.9,
+        "dur": 28,
+        "kcal": 258
       },
       {
         "d": "2026-08-10",
@@ -1768,7 +2072,9 @@
         "lengths": null,
         "spm": 24,
         "tmax": 34.0,
-        "tmin": 20.6
+        "tmin": 20.6,
+        "dur": 35,
+        "kcal": 386
       },
       {
         "d": "2026-08-11",
@@ -1782,7 +2088,9 @@
         "lengths": null,
         "spm": 24,
         "tmax": 34.6,
-        "tmin": 22.8
+        "tmin": 22.8,
+        "dur": 42,
+        "kcal": 451
       },
       {
         "d": "2026-08-18",
@@ -1796,7 +2104,9 @@
         "lengths": 89,
         "spm": 28,
         "tmax": 26.8,
-        "tmin": 16.7
+        "tmin": 16.7,
+        "dur": 67,
+        "kcal": 794
       },
       {
         "d": "2026-08-21",
@@ -1810,7 +2120,9 @@
         "lengths": 89,
         "spm": 27,
         "tmax": 29.9,
-        "tmin": 20.9
+        "tmin": 20.9,
+        "dur": 63,
+        "kcal": 726
       },
       {
         "d": "2026-08-24",
@@ -1824,7 +2136,9 @@
         "lengths": 89,
         "spm": 27,
         "tmax": 27.9,
-        "tmin": 15.0
+        "tmin": 15.0,
+        "dur": 59,
+        "kcal": 746
       },
       {
         "d": "2026-08-26",
@@ -1838,7 +2152,9 @@
         "lengths": 88,
         "spm": 29,
         "tmax": 29.1,
-        "tmin": 17.5
+        "tmin": 17.5,
+        "dur": 64,
+        "kcal": 784
       },
       {
         "d": "2026-08-31",
@@ -1852,7 +2168,9 @@
         "lengths": 88,
         "spm": 27,
         "tmax": 32.0,
-        "tmin": 19.5
+        "tmin": 19.5,
+        "dur": 62,
+        "kcal": 657
       },
       {
         "d": "2026-09-04",
@@ -1866,7 +2184,9 @@
         "lengths": 90,
         "spm": 26,
         "tmax": 32.7,
-        "tmin": 21.1
+        "tmin": 21.1,
+        "dur": 63,
+        "kcal": 662
       }
     ]
   },
@@ -1897,16 +2217,16 @@
       "eNote": "Three days of logged intake sit in the window: Tuesday 1,710 kcal (P171/C151/F49), Wednesday 2,135 kcal (P252/C156/F50) and Thursday 1,845 kcal (P206/C132/F51), all three against the 2,000 kcal target. Sunday, Monday, Friday and today remain unlogged, and the charts still assume 2,000 for those four. Garmin active burn averages ~536 kcal/day across the window. Sunday's hike is still the biggest day by a distance at 1,236 kcal, ahead of Tuesday's deadlift day at 698, Thursday's hack squat at 688, Friday's swim at 559 and Monday's swim at 525. Friday closed out at 559 active kcal on the daily tally against 662 on the swim activity itself. Wednesday's rest day reads 43 across 2,249 steps — the quietest completed day in the window — and today has 0 active kcal on 59 steps at the time of this refresh.",
       "bNote": "Net exercise = Garmin active calories; standing BMR 2,414. Three days carry a real, measured balance instead of an assumption: Tuesday's 1,710 kcal against 698 net exercise gives −1,402, Wednesday's 2,135 against 43 gives −322, and Thursday's 1,845 against 688 gives −1,257 — all three unchanged from yesterday's board now that those days are final. Sunday, Monday, Friday and today still assume 2,000 kcal (unlogged), so those four balances remain exercise-driven estimates: Sunday's hike implies ≈ −1,650, Monday's swim ≈ −939, Friday's swim ≈ −973, and today ≈ −414 on a day that has only just begun.",
       "wNote": "Bridge shows the three logged days: Tuesday −1,402, Wednesday −322 and Thursday −1,257, all final. Friday and today have no food logged, so they stay out of the bridge. Negative balance = deficit.",
-      "i1t": "Five sessions held — but 9,875 kg rolled off the volume total",
-      "i1": "The window now runs Sunday to Saturday. Five sessions, 9h 07m, 27,720 kg, 4,444 active kcal. Session count is unchanged, but volume dropped 9,875 kg from the previous board: Saturday's front squat day rolled out of frame and today rolled in empty, so two lifting days now carry the whole total instead of three. Thursday's hack squat remains the heaviest single piece: 83 minutes, 19 sets, 201 reps, 16,980 kg, avg HR 122, max 153, 752 active kcal — working sets at 170 kg for 12/12/12 (RPE 7.5/8/8.5) topping out at 200 kg for 6 (RPE 7). Tuesday's Barbell DEAD LIFT is the other strength piece: 75 minutes, 18 sets, 242 reps, 10,740 kg, avg HR 122, max 157, 728 active kcal. Sunday's Zagreb hike is still the largest by time and burn: 4h 24m, 11.7 km, avg HR 91, max 144, 1,645 active kcal, 15,765 steps. The swim ask from yesterday landed: Friday's N4×4 v2 ran 2,250 m in 63 minutes over 90 lengths at avg HR 125, max 150, 26 strokes/min, 662 active kcal — a 2:26/100 split against Monday's 2:16 over 2,200 m as 10×100 + 10×50 (62 minutes, avg HR 121, max 147, 657 kcal). Two swims in the window is the target cadence met. Wednesday was a genuine rest day at 43 kcal and 2,249 steps; today is still open at 59 steps.",
-      "i2t": "Per-set HR chart now runs to Sep 3 — the hack squat backfill is in",
-      "i2": "Thursday's hack squat has been added to the main-lift chart, which had been stuck on Aug 27 for seven refreshes. Six hack squat sets, working weight 170 kg topping at 200 kg for 6, extracted from the Garmin 1-second HR stream: peaks 135, 133, 142, 137, 153, 139 — max 153 (matching the activity max exactly), average set peak 140, and Δ last−first of +4. The extraction is flagged uncertain and renders with an asterisk, the same as Aug 20 and Aug 27: the detection method reproduces Aug 27's published peaks exactly, but the Sep 3 trace has candidate peaks either side of the chosen block, so the numbers are a best read rather than a certain one. Against Aug 27 (170 kg top set, peaks 139/132/142/130/145/133, avg 137) the 200 kg day cost 3 bpm more on the average set peak and 8 bpm more at the top — a heavier day for a modest HR price. Goblet squat is now 86 days out from Jun 11 and is the oldest hole on the board by a wide margin. Trap-bar deadlift is 77 days from Jun 20 and stays blocked until roughly Sep 9 by Tuesday's 120 kg barbell pulls. The most recent fully confident per-set reading on any lift is still Jul 7, sixty days back.",
+      "i1t": "Five sessions, 27,720 kg on two lifting days",
+      "i1": "Five sessions, 9h 07m, 27,720 kg, 4,444 active kcal. Two lifting days carry the whole tonnage. Thursday's hack squat remains the heaviest single piece: 83 minutes, 19 sets, 201 reps, 16,980 kg, avg HR 122, max 153, 752 active kcal — working sets at 170 kg for 12/12/12 (RPE 7.5/8/8.5) topping out at 200 kg for 6 (RPE 7). Tuesday's Barbell DEAD LIFT is the other strength piece: 75 minutes, 18 sets, 242 reps, 10,740 kg, avg HR 122, max 157, 728 active kcal. Sunday's Zagreb hike is still the largest by time and burn: 4h 24m, 11.7 km, avg HR 91, max 144, 1,645 active kcal, 15,765 steps. Friday's N4×4 v2 ran 2,250 m in 63 minutes over 90 lengths at avg HR 125, max 150, 26 strokes/min, 662 active kcal — a 2:26/100 split against Monday's 2:16 over 2,200 m as 10×100 + 10×50 (62 minutes, avg HR 121, max 147, 657 kcal). Two swims this week meets the target cadence. Wednesday was a genuine rest day at 43 kcal and 2,249 steps; today is still open at 59 steps.",
+      "i2t": "Hack squat Sep 3: 200 kg top set for 8 bpm more",
+      "i2": "Thursday's hack squat is on the main-lift chart. Six hack squat sets, working weight 170 kg topping at 200 kg for 6, extracted from the Garmin 1-second HR stream: peaks 135, 133, 142, 137, 153, 139 — max 153 (matching the activity max exactly), average set peak 140, and Δ last−first of +4. Against Aug 27 (170 kg top set, peaks 139/132/142/130/145/133, avg 137) the 200 kg day cost 3 bpm more on the average set peak and 8 bpm more at the top — a heavier day for a modest HR price.",
       "i3t": "Data quality: window complete, today still in progress",
       "i3": "Garmin, Hevy and Intervals.icu were all synced at the start of this refresh and nothing is missing for the completed days. Hevy holds full set-by-set data with RPE on both lifting days in the window, so 10,740 kg and 16,980 kg are measured rather than estimated. Friday's swim finished clean overnight: 662 active kcal on the activity, 559 on Garmin's daily tally, 63 minutes, 2,250 m over 90 lengths, avg HR 125, max 150, 3,549 steps. Wednesday is a real rest day, not a sync gap: 43 kcal on 2,249 steps, daily max HR 99, no activity file. Sunday's hike is Garmin-only, as a hike should be. Today is partial by definition — 0 active kcal, 59 steps and daily max HR 81 at the time of this refresh — so its bars will fill in as the day runs, and the balance chart uses the standing BMR 2,414 for it rather than Garmin's partial 737. Intake is logged for Tuesday, Wednesday and Thursday — 1,710, 2,135 and 1,845 — leaving Sunday, Monday, Friday and today unlogged; data.json has not been touched by this refresh. Friday's swim pace passed the sanity gate at 146 s/100 m and its Zagreb temperatures (32.7 °C / 21.1 °C) came from the Open-Meteo archive. Sleep is complete across the displayed window and last night validated ENHANCED_FINAL. The chart-axis caveat still applies: axes are fixed (effort 55, duration 95m, kcal 950, distance 2,500m) and Sunday's hike exceeds all four, so its bar is clipped on those views — read the hike from the tooltip, not the bar height.",
       "i4t": "Recovery: deepest night of the seven, RHR at a window low",
       "i4": "Last night scored 87 on 7h 27m, 23:36 to 07:27 — eight points up on 79 and nineteen minutes over the 7h 08m average, the second-longest night of the seven and by a wide margin the deepest. Deep sleep hit 2h 11m (29%) against a next-best of 1h 28m and last night's 52m; REM added 1h 36m (21%) and light 3h 40m (49%), so deep plus REM made 3h 47m, 51% of the night, against 32% the night before. RHR dropped to 51, two under last night and two under the 53 average and the lowest anywhere in this window — the first night in six off 53. Body battery charged 75 points and drained nothing; average stress reads 12 so far today. HRV eased to 46, four down on 50 but two above the 44 average and third-highest of the seven. Twenty-four minutes awake, 95% efficiency. Friday's swim left no autonomic mark. The one caveat: the extra time came from a 07:27 wake, the latest of the window by 43 minutes, not from an earlier lights-out — 23:36 is still the third-latest bedtime of the seven. Readiness 88.",
       "today": "Next 72h vs plan",
-      "rec": "Today is empty so far and the recovery signal says spend it: 2h 11m of deep sleep, RHR at a window low of 51, a 75-point overnight charge with nothing drained. The session to book is the goblet squat — 86 days since Jun 11, the oldest gap on the board and skipped five refreshes running. Trap bar stays blocked until roughly Sep 9 by Tuesday's 120 kg pulls, so goblet, not a third hack squat repeat, is the right call. Volume is the number to watch this week: 27,720 kg against 37,595 on the previous board, purely because only two lifting days sit in the window now — a session today puts a third back in frame. Swimming is on cadence with two in the window (Monday 2:16/100, Friday 2:26/100), so that box is ticked. Keep logging intake: three days are real (Tuesday −1,402, Wednesday −322, Thursday −1,257) and four days still assume 2,000 kcal — Friday and today are the two easiest to close. And the bedtime lever is unchanged: last night's 7h 27m was bought with a 07:27 lie-in, not an early night, so aim for 22:30 tonight and keep the hours on a weekday schedule. Next: goblet squat today, keep two swims a week, log Friday and today's intake, bedtime 22:30, trap bar from Sep 9.",
+      "rec": "Tonnage over the last seven days is 27,720 kg against 45,112 kg the week before; the 28-day chronic load sits at 26,670 kg a week, so the ACWR is 1.04 — inside the 0.8–1.3 band. Flag: the hack-squat top set went from 170 kg × 12 on Aug 27 to 200 kg × 6 on Sep 3 — a 17.6% jump in seven days, faster than tendons adapt. Next session: front squat 4 × 8 at 80 kg — the load held on Aug 23 and Aug 29. Lever: fat. Thursday logged 51 g against the 70 g training-day floor and all three logged days landed at 49–51 g — add roughly 20 g of fat to one main meal.",
       "foot": "Data: 2026-08-30 → 2026-09-05 · Garmin fenix 8 + Hevy + Intervals.icu via Freddy",
       "foot2": "plan: goblet squat is the oldest gap (86 days) · trap bar untracked (77 days) and blocked until ~Sep 9 · Sep 3 hack squat per-set peaks now on the chart · two swims in the window · today still open"
     },
@@ -1936,16 +2256,16 @@
       "eNote": "U prozoru su tri zabilježena dana unosa: utorak 1.710 kcal (P171/C151/F49), srijeda 2.135 kcal (P252/C156/F50) i četvrtak 1.845 kcal (P206/C132/F51), sva tri naspram plana od 2.000 kcal. Nedjelja, ponedjeljak, petak i danas ostaju nezabilježeni, pa grafovi za ta četiri dana i dalje pretpostavljaju 2.000. Garmin aktivna potrošnja prosječno je ~536 kcal/dan kroz prozor. Nedjeljno planinarenje i dalje je uvjerljivo najveći dan sa 1.236 kcal, ispred utorkovog mrtvog dizanja sa 698, četvrtkovog hack čučnja sa 688, petkovog plivanja sa 559 i ponedjeljkovog plivanja sa 525. Petak se zatvorio na 559 aktivnih kcal u dnevnoj bilanci naspram 662 na samoj aktivnosti plivanja. Srijedin dan odmora čita 43 uz 2.249 koraka — najmirniji završeni dan u prozoru — a danas ima 0 aktivnih kcal uz 59 koraka u trenutku ovog osvježavanja.",
       "bNote": "Neto trening = Garmin aktivne kalorije; standardni BMR 2.414. Tri dana nose stvarnu, izmjerenu bilancu umjesto pretpostavke: utorkovih 1.710 kcal naspram 698 neto treninga daje −1.402, srijedinih 2.135 naspram 43 daje −322, a četvrtkovih 1.845 naspram 688 daje −1.257 — sva tri nepromijenjena u odnosu na jučerašnju ploču sada kada su ti dani konačni. Nedjelja, ponedjeljak, petak i danas i dalje pretpostavljaju 2.000 kcal (nezabilježeno), pa te četiri bilance ostaju procjene vođene treningom: nedjeljno planinarenje implicira ≈ −1.650, ponedjeljkovo plivanje ≈ −939, petkovo plivanje ≈ −973, a današnji dan ≈ −414 na danu koji je tek počeo.",
       "wNote": "Most prikazuje tri zabilježena dana: utorak −1.402, srijeda −322 i četvrtak −1.257, sva tri konačna. Petak i danas nemaju zabilježenu hranu, pa ostaju izvan mosta. Negativna bilanca = deficit.",
-      "i1t": "Pet treninga zadržano — ali 9.875 kg ispalo je iz ukupnog volumena",
-      "i1": "Prozor sada ide od nedjelje do subote. Pet treninga, 9h 07m, 27.720 kg, 4.444 aktivne kcal. Broj treninga je isti, ali je volumen pao za 9.875 kg u odnosu na prošlu ploču: subotnji dan prednjeg čučnja ispao je iz kadra, a danas je ušao prazan, pa cijeli zbroj sada nose dva dana dizanja umjesto tri. Četvrtkov hack čučanj ostaje najteži pojedinačni komad: 83 minute, 19 serija, 201 ponavljanje, 16.980 kg, prosječni puls 122, maksimalni 153, 752 aktivne kcal — radne serije na 170 kg za 12/12/12 (RPE 7,5/8/8,5) do vrha od 200 kg za 6 (RPE 7). Utorkov Barbell DEAD LIFT drugi je komad u teretani: 75 minuta, 18 serija, 242 ponavljanja, 10.740 kg, prosječni puls 122, maksimalni 157, 728 aktivnih kcal. Nedjeljno planinarenje u Zagrebu i dalje je najveće po vremenu i potrošnji: 4h 24m, 11,7 km, prosječni puls 91, maksimalni 144, 1.645 aktivnih kcal, 15.765 koraka. Jučerašnji zahtjev za drugim plivanjem je ispunjen: petkov N4×4 v2 odradio je 2.250 m u 63 minute kroz 90 dužina uz prosječni puls 125, maksimalni 150, 26 zaveslaja/min i 662 aktivne kcal — tempo 2:26/100 naspram ponedjeljkovih 2:16 na 2.200 m kao 10×100 + 10×50 (62 minute, prosječni puls 121, maksimalni 147, 657 kcal). Dva plivanja u prozoru znači da je ciljani ritam ispunjen. Srijeda je bila stvarni dan odmora sa 43 kcal i 2.249 koraka; danas je još otvoren uz 59 koraka.",
-      "i2t": "Graf pulsa po serijama sada ide do 3.9. — hack čučanj je nadopunjen",
-      "i2": "Četvrtkov hack čučanj dodan je u graf glavnog pokreta, koji je sedam osvježavanja stajao na 27.8. Šest serija hack čučnja, radna težina 170 kg s vrhom na 200 kg za 6, izdvojeno iz Garminovog zapisa pulsa po sekundi: vrhovi 135, 133, 142, 137, 153, 139 — maksimum 153 (točno jednak maksimumu aktivnosti), prosječni vrh serije 140 i Δ zadnja−prva +4. Izdvajanje je označeno kao nesigurno i prikazuje se sa zvjezdicom, isto kao 20.8. i 27.8.: metoda detekcije točno reproducira objavljene vrhove od 27.8., ali zapis od 3.9. ima kandidate za vrhove s obje strane odabranog bloka, pa su brojke najbolje očitanje, a ne sigurno. Naspram 27.8. (vrh serije 170 kg, vrhovi 139/132/142/130/145/133, prosjek 137) dan sa 200 kg koštao je 3 otkucaja više na prosječnom vrhu serije i 8 više na maksimumu — teži dan uz skromnu cijenu u pulsu. Goblet čučanj sada je na 86 dana od 11.6. i uvjerljivo je najstarija rupa na ploči. Mrtvo dizanje s trap barom je na 77 dana od 20.6. i ostaje blokirano do otprilike 9.9. utorkovim dizanjem 120 kg sa šipkom. Zadnje potpuno pouzdano očitanje po serijama na bilo kojem pokretu je i dalje 7.7., prije šezdeset dana.",
+      "i1t": "Pet treninga, 27.720 kg u dva dana dizanja",
+      "i1": "Pet treninga, 9h 07m, 27.720 kg, 4.444 aktivne kcal. Cijelu tonažu nose dva dana dizanja. Četvrtkov hack čučanj ostaje najteži pojedinačni komad: 83 minute, 19 serija, 201 ponavljanje, 16.980 kg, prosječni puls 122, maksimalni 153, 752 aktivne kcal — radne serije na 170 kg za 12/12/12 (RPE 7,5/8/8,5) do vrha od 200 kg za 6 (RPE 7). Utorkov Barbell DEAD LIFT drugi je komad u teretani: 75 minuta, 18 serija, 242 ponavljanja, 10.740 kg, prosječni puls 122, maksimalni 157, 728 aktivnih kcal. Nedjeljno planinarenje u Zagrebu i dalje je najveće po vremenu i potrošnji: 4h 24m, 11,7 km, prosječni puls 91, maksimalni 144, 1.645 aktivnih kcal, 15.765 koraka. Petkov N4×4 v2 odradio je 2.250 m u 63 minute kroz 90 dužina uz prosječni puls 125, maksimalni 150, 26 zaveslaja/min i 662 aktivne kcal — tempo 2:26/100 naspram ponedjeljkovih 2:16 na 2.200 m kao 10×100 + 10×50 (62 minute, prosječni puls 121, maksimalni 147, 657 kcal). Dva plivanja ovaj tjedan ispunjavaju ciljani ritam. Srijeda je bila stvarni dan odmora sa 43 kcal i 2.249 koraka; danas je još otvoren uz 59 koraka.",
+      "i2t": "Hack čučanj 3.9.: vrh od 200 kg za 8 otkucaja više",
+      "i2": "Četvrtkov hack čučanj je na grafu glavnog pokreta. Šest serija hack čučnja, radna težina 170 kg s vrhom na 200 kg za 6, izdvojeno iz Garminovog zapisa pulsa po sekundi: vrhovi 135, 133, 142, 137, 153, 139 — maksimum 153 (točno jednak maksimumu aktivnosti), prosječni vrh serije 140 i Δ zadnja−prva +4. Naspram 27.8. (vrh serije 170 kg, vrhovi 139/132/142/130/145/133, prosjek 137) dan sa 200 kg koštao je 3 otkucaja više na prosječnom vrhu serije i 8 više na maksimumu — teži dan uz skromnu cijenu u pulsu.",
       "i3t": "Kvaliteta podataka: prozor potpun, današnji dan još traje",
       "i3": "Garmin, Hevy i Intervals.icu sinkronizirani su na početku ovog osvježavanja i za završene dane ništa ne nedostaje. Hevy ima potpune podatke po serijama s RPE-om na oba dana dizanja u prozoru, pa su 10.740 kg i 16.980 kg izmjereni, a ne procijenjeni. Petkovo plivanje zatvorilo se čisto preko noći: 662 aktivne kcal na aktivnosti, 559 u dnevnoj Garmin bilanci, 63 minute, 2.250 m kroz 90 dužina, prosječni puls 125, maksimalni 150, 3.549 koraka. Srijeda je stvarni dan odmora, a ne rupa u sinkronizaciji: 43 kcal uz 2.249 koraka, dnevni maksimalni puls 99, bez datoteke aktivnosti. Nedjeljno planinarenje je samo iz Garmina, kako i treba biti. Današnji dan je po definiciji djelomičan — 0 aktivnih kcal, 59 koraka i dnevni maksimalni puls 81 u trenutku ovog osvježavanja — pa će mu se stupci popunjavati kroz dan, a graf bilance za njega koristi standardni BMR 2.414 umjesto Garminovih djelomičnih 737. Unos je zabilježen za utorak, srijedu i četvrtak — 1.710, 2.135 i 1.845 — pa ostaju nedjelja, ponedjeljak, petak i danas kao nezabilježeni; data.json ovo osvježavanje nije diralo. Petkov tempo plivanja prošao je provjeru razumnosti na 146 s/100 m, a zagrebačke temperature (32,7 °C / 21,1 °C) došle su iz Open-Meteo arhive. San je potpun kroz prikazani prozor, a zadnja noć validirana je kao ENHANCED_FINAL. Ograda za osi grafa i dalje vrijedi: osi su fiksne (napor 55, trajanje 95m, kcal 950, udaljenost 2.500m), a nedjeljno planinarenje prelazi sve četiri, pa mu je stupac odsječen — planinarenje čitaj iz opisa, a ne iz visine stupca.",
       "i4t": "Oporavak: najdublja noć od sedam, RHR na dnu prozora",
       "i4": "Sinoć je ocjena bila 87 uz 7h 27m, od 23:36 do 07:27 — osam bodova iznad 79 i devetnaest minuta iznad prosjeka od 7h 08m, druga najdulja noć od sedam i uvjerljivo najdublja. Duboki san dosegnuo je 2h 11m (29%) naspram sljedećih najboljih 1h 28m i sinoćnjih 52m; REM je dodao 1h 36m (21%), a laki san 3h 40m (49%), pa su duboki i REM zajedno dali 3h 47m, 51% noći, naspram 32% prethodne noći. RHR je pao na 51, dva ispod sinoć, dva ispod prosjeka od 53 i najniži bilo gdje u ovom prozoru — prva noć u šest izvan 53. Body battery se napunio za 75 bodova i nije ispraznio ništa; prosječni stres danas zasad čita 12. HRV je popustio na 46, četiri ispod 50, ali dva iznad prosjeka od 44 i treći najviši od sedam. Dvadeset četiri minute budnosti, 95% učinkovitost. Petkovo plivanje nije ostavilo autonomni trag. Jedna ograda: dodatno vrijeme došlo je od buđenja u 07:27, najkasnijeg u prozoru za 43 minute, a ne od ranijeg lijeganja — 23:36 je i dalje treće najkasnije lijeganje od sedam. Spremnost 88.",
       "today": "Sljedeća 72h vs plan",
-      "rec": "Današnji dan je zasad prazan, a signal oporavka kaže da ga potrošiš: 2h 11m dubokog sna, RHR na dnu prozora od 51, noćno punjenje od 75 bodova bez ijednog ispražnjenog. Trening koji treba zakazati je goblet čučanj — 86 dana od 11.6., najstarija rupa na ploči i preskočen pet osvježavanja zaredom. Trap bar ostaje blokiran do otprilike 9.9. utorkovim dizanjem 120 kg, pa je goblet, a ne treće ponavljanje hack čučnja, prava odluka. Volumen je broj koji ovaj tjedan treba pratiti: 27.720 kg naspram 37.595 s prošle ploče, isključivo zato što su sada u prozoru samo dva dana dizanja — trening danas vraća treći u kadar. Plivanje je u ritmu, dva u prozoru (ponedjeljak 2:16/100, petak 2:26/100), pa je ta kutija označena. Nastavi bilježiti unos: tri dana su stvarna (utorak −1.402, srijeda −322, četvrtak −1.257), a četiri još pretpostavljaju 2.000 kcal — petak i danas najlakše je zatvoriti. I poluga lijeganja je nepromijenjena: sinoćnjih 7h 27m kupljeno je odspavanjem do 07:27, a ne ranom noći, pa večeras ciljaj 22:30 i zadrži sate na radnom rasporedu. Sljedeće: goblet čučanj danas, dva plivanja tjedno, zabilježi petak i danas, lijeganje 22:30, trap bar od 9.9.",
+      "rec": "Tonaža u zadnjih sedam dana iznosi 27.720 kg naspram 45.112 kg tjedan prije; 28-dnevno kronično opterećenje je 26.670 kg tjedno, pa je ACWR 1,04 — unutar pojasa 0,8–1,3. Zastavica: gornja serija hack čučnja skočila je sa 170 kg × 12 (27.8.) na 200 kg × 6 (3.9.) — skok od 17,6 % u sedam dana, brže nego što se tetive prilagođavaju. Sljedeći trening: prednji čučanj 4 × 8 s 80 kg — opterećenje koje je držano 23.8. i 29.8. Poluga: masti. Četvrtak je zabilježio 51 g naspram donje granice od 70 g za dan treninga, a sva tri zabilježena dana završila su na 49–51 g — dodaj otprilike 20 g masti jednom glavnom obroku.",
       "foot": "Podaci: 30.8. → 5.9.2026. · Garmin fenix 8 + Hevy + Intervals.icu putem Freddyja",
       "foot2": "plan: goblet čučanj najstarija pauza (86 dana) · trap bar nepraćen (77 dana) i blokiran do ~9.9. · vrhovi po serijama za 3.9. sada na grafu · dva plivanja u prozoru · danas još otvoren"
     }

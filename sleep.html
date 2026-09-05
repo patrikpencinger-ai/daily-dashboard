@@ -22,6 +22,10 @@ body{padding:20px;transition:background .2s}
 #wrap.mobile .stages{width:100%}
 #wrap.mobile .ttl{font-size:16px}
 @media(max-width:520px){.nightrow{grid-template-columns:1fr;justify-items:center}.cards{grid-template-columns:1fr 1fr}}
+button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2px;border-radius:4px}
+#wrap.mobile button{min-height:40px;min-width:40px}
+.sig{background:var(--surf);border-radius:8px;padding:0.85rem 1rem;flex:1 1 260px}
+.sig .lab{font-weight:500;margin-bottom:6px;font-size:13px}
 </style>
 </head>
 <body>
@@ -86,6 +90,47 @@ body{padding:20px;transition:background .2s}
       <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#f06fa0;margin-right:6px;vertical-align:-1px;"></span><span data-i="awake">Awake</span></span><span style="font-weight:500;" id="st-awake-v"></span></div>
       <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-awake-bar" style="width:0;height:6px;background:#f06fa0;border-radius:3px;"></div></div>
     </div>
+    <div id="artifactNote" class="lab" style="font-size:11px;color:#BA7517;"></div>
+  </div>
+</div>
+
+<div data-i="h1b" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">SLEEP DEBT (7 DAYS)</div>
+<div class="cards">
+  <div class="card">
+    <div class="lab" data-i="dbtDebt">Weekly debt vs 7.5h target</div>
+    <div style="font-size:22px;font-weight:500;" id="v-debt">—</div>
+    <div class="lab" style="font-size:12px;" id="d-debt"></div>
+  </div>
+  <div class="card">
+    <div class="lab" data-i="dbtNights">Nights under 7h</div>
+    <div style="font-size:22px;font-weight:500;" id="v-nights7">—</div>
+  </div>
+  <div class="card">
+    <div class="lab" data-i="dbtMean">Mean duration</div>
+    <div style="font-size:22px;font-weight:500;" id="v-meandur">—</div>
+  </div>
+  <div class="card">
+    <div class="lab" data-i="dbtSplit">Weekday / weekend</div>
+    <div style="font-size:18px;font-weight:500;" id="v-split">—</div>
+  </div>
+  <div class="card">
+    <div class="lab" data-i="dbtBedSd">Bedtime regularity (SD)</div>
+    <div style="font-size:22px;font-weight:500;" id="v-bedsd">—</div>
+  </div>
+  <div class="card">
+    <div class="lab" data-i="dbtWakeSd">Wake regularity (SD)</div>
+    <div style="font-size:22px;font-weight:500;" id="v-wakesd">—</div>
+  </div>
+</div>
+
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 1.25rem;">
+  <div class="sig" id="divBox">
+    <div class="lab" data-i="divTitle">RHR / HRV divergence</div>
+    <div id="divBody" style="font-size:13px;line-height:1.6;">—</div>
+  </div>
+  <div class="sig" id="ctxBox">
+    <div class="lab" data-i="ctxTitle">RHR in context (47M)</div>
+    <div id="ctxBody" style="font-size:13px;line-height:1.6;">—</div>
   </div>
 </div>
 
@@ -116,6 +161,20 @@ body{padding:20px;transition:background .2s}
 <div id="weekwrap" style="position:relative;width:100%;height:380px;margin:0 0 1.5rem;">
   <canvas id="week" role="img" aria-label="Stacked sleep stage bars with totals and score badges, HRV and RHR overlays"></canvas>
 </div>
+<p class="lab" data-i="footWeek" style="font-size:11px;margin:0 0 1.5rem;">Nights are labelled by the evening they start (Fri 4 = Fri→Sat). The Training tab labels by calendar day, so the same RHR appears one label apart there.</p>
+
+<div id="trend90Section" hidden>
+  <div data-i="h3" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">90-DAY HRV / RHR</div>
+  <div class="lab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px solid #1D9E75;"></span><span data-i="t90hrv">HRV</span></span>
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(29,158,117,0.25);"></span><span data-i="t90band">HRV ±1 SD (28d rolling)</span></span>
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dashed #D85A30;"></span><span data-i="t90rhr">RHR</span></span>
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(140,140,136,0.3);"></span><span data-i="t90score">Sleep score</span></span>
+  </div>
+  <div id="t90wrap" style="position:relative;width:100%;height:260px;margin:0 0 1.5rem;">
+    <canvas id="t90" role="img" aria-label="90 day HRV and RHR trend with a rolling HRV band and sleep score bars"></canvas>
+  </div>
+</div>
 
 <div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin-bottom:0.25rem;">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
@@ -143,12 +202,38 @@ const bgPlug={id:'bg',beforeDraw(c){const x=c.ctx;x.save();x.globalCompositeOper
 
 /* Static UI labels only. All data + analysis text comes from sleep-data.json */
 const T={
- en:{title:"PATRIK'S SLEEP AND RECOVERY",h1:"LAST NIGHT",h2:"TRAILING 7 DAYS",swH:"SLEEP & WAKE TIMES",swBed:"Bedtime",swWake:"Wake",swDur:"label = sleep duration",swScoreLeg:"= sleep score",swScoreBtn:"Score",
+ en:{title:"PATRIK'S SLEEP AND RECOVERY",h1:"LAST NIGHT",h2:"TRAILING 7 DAYS",h1b:"SLEEP DEBT (7 DAYS)",h3:"90-DAY HRV / RHR",swH:"SLEEP & WAKE TIMES",swBed:"Bedtime",swWake:"Wake",swDur:"label = sleep duration",swScoreLeg:"= sleep score",swScoreBtn:"Score",
    c1:"Sleep score",c2:"Sleep duration",c4:"HRV overnight",c5:"Readiness (computed)",
-   deep:"Deep",light:"Light",awake:"Awake",deep2:"Deep",light2:"Light",awake2:"Awake",badge:"badge = sleep score",hours:"Hours"},
- hr:{title:"PATRIKOV SAN I OPORAVAK",h1:"PROŠLA NOĆ",h2:"ZADNJIH 7 DANA",swH:"VRIJEME SPAVANJA I BUĐENJA",swBed:"Lijeganje",swWake:"Buđenje",swDur:"oznaka = trajanje sna",swScoreLeg:"= ocjena sna",swScoreBtn:"Ocjena",
+   deep:"Deep",light:"Light",awake:"Awake",deep2:"Deep",light2:"Light",awake2:"Awake",badge:"badge = sleep score",hours:"Hours",
+   dbtDebt:"Weekly debt vs 7.5h target",dbtNights:"Nights under 7h",dbtMean:"Mean duration",dbtSplit:"Weekday / weekend",dbtBedSd:"Bedtime regularity (SD)",dbtWakeSd:"Wake regularity (SD)",
+   dbtTarget:"vs 7.5h/night target",
+   divTitle:"RHR / HRV divergence",ctxTitle:"RHR in context (47M)",
+   footWeek:"Nights are labelled by the evening they start (Fri 4 = Fri→Sat). The Training tab labels by calendar day, so the same RHR appears one label apart there.",
+   t90hrv:"HRV",t90band:"HRV ±1 SD (28d rolling)",t90rhr:"RHR",t90score:"Sleep score",
+   divNeed:"Needs 28-day history ({n}/28 days) to check for illness/overtraining divergence.",
+   divNoData:"Not enough RHR/HRV readings in the trend history to compute the divergence check.",
+   divAmber:"Reduce load / possible illness",divGrey:"One signal moving — keep an eye on it",divGreen:"No divergence",
+   divLbls:"RHR 7d avg / RHR 28d avg / HRV 7d avg / HRV 28d avg",
+   ctxBands:"< 56 athlete · 56–61 excellent · 62–65 good · 66–70 above average · 71–75 average",
+   ctxSrc:"General population norms for a 47-year-old male (not Garmin-specific).",
+   ctxNote:"Garmin's overnight RHR typically reads a few bpm lower than a seated clinic reading.",
+   artifactNote:"⚠ Likely sensor artifact — 0 min awake, 100% efficiency"},
+ hr:{title:"PATRIKOV SAN I OPORAVAK",h1:"PROŠLA NOĆ",h2:"ZADNJIH 7 DANA",h1b:"DUG SPAVANJA (7 DANA)",h3:"HRV / RHR — 90 DANA",swH:"VRIJEME SPAVANJA I BUĐENJA",swBed:"Lijeganje",swWake:"Buđenje",swDur:"oznaka = trajanje sna",swScoreLeg:"= ocjena sna",swScoreBtn:"Ocjena",
    c1:"Ocjena sna",c2:"Trajanje sna",c4:"HRV tijekom noći",c5:"Spremnost (izračunata)",
-   deep:"Duboki",light:"Lagani",awake:"Budan",deep2:"Duboki",light2:"Lagani",awake2:"Budan",badge:"značka = ocjena sna",hours:"Sati"}
+   deep:"Duboki",light:"Lagani",awake:"Budan",deep2:"Duboki",light2:"Lagani",awake2:"Budan",badge:"značka = ocjena sna",hours:"Sati",
+   dbtDebt:"Tjedni dug prema cilju 7,5h",dbtNights:"Noći ispod 7h",dbtMean:"Prosječno trajanje",dbtSplit:"Radni dan / vikend",dbtBedSd:"Pravilnost lijeganja (SD)",dbtWakeSd:"Pravilnost buđenja (SD)",
+   dbtTarget:"prema cilju od 7,5h/noć",
+   divTitle:"RHR / HRV divergencija",ctxTitle:"RHR u kontekstu (47M)",
+   footWeek:"Noći su označene večeri kad počinju (Pet 4 = Pet→Sub). Kartica Trening označava po kalendarskom danu, pa se isti RHR ondje pojavljuje jednu oznaku dalje.",
+   t90hrv:"HRV",t90band:"HRV ±1 SD (28d klizni prosjek)",t90rhr:"RHR",t90score:"Ocjena sna",
+   divNeed:"Potrebna je povijest od 28 dana ({n}/28 dana) za provjeru divergencije (bolest/pretreniranost).",
+   divNoData:"Nema dovoljno RHR/HRV očitanja u povijesti trenda za izračun divergencije.",
+   divAmber:"Smanji opterećenje / moguća bolest",divGrey:"Jedan signal odstupa — prati dalje",divGreen:"Nema divergencije",
+   divLbls:"RHR 7d prosjek / RHR 28d prosjek / HRV 7d prosjek / HRV 28d prosjek",
+   ctxBands:"< 56 sportaš · 56–61 izvrsno · 62–65 dobro · 66–70 iznad prosjeka · 71–75 prosječno",
+   ctxSrc:"Opće populacijske norme za muškarca od 47 godina (nisu specifične za Garmin).",
+   ctxNote:"Garminov noćni RHR obično očitava nekoliko otkucaja niže od izmjerenog sjedećeg u ordinaciji.",
+   artifactNote:"⚠ Vjerojatno greška senzora — 0 min budnosti, 100% učinkovitost"}
 };
 let lang='en', LBL=T.en;
 let DAT=null;
@@ -172,8 +257,132 @@ function fillCards(){
  const pc=m=>Math.round(m/tot*100);
  const stage=(k,m)=>{setv('st-'+k+'-v',hmMin(m)+' · '+pc(m)+'%');const b=document.getElementById('st-'+k+'-bar');if(b)b.style.width=pc(m)+'%';};
  stage('deep',ln.deepMin); stage('light',ln.lightMin); stage('rem',ln.remMin); stage('awake',ln.awakeMin);
+ setv('artifactNote', ln.awakeMin===0 ? LBL.artifactNote : '');
  setv('havg',t.havg); setv('today',t.today); setv('badge-pill',t.badge); setv('rec',t.rec);
  setv('foot',lang==='en'?DAT.meta.footEn:DAT.meta.footHr);
+}
+
+let t90=null;
+const stdev=arr=>{const n=arr.length;if(!n)return 0;const m=arr.reduce((a,b)=>a+b,0)/n;return Math.sqrt(arr.reduce((a,b)=>a+(b-m)*(b-m),0)/n);};
+const parseDurH=s=>{const m=/^(\d+)h(\d+)$/.exec(s||'');return m?(+m[1])+(+m[2])/60:null;};
+
+function computeDebt(){
+ const durHs=SDUR.map(parseDurH).filter(v=>v!=null);
+ const TARGET=7.5;
+ const debt=durHs.reduce((a,d)=>a+Math.max(0,TARGET-d),0);
+ const nights7=durHs.filter(d=>d<7).length;
+ const mean=durHs.length?durHs.reduce((a,b)=>a+b,0)/durHs.length:null;
+ const days=txtL().daysFull;
+ const isWkend=lbl=>/^(Sat|Sun|Sub|Ned)/.test(lbl);
+ const wkendIdx=[],wkdayIdx=[];
+ days.forEach((lbl,i)=>{(isWkend(lbl)?wkendIdx:wkdayIdx).push(i);});
+ const avgOf=idxs=>{const v=idxs.map(i=>SDUR[i]&&parseDurH(SDUR[i])).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;};
+ const bedMin=BED.map(v=>v*60), wakeMin=WAKE.map(v=>v*60);
+ return {debt,nights7,mean,wkday:avgOf(wkdayIdx),wkend:avgOf(wkendIdx),bedSd:stdev(bedMin),wakeSd:stdev(wakeMin)};
+}
+function renderDebt(){
+ if(!SDUR)return;
+ const r=computeDebt(),t=LBL;
+ const setv=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+ const dEl=document.getElementById('v-debt');
+ if(dEl){dEl.textContent=r.debt.toFixed(2)+'h';dEl.style.color=r.debt>5?'#A32D2D':(r.debt>3?'#BA7517':'#1D9E75');}
+ setv('d-debt',t.dbtTarget);
+ setv('v-nights7',r.nights7+' / '+SDUR.length);
+ setv('v-meandur',r.mean!=null?hm(r.mean):'—');
+ setv('v-split',(r.wkday!=null?hm(r.wkday):'—')+' / '+(r.wkend!=null?hm(r.wkend):'—'));
+ setv('v-bedsd',Math.round(r.bedSd)+' min');
+ setv('v-wakesd',Math.round(r.wakeSd)+' min');
+}
+
+function rhrBandName(v){
+ const D=lang==='hr';
+ if(v<56) return D?'Sportaš':'Athlete';
+ if(v<=61) return D?'Izvrsno':'Excellent';
+ if(v<=65) return D?'Dobro':'Good';
+ if(v<=70) return D?'Iznad prosjeka':'Above average';
+ if(v<=75) return D?'Prosječno':'Average';
+ return D?'Povišeno':'Elevated';
+}
+function renderRhrContext(){
+ const t=LBL,ln=DAT.num.lastNight,v=ln.rhr,el=document.getElementById('ctxBody');
+ if(!el)return;
+ el.innerHTML='<div style="margin-bottom:4px;">'+v+' bpm &rarr; <strong>'+rhrBandName(v)+'</strong></div>'+
+  '<div style="font-size:12px;color:var(--ts);margin-bottom:4px;">'+t.ctxBands+'</div>'+
+  '<div style="font-size:12px;color:var(--ts);">'+t.ctxSrc+'</div>'+
+  '<div style="font-size:12px;color:var(--ts);">'+t.ctxNote+'</div>';
+}
+
+function computeDivergence(){
+ const tr=DAT.num.trend;
+ if(!Array.isArray(tr)||tr.length<28) return {state:'need',n:Array.isArray(tr)?tr.length:0};
+ const last28=tr.slice(-28), last7=tr.slice(-7);
+ const meanOf=(arr,k)=>{const v=arr.map(r=>r[k]).filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;};
+ const rhr7=meanOf(last7,'rhr'),rhr28=meanOf(last28,'rhr'),hrv7=meanOf(last7,'hrv'),hrv28=meanOf(last28,'hrv');
+ if(rhr7==null||rhr28==null||hrv7==null||hrv28==null) return {state:'nodata'};
+ const rhrUp=rhr7>=1.05*rhr28, hrvDown=hrv7<=0.85*hrv28;
+ let state='green'; if(rhrUp&&hrvDown) state='amber'; else if(rhrUp||hrvDown) state='grey';
+ return {state,rhr7,rhr28,hrv7,hrv28};
+}
+function renderDivergence(){
+ const t=LBL,d=computeDivergence(),el=document.getElementById('divBody');
+ if(!el)return;
+ if(d.state==='need'){el.innerHTML='<div>'+t.divNeed.replace('{n}',d.n)+'</div>';return;}
+ if(d.state==='nodata'){el.innerHTML='<div>'+t.divNoData+'</div>';return;}
+ const col=d.state==='amber'?'#BA7517':(d.state==='grey'?'#8a8a86':'#1D9E75');
+ const chip=d.state==='amber'?t.divAmber:(d.state==='grey'?t.divGrey:t.divGreen);
+ el.innerHTML='<div style="display:inline-block;background:'+col+'22;color:'+col+';padding:3px 10px;border-radius:8px;font-weight:500;margin-bottom:6px;">'+chip+'</div>'+
+  '<div style="margin-top:6px;font-size:12px;color:var(--ts);">'+t.divLbls+'</div>'+
+  '<div style="margin-top:2px;">RHR7 '+d.rhr7.toFixed(1)+' &middot; RHR28 '+d.rhr28.toFixed(1)+' &middot; HRV7 '+d.hrv7.toFixed(1)+' &middot; HRV28 '+d.hrv28.toFixed(1)+'</div>';
+}
+
+function rollingHrvBand(tr){
+ const up=[],down=[];
+ for(let i=0;i<tr.length;i++){
+  const win=tr.slice(Math.max(0,i-27),i+1).map(r=>r.hrv).filter(v=>v!=null);
+  if(win.length){const m=win.reduce((a,b)=>a+b,0)/win.length;const sd=Math.sqrt(win.reduce((a,b)=>a+(b-m)*(b-m),0)/win.length);up.push(m+sd);down.push(m-sd);}
+  else{up.push(null);down.push(null);}
+ }
+ return {up,down};
+}
+function renderTrend90(){
+ const sec=document.getElementById('trend90Section');
+ const tr=DAT.num.trend;
+ if(!sec)return;
+ if(!Array.isArray(tr)||!tr.length){sec.hidden=true;if(t90){t90.destroy();t90=null;}return;}
+ sec.hidden=false;
+ const labels=tr.map(r=>r.d);
+ const hrvArr=tr.map(r=>r.hrv==null?null:r.hrv);
+ const rhrArr=tr.map(r=>r.rhr==null?null:r.rhr);
+ const scoreArr=tr.map(r=>r.score==null?null:r.score);
+ const band=rollingHrvBand(tr);
+ const bandFill=theme==='dark'?'rgba(29,158,117,0.18)':'rgba(29,158,117,0.14)';
+ const bandLine='rgba(29,158,117,0.35)';
+ const M=layout==='mobile';
+ const cfg={data:{labels,datasets:[
+   {type:'bar',label:'Score',data:scoreArr,backgroundColor:'rgba(140,140,136,0.28)',yAxisID:'yScore',order:5,barPercentage:1,categoryPercentage:1,borderWidth:0},
+   {type:'line',label:'HRV upper',data:band.up,borderColor:bandLine,backgroundColor:bandFill,pointRadius:0,borderWidth:1,fill:'+1',yAxisID:'y',spanGaps:false,order:2,tension:0.2},
+   {type:'line',label:'HRV lower',data:band.down,borderColor:bandLine,backgroundColor:bandFill,pointRadius:0,borderWidth:1,fill:false,yAxisID:'y',spanGaps:false,order:2,tension:0.2},
+   {type:'line',label:'HRV',data:hrvArr,borderColor:C.hrv,backgroundColor:C.hrv,pointRadius:0,borderWidth:2,yAxisID:'y',spanGaps:false,order:1,tension:0.15},
+   {type:'line',label:'RHR',data:rhrArr,borderColor:C.rhr,backgroundColor:C.rhr,pointRadius:0,borderWidth:2,borderDash:[5,3],yAxisID:'y2',spanGaps:false,order:1,tension:0.15}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+   interaction:{mode:'index',intersect:false},
+   plugins:{legend:{display:false},tooltip:{filter:it=>it.datasetIndex===0||it.datasetIndex===3||it.datasetIndex===4,
+    callbacks:{title:items=>items.length?labels[items[0].dataIndex]:'',
+     label:c=>{const t=LBL;
+      if(c.datasetIndex===0)return t.t90score+': '+(c.parsed.y==null?'—':c.parsed.y);
+      if(c.datasetIndex===3)return t.t90hrv+': '+(c.parsed.y==null?'—':c.parsed.y+' ms');
+      return t.t90rhr+': '+(c.parsed.y==null?'—':c.parsed.y+' bpm');
+     }}}},
+   scales:{
+    x:{grid:{display:false},ticks:{color:txt,maxTicksLimit:8,autoSkip:true,font:{size:M?9:11}}},
+    y:{position:'left',grid:{color:grid},ticks:{color:txt,font:{size:M?9:11}}},
+    y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:txt,font:{size:M?9:11}}},
+    yScore:{display:false,min:0,max:100}
+   }},
+  plugins:[bgPlug]};
+ if(t90){t90.data=cfg.data;t90.options=cfg.options;t90.update();}
+ else{t90=new Chart(document.getElementById('t90'),cfg);}
 }
 
 function init(){
@@ -204,6 +413,7 @@ function init(){
    ctx.fillStyle=scoreColor(scores[i]);
    ctx.beginPath();ctx.roundRect(bar.x-w/2,topY-26,w,20,9);ctx.fill();
    ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,topY-12);
+   if(awake[i]===0){ctx.font=f1;ctx.fillStyle='#BA7517';ctx.fillText('⚠',bar.x+(M?20:26),topY-32);}
   });
   ctx.font=f1;
   hrvMeta.data.forEach((pt,i)=>{ctx.fillStyle=halo;ctx.fillRect(pt.x-12,pt.y-23,24,14);ctx.fillStyle=C.hrv;ctx.fillText(hrv[i],pt.x,pt.y-12);});
@@ -228,7 +438,7 @@ function init(){
    {type:'line',label:'RHR',data:rhr,borderColor:C.rhr,backgroundColor:C.rhr,yAxisID:'y2',borderDash:[6,4],tension:0.3,borderWidth:3,pointRadius:4,pointBorderColor:ptb,pointBorderWidth:1.5,pointStyle:'rect',order:2}
   ]},
   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
-   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{if(c.dataset.type==='bar')return c.dataset.label+': '+hm(c.parsed.y);return c.dataset.label+': '+c.parsed.y+(c.dataset.label==='HRV'?' ms':' bpm');}}}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{if(c.dataset.type==='bar')return c.dataset.label+': '+hm(c.parsed.y);return c.dataset.label+': '+c.parsed.y+(c.dataset.label==='HRV'?' ms':' bpm');},afterBody:items=>{if(!items.length)return[];const i=items[0].dataIndex;return awake[i]===0?[LBL.artifactNote]:[];}}}},
    scales:{
     x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
     y:{stacked:true,min:0,max:11,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,callback:v=>Math.round(v)+'h'}},
@@ -277,6 +487,10 @@ function init(){
  });
 
  fillCards();
+ renderDebt();
+ renderRhrContext();
+ renderDivergence();
+ renderTrend90();
  applyTheme(theme);
  setLang('en');
  applyResponsive();
@@ -288,11 +502,11 @@ function restyle(){
  wk.data.datasets[4].pointBorderColor=ptb;wk.data.datasets[5].pointBorderColor=ptb;
  document.body.style.background=BG;
 }
-function applyTheme(t){theme=t;calc();document.getElementById('wrap').classList.toggle('dark',t==='dark');restyle();markBtns();if(dn){dn.update();wk.update();swc.update();}}
+function applyTheme(t){theme=t;calc();document.getElementById('wrap').classList.toggle('dark',t==='dark');restyle();markBtns();if(dn){dn.update();wk.update();swc.update();}if(t90){renderTrend90();}}
 function setLang(l){
  lang=l;LBL=T[l];
- document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k])el.textContent=LBL[k];});
- if(DAT)fillCards();
+ document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
+ if(DAT){fillCards();renderDebt();renderRhrContext();renderDivergence();}
  const dl={en:['Deep','Light','REM','Awake'],hr:['Duboki','Lagani','REM','Budan']}[l];
  if(dn){dn.data.labels=dl;
   wk.data.labels=layout==='mobile'?txtL().daysShort:txtL().daysFull;
@@ -306,22 +520,25 @@ function applyResponsive(){
  document.getElementById('wrap').classList.toggle('mobile',M);
  document.getElementById('weekwrap').style.height=M?'460px':'380px';
  document.getElementById('swwrap').style.height=M?'320px':'300px';
+ markBtns();
  if(!dn)return;
  wk.data.labels=M?txtL().daysShort:txtL().daysFull;
  swc.data.labels=M?txtL().daysShort:txtL().daysFull;
  swc.options.scales.x.ticks.font={size:M?10:12};swc.options.scales.y.ticks.font={size:M?10:12};
  wk.options.scales.x.ticks.font={size:M?10:12};
  [wk.options.scales.y,wk.options.scales.y1,wk.options.scales.y2].forEach(s=>{s.ticks.font={size:M?10:12};});
- requestAnimationFrame(()=>{wk.resize();dn.resize();swc.resize();wk.update();dn.update();swc.update();});
+ if(t90){t90.options.scales.x.ticks.font={size:M?9:11};t90.options.scales.y.ticks.font={size:M?9:11};t90.options.scales.y2.ticks.font={size:M?9:11};}
+ requestAnimationFrame(()=>{wk.resize();dn.resize();swc.resize();wk.update();dn.update();swc.update();if(t90){t90.resize();t90.update();}});
 }
-function toggleFont(){fontbig=!fontbig;document.getElementById('wrap').classList.toggle('big',fontbig);markBtns();if(dn)requestAnimationFrame(()=>{dn.resize();wk.resize();swc.resize();dn.update();wk.update();swc.update();});}
+function toggleFont(){fontbig=!fontbig;document.getElementById('wrap').classList.toggle('big',fontbig);markBtns();if(dn)requestAnimationFrame(()=>{dn.resize();wk.resize();swc.resize();dn.update();wk.update();swc.update();if(t90){t90.resize();t90.update();}});}
 function toggleSwScore(){swScore=!swScore;markBtns();if(swc)swc.update();}
 function markBtns(){
  const D=theme==='dark';
  const actBg=D?'#e8e8e6':'#444441',actFg=D?'#262624':'#ffffff',inFg=D?'#e8e8e6':'#2c2c2a';
  const bd=D?'1px solid rgba(255,255,255,0.35)':'1px solid rgba(0,0,0,0.4)';
  const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-fs':fontbig,'btn-swscore':swScore};
- Object.entries(states).forEach(([id,on])=>{const b=document.getElementById(id);if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding='4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';});
+ const M=layout==='mobile';
+ Object.entries(states).forEach(([id,on])=>{const b=document.getElementById(id);if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding=M?'10px 14px':'4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';b.style.minHeight=M?'40px':'';b.style.minWidth=M?'40px':'';});
 }
 markBtns();
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});

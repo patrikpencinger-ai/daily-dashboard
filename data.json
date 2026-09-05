@@ -3,14 +3,20 @@
     "intake_asof": "2026-09-03",
     "refreshedAt": "2026-09-03T18:20:00+02:00",
     "weekStart": "2026-08-31",
-    "note": "intake logged manually (multi-day); sleep & training auto-refreshed from the connector. BMR 1935 = Mifflin-St Jeor (108.4 kg, 173 cm, 47 y, male); restTdee 2420 = BMR x 1.25; basal during exercise ~81 kcal/h = BMR/24. Rebased 2026-09-03 from the 114 kg figures (BMR 1991 / restTdee 2490)."
+    "note": "intake logged manually (multi-day); sleep & training auto-refreshed from the connector. BMR 1935 = Mifflin-St Jeor (108.4 kg, 173 cm, 47 y, male); restTdee 2420 = BMR x 1.25; basal during exercise ~81 kcal/h = BMR/24. Rebased 2026-09-03 from the 114 kg figures (BMR 1991 / restTdee 2490). Targets rebased 2026-09-05 to the nutritionist scheme: per-day target is taken from targets[dayType] (training day 2200/180/212/70, rest day 1750/180/111/65) — same ~14,000 kcal/week as the old flat 2000 kcal target, redistributed toward training days. Each day also carries an optional integer field \"veg\" = portions of vegetables/fruit/legumes (target 5/day); it is ABSENT where it was not logged and the dashboard must show \"not logged\" rather than assume 0. An optional \"wholegrainG\" (grams of wholegrain) feeds the fibre estimate."
   },
-  "athlete": { "weightKg": 108.4, "bmr": 1935, "restTdee": 2420 },
+  "athlete": { "weightKg": 108.4, "age": 47, "heightCm": 173, "bmr": 1935, "restTdee": 2420 },
+  "targets": {
+    "training day": { "kcal": 2200, "p": 180, "c": 212, "f": 70 },
+    "rest day": { "kcal": 1750, "p": 180, "c": 111, "f": 65 },
+    "weekSplit": { "training day": 4, "rest day": 3 }
+  },
+  "targetsNote": "targets.weekSplit is the planned week (4 training + 3 rest = 7 days): the dashboard fills unlogged days from the REMAINING plan slots (plan minus days already logged of that type, floored at 0) instead of copying the dominant logged day type, and prints the resulting mix as an explicit assumption. Protein 180 g = 1.66 g/kg at 108.4 kg — inside the 1.6–2.2 g/kg evidence range for a lifter in a deficit, and raised from 160 g to match what is actually being eaten (171–252 g logged). Fat is a FLOOR, not a ceiling: 65–70 g is the minimum for hormones and for gallbladder emptying (aim ≥10 g fat per main meal), so exceeding it is fine — it is undershooting that is flagged. Carbohydrate is shifted to training days (212 g) and pulled back on rest days (111 g) so the heaviest sessions are fuelled instead of being the lowest-carb day. Weekly energy is unchanged at ≈14,000 kcal (4 training + 3 rest = 14,050 kcal); nothing here should be re-cut until there are 7/7 logged days and weekly weigh-ins to measure against.",
   "days": [
     {
       "date": "Tue 2026-09-01",
       "dayType": "training day",
-      "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+      "target": { "kcal": 2200, "p": 180, "c": 212, "f": 70 },
       "tdee": 3047,
       "tdeeNote": "rest base 2420 + 627 net gym burn (728 gross Garmin deadlift session, 75 min − ~81 basal/h)",
       "log": [
@@ -31,7 +37,7 @@
     {
       "date": "Wed 2026-09-02",
       "dayType": "rest day",
-      "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+      "target": { "kcal": 1750, "p": 180, "c": 111, "f": 65 },
       "tdee": 2420,
       "tdeeNote": "rest base 2420, no session — Garmin logged 43 active kcal / 2,249 steps",
       "log": [
@@ -49,7 +55,7 @@
     {
       "date": "Thu 2026-09-03",
       "dayType": "training day",
-      "target": { "kcal": 2000, "p": 160, "c": 170, "f": 75 },
+      "target": { "kcal": 2200, "p": 180, "c": 212, "f": 70 },
       "tdee": 3060,
       "tdeeNote": "rest base 2420 + 640 net gym burn (752 gross Garmin hack-squat session, 83 min − ~81 basal/h)",
       "log": [
