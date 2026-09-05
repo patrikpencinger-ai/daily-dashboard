@@ -1,200 +1,200 @@
 {
   "meta": {
-    "version": "v1.81-auto",
-    "snapshot": "2026-09-04",
-    "refreshedAt": "2026-09-04T07:36:26+02:00",
-    "footEn": "Data snapshot: 2026-09-04 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-09-04 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.82-auto",
+    "snapshot": "2026-09-05",
+    "refreshedAt": "2026-09-05T07:47:13+02:00",
+    "footEn": "Data snapshot: 2026-09-05 · Garmin fenix 8 via Freddy",
+    "footHr": "Podaci: 2026-09-05 · Garmin fenix 8 putem Freddyja"
   },
   "num": {
     "lastNight": {
-      "score": 79,
-      "durationLabel": "6h 12m",
-      "bedWake": "23:47 → 06:17",
-      "rhr": 53,
-      "hrv": 50,
-      "readiness": 85,
-      "deepMin": 52,
-      "lightMin": 252,
-      "remMin": 68,
-      "awakeMin": 18
+      "score": 87,
+      "durationLabel": "7h 27m",
+      "bedWake": "23:36 → 07:27",
+      "rhr": 51,
+      "hrv": 46,
+      "readiness": 88,
+      "deepMin": 131,
+      "lightMin": 220,
+      "remMin": 96,
+      "awakeMin": 24
     },
     "week": {
       "deep": [
-        1.03,
         1.47,
         1.25,
         1.07,
         1.13,
         1.12,
-        0.87
+        0.87,
+        2.18
       ],
       "light": [
-        4.38,
         4.25,
         4.32,
         4.15,
         5.02,
         4.45,
-        4.2
+        4.2,
+        3.67
       ],
       "rem": [
-        0.85,
         1.08,
         2.08,
         1.5,
         1.95,
         1.4,
-        1.13
+        1.13,
+        1.6
       ],
       "awake": [
-        0.7,
         1.07,
         0.0,
         0.18,
         0.15,
         0.1,
-        0.3
+        0.3,
+        0.4
       ],
       "scores": [
-        73,
         65,
         94,
         82,
         85,
         82,
-        79
+        79,
+        87
       ],
       "hrv": [
-        36,
         37,
         43,
         49,
         39,
         45,
-        50
+        50,
+        46
       ],
       "rhr": [
-        55,
         54,
         53,
         53,
         53,
         53,
-        53
+        53,
+        51
       ],
-      "hrvAvg": 43
+      "hrvAvg": 44
     },
     "sleepWake": {
       "bed": [
-        -0.23,
         -1.17,
         -1.17,
         -0.93,
         -1.7,
         -0.45,
-        -0.22
+        -0.22,
+        -0.4
       ],
       "wake": [
-        6.73,
         6.7,
         6.48,
         5.97,
         6.55,
         6.62,
-        6.28
+        6.28,
+        7.45
       ],
       "bedL": [
-        "23:46",
         "22:50",
         "22:50",
         "23:04",
         "22:18",
         "23:33",
-        "23:47"
+        "23:47",
+        "23:36"
       ],
       "wakeL": [
-        "06:44",
         "06:42",
         "06:29",
         "05:58",
         "06:33",
         "06:37",
-        "06:17"
+        "06:17",
+        "07:27"
       ],
       "dur": [
-        "6h16",
         "6h48",
         "7h39",
         "6h43",
         "8h06",
         "6h58",
-        "6h12"
+        "6h12",
+        "7h27"
       ]
     }
   },
   "text": {
     "en": {
       "daysFull": [
-        "Fri 28",
         "Sat 29",
         "Sun 30",
         "Mon 31",
         "Tue 1",
         "Wed 2",
-        "Thu 3"
+        "Thu 3",
+        "Fri 4"
       ],
       "daysShort": [
-        "F28",
         "S29",
         "S30",
         "M31",
         "T1",
         "W2",
-        "T3"
+        "T3",
+        "F4"
       ],
-      "scoreWord": "score 79",
-      "c1d": "-3 vs last night (82) · good",
-      "c2d": "-45m vs 7-night avg (6h 57m)",
-      "c3d": "level with last night (53) · level with 7-night avg (53)",
-      "c4d": "+5 vs last night (45) · +7 vs 7-night avg (43)",
-      "c5l": "Very good",
+      "scoreWord": "score 87",
+      "c1d": "+8 vs last night (79) · very good",
+      "c2d": "+19m vs 7-night avg (7h 08m)",
+      "c3d": "-2 vs last night (53) · -2 vs 7-night avg (53)",
+      "c4d": "-4 vs last night (50) · +2 vs 7-night avg (44)",
+      "c5l": "Excellent",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
-      "havg": "HRV 7d avg 43",
+      "havg": "HRV 7d avg 44",
       "today": "Today: nothing logged yet",
-      "badge": "Highest HRV of the seven",
-      "rec": "Score 79 on 6h 12m, 23:47 to 06:17. Three points under the night before and 45 minutes under the 6h 57m seven-night average — the shortest night on this board, and at the same time the best autonomic reading of the seven. Start with what went right, because it is the larger half. HRV came in at 50, five up on 45 and seven over the 43 average: the highest value anywhere in this window, ahead of Monday evening's 49. RHR held 53 for a fifth consecutive night, level with the 53 average and sitting on the floor of the range. Average stress reads 11 so far today against yesterday's finished 26, and body battery has charged 59 points overnight with nothing drained back out. Thursday's hack squat — 83 minutes, 19 sets, 16,980 kg, top set 200 kg, max HR 153 — cost you nothing autonomically; HRV went up, not down. The score came off duration, not disruption. Eighteen minutes awake, 95% sleep efficiency, no long fragmentation: the night was clean, there was simply less of it. Stages: light 4h 12m at 68%, REM 1h 08m at 18%, deep 52m at 14%. That deep total is the lowest of the seven nights here, against a window range of 1h 02m to 1h 28m, and REM is second-lowest. Deep and REM together made 2h 00m, 32% of the night — the thinnest restorative block on the board. That is the whole 79. And duration here is a bedtime problem, not a sleep problem. You went to bed at 23:47, the latest lights-out of the seven by one minute, and got the shortest sleep of the seven. The pattern is now unmistakable at both ends: your two latest bedtimes, 23:46 and 23:47, produced your two shortest nights, 6h 16m and 6h 12m; your earliest, 22:18, produced the longest at 8h 06m. Nothing about how you sleep is broken — the hours are simply not being handed to it. Readiness 85. HRV at a window high, RHR at its floor, no autonomic cost from Thursday's session: this is a green light, and the goblet squat is the session it should buy — 85 days since Jun 11 and the oldest gap on the board. Train today, then take the one lever that has been sitting there all week and get the lights out at 22:30 tonight."
+      "badge": "Deepest night of the seven — 2h 11m",
+      "rec": "Score 87 on 7h 27m, 23:36 to 07:27. Eight points up on last night's 79 and nineteen minutes over the 7h 08m seven-night average — the second-longest night on this board and, by a wide margin, the deepest. Deep sleep came in at 2h 11m, 29% of the night. The next-best deep total in this window is 1h 28m and the worst, last night, was 52m; 2h 11m is more than double what you got twenty-four hours ago. REM added 1h 36m at 21% and light 3h 40m at 49%. Deep and REM together made 3h 47m — 51% of the night, against 32% the night before. That is the restorative block that has been missing all week, delivered in one go. The autonomic side agrees. RHR dropped to 51, two under last night and two under the 53 seven-night average, and it is the lowest resting heart rate anywhere in this window — the first night in six that it has come off 53. Body battery charged 75 points overnight and drained nothing at all. Average stress reads 12 so far today. HRV eased to 46, four down on last night's 50 but still two above the 44 average and the third-highest of the seven; after a 75-point charge and a new RHR floor, that is a settled reading, not a warning. Twenty-four minutes awake, 95% sleep efficiency. Friday's swim — 2,250 m in 63 minutes, avg HR 125, max 150, 662 kcal — left no autonomic mark; RHR went down, not up. One honest caveat on where the extra time came from. Lights-out was 23:36, eleven minutes earlier than last night but still the third-latest of the seven. The night was long because you woke at 07:27 — the latest wake of the window by 43 minutes — not because you went to bed early. That is a weekend repayment, not a fix. The pattern from the earlier nights still holds: 22:18 bought 8h 06m without borrowing from the morning. Readiness 88. Deepest night of the seven, RHR at a window low, a full overnight charge and nothing drained — this is the strongest recovery reading on the board and it should be spent. Goblet squat is 86 days out from Jun 11 and remains the oldest gap you have; trap bar stays blocked until roughly Sep 9 by Tuesday's 120 kg pulls. Train today, and tonight take the lever the weekend just made easy: lights out at 22:30 and keep the hours without needing the lie-in."
     },
     "hr": {
       "daysFull": [
-        "Pet 28",
         "Sub 29",
         "Ned 30",
         "Pon 31",
         "Uto 1",
         "Sri 2",
-        "Čet 3"
+        "Čet 3",
+        "Pet 4"
       ],
       "daysShort": [
-        "P28",
         "S29",
         "N30",
         "P31",
         "U1",
         "S2",
-        "Č3"
+        "Č3",
+        "P4"
       ],
-      "scoreWord": "ocjena 79",
-      "c1d": "-3 vs sinoć (82) · dobra",
-      "c2d": "-45m vs prosjek 7 noći (6h 57m)",
-      "c3d": "isto kao sinoć (53) · isto kao prosjek 7 noći (53)",
-      "c4d": "+5 vs sinoć (45) · +7 vs prosjek 7 noći (43)",
-      "c5l": "Vrlo dobra",
+      "scoreWord": "ocjena 87",
+      "c1d": "+8 vs sinoć (79) · vrlo dobra",
+      "c2d": "+19m vs prosjek 7 noći (7h 08m)",
+      "c3d": "-2 vs sinoć (53) · -2 vs prosjek 7 noći (53)",
+      "c4d": "-4 vs sinoć (50) · +2 vs prosjek 7 noći (44)",
+      "c5l": "Izvrsna",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
-      "havg": "HRV 7d prosjek 43",
+      "havg": "HRV 7d prosjek 44",
       "today": "Danas: još ništa zabilježeno",
-      "badge": "Najviši HRV od sedam",
-      "rec": "Ocjena 79 uz 6h 12m, od 23:47 do 06:17. Tri boda ispod prethodne noći i 45 minuta ispod prosjeka od 6h 57m kroz sedam noći — najkraća noć na ovoj ploči, a istovremeno i najbolje autonomno očitanje od sedam. Počni od onoga što je dobro, jer je to veća polovica. HRV je bio 50, pet više od 45 i sedam iznad prosjeka od 43: najviša vrijednost bilo gdje u ovom prozoru, ispred ponedjeljkovih 49. RHR se petu noć zaredom zadržao na 53, jednak prosjeku od 53 i na samom dnu raspona. Prosječni stres danas zasad čita 11 naspram jučer završenih 26, a body battery se preko noći napunio za 59 bodova bez ijednog ispražnjenog. Četvrtkov hack čučanj — 83 minute, 19 serija, 16.980 kg, vršna serija 200 kg, maksimalni puls 153 — nije te koštao ništa autonomno; HRV je porastao, a ne pao. Ocjenu je odnijelo trajanje, a ne poremećenost sna. Osamnaest minuta budnosti, 95% učinkovitost, bez duge rascjepkanosti: noć je bila čista, samo je bilo manje. Faze: laki san 4h 12m i 68%, REM 1h 08m i 18%, duboki san 52m i 14%. Taj duboki zbroj najniži je od sedam noći ovdje, naspram raspona od 1h 02m do 1h 28m, a REM je drugi najniži. Duboki i REM zajedno dali su 2h 00m, 32% noći — najtanji obnavljajući blok na ploči. To je cijela priča o 79. A trajanje je ovdje pitanje lijeganja, ne kvalitete sna. Legao si u 23:47, najkasnije od sedam za jednu minutu, i dobio najkraći san od sedam. Obrazac je sada nedvojben na oba kraja: dva najkasnija lijeganja, 23:46 i 23:47, dala su dvije najkraće noći, 6h 16m i 6h 12m; najranije, 22:18, dalo je najdulju od 8h 06m. Ništa u načinu na koji spavaš nije pokvareno — sati mu se jednostavno ne daju. Spremnost 85. HRV na vrhuncu prozora, RHR na dnu, bez autonomnog računa od četvrtka: ovo je zeleno svjetlo, a goblet čučanj je trening koji bi ga trebao potrošiti — 85 dana od 11.6. i najstarija rupa na ploči. Treniraj danas, a onda povuci polugu koja cijeli tjedan stoji tu i ugasi svjetlo večeras u 22:30."
+      "badge": "Najdublja noć od sedam — 2h 11m",
+      "rec": "Ocjena 87 uz 7h 27m, od 23:36 do 07:27. Osam bodova iznad sinoćnjih 79 i devetnaest minuta iznad prosjeka od 7h 08m kroz sedam noći — druga najdulja noć na ovoj ploči i, uvjerljivo, najdublja. Duboki san bio je 2h 11m, 29% noći. Sljedeći najbolji duboki zbroj u ovom prozoru je 1h 28m, a najlošiji, sinoć, bio je 52m; 2h 11m je više nego dvostruko od onoga što si dobio prije dvadeset četiri sata. REM je dodao 1h 36m i 21%, a laki san 3h 40m i 49%. Duboki i REM zajedno dali su 3h 47m — 51% noći, naspram 32% prethodne noći. To je obnavljajući blok koji je nedostajao cijeli tjedan, isporučen odjednom. Autonomna strana se slaže. RHR je pao na 51, dva ispod sinoć, dva ispod prosjeka od 53 i najniži puls mirovanja bilo gdje u ovom prozoru — prva noć u šest da se maknuo s 53. Body battery se preko noći napunio za 75 bodova i nije ispraznio ništa. Prosječni stres danas zasad čita 12. HRV je popustio na 46, četiri ispod sinoćnjih 50, ali i dalje dva iznad prosjeka od 44 i treći najviši od sedam; nakon punjenja od 75 bodova i novog dna RHR-a, to je smireno očitanje, a ne upozorenje. Dvadeset četiri minute budnosti, 95% učinkovitost. Petkovo plivanje — 2.250 m u 63 minute, prosječni puls 125, maksimalni 150, 662 kcal — nije ostavilo autonomni trag; RHR je pao, a ne porastao. Jedna poštena ograda o tome odakle je došlo dodatno vrijeme. Svjetlo se ugasilo u 23:36, jedanaest minuta ranije nego sinoć, ali i dalje treće najkasnije od sedam. Noć je bila duga jer si se probudio u 07:27 — najkasnije buđenje u prozoru za 43 minute — a ne zato što si rano legao. To je vikend-otplata, a ne rješenje. Obrazac iz ranijih noći i dalje stoji: 22:18 je kupilo 8h 06m bez posuđivanja od jutra. Spremnost 88. Najdublja noć od sedam, RHR na dnu prozora, potpuno noćno punjenje i ništa ispražnjeno — ovo je najjače očitanje oporavka na ploči i treba ga potrošiti. Goblet čučanj je na 86 dana od 11.6. i ostaje najstarija rupa koju imaš; trap bar ostaje blokiran do otprilike 9.9. utorkovim dizanjem 120 kg. Treniraj danas, a večeras povuci polugu koju ti je vikend upravo olakšao: svjetlo u 22:30 i zadrži sate bez potrebe za odspavanjem ujutro."
     }
   }
 }
