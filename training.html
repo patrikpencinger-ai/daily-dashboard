@@ -47,6 +47,20 @@ body{padding:20px;transition:background .2s}
 .spval{font-size:19px;font-weight:500}
 .spsub{font-size:11px;color:var(--ts);line-height:1.5}
 .spcanv{width:100%;height:34px;display:block;margin:4px 0 2px}
+/* expert recommendation boxes */
+.expert{--xc:#D85A30;--xbg:rgba(216,90,48,0.08);border-left:3px solid var(--xc);background:var(--xbg);border-radius:0 8px 8px 0;padding:9px 12px;margin:0 0 1.5rem;font-size:13px;line-height:1.5;box-sizing:border-box;width:100%;max-width:100%;overflow-wrap:anywhere}
+.expert .xh{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--xc);margin:0 0 5px}
+.expert ul{margin:0;padding:0 0 0 17px}
+.expert li{margin:0 0 4px}
+.expert li:last-child{margin:0}
+.expert .xf{margin:6px 0 0;font-size:11px;color:var(--ts);font-style:italic}
+.expert[data-role=coach]{--xc:#D85A30;--xbg:rgba(216,90,48,0.08)}
+.expert[data-role=nutri]{--xc:#1D9E75;--xbg:rgba(29,158,117,0.08)}
+.expert[data-role=md]{--xc:#A32D2D;--xbg:rgba(163,45,45,0.07)}
+#twrap.dark .expert[data-role=coach]{--xc:#EE8B58;--xbg:rgba(216,90,48,0.16)}
+#twrap.dark .expert[data-role=nutri]{--xc:#5FD0AA;--xbg:rgba(29,158,117,0.16)}
+#twrap.dark .expert[data-role=md]{--xc:#E24B4A;--xbg:rgba(226,75,74,0.15)}
+#twrap.mobile .expert{font-size:12px;padding:8px 10px}
 button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 #twrap.mobile button{padding:10px 14px!important;min-height:40px;min-width:40px}
@@ -71,6 +85,8 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <div class="tcard"><div class="tlab" data-i="k4">Active calories</div><div style="font-size:24px;font-weight:500;" id="kv4">—</div><div class="tlab" style="font-size:12px;" data-i="k4d"></div></div>
 </div>
 
+<div class="expert" data-role="coach" id="x-kpi"></div>
+
 <div id="loadSec" style="display:none;margin:0 0 1.5rem;">
   <div data-i="lwH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.6rem;">WEEKLY LOAD &amp; ACWR</div>
   <div class="chiprow" id="loadChips"></div>
@@ -83,7 +99,8 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
     <canvas id="acw" role="img" aria-label="Weekly lifted tonnage bars with acute to chronic workload ratio line and risk bands"></canvas>
   </div>
   <p class="tlab note" id="loadSub" style="margin:0 0 0.2rem;"></p>
-  <p class="tlab note" id="loadFoot" data-i="lwFoot" style="margin:0;"></p>
+  <p class="tlab note" id="loadFoot" data-i="lwFoot" style="margin:0 0 10px;"></p>
+  <div class="expert" data-role="coach" id="x-load"></div>
 </div>
 
 <div id="rdySec" style="display:none;background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1rem;">
@@ -94,7 +111,8 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   </div>
   <div id="rdVerdict" style="font-size:14px;font-weight:500;line-height:1.5;margin:0 0 8px;"></div>
   <div class="chiprow" id="rdChips"></div>
-  <p class="tlab note" id="rdInputs" style="margin:0;"></p>
+  <p class="tlab note" id="rdInputs" style="margin:0 0 10px;"></p>
+  <div class="expert" data-role="coach" id="x-today" style="margin-bottom:0;"></div>
 </div>
 
 <div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1.5rem;">
@@ -132,7 +150,9 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <div id="trwrap" style="position:relative;width:100%;height:380px;margin:0 0 0.4rem;">
   <canvas id="tr" role="img" aria-label="Daily training bars with switchable metric and three heart-rate overlays"></canvas>
 </div>
-<p class="tlab note" data-i="xNote" style="margin:0 0 1.5rem;"></p>
+<p class="tlab note" data-i="xNote" style="margin:0 0 10px;"></p>
+
+<div class="expert" data-role="coach" id="x-daily"></div>
 
 <div data-i="eH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">ENERGY BALANCE</div>
 <div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
@@ -144,7 +164,9 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <div id="enwrap" style="position:relative;width:100%;height:300px;margin:0 0 0.5rem;">
   <canvas id="en" role="img" aria-label="Energy lines: daily exercise calories, 7-day average burn, logged intake, 2000 kcal target"></canvas>
 </div>
-<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="eNote"></p>
+<p class="tlab" style="font-size:11px;margin:0 0 10px;" data-i="eNote"></p>
+
+<div class="expert" data-role="coach" id="x-energy"></div>
 
 <div data-i="bH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">BURN COMPOSITION VS TARGET</div>
 <div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
@@ -157,14 +179,18 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <div id="bcwrap" style="position:relative;width:100%;height:330px;margin:0 0 0.5rem;">
   <canvas id="bc" role="img" aria-label="Stacked burn bars: basal plus net exercise, with intake line, target, and daily balance badges"></canvas>
 </div>
-<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="bNote"></p>
+<p class="tlab" style="font-size:11px;margin:0 0 10px;" data-i="bNote"></p>
+
+<div class="expert" data-role="coach" id="x-burn"></div>
 
 <div data-i="wH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">DAILY KCAL BRIDGE</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;" id="bridgerow"></div>
 <div id="brwrap" style="position:relative;width:100%;height:330px;margin:0 0 0.5rem;">
   <canvas id="br" role="img" aria-label="Waterfall bridge: intake minus basal minus net exercise equals daily balance"></canvas>
 </div>
-<p class="tlab" style="font-size:11px;margin:0 0 1.5rem;" data-i="wNote"></p>
+<p class="tlab" style="font-size:11px;margin:0 0 10px;" data-i="wNote"></p>
+
+<div class="expert" data-role="coach" id="x-bridge"></div>
 
 <div data-i="mlH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">MAIN LIFT HR — SET PEAKS</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;" id="liftrow">
@@ -190,20 +216,24 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <canvas id="ml" role="img" aria-label="Main lift trend: top set weight bars with max and average per-set HR peak lines"></canvas>
 </div>
 <p class="tlab" style="font-size:11px;margin:0 0 1.2rem;" data-i="mlNote">Per-set peaks from 1s FIT heart-rate streams. * = detection flagged for review.</p>
+<div class="expert" data-role="coach" id="x-mainlift"></div>
 <div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">LATEST VS PREVIOUS — PER-SET PEAKS</div>
 <div class="tlab" id="mlSub" style="font-size:12px;margin:0 0 8px;"></div>
 <div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(84,113,141,0.45);"></span><span data-i="wsPrev">previous</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#D85A30;"></span><span data-i="wsLast">latest</span></span>
 </div>
-<div id="wswrap" style="position:relative;width:100%;height:280px;margin:0 0 1.5rem;">
+<div id="wswrap" style="position:relative;width:100%;height:280px;margin:0 0 10px;">
   <canvas id="ws" role="img" aria-label="Per-set HR peaks of latest vs previous session"></canvas>
 </div>
+
+<div class="expert" data-role="coach" id="x-sets"></div>
 
 <div id="progSec" style="display:none;">
 <div data-i="pgH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.4rem;">PER-LIFT PROGRESSION</div>
 <p class="tlab note" data-i="pgNote" style="margin:0 0 10px;"></p>
 <div class="spgrid" id="progGrid"></div>
+<div class="expert" data-role="coach" id="x-prog"></div>
 </div>
 
 <div id="gymSec" style="display:none;">
@@ -217,9 +247,10 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:1.5px dashed #E24B4A;"></span><span data-i="lRef">HR max reference 173 (Fox) / 175 (Tanaka)</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:11px;height:11px;border-radius:50%;border:1.5px solid #A32D2D;"></span><span data-i="lHot">ring = peak ≥165 (95% of 173)</span></span>
 </div>
-<div id="gmwrap" style="position:relative;width:100%;height:340px;margin:0 0 1.5rem;">
+<div id="gmwrap" style="position:relative;width:100%;height:340px;margin:0 0 10px;">
   <canvas id="gm" role="img" aria-label="Gym sessions: lifted volume bars with max and average heart rate lines and the day's temperature"></canvas>
 </div>
+<div class="expert" data-role="coach" id="x-gym"></div>
 </div>
 
 <div id="swSec" style="display:none;">
@@ -237,7 +268,9 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <div id="swwrap" style="position:relative;width:100%;height:340px;margin:0 0 0.4rem;">
   <canvas id="sw" role="img" aria-label="Swim sessions: pace per 100 meters, axis inverted so a faster pace sits higher, with max and average heart rate"></canvas>
 </div>
-<p class="tlab note" data-i="swOpt" style="margin:0 0 1.5rem;"></p>
+<p class="tlab note" data-i="swOpt" style="margin:0 0 10px;"></p>
+
+<div class="expert" data-role="coach" id="x-swim"></div>
 
 <div id="effSec" style="display:none;">
   <div data-i="seH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">SWIM EFFICIENCY — MATCHED SET TYPES</div>
@@ -246,7 +279,8 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <div id="sewrap" style="position:relative;width:100%;height:260px;margin:0 0 0.4rem;">
     <canvas id="se" role="img" aria-label="Swim efficiency index per session within one matched set type, lower is better"></canvas>
   </div>
-  <p class="tlab note" id="effSub" style="margin:0 0 1.5rem;"></p>
+  <p class="tlab note" id="effSub" style="margin:0 0 10px;"></p>
+  <div class="expert" data-role="coach" id="x-eff"></div>
 </div>
 </div>
 
@@ -257,6 +291,8 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <div class="icard"><span style="font-weight:500;" data-i="i3t"></span><br><span class="tlab" data-i="i3"></span></div>
   <div class="icard"><span style="font-weight:500;" data-i="i4t"></span><br><span class="tlab" data-i="i4"></span></div>
 </div>
+
+<div class="expert" data-role="coach" id="x-findings"></div>
 
 <p class="tlab" style="font-size:11px;margin:10px 2px 0;"><span data-i="foot"></span> · Training Dashboard · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a> · <span data-i="foot2"></span></p>
 </div>
@@ -307,7 +343,70 @@ const T={
   rdInT:"Inputs: sleep score {s}, HRV {h} ms (baseline {hb}), RHR {r} bpm (baseline {rb}), ACWR {a}.",rdBaseT:"Baselines: {src}.",
   rdSrc28:"28-day means from the sleep trend ({n} nights)",rdSrc7:"7-night means from the sleep week (28-day trend not available yet)",rdNoAcwr:"not available",
   rdDiv:"RHR +≥5% and HRV −≥15% vs the 28-day baseline — reduce load, possible illness",rdDivOk:"RHR/HRV divergence: none",rdDivNo:"RHR/HRV divergence check needs 28-day history",
-  xNote:"Sleep tab labels nights by the evening they start; this tab labels by calendar day — the same RHR appears one label apart."},
+  xNote:"Sleep tab labels nights by the evening they start; this tab labels by calendar day — the same RHR appears one label apart.",
+  /* ---- expert recommendation boxes ---- */
+  xCoach:"Expert recommendation · Coach",xNutri:"Expert recommendation · Nutritionist",xMd:"Expert recommendation · Physician",
+  xDisc:"Not medical advice — discuss with your physician.",
+  xNoData:"Not enough data in this section yet — the recommendation appears as soon as the numbers are there.",
+  xDirFaster:"faster",xDirSlower:"slower",xDirSame:"unchanged",
+  xKpiLoad:"{s} sessions, {t} of training and {v} lifted in 7 days. With ACWR {a}, keep next week's tonnage within ±10% of {ton} t and change one variable at a time.",
+  xKpiLoadNo:"{s} sessions, {t} of training and {v} lifted in 7 days. Not enough gym history for an ACWR yet — hold the current tonnage.",
+  xKpiLoadDeload:"{s} sessions, {t} of training and {v} lifted in 7 days — and {d} weeks without a deload. Next week's tonnage call is the deload below, not a hold.",
+  xKpiCals:"{k} active kcal across the window (Garmin gross); net of basal the exercise burn averages {d} kcal/day.{ref} Never add a session and cut food in the same week.",
+  xTdeeRef:" The Intake tab adds each session's net burn to a {v} kcal rest TDEE.",
+  xRdyGo:"Readiness {r}/100 — proceed as planned; load may go up on the accessories, not on the main lift.",
+  xRdyHold:"Readiness {r}/100 — proceed, but hold today's loads and skip any PR attempt.",
+  xRdyCut:"Readiness {r}/100 — cut the top sets by about 30% or swap the session for an easy 1,500 m swim.",
+  xRdyNo:"Readiness needs last night's sleep score, HRV and RHR; sleep-data.json has not loaded, so today's go / hold call cannot be made.",
+  xAcwrHi:"ACWR {a} is above 1.3. Cut lifted volume 20–30% this week — from {ton} t down to about {cut} t — and keep the intensity where it is.",
+  xAcwrLo:"ACWR {a} is under 0.8. Add one session this week; rebuilding the base is what makes the next hard block safe.",
+  xAcwrOk:"ACWR {a} sits inside the 0.8–1.3 window at {ton} t this week. Hold the tonnage and add load, not volume.",
+  xDeload:"{n} weeks without a deload. Take one now: −40% tonnage (about {cut} t), same exercises and same technique, lighter bars.",
+  xDeloadOk:"Weeks since the last deload: {n} — one is due at 3, so nothing to schedule yet.",
+  xRestLow:"Rest days in the last 7: {n}. Schedule one before the next heavy squat day — the rest day is part of the programme, not a gap in it.",
+  xRestOk:"Rest days in the last 7: {n} — enough recovery{kg}. Longest active streak {s} days.",
+  xAtKg:" at {v} kg",
+  xTodayIn:"Sleep score {s}, HRV {h} ms against a {hb} baseline, RHR {r} bpm against {rb}, ACWR {a} — that is what produced the score.",
+  xDivWarn:"RHR is up ≥5% and HRV down ≥15% against the 28-day baseline. Reduce load for 48 h and watch for illness before adding anything.",
+  xDivOk:"No RHR/HRV divergence — the illness and overtraining check is clear today.",
+  xDivNo:"The RHR/HRV divergence check needs 28 days of history; treat today's score as provisional.",
+  xJumpHold:"{n} jumped +{p}% ({a} → {b} kg) last session. No PR attempt for 7 days — repeat {b} kg for the same reps first.",
+  xDayMix:"Active days {a}, rest days {r}, longest active streak {s} days.",
+  xDayHard:"Hardest day: {n} at {e} effort points. Keep the day after a session like that under {h} points, or make it a rest day.",
+  xEnBurn:"Exercise burn averaged {a} kcal/day across the window, peaking at {p} kcal on {d}.{ref}",
+  xEnLog:"Only {n} of {m} days have a logged intake, so the blue line is mostly missing. Log the food before drawing any conclusion from this chart.",
+  xEnLogOk:"All {m} days have a logged intake — this chart can be read at face value.",
+  xBurnBal:"Mean daily balance {v} kcal across the window; {n} of {m} days come from a real food log.",
+  xBurnAssume:"An assumed 2,000 kcal intake is used on {n} day(s). Those bars are a placeholder — do not tune training off them.",
+  xBrDay:"{d}: {i} kcal in, −{b} basal, −{e} exercise = {v} kcal balance.",
+  xBrDeep:"A {v} kcal hole is too deep to repeat on a training day. Put about {a} kcal of carbs around the session and keep the deficit near 1,000.",
+  xBrOk:"That balance is in a workable range — repeat the day rather than deepening it.",
+  xMlLast:"{n}: latest top set {w} kg on {d}, max set peak {mx} bpm, average {av} bpm.",
+  xMlHot:"A set peak of {mx} bpm is at or above 165 — 95% of the 173 max reference. That set was maximal; repeat the load before adding to it.",
+  xMlHotNo:"Peak {mx} bpm stayed below the 165 ring, so there is headroom on this lift.",
+  xMlDrift:"HR drift across the main block was {d} bpm (last set minus first). Above +20 the rest periods are too short for the load — take 30 s more.",
+  xMlDriftOk:"HR drift across the main block was {d} bpm — rest periods are matching the load.",
+  xWsCmp:"Latest {wl} kg averaged {al} bpm per set against {wp} kg at {ap} bpm previously — {v}",
+  xWsHarder:"more heart rate for the same or less bar: recovery, not the programme, is the limiter this week.",
+  xWsBetter:"less heart rate for equal or more bar: the adaptation is real; keep the block running.",
+  xWsFlat:"essentially unchanged — hold the load one more session before adding.",
+  xWsNo:"Only one session with per-set peaks for this lift; the comparison needs two.",
+  xPgDrop:"{n}: kg/rep is down {p}% over the last 3 sessions. Check technique and recovery and drop back to the previous load before adding again.",
+  xPgBest:"Best trend: {n} at {v} kg/rep, {d} against the first logged session.",
+  xPgNone:"No lift shows a kg/rep drop of 15% or more — the progression is intact.",
+  xGymHeat:"Gym sessions at 30 °C air or above: {n} (latest {d}). Pre-hydrate, add electrolytes, and expect HR to sit about 10 bpm higher for the same work.",
+  xGymHeatOk:"No gym session above 30 °C in this window — heat is not a factor right now.",
+  xGymVol:"Latest gym session {v} kg on {d} against a {avg} kg average over the last {n} sessions. Volume, not load, is the first lever to move.",
+  xGymHot:"Gym sessions peaking at 165 bpm or above: {n} — 95% of the 173 max reference. Fine occasionally, not as the default setting for every session.",
+  xSwPace:"Latest swim {p} /100 m on {d} against {pp} previously — {dir}.",
+  xSwHr:"Max HR {v} bpm in the water on {d}. Wrist-optical HR is unreliable when swimming — use a chest strap before treating that as a real effort.",
+  xSwHeat:"Swims at 30 °C air or above: {n} (latest {d}). At that temperature hydration goes in before the swim, not only after it.",
+  xEffImp:"{k}: efficiency improved, {a} → {b}. Keep this set type for at least three more sessions before changing anything.",
+  xEffWorse:"{k}: efficiency worsened, {a} → {b}. Spend the next session on technique — stroke count per length — not on pace.",
+  xEffFlat:"{k}: efficiency essentially unchanged ({a} → {b}). Change one variable: the interval or the rest, not both.",
+  xFindTop:"Priority this week: {a}",
+  xFindNothing:"Nothing on this tab needs a change this week — repeat the block and let the numbers move.",
+  xFindDont:"Do not change training and food in the same week. Intake has {n} of 7 days logged, so a training change made now would be untestable."},
  hr:{title:"PATRIKOV TRENING — ZADNJIH 7 DANA",k1:"Treninzi",k2:"Ukupno vrijeme",k3:"Podignuti volumen",k4:"Aktivne kalorije",
   fAll:"Sve",fSwim:"Plivanje",fStr:"Snaga",mEff:"Napor",mDur:"Trajanje",mVol:"Volumen",mDist:"Udaljenost",
   lPool:"Bazen",lOws:"Otvorene vode",lStr:"Snaga",lMax:"Maks. puls",lAvg:"Prosj. puls",lEff:"napor = min × %HRR (maks 174 / mirovanje 53)",
@@ -339,7 +438,70 @@ const T={
   rdInT:"Ulazi: ocjena sna {s}, HRV {h} ms (osnovica {hb}), puls u mirovanju {r} otk/min (osnovica {rb}), ACWR {a}.",rdBaseT:"Osnovice: {src}.",
   rdSrc28:"28-dnevni prosjeci iz trenda sna ({n} noći)",rdSrc7:"prosjeci 7 noći iz tjedna sna (28-dnevni trend još nije dostupan)",rdNoAcwr:"nedostupno",
   rdDiv:"Puls u mirovanju +≥5% i HRV −≥15% u odnosu na 28-dnevnu osnovicu — smanji opterećenje, moguća bolest",rdDivOk:"RHR/HRV divergencija: nema",rdDivNo:"Provjera RHR/HRV divergencije treba 28 dana povijesti",
-  xNote:"Kartica Spavanje označava noći prema večeri u kojoj počinju; ova kartica označava po kalendarskom danu — isti puls u mirovanju pojavljuje se jednu oznaku dalje."}
+  xNote:"Kartica Spavanje označava noći prema večeri u kojoj počinju; ova kartica označava po kalendarskom danu — isti puls u mirovanju pojavljuje se jednu oznaku dalje.",
+  /* ---- preporuke stručnjaka ---- */
+  xCoach:"Preporuka stručnjaka · Trener",xNutri:"Preporuka stručnjaka · Nutricionist",xMd:"Preporuka stručnjaka · Liječnik",
+  xDisc:"Nije medicinski savjet — porazgovaraj sa svojim liječnikom.",
+  xNoData:"Za ovaj odjeljak još nema dovoljno podataka — preporuka se pojavljuje čim brojke stignu.",
+  xDirFaster:"brže",xDirSlower:"sporije",xDirSame:"bez promjene",
+  xKpiLoad:"{s} treninga, {t} vremena i {v} podignuto u 7 dana. Uz ACWR {a}, drži tonažu sljedećeg tjedna unutar ±10% od {ton} t i mijenjaj jednu stvar odjednom.",
+  xKpiLoadNo:"{s} treninga, {t} vremena i {v} podignuto u 7 dana. Nema dovoljno povijesti teretane za ACWR — zadrži trenutnu tonažu.",
+  xKpiLoadDeload:"{s} treninga, {t} vremena i {v} podignuto u 7 dana — i {d} tjedana bez rasterećenja. Tonaža sljedećeg tjedna je rasterećenje niže, a ne zadržavanje.",
+  xKpiCals:"{k} aktivnih kcal u prozoru (Garminov bruto); neto od bazalne potrošnje trening prosječno daje {d} kcal/dan.{ref} Nikad ne dodavaj trening i ne režeš hranu u istom tjednu.",
+  xTdeeRef:" Kartica Unos zbraja neto potrošnju svakog treninga s bazom mirovanja od {v} kcal.",
+  xRdyGo:"Spremnost {r}/100 — nastavi po planu; opterećenje smije rasti na pomoćnim vježbama, ne na glavnoj.",
+  xRdyHold:"Spremnost {r}/100 — nastavi, ali zadrži današnje težine i preskoči pokušaj rekorda.",
+  xRdyCut:"Spremnost {r}/100 — smanji najteže serije za oko 30% ili zamijeni trening laganim plivanjem od 1.500 m.",
+  xRdyNo:"Spremnost treba sinoćnju ocjenu sna, HRV i puls u mirovanju; sleep-data.json nije učitan pa se današnja odluka kreni / stani ne može donijeti.",
+  xAcwrHi:"ACWR {a} je iznad 1,3. Smanji podignuti volumen 20–30% ovaj tjedan — s {ton} t na oko {cut} t — i zadrži intenzitet.",
+  xAcwrLo:"ACWR {a} je ispod 0,8. Dodaj jedan trening ovaj tjedan; obnavljanje baze je ono što sljedeći teški blok čini sigurnim.",
+  xAcwrOk:"ACWR {a} je unutar prozora 0,8–1,3 uz {ton} t ovaj tjedan. Zadrži tonažu i dodaj težinu, ne volumen.",
+  xDeload:"{n} tjedana bez rasterećenja. Uzmi ga sada: −40% tonaže (oko {cut} t), iste vježbe i ista tehnika, lakše šipke.",
+  xDeloadOk:"Tjedana od zadnjeg rasterećenja: {n} — potrebno je na 3, pa još nema što planirati.",
+  xRestLow:"Dana odmora u zadnjih 7: {n}. Ubaci jedan prije sljedećeg teškog dana čučnjeva — dan odmora je dio programa, a ne rupa u njemu.",
+  xRestOk:"Dana odmora u zadnjih 7: {n} — dovoljno oporavka{kg}. Najduži niz aktivnih dana {s}.",
+  xAtKg:" pri {v} kg",
+  xTodayIn:"Ocjena sna {s}, HRV {h} ms prema osnovici {hb}, puls u mirovanju {r} otk/min prema {rb}, ACWR {a} — to je dalo ocjenu.",
+  xDivWarn:"Puls u mirovanju je gore ≥5%, a HRV dolje ≥15% u odnosu na 28-dnevnu osnovicu. Smanji opterećenje 48 h i pazi na bolest prije nego išta dodaš.",
+  xDivOk:"Nema RHR/HRV divergencije — provjera bolesti i pretreniranosti je danas čista.",
+  xDivNo:"Provjera RHR/HRV divergencije treba 28 dana povijesti; današnju ocjenu tretiraj kao privremenu.",
+  xJumpHold:"{n} je skočio +{p}% ({a} → {b} kg) zadnji trening. Bez pokušaja rekorda 7 dana — prvo ponovi {b} kg s istim brojem ponavljanja.",
+  xDayMix:"Aktivnih dana {a}, dana odmora {r}, najduži niz aktivnih dana {s}.",
+  xDayHard:"Najteži dan: {n} s {e} bodova napora. Dan nakon takvog treninga drži ispod {h} bodova ili neka bude dan odmora.",
+  xEnBurn:"Potrošnja na treningu u prosjeku {a} kcal/dan u prozoru, vrhunac {p} kcal na dan {d}.{ref}",
+  xEnLog:"Samo {n} od {m} dana ima zabilježen unos, pa plava linija uglavnom nedostaje. Zabilježi hranu prije bilo kakvog zaključka iz ovog grafa.",
+  xEnLogOk:"Svih {m} dana ima zabilježen unos — ovaj graf se može čitati doslovno.",
+  xBurnBal:"Prosječna dnevna bilanca {v} kcal u prozoru; {n} od {m} dana dolazi iz stvarnog dnevnika prehrane.",
+  xBurnAssume:"Pretpostavljeni unos od 2.000 kcal koristi se na {n} dan(a). Te su trake rezerva — ne podešavaj trening prema njima.",
+  xBrDay:"{d}: {i} kcal unos, −{b} bazalno, −{e} trening = bilanca {v} kcal.",
+  xBrDeep:"Rupa od {v} kcal preduboka je za ponavljanje na dan treninga. Vrati oko {a} kcal ugljikohidrata oko treninga i drži deficit oko 1.000.",
+  xBrOk:"Ta bilanca je u radnom rasponu — ponovi dan umjesto da ga produbljuješ.",
+  xMlLast:"{n}: zadnja najteža serija {w} kg na dan {d}, maks. vrh serije {mx} otk/min, prosjek {av} otk/min.",
+  xMlHot:"Vrh serije od {mx} otk/min je na ili iznad 165 — 95% referentnog maksimuma 173. Ta je serija bila maksimalna; ponovi težinu prije nego dodaš.",
+  xMlHotNo:"Vrh od {mx} otk/min ostao je ispod prstena na 165, pa na ovoj vježbi ima prostora.",
+  xMlDrift:"Pomak pulsa kroz glavni blok bio je {d} otk/min (zadnja minus prva serija). Iznad +20 pauze su prekratke za tu težinu — dodaj 30 s.",
+  xMlDriftOk:"Pomak pulsa kroz glavni blok bio je {d} otk/min — pauze odgovaraju težini.",
+  xWsCmp:"Zadnji trening {wl} kg s prosjekom {al} otk/min po seriji prema {wp} kg i {ap} otk/min prije — {v}",
+  xWsHarder:"više pulsa uz istu ili manju šipku: ovaj tjedan te ograničava oporavak, a ne program.",
+  xWsBetter:"manje pulsa uz istu ili veću šipku: adaptacija je stvarna; nastavi s blokom.",
+  xWsFlat:"praktički bez promjene — zadrži težinu još jedan trening prije nego dodaš.",
+  xWsNo:"Samo jedan trening s vrhovima po seriji za ovu vježbu; za usporedbu trebaju dva.",
+  xPgDrop:"{n}: kg/pon je pao {p}% kroz zadnja 3 treninga. Provjeri tehniku i oporavak i vrati se na prethodnu težinu prije novog dodavanja.",
+  xPgBest:"Najbolji trend: {n} na {v} kg/pon, {d} u odnosu na prvi zabilježeni trening.",
+  xPgNone:"Nijedna vježba ne pokazuje pad kg/pon od 15% ili više — napredak je netaknut.",
+  xGymHeat:"Treninzi u teretani na 30 °C zraka ili više: {n} (zadnji {d}). Hidriraj se unaprijed, dodaj elektrolite i očekuj puls oko 10 otk/min viši za isti rad.",
+  xGymHeatOk:"Nijedan trening u teretani iznad 30 °C u ovom prozoru — toplina trenutno nije faktor.",
+  xGymVol:"Zadnji trening u teretani {v} kg na dan {d} prema prosjeku od {avg} kg kroz zadnjih {n} treninga. Volumen, ne težina, je prva poluga.",
+  xGymHot:"Treninzi u teretani s vrhom 165 otk/min ili više: {n} — 95% referentnog maksimuma 173. Povremeno je u redu, kao pravilo na svakom treningu nije.",
+  xSwPace:"Zadnje plivanje {p} /100 m na dan {d} prema {pp} prije — {dir}.",
+  xSwHr:"Maks. puls {v} otk/min u vodi na dan {d}. Optički senzor na zapešću nepouzdan je pri plivanju — uzmi pojas na prsima prije nego to shvatiš kao stvarni napor.",
+  xSwHeat:"Plivanja na 30 °C zraka ili više: {n} (zadnje {d}). Na toj temperaturi hidracija ide prije plivanja, ne samo poslije.",
+  xEffImp:"{k}: učinkovitost se popravila, {a} → {b}. Zadrži ovaj tip treninga još barem tri puta prije bilo kakve promjene.",
+  xEffWorse:"{k}: učinkovitost se pogoršala, {a} → {b}. Sljedeći trening posveti tehnici — broju zaveslaja po dužini — a ne tempu.",
+  xEffFlat:"{k}: učinkovitost praktički nepromijenjena ({a} → {b}). Promijeni jednu varijablu: interval ili pauzu, ne obje.",
+  xFindTop:"Prioritet ovaj tjedan: {a}",
+  xFindNothing:"Ništa na ovoj kartici ne treba promjenu ovaj tjedan — ponovi blok i pusti brojke da se pomaknu.",
+  xFindDont:"Ne mijenjaj trening i prehranu u istom tjednu. Unos ima zabilježeno {n} od 7 dana, pa se promjena treninga sada ne bi mogla izmjeriti."}
 };
 let LBL=T.en;
 let DAT=null;
@@ -591,7 +753,7 @@ function effRefresh(mode){
  const el=document.getElementById('effSub');
  if(el)el.textContent=tpl(LBL.seSubT,{n:EFF.useDay,m:EFF.useDay+EFF.useLatest,o:EFF.useLatest,a:a,b:b});
 }
-function setEff(k){effSel=k;markBtns();effRefresh();}
+function setEff(k){effSel=k;markBtns();effRefresh();renderExperts();}
 
 /* F5 — heat-load chips */
 function heatChips(rows,elId){
@@ -662,13 +824,202 @@ function renderReadiness(){
   +' '+tpl(LBL.rdBaseT,{src:R.src});
 }
 
+/* ================= expert recommendation boxes =================
+   One coach box per section. Every bullet is a rule applied to the live
+   training-data.json / sleep-data.json numbers and is recomputed on each
+   render, so the advice follows a refresh instead of going stale. */
+const x1=v=>(v==null||!isFinite(v))?'—':v.toFixed(1);
+/* read-only side load: bodyweight and rest TDEE come from data.json, never from a literal.
+   If the file is missing the clause that would quote them is simply dropped. */
+let ATH=null;
+const xnum=v=>(typeof v==='number'&&isFinite(v))?v:null;
+function loadAthlete(){
+ fetch('data.json',{cache:'no-store'})
+  .then(r=>r.ok?r.json():null)
+  .then(j=>{ATH=(j&&j.athlete)||null;renderExperts();})
+  .catch(()=>{ATH=null;});
+}
+const xi=v=>(v==null||!isFinite(v))?'—':Math.round(v).toLocaleString('en-US');
+const xsig=v=>(v==null||!isFinite(v))?'—':((v<0?'−':'+')+xi(Math.abs(v)));
+function xBox(id,bullets){
+ const el=document.getElementById(id);if(!el)return;
+ const role=el.getAttribute('data-role')||'coach';
+ const head={coach:LBL.xCoach,nutri:LBL.xNutri,md:LBL.xMd}[role]||LBL.xCoach;
+ const list=(bullets||[]).filter(b=>b!=null&&b!=='');
+ if(!list.length)list.push(LBL.xNoData);
+ el.innerHTML='<div class="xh">'+esc(head)+'</div><ul>'+list.map(b=>'<li>'+esc(b)+'</li>').join('')+'</ul>'
+  +(role==='md'?'<div class="xf">'+esc(LBL.xDisc)+'</div>':'');
+}
+function xReady(R){return R?tpl({go:LBL.xRdyGo,hold:LBL.xRdyHold,cut:LBL.xRdyCut}[R.rule],{r:R.R}):LBL.xRdyNo;}
+function xJumps(){try{return jumpSeries().map(x=>({k:x.k,prev:x.prev,last:x.last,p:(x.last-x.prev)/x.prev*100}))
+ .filter(x=>x.p>10);}catch(e){return [];}}
+function renderExperts(){
+ if(!DAT||!DAT.num)return;
+ const L=LBL,k=DAT.num.kpis||{};
+ let R=null;try{R=computeReadiness();}catch(e){R=null;}
+ const acwr=LOAD?LOAD.acwr:null;
+ const wkTon=(LOAD&&LOAD.weeks&&LOAD.weeks.length)?LOAD.weeks[LOAD.weeks.length-1].ton/1000:null;
+ const jumps=xJumps();
+ const labels=(DAT.text&&DAT.text[lang]&&DAT.text[lang].days)||[];
+ const dayN=(LOGGED||[]).length,loggedN=(LOGGED||[]).filter(Boolean).length;
+ /* a deload that is already due outranks any hold-the-tonnage advice: one message per page */
+ const deloadDue=!!(LOAD&&LOAD.since>=3);
+ const bw=ATH?xnum(ATH.weightKg):null,restT=ATH?xnum(ATH.restTdee):null;
+ const atKg=bw!=null?tpl(L.xAtKg,{v:x1(bw)}):'';
+ const tdeeRef=restT!=null?tpl(L.xTdeeRef,{v:xi(restT)}):'';
+ /* the one window mean both the KPI and the energy bullet quote: net exercise burn per day */
+ const eV=(EDAILY||[]).filter(v=>nz(v)!=null);
+ const eMean=eV.length?eV.reduce((a,b)=>a+b,0)/eV.length:null;
+
+ /* --- KPI cards --- */
+ xBox('x-kpi',[
+  deloadDue?tpl(L.xKpiLoadDeload,{s:k.sessions,t:k.totalTime,v:k.volume,d:LOAD.since})
+   :(acwr!=null?tpl(L.xKpiLoad,{s:k.sessions,t:k.totalTime,v:k.volume,a:acwr.toFixed(2),ton:x1(wkTon)})
+               :tpl(L.xKpiLoadNo,{s:k.sessions,t:k.totalTime,v:k.volume})),
+  eMean!=null?tpl(L.xKpiCals,{k:k.activeCals,d:xi(eMean),ref:tdeeRef}):null,
+  xReady(R)
+ ]);
+
+ /* --- weekly load & ACWR --- */
+ if(LOAD){
+  const z=acwrZone(acwr);
+  xBox('x-load',[
+   acwr==null?null:((z===2||z===3)?tpl(L.xAcwrHi,{a:acwr.toFixed(2),ton:x1(wkTon),cut:x1(wkTon*0.75)})
+    :(z===0?tpl(L.xAcwrLo,{a:acwr.toFixed(2)})
+           :(deloadDue?null:tpl(L.xAcwrOk,{a:acwr.toFixed(2),ton:x1(wkTon)})))),
+   deloadDue?tpl(L.xDeload,{n:LOAD.since,cut:x1(wkTon*0.6)}):tpl(L.xDeloadOk,{n:LOAD.since}),
+   LOAD.rest<2?tpl(L.xRestLow,{n:LOAD.rest}):tpl(L.xRestOk,{n:LOAD.rest,s:LOAD.streak,kg:atKg})
+  ]);
+ }else{xBox('x-load',[]);}
+
+ /* --- today's session --- */
+ xBox('x-today',[
+  xReady(R),
+  R?(R.div===true?L.xDivWarn:(R.div===false?L.xDivOk:L.xDivNo)):null,
+  jumps.length?tpl(L.xJumpHold,{n:lname(jumps[0].k),p:jumps[0].p.toFixed(1),a:jumps[0].prev,b:jumps[0].last}):null
+ ]);
+
+ /* --- daily chart --- */
+ const activeN=(TYPE||[]).filter(t=>t&&t!=='rest').length;
+ const restN=(TYPE||[]).filter(t=>t==='rest').length;
+ let hi=-1,hv=null;((D&&D.effort)||[]).forEach((v,i)=>{if(nz(v)!=null&&(hv==null||v>hv)){hv=v;hi=i;}});
+ xBox('x-daily',[
+  tpl(L.xDayMix,{a:activeN,r:restN,s:LOAD?LOAD.streak:'—'}),
+  hi>=0?tpl(L.xDayHard,{n:(NAMES&&NAMES[hi])||labels[hi]||'',e:Math.round(hv),h:Math.round(hv*0.6)}):null,
+  restN<2?tpl(L.xRestLow,{n:restN}):null
+ ]);
+
+ /* --- energy balance --- */
+ let pi=-1,pv=null;(EDAILY||[]).forEach((v,i)=>{if(nz(v)!=null&&(pv==null||v>pv)){pv=v;pi=i;}});
+ const eintN=(EINT||[]).filter(v=>nz(v)!=null).length,eintM=(EINT||[]).length;
+ xBox('x-energy',[
+  eMean!=null?tpl(L.xEnBurn,{a:xi(eMean),p:xi(pv),d:labels[pi]||'',ref:tdeeRef}):null,
+  eintN<eintM?tpl(L.xEnLog,{n:eintN,m:eintM}):tpl(L.xEnLogOk,{m:eintM})
+ ]);
+
+ /* --- burn composition --- */
+ const balMean=(BAL&&BAL.length)?BAL.reduce((a,b)=>a+b,0)/BAL.length:null;
+ xBox('x-burn',[
+  balMean!=null?tpl(L.xBurnBal,{v:xsig(balMean),n:loggedN,m:dayN}):null,
+  loggedN<dayN?tpl(L.xBurnAssume,{n:dayN-loggedN}):null
+ ]);
+
+ /* --- daily kcal bridge (selected day) --- */
+ const bd=(BR&&BR[bday])||null;
+ xBox('x-bridge',bd?[
+  tpl(L.xBrDay,{d:bd.label,i:xi(bd.int),b:xi(BMR),e:xi(bd.ex),v:xsig(bd.bal)}),
+  bd.bal<-1200?tpl(L.xBrDeep,{v:xsig(bd.bal),a:xi(Math.abs(bd.bal)-1000)}):L.xBrOk
+ ]:[]);
+
+ /* --- main lift, set peaks --- */
+ const rowsML=mlRows(),allML=mlAll();
+ const lastML=rowsML.length?rowsML[rowsML.length-1]:null;
+ xBox('x-mainlift',lastML?[
+  tpl(L.xMlLast,{n:lname(liftSel),w:lastML.w,d:lastML.l,mx:lastML.mx,av:lastML.av}),
+  lastML.mx>=HOT?tpl(L.xMlHot,{mx:lastML.mx}):tpl(L.xMlHotNo,{mx:lastML.mx}),
+  lastML.dl>20?tpl(L.xMlDrift,{d:xsig(lastML.dl)}):tpl(L.xMlDriftOk,{d:xsig(lastML.dl)})
+ ]:[]);
+
+ /* --- latest vs previous per-set peaks --- */
+ const aS=allML.length?allML[allML.length-1]:null,pS=allML.length>1?allML[allML.length-2]:null;
+ const avg=a=>(Array.isArray(a)&&a.length)?a.reduce((x,y)=>x+y,0)/a.length:null;
+ const al=aS?avg(aS.pk):null,ap=pS?avg(pS.pk):null;
+ if(al!=null&&ap!=null){
+  const harder=(al>ap+2&&aS.w<=pS.w),better=(al<ap-2&&aS.w>=pS.w);
+  xBox('x-sets',[tpl(L.xWsCmp,{wl:aS.w,al:x1(al),wp:pS.w,ap:x1(ap),v:harder?L.xWsHarder:(better?L.xWsBetter:L.xWsFlat)})]);
+ }else{xBox('x-sets',[L.xWsNo]);}
+
+ /* --- per-lift progression --- */
+ let worstDrop=null,bestTrend=null;
+ if(PROG&&PROG.length){
+  PROG.forEach(p=>{
+   if(p.drop!=null&&p.drop<=-15&&(worstDrop==null||p.drop<worstDrop.drop))worstDrop=p;
+   if(p.first&&p.last!=null){const g=(p.last-p.first)/p.first*100;if(bestTrend==null||g>bestTrend.g)bestTrend={p,g};}
+  });
+  xBox('x-prog',[
+   worstDrop?tpl(L.xPgDrop,{n:lname(worstDrop.k),p:Math.abs(worstDrop.drop).toFixed(0)}):L.xPgNone,
+   bestTrend?tpl(L.xPgBest,{n:lname(bestTrend.p.k),v:x1(bestTrend.p.last),
+     d:(bestTrend.g<0?'−':'+')+Math.abs(bestTrend.g).toFixed(0)+'%'}):null
+  ]);
+ }else{xBox('x-prog',[]);}
+
+ /* --- gym history --- */
+ if(GYM&&GYM.length){
+  const hot=GYM.filter(r=>nz(r.tmax)!=null&&r.tmax>=30);
+  const hotHr=GYM.filter(r=>nz(r.mx)!=null&&r.mx>=HOT);
+  const wv=GYM.filter(r=>nz(r.vol)!=null);
+  const lastG=wv.length?wv[wv.length-1]:null;
+  const pn=Math.min(5,Math.max(0,wv.length-1));
+  const avgV=pn?wv.slice(wv.length-1-pn,wv.length-1).reduce((a,r)=>a+r.vol,0)/pn:null;
+  xBox('x-gym',[
+   hot.length?tpl(L.xGymHeat,{n:hot.length,d:hot[hot.length-1].l}):L.xGymHeatOk,
+   (lastG&&avgV!=null)?tpl(L.xGymVol,{v:xi(lastG.vol),d:lastG.l,avg:xi(avgV),n:pn}):null,
+   hotHr.length?tpl(L.xGymHot,{n:hotHr.length}):null
+  ]);
+ }else{xBox('x-gym',[]);}
+
+ /* --- swim history --- */
+ if(SWIM&&SWIM.length){
+  const wp=SWIM.filter(r=>nz(r.sec100)!=null);
+  const s1=wp.length?wp[wp.length-1]:null,s2=wp.length>1?wp[wp.length-2]:null;
+  const hotHr=SWIM.filter(r=>nz(r.mx)!=null&&r.mx>=HOT);
+  const heat=SWIM.filter(r=>nz(r.tmax)!=null&&r.tmax>=30);
+  const dir=(s1&&s2)?(s1.sec100<s2.sec100-1?L.xDirFaster:(s1.sec100>s2.sec100+1?L.xDirSlower:L.xDirSame)):null;
+  xBox('x-swim',[
+   (s1&&s2)?tpl(L.xSwPace,{p:s1.pace||(s1.sec100+' s'),d:s1.l,pp:s2.pace||(s2.sec100+' s'),dir:dir}):null,
+   hotHr.length?tpl(L.xSwHr,{v:hotHr[hotHr.length-1].mx,d:hotHr[hotHr.length-1].l}):null,
+   heat.length?tpl(L.xSwHeat,{n:heat.length,d:heat[heat.length-1].l}):null
+  ]);
+ }else{xBox('x-swim',[]);}
+
+ /* --- swim efficiency --- */
+ const eg=(EFF&&effSel&&EFF.groups[effSel])?EFF.groups[effSel].filter(x=>x.val!=null):[];
+ if(eg.length>=2){
+  const b=eg[eg.length-1].val,a=eg[eg.length-2].val;
+  const key=b<a*0.97?L.xEffImp:(b>a*1.03?L.xEffWorse:L.xEffFlat);
+  xBox('x-eff',[tpl(key,{k:effSel,a:xi(a),b:xi(b)})]);
+ }else{xBox('x-eff',[]);}
+
+ /* --- findings: the single highest-priority action --- */
+ let top=null;
+ if(R&&R.div===true)top=L.xDivWarn;
+ else if(acwr!=null&&acwr>1.3)top=tpl(L.xAcwrHi,{a:acwr.toFixed(2),ton:x1(wkTon),cut:x1(wkTon*0.75)});
+ else if(R&&R.rule==='cut')top=tpl(L.xRdyCut,{r:R.R});
+ else if(deloadDue)top=tpl(L.xDeload,{n:LOAD.since,cut:x1(wkTon*0.6)});
+ else if(jumps.length)top=tpl(L.xJumpHold,{n:lname(jumps[0].k),p:jumps[0].p.toFixed(1),a:jumps[0].prev,b:jumps[0].last});
+ else if(worstDrop)top=tpl(L.xPgDrop,{n:lname(worstDrop.k),p:Math.abs(worstDrop.drop).toFixed(0)});
+ else if(acwr!=null&&acwr<0.8)top=tpl(L.xAcwrLo,{a:acwr.toFixed(2)});
+ else if(R&&R.rule==='hold')top=tpl(L.xRdyHold,{r:R.R});
+ xBox('x-findings',[top?tpl(L.xFindTop,{a:top}):L.xFindNothing,tpl(L.xFindDont,{n:loggedN})]);
+}
+
 /* rebuild every derived text block in the current language */
 function refreshV2(){
  if(!DAT)return;
  renderLoad();renderJump();renderProg();
  heatChips((DAT.num&&DAT.num.gym)||[],'gymHeat');
  heatChips((DAT.num&&DAT.num.swim)||[],'swHeat');
- effRefresh('none');renderReadiness();
+ effRefresh('none');renderReadiness();renderExperts();
 }
 const fmt={effort:v=>Math.round(v),dur:v=>Math.round(v)+'m',kcal:v=>Math.round(v),vol:v=>v.toFixed(1)+'t',dist:v=>Math.round(v)+'m'};
 function txtL(){return DAT.text[lang];}
@@ -919,6 +1270,7 @@ function init(){
  setLang('en');
  applyResponsive();
  loadSleep();
+ loadAthlete();
 }
 
 /* efficiency chart + set-type buttons; rebuilt once sleep-data.json lands */
@@ -961,7 +1313,7 @@ function loadSleep(){
 /* the day's own RHR for swim efficiency only becomes available with the sleep trend */
 function afterSleep(){
  if(SWIM){try{EFF=computeEff();}catch(e){EFF=null;}buildEffUI();}
- renderReadiness();
+ renderReadiness();renderExperts();
 }
 
 let bday=0;
@@ -969,7 +1321,7 @@ function brData(){const d=BR[bday];return{data:[[0,d.int],[d.int-BMR,d.int],[d.b
  vals:['+'+d.int.toLocaleString('en-US'),'−'+BMR.toLocaleString('en-US'),'−'+d.ex,(d.bal<0?'−':'+')+Math.abs(d.bal).toLocaleString('en-US')]};}
 function brLabels(){return [LBL.wInt,LBL.wBas,LBL.wEx,LBL.wBal];}
 function buildBridgeButtons(){const row=document.getElementById('bridgerow');row.innerHTML='';BR.forEach((d,i)=>{const b=document.createElement('button');b.textContent=d.label;b.setAttribute('data-d',i);b.onclick=()=>setBday(i);row.appendChild(b);});}
-function setBday(d){bday=d;const nd=brData();br.data.datasets[0].data=nd.data;br.data.datasets[0].backgroundColor=['#2caaf0','#54718D','#BA7517',BR[bday].bal<0?'#1D9E75':'#A32D2D'];markBtns();br.update();}
+function setBday(d){bday=d;const nd=brData();br.data.datasets[0].data=nd.data;br.data.datasets[0].backgroundColor=['#2caaf0','#54718D','#BA7517',BR[bday].bal<0?'#1D9E75':'#A32D2D'];markBtns();br.update();renderExperts();}
 
 let liftSel='trap',rangeSel=0;
 /* range cuts are relative to the real clock, recomputed at load */
@@ -990,6 +1342,7 @@ function mlRefresh(mode){
  document.getElementById('mlSub').textContent=last
   ?(nm+' — '+LBL.wsLast+': '+last.l+' @ '+last.w+' kg'+(prev?(' · '+LBL.wsPrev+': '+prev.l+' @ '+prev.w+' kg'):''))
   :nm+' — —';
+ renderExperts();
 }
 function setLift(l){liftSel=l;markBtns();mlRefresh();}
 function setRange(r){rangeSel=r;markBtns();mlRefresh();}

@@ -10,17 +10,25 @@ html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe
 body{padding:20px;transition:background .2s}
 #hwrap{--bg:#ffffff;--surf:#f1efe8;--tp:#1a1a18;--ts:rgba(0,0,0,0.62);--bd:rgba(0,0,0,0.28);
  --amber:#8a5a00;--amberBg:rgba(224,165,60,0.16);--amberBd:rgba(138,90,0,0.35);
- --danger:#a4342a;
+ --danger:#a4342a;--dangerBg:rgba(164,52,42,0.10);--dangerBd:rgba(164,52,42,0.34);
+ --ok:#1c6b45;--okBg:rgba(28,107,69,0.10);
+ --expBg:rgba(46,86,140,0.08);--expBd:rgba(46,86,140,0.32);--exp:#2e568c;
  background:var(--bg);color:var(--tp);padding:16px;border-radius:12px;width:100%;max-width:900px;margin:0 auto;box-sizing:border-box}
 #hwrap.dark{--bg:#262624;--surf:#33322f;--tp:#ffffff;--ts:rgba(255,255,255,0.72);--bd:rgba(255,255,255,0.22);
  --amber:#f0b429;--amberBg:rgba(240,180,41,0.14);--amberBd:rgba(240,180,41,0.4);
- --danger:#ff8a80}
+ --danger:#ff8a80;--dangerBg:rgba(255,138,128,0.12);--dangerBd:rgba(255,138,128,0.38);
+ --ok:#6ee7a8;--okBg:rgba(110,231,168,0.12);
+ --expBg:rgba(140,180,240,0.11);--expBd:rgba(140,180,240,0.34);--exp:#9dc0f0}
 #hwrap.mobile{padding:14px}
 #hwrap.big{zoom:1.35;width:calc(100%/1.35);max-width:660px}
 #hwrap .ttl{font-size:20px;font-weight:500;letter-spacing:0.04em}
 #hwrap.mobile .ttl{font-size:16px}
 .hcard{background:var(--surf);border-radius:8px;padding:0.85rem 1rem}
 .hlab{font-size:13px;color:var(--ts)}
+a.backlink{font-size:12px;color:var(--tp);text-decoration:none;border:1px solid var(--bd);border-radius:8px;padding:7px 10px;min-height:40px;display:inline-flex;align-items:center}
+a.backlink:hover{background:var(--surf)}
+button{min-height:40px}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 .disclaimer{background:var(--amberBg);border:1px solid var(--amberBd);color:var(--tp);border-radius:8px;padding:0.7rem 1rem;font-size:12.5px;line-height:1.5;margin:0 0 1.1rem}
 .disclaimer b{color:var(--amber)}
 .sectionH{font-size:14px;font-weight:600;letter-spacing:0.06em;margin:1.6rem 0 0.6rem;text-transform:uppercase;color:var(--ts)}
@@ -28,23 +36,57 @@ body{padding:20px;transition:background .2s}
 .tblwrap{overflow-x:auto;background:var(--surf);border-radius:8px}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
 #hwrap.mobile table{font-size:12px;min-width:560px}
-th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);white-space:nowrap;vertical-align:top}
 th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ts);font-weight:600}
 td.wrap,th.wrap{white-space:normal}
 tr:last-child td{border-bottom:none}
 tr.nodata td.valcol{color:var(--amber);font-weight:600;background:var(--amberBg)}
-tr.overdue td.valcol{color:var(--amber);background:var(--amberBg)}
+tr.overdue td.datecol{color:var(--amber);background:var(--amberBg)}
 tr.nsaid td{background:var(--amberBg)}
+.chip{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;border-radius:999px;padding:2px 7px;margin-left:5px;white-space:nowrap}
+.chip.high{background:var(--dangerBg);color:var(--danger);border:1px solid var(--dangerBd)}
+.chip.low{background:var(--dangerBg);color:var(--danger);border:1px solid var(--dangerBd)}
+.chip.normal{background:var(--okBg);color:var(--ok);border:1px solid var(--bd)}
+.chip.od{background:var(--amberBg);color:var(--amber);border:1px solid var(--amberBd)}
+.chip.cur{background:var(--okBg);color:var(--ok);border:1px solid var(--bd);margin:0}
+.cad{display:block;font-size:10.5px;color:var(--ts);font-weight:400;white-space:normal;margin-top:2px}
 .tblcaption{font-size:11px;color:var(--ts);margin:6px 2px 0;line-height:1.5}
-.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:0 0 0.4rem}
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:0 0 0.4rem}
 #hwrap.mobile .groups{grid-template-columns:1fr}
 .gcard{background:var(--surf);border-radius:8px;padding:0.8rem 0.9rem}
 .gcard .gt{font-size:12.5px;font-weight:600;margin-bottom:4px}
 .gcard .gd{font-size:12.5px;line-height:1.5;color:var(--ts)}
+.gcard .gm{font-size:11.5px;line-height:1.5;color:var(--ts);margin-top:5px}
+.wins{display:flex;flex-wrap:wrap;gap:6px;margin:0.6rem 0 0}
+.win{background:var(--okBg);border:1px solid var(--bd);border-radius:8px;padding:5px 9px;font-size:11.5px;line-height:1.4}
+.win b{font-weight:600}
 .actionlist{background:var(--surf);border-radius:8px;padding:0.85rem 1rem;margin:0.8rem 0 0}
 .actionlist ol{margin:6px 0 0;padding-left:1.2rem}
-.actionlist li{font-size:13px;line-height:1.6}
+.actionlist li{font-size:13px;line-height:1.6;margin-bottom:5px}
+.actionlist li .why{display:block;font-size:11.5px;color:var(--ts);line-height:1.5}
 .emptystate{font-size:13px;color:var(--ts);font-style:italic;padding:10px 12px}
+.expert{background:var(--expBg);border:1px solid var(--expBd);border-left:3px solid var(--exp);border-radius:8px;padding:0.75rem 0.95rem;margin:0.75rem 0 0}
+.expert .eh{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--exp);margin-bottom:6px}
+.expert ul{margin:0;padding-left:1.1rem}
+.expert li{font-size:12.5px;line-height:1.6;margin-bottom:4px}
+.expert li.flagD{color:var(--danger)}
+.expert li.flagC{color:var(--amber)}
+.expert .ef{font-size:11px;color:var(--ts);margin:7px 0 0;font-style:italic}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+#hwrap.mobile .charts{grid-template-columns:minmax(0,1fr)}
+.chcard{background:var(--surf);border-radius:8px;padding:0.7rem 0.8rem;min-width:0;overflow:hidden}
+.chbox canvas{max-width:100%}
+.chcard .cht{font-size:12.5px;font-weight:600;margin-bottom:2px}
+.chcard .chs{font-size:11px;color:var(--ts);margin-bottom:6px;line-height:1.45}
+.chbox{position:relative;height:190px}
+.bpgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:2px}
+.bpstat{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:0.6rem 0.7rem}
+.bpstat .bl{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--ts)}
+.bpstat .bv{font-size:19px;font-weight:600;margin-top:2px}
+.bpstat .bu{font-size:11px;color:var(--ts);font-weight:400}
+.bands{font-size:11.5px;color:var(--ts);line-height:1.6;margin:0.7rem 0 0}
+.bands b{color:var(--tp)}
+.toggle{background:transparent;color:inherit;border:1px solid var(--bd);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:500;cursor:pointer;margin:0.6rem 0 0}
 .howto{background:var(--surf);border-radius:8px;padding:0.85rem 1rem}
 .howto pre{background:var(--bg);border-radius:6px;padding:10px 12px;font-size:11.5px;line-height:1.55;overflow-x:auto;margin:8px 0;color:var(--tp)}
 .howto .ex{color:var(--amber);font-weight:600}
@@ -54,7 +96,10 @@ tr.nsaid td{background:var(--amberBg)}
 <body>
 <div id="hwrap">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 0.9rem;flex-wrap:wrap;">
-  <div class="ttl" data-i="title">HEALTH — CLINICAL MARKERS</div>
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <a id="backlink" class="backlink" href="./" hidden><span data-i="back">← Dashboard</span></a>
+    <div class="ttl" data-i="title">HEALTH — CLINICAL RECORD</div>
+  </div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
     <button id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hr" onclick="setLang('hr')">HR</button>
@@ -62,9 +107,15 @@ tr.nsaid td{background:var(--amberBg)}
   </div>
 </div>
 
-<div class="disclaimer"><b data-i="dTag">Not medical advice.</b> <span data-i="dBody">Educational decision support built from self-tracked data — not a diagnosis. Discuss every marker below with a physician before acting on it.</span></div>
+<div class="disclaimer"><b data-i="dTag">Not medical advice.</b> <span data-i="dBody">Educational decision support built from your own records and self-tracked data — not a diagnosis. Discuss every marker below with a physician before acting on it. Private record: served only behind an authenticated login.</span></div>
 
-<div class="sectionH firstsec" data-i="h1H">Clinical markers</div>
+<div class="sectionH firstsec" data-i="hCond">Conditions &amp; care</div>
+<div class="groups" id="condwrap"></div>
+<div class="wins" id="winswrap"></div>
+<div class="hcard" id="docwrap" style="margin-top:12px"></div>
+<div class="expert" id="expCond"></div>
+
+<div class="sectionH" data-i="hMark">Clinical markers</div>
 <div class="tblwrap">
 <table id="mtbl">
  <thead><tr>
@@ -73,256 +124,791 @@ tr.nsaid td{background:var(--amberBg)}
  <tbody id="mtbody"></tbody>
 </table>
 </div>
-<p class="tblcaption" data-i="mCaption">Reference ranges are shown for information only — this dashboard does not interpret them or flag abnormal results. Adult male, SI units. Rows in amber are overdue or never measured.</p>
+<p class="tblcaption" data-i="mCaption">Flags compare the latest value with the laboratory reference range — display only, not interpreted. The review cadence under each row is the interval used to decide whether a marker is overdue; it is derived from your current therapy, not from a guideline lookup.</p>
+<div class="expert" id="expMark"></div>
 
-<div class="sectionH" data-i="h2H">Why these matter</div>
-<div class="groups" id="groups"></div>
-<div class="actionlist">
-  <div class="gt" data-i="alH" style="font-size:13px;font-weight:600;">What the physician's review flagged to act on</div>
-  <ol id="actions"></ol>
+<div class="sectionH" data-i="hTrend">Trends</div>
+<div class="charts" id="charts"></div>
+<p class="tblcaption" data-i="tCaption">Shaded band = laboratory reference range for the marker named in each subtitle. Dashed vertical lines are medication starts and stops taken from the medication table.</p>
+<div class="expert" id="expTrend"></div>
+
+<div class="sectionH" data-i="hBp">Blood pressure</div>
+<div class="hcard">
+  <div class="bpgrid" id="bpgrid"></div>
+  <div class="bands" id="bpbands"></div>
 </div>
+<div class="expert" id="expBp"></div>
 
-<div class="sectionH" data-i="h3aH">Medications &amp; supplements</div>
+<div class="sectionH" data-i="hMeds">Medications &amp; supplements</div>
+<div class="hlab" style="margin:0 2px 6px" id="medcount">—</div>
 <div class="tblwrap">
 <table id="medtbl">
- <thead><tr><th data-i="mth1">Date</th><th data-i="mth2">Name</th><th data-i="mth3">Dose</th><th data-i="mth4">Kind</th><th class="wrap" data-i="mth5">Note</th></tr></thead>
+ <thead><tr><th data-i="mth1">Started</th><th data-i="mth2">Name</th><th data-i="mth3">Dose</th><th data-i="mth4">Kind</th><th class="wrap" data-i="mth5">Purpose</th></tr></thead>
  <tbody id="medtbody"></tbody>
 </table>
 </div>
+<button class="toggle" id="histbtn" onclick="toggleHist()" aria-expanded="false" aria-controls="histwrap">History</button>
+<div id="histwrap" hidden>
+<div class="tblwrap" style="margin-top:8px">
+<table id="hmedtbl">
+ <thead><tr><th data-i="hth1">Started</th><th data-i="hth2">Stopped</th><th data-i="hth3">Name</th><th data-i="hth4">Kind</th><th class="wrap" data-i="hth5">Purpose</th></tr></thead>
+ <tbody id="hmedtbody"></tbody>
+</table>
+</div>
+</div>
 <p class="tblcaption" data-i="nsaidNote">NSAIDs (ibuprofen, naproxen, diclofenac…) taken alongside high protein intake and open-water swimming can add extra load on the kidneys, especially if you're dehydrated — flagged rows are highlighted.</p>
+<div class="expert" id="expMeds"></div>
 
-<div class="sectionH" data-i="h3bH">Symptom log</div>
+<div class="sectionH" data-i="hSym">Symptom log</div>
 <div class="tblwrap">
 <table id="symtbl">
  <thead><tr><th data-i="sth1">Date</th><th data-i="sth2">Type</th><th class="wrap" data-i="sth3">Note</th></tr></thead>
  <tbody id="symtbody"></tbody>
 </table>
 </div>
+<div class="expert" id="expSym"></div>
 
-<div class="sectionH" data-i="h4H">How to update this record</div>
+<div class="sectionH" data-i="hPlan">What the physician's review flagged to act on</div>
+<div class="actionlist"><ol id="actions"></ol></div>
+
+<div class="sectionH" data-i="hHow">How to update this record</div>
 <div class="howto">
  <p data-i="howto1">This file is a manual record. The automated dashboard refresh never touches it. To add an entry, tell Claude something like:</p>
- <p><em data-i="howto2">"add clinical: BP 128/82 on 2026-09-05"</em> <span data-i="howto2b">or</span> <em data-i="howto3">"add clinical: started ibuprofen 400mg for a strained shoulder"</em></p>
- <p><span data-i="howto4">Claude reads your message and writes the corresponding row(s) into</span> <code>clinical-data.json</code>. <span data-i="howto4b">The shape (any field may be omitted) is:</span></p>
+ <p><em data-i="howto2">"add clinical: BP 118/76, pulse 61 on 2026-09-06"</em> <span data-i="howto2b">or</span> <em data-i="howto3">"add clinical: started ibuprofen 400mg for a strained shoulder"</em></p>
+ <p><span data-i="howto4">Claude reads your message and writes the corresponding row(s) into</span> <code>clinical-data.json</code>. <span data-i="howto4b">The shapes (any field may be omitted) are:</span></p>
 <pre>{
-  "markers": [{"d":"YYYY-MM-DD","bp_sys":n,"bp_dia":n,"glucose":n,"hba1c":n,
+  "markers": [{"d":"YYYY-MM-DD","source":"lab|home",
+               "bp_sys":n,"bp_dia":n,"pulse":n,
+               "glucose":n,"hba1c":n,"insulin":n,"homa_ir":n,
                "tc":n,"ldl":n,"hdl":n,"tg":n,"creat":n,"egfr":n,
                "alt":n,"ast":n,"ggt":n,"urate":n,"tsh":n,
-               "ferritin":n,"vitd":n,"waist":n,"note":""}],
-  "meds":     [{"d":"YYYY-MM-DD","name":"","dose":"","kind":"medication|supplement|nsaid","note":""}],
+               "ferritin":n,"vitd":n,"plt":n,"hb":n,"wbc":n,"crp":n,
+               "testosterone":n,"psa":n,"waist":n,"note":""}],
+  "meds":     [{"d":"YYYY-MM-DD","stop":"YYYY-MM-DD|null","name":"","generic":"",
+                "dose":"","kind":"medication|supplement|nsaid","purpose":"","note":""}],
   "symptoms": [{"d":"YYYY-MM-DD","type":"chest_pressure|dyspnoea|palpitations|near_syncope|ruq_pain|dark_urine|other","note":""}]
 }
 
 <span class="ex">EXAMPLE ROW (not stored — illustration only):</span>
-{"d":"2026-09-05","bp_sys":128,"bp_dia":82,"waist":98,"note":"pre-gym check"}</pre>
+{"d":"2026-09-06","bp_sys":118,"bp_dia":76,"pulse":61,"source":"home","note":"morning"}</pre>
 </div>
+<div class="expert" id="expHow"></div>
 
 <p class="hlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-let lang='en',layout='',fontbig=false;
+let lang='en',layout='',fontbig=false,histOpen=false;
 let DAT=null;
+const CHARTS={};
 
 const T={
- en:{title:"HEALTH — CLINICAL MARKERS",
+ en:{title:"HEALTH — CLINICAL RECORD",
+  back:"← Dashboard",
   dTag:"Not medical advice.",
-  dBody:"Educational decision support built from self-tracked data — not a diagnosis. Discuss every marker below with a physician before acting on it.",
-  h1H:"Clinical markers",
+  dBody:"Educational decision support built from your own records and self-tracked data — not a diagnosis. Discuss every marker below with a physician before acting on it. Private record: served only behind an authenticated login.",
+  hCond:"Conditions & care",
+  since:"since",status:"status",treating:"treating",docsH:"Treating doctors",unnamedDoc:"name not recorded",
+  hMark:"Clinical markers",
   th1:"Marker",th2:"Latest value",th3:"Date",th4:"Days since",th5:"Reference range",
-  mCaption:"Reference ranges are shown for information only — this dashboard does not interpret them or flag abnormal results. Adult male, SI units. Rows in amber are overdue or never measured.",
-  h2H:"Why these matter",
-  alH:"What the physician's review flagged to act on",
-  h3aH:"Medications & supplements",
-  mth1:"Date",mth2:"Name",mth3:"Dose",mth4:"Kind",mth5:"Note",
+  mCaption:"Flags compare the latest value with the laboratory reference range — display only, not interpreted. The review cadence under each row is the interval used to decide whether a marker is overdue; it is derived from your current therapy, not from a guideline lookup.",
+  hTrend:"Trends",
+  tCaption:"Shaded band = laboratory reference range for the marker named in each subtitle. Dashed vertical lines are medication starts and stops taken from the medication table.",
+  hBp:"Blood pressure",
+  bpLatest:"Latest reading",bpPulse:"Pulse",bpMean:"Home log mean",bpMin:"Lowest",bpMax:"Highest",bpN:"readings in log",
+  hMeds:"Medications & supplements",
+  mth1:"Started",mth2:"Name",mth3:"Dose",mth4:"Kind",mth5:"Purpose",
+  hth1:"Started",hth2:"Stopped",hth3:"Name",hth4:"Kind",hth5:"Purpose",
+  histShow:"Show stopped medications",histHide:"Hide stopped medications",
+  medCur:"current",medStopped:"stopped",
   nsaidNote:"NSAIDs (ibuprofen, naproxen, diclofenac…) taken alongside high protein intake and open-water swimming can add extra load on the kidneys, especially if you're dehydrated — flagged rows are highlighted.",
-  h3bH:"Symptom log",
+  hSym:"Symptom log",
   sth1:"Date",sth2:"Type",sth3:"Note",
-  h4H:"How to update this record",
+  hPlan:"What the physician's review flagged to act on",
+  hHow:"How to update this record",
   howto1:"This file is a manual record. The automated dashboard refresh never touches it. To add an entry, tell Claude something like:",
-  howto2:"“add clinical: BP 128/82 on 2026-09-05”",
+  howto2:"“add clinical: BP 118/76, pulse 61 on 2026-09-06”",
   howto2b:"or",
   howto3:"“add clinical: started ibuprofen 400mg for a strained shoulder”",
   howto4:"Claude reads your message and writes the corresponding row(s) into",
-  howto4b:"The shape (any field may be omitted) is:",
+  howto4b:"The shapes (any field may be omitted) are:",
+  expH:"Expert recommendation",
+  expFoot:"Not medical advice — discuss with your physician.",
   notMeasured:"not yet measured",
   none:"none recorded",
   daysUnit:"d",
   overdue:"overdue",
+  high:"high",low:"low",normal:"in range",
+  cadence:"review cadence",
+  noRef:"no reference range",
   medication:"medication",supplement:"supplement",nsaid:"NSAID",
   chest_pressure:"chest pressure",dyspnoea:"breathlessness",palpitations:"palpitations",near_syncope:"near-fainting",ruq_pain:"right-upper-abdo pain",dark_urine:"dark urine",other:"other",
-  foot:"Data through"
+  foot:"Record through"
  },
- hr:{title:"ZDRAVLJE — KLINIČKI POKAZATELJI",
+ hr:{title:"ZDRAVLJE — KLINIČKI ZAPIS",
+  back:"← Nadzorna ploča",
   dTag:"Ovo nije medicinski savjet.",
-  dBody:"Edukativna potpora za odlučivanje na temelju samostalno praćenih podataka — nije dijagnoza. O svakom pokazatelju ispod razgovaraj s liječnikom prije nego što na temelju njega nešto poduzmeš.",
-  h1H:"Klinički pokazatelji",
+  dBody:"Edukativna potpora za odlučivanje izgrađena iz tvoje medicinske dokumentacije i samostalno praćenih podataka — nije dijagnoza. O svakom pokazatelju ispod razgovaraj s liječnikom prije nego što na temelju njega nešto poduzmeš. Privatni zapis: dostupan samo iza prijave.",
+  hCond:"Bolesti i skrb",
+  since:"od",status:"status",treating:"liječnik",docsH:"Liječnici koji te vode",unnamedDoc:"ime nije zabilježeno",
+  hMark:"Klinički pokazatelji",
   th1:"Pokazatelj",th2:"Zadnja vrijednost",th3:"Datum",th4:"Dana od zadnjeg",th5:"Referentni raspon",
-  mCaption:"Referentni rasponi prikazani su isključivo informativno — ova nadzorna ploča ih ne tumači niti označava odstupanja. Odrasli muškarac, SI jedinice. Retci u jantarnoj boji su zakašnjeli ili nikad izmjereni.",
-  h2H:"Zašto su bitni",
-  alH:"Što je liječnički pregled preporučio poduzeti",
-  h3aH:"Lijekovi i dodaci prehrani",
-  mth1:"Datum",mth2:"Naziv",mth3:"Doza",mth4:"Vrsta",mth5:"Bilješka",
+  mCaption:"Oznake uspoređuju zadnju vrijednost s laboratorijskim referentnim rasponom — samo prikaz, bez tumačenja. Razmak kontrole ispod svakog retka je interval po kojem se ocjenjuje kasni li pokazatelj; izveden je iz tvoje trenutne terapije, a ne iz smjernica.",
+  hTrend:"Trendovi",
+  tCaption:"Osjenčani pojas = laboratorijski referentni raspon za pokazatelj naveden u podnaslovu. Iscrtkane okomite linije su početci i prekidi lijekova iz tablice lijekova.",
+  hBp:"Krvni tlak",
+  bpLatest:"Zadnje mjerenje",bpPulse:"Puls",bpMean:"Prosjek kućnog dnevnika",bpMin:"Najniže",bpMax:"Najviše",bpN:"mjerenja u dnevniku",
+  hMeds:"Lijekovi i dodaci prehrani",
+  mth1:"Početak",mth2:"Naziv",mth3:"Doza",mth4:"Vrsta",mth5:"Svrha",
+  hth1:"Početak",hth2:"Prekid",hth3:"Naziv",hth4:"Vrsta",hth5:"Svrha",
+  histShow:"Prikaži prekinute lijekove",histHide:"Sakrij prekinute lijekove",
+  medCur:"u terapiji",medStopped:"prekinuto",
   nsaidNote:"NSAID lijekovi (ibuprofen, naproksen, diklofenak…) uz visok unos proteina i plivanje u otvorenim vodama mogu dodatno opteretiti bubrege, pogotovo uz dehidraciju — označeni retci su istaknuti.",
-  h3bH:"Dnevnik simptoma",
+  hSym:"Dnevnik simptoma",
   sth1:"Datum",sth2:"Vrsta",sth3:"Bilješka",
-  h4H:"Kako ažurirati ovaj zapis",
+  hPlan:"Što je liječnički pregled preporučio poduzeti",
+  hHow:"Kako ažurirati ovaj zapis",
   howto1:"Ova datoteka je ručni zapis. Automatsko osvježavanje nadzorne ploče je nikad ne dira. Za novi unos reci Claudeu nešto poput:",
-  howto2:"“add clinical: BP 128/82 on 2026-09-05”",
+  howto2:"“add clinical: BP 118/76, pulse 61 on 2026-09-06”",
   howto2b:"ili",
   howto3:"“add clinical: started ibuprofen 400mg for a strained shoulder”",
   howto4:"Claude pročita tvoju poruku i upiše odgovarajuće retke u",
-  howto4b:"Oblik (bilo koje polje može biti izostavljeno) je:",
+  howto4b:"Oblici (bilo koje polje može biti izostavljeno) su:",
+  expH:"Preporuka stručnjaka",
+  expFoot:"Ovo nije medicinski savjet — razgovaraj sa svojim liječnikom.",
   notMeasured:"nije još izmjereno",
   none:"nema unosa",
   daysUnit:"d",
   overdue:"zakašnjelo",
+  high:"povišeno",low:"sniženo",normal:"u rasponu",
+  cadence:"razmak kontrole",
+  noRef:"nema referentnog raspona",
   medication:"lijek",supplement:"dodatak prehrani",nsaid:"NSAID",
   chest_pressure:"pritisak u prsima",dyspnoea:"otežano disanje",palpitations:"palpitacije",near_syncope:"skoro nesvjestica",ruq_pain:"bol desno gore u trbuhu",dark_urine:"taman urin",other:"ostalo",
-  foot:"Podaci do"
+  foot:"Zapis do"
  }
 };
 let LBL=T.en;
 
+/* field -> label + review cadence (days) + why that cadence */
 const MARKERS=[
- {field:'bp_sys', group:'bp', unit:'mmHg', ref:'<130 optimal', label:{en:'Blood pressure — systolic',hr:'Krvni tlak — sistolički'}},
- {field:'bp_dia', group:'bp', unit:'mmHg', ref:'<85 optimal', label:{en:'Blood pressure — diastolic',hr:'Krvni tlak — dijastolički'}},
- {field:'glucose', group:'glucose', unit:'mmol/L', ref:'3.9–5.5 (fasting)', label:{en:'Fasting glucose',hr:'Glukoza natašte'}},
- {field:'hba1c', group:'glucose', unit:'%', ref:'<5.7', label:{en:'HbA1c',hr:'HbA1c'}},
- {field:'tc', group:'lipids', unit:'mmol/L', ref:'<5.0', label:{en:'Total cholesterol',hr:'Ukupni kolesterol'}},
- {field:'ldl', group:'lipids', unit:'mmol/L', ref:'<3.0', label:{en:'LDL cholesterol',hr:'LDL kolesterol'}},
- {field:'hdl', group:'lipids', unit:'mmol/L', ref:'>1.0', label:{en:'HDL cholesterol',hr:'HDL kolesterol'}},
- {field:'tg', group:'lipids', unit:'mmol/L', ref:'<1.7', label:{en:'Triglycerides',hr:'Trigliceridi'}},
- {field:'creat', group:'kidney', unit:'µmol/L', ref:'62–106', label:{en:'Creatinine',hr:'Kreatinin'}},
- {field:'egfr', group:'kidney', unit:'mL/min', ref:'>90', label:{en:'eGFR',hr:'eGFR'}},
- {field:'alt', group:'liver', unit:'U/L', ref:'<41', label:{en:'ALT',hr:'ALT'}},
- {field:'ast', group:'liver', unit:'U/L', ref:'<40', label:{en:'AST',hr:'AST'}},
- {field:'ggt', group:'liver', unit:'U/L', ref:'<60', label:{en:'GGT',hr:'GGT'}},
- {field:'urate', group:'other', unit:'µmol/L', ref:'200–420', label:{en:'Urate (uric acid)',hr:'Urati (mokraćna kiselina)'}},
- {field:'tsh', group:'other', unit:'mIU/L', ref:'0.4–4.0', label:{en:'TSH',hr:'TSH'}},
- {field:'ferritin', group:'other', unit:'µg/L', ref:'30–300', label:{en:'Ferritin',hr:'Feritin'}},
- {field:'vitd', group:'other', unit:'nmol/L', ref:'50–125', label:{en:'Vitamin D',hr:'Vitamin D'}},
- {field:'waist', group:'other', unit:'cm', ref:'<94 low risk · ≥102 high', label:{en:'Waist circumference',hr:'Opseg struka'}}
+ {f:'bp_sys',cad:7,label:{en:'Blood pressure — systolic',hr:'Krvni tlak — sistolički'},
+  cadN:{en:'home log ongoing (on Triplixam + Physiotens)',hr:'kućni dnevnik u tijeku (uz Triplixam + Physiotens)'}},
+ {f:'bp_dia',cad:7,label:{en:'Blood pressure — diastolic',hr:'Krvni tlak — dijastolički'},
+  cadN:{en:'home log ongoing (on Triplixam + Physiotens)',hr:'kućni dnevnik u tijeku (uz Triplixam + Physiotens)'}},
+ {f:'pulse',cad:7,label:{en:'Pulse (with BP reading)',hr:'Puls (uz mjerenje tlaka)'},
+  cadN:{en:'recorded with every home BP reading',hr:'bilježi se uz svako kućno mjerenje tlaka'}},
+ {f:'hba1c',cad:90,label:{en:'HbA1c',hr:'HbA1c'},
+  cadN:{en:'90 d — on tirzepatide + metformin, endocrinology set a 3-month follow-up',hr:'90 d — uz tirzepatid + metformin, endokrinologija je zakazala kontrolu za 3 mjeseca'}},
+ {f:'glucose',cad:90,label:{en:'Fasting glucose',hr:'Glukoza natašte'},
+  cadN:{en:'90 d — runs with the same metabolic panel as HbA1c',hr:'90 d — ide s istim metaboličkim panelom kao HbA1c'}},
+ {f:'insulin',cad:180,label:{en:'Insulin (fasting)',hr:'Inzulin (natašte)'},
+  cadN:{en:'180 d — action plan #3 asks for insulin + HOMA-IR to be added at the next panel',hr:'180 d — plan #3 traži da se inzulin + HOMA-IR dodaju na sljedeći panel'}},
+ {f:'homa_ir',cad:180,label:{en:'HOMA-IR',hr:'HOMA-IR'},
+  cadN:{en:'180 d — calculated from fasting insulin + glucose',hr:'180 d — izračunava se iz inzulina natašte + glukoze'}},
+ {f:'tc',cad:180,label:{en:'Total cholesterol',hr:'Ukupni kolesterol'},
+  cadN:{en:'180 d — stable on rosuvastatin 40 + ezetimibe',hr:'180 d — stabilno uz rozuvastatin 40 + ezetimib'}},
+ {f:'ldl',cad:180,label:{en:'LDL cholesterol',hr:'LDL kolesterol'},
+  cadN:{en:'180 d — secondary prevention on rosuvastatin 40 + ezetimibe; post-MI target <1.4',hr:'180 d — sekundarna prevencija uz rozuvastatin 40 + ezetimib; cilj nakon infarkta <1,4'}},
+ {f:'hdl',cad:180,label:{en:'HDL cholesterol',hr:'HDL kolesterol'},
+  cadN:{en:'180 d — part of the same lipid panel',hr:'180 d — dio istog lipidograma'}},
+ {f:'tg',cad:180,label:{en:'Triglycerides',hr:'Trigliceridi'},
+  cadN:{en:'180 d — part of the same lipid panel',hr:'180 d — dio istog lipidograma'}},
+ {f:'plt',cad:180,label:{en:'Platelets',hr:'Trombociti'},
+  cadN:{en:'90–180 d — ITP in remission after rituximab (2022); hematology monitoring every 3–6 months',hr:'90–180 d — ITP u remisiji nakon rituksimaba (2022.); hematološko praćenje svakih 3–6 mjeseci'}},
+ {f:'hb',cad:180,label:{en:'Haemoglobin',hr:'Hemoglobin'},
+  cadN:{en:'180 d — mild erythrocytosis noted; runs with the CBC',hr:'180 d — zabilježena blaga eritrocitoza; ide uz KKS'}},
+ {f:'wbc',cad:180,label:{en:'White cells (WBC)',hr:'Leukociti (WBC)'},
+  cadN:{en:'180 d — runs with the CBC; low immunoglobulins post-rituximab',hr:'180 d — ide uz KKS; niski imunoglobulini nakon rituksimaba'}},
+ {f:'creat',cad:180,label:{en:'Creatinine',hr:'Kreatinin'},
+  cadN:{en:'180 d — SGLT2 inhibitor + long hot sessions; kidney load worth tracking',hr:'180 d — SGLT2 inhibitor + dugi treninzi po vrućini; opterećenje bubrega vrijedi pratiti'}},
+ {f:'egfr',cad:180,label:{en:'eGFR',hr:'eGFR'},
+  cadN:{en:'180 d — reported with creatinine',hr:'180 d — javlja se uz kreatinin'}},
+ {f:'alt',cad:365,label:{en:'ALT',hr:'ALT'},
+  cadN:{en:'365 d — stable and in range at the last panel',hr:'365 d — stabilno i u rasponu na zadnjem panelu'}},
+ {f:'ast',cad:365,label:{en:'AST',hr:'AST'},
+  cadN:{en:'365 d — rises transiently after hard training, interpret with ALT/GGT',hr:'365 d — privremeno raste nakon jakog treninga, tumači se uz ALT/GGT'}},
+ {f:'ggt',cad:365,label:{en:'GGT',hr:'GGT'},
+  cadN:{en:'365 d — normalised with the weight loss',hr:'365 d — normalizirao se uz gubitak težine'}},
+ {f:'urate',cad:365,label:{en:'Uric acid (urate)',hr:'Mokraćna kiselina (urati)'},
+  cadN:{en:'365 d — normal since furosemide was stopped',hr:'365 d — uredno otkad je furosemid prekinut'}},
+ {f:'tsh',cad:365,label:{en:'TSH',hr:'TSH'},
+  cadN:{en:'365 d — stable and in range',hr:'365 d — stabilno i u rasponu'}},
+ {f:'crp',cad:365,label:{en:'CRP',hr:'CRP'},
+  cadN:{en:'365 d — only when there is a reason (infection, flare)',hr:'365 d — samo kad postoji razlog (infekcija, pogoršanje)'}},
+ {f:'ferritin',cad:365,label:{en:'Ferritin',hr:'Feritin'},
+  cadN:{en:'365 d — iron status matters for an endurance swimmer',hr:'365 d — status željeza je bitan za plivača na izdržljivost'}},
+ {f:'vitd',cad:365,label:{en:'Vitamin D (25-OH)',hr:'Vitamin D (25-OH)'},
+  cadN:{en:'365 d — on cholecalciferol 2000 IU',hr:'365 d — uz kolekalciferol 2000 IU'}},
+ {f:'testosterone',cad:365,label:{en:'Testosterone',hr:'Testosteron'},
+  cadN:{en:'365 d — only as part of a planned endocrine work-up (morning sample, with LH/FSH, SHBG, prolactin)',hr:'365 d — samo u sklopu planirane endokrinološke obrade (jutarnji uzorak, uz LH/FSH, SHBG, prolaktin)'}},
+ {f:'psa',cad:365,label:{en:'PSA',hr:'PSA'},
+  cadN:{en:'365 d — routine screening interval for age 47',hr:'365 d — rutinski interval probira za 47 godina'}},
+ {f:'waist',cad:30,label:{en:'Waist circumference',hr:'Opseg struka'},
+  cadN:{en:'30 d — the one number in this table you can measure at home with a tape',hr:'30 d — jedini broj u ovoj tablici koji možeš izmjeriti kod kuće metrom'}}
 ];
 
-const GROUPS=[
- {key:'bp', t:{en:'Blood pressure',hr:'Krvni tlak'}, d:{
-   en:"Heavy compounds braced with a Valsalva manoeuvre — your 200 kg hack squat — drive large transient BP spikes; a resting baseline before the next big session is worth having, and worth asking your doctor about.",
-   hr:"Teški compoundi uz Valsalva manevar — tvoj hack squat od 200 kg — izazivaju velike privremene skokove tlaka; vrijedi imati mirujuću osnovnu vrijednost prije sljedeće velike sesije i pitati liječnika o tome."}},
- {key:'glucose', t:{en:'Glucose & HbA1c',hr:'Glukoza i HbA1c'}, d:{
-   en:"22 kg down from a starting BMI of 43.6 should show up as a real metabolic improvement — but with no fasting glucose or HbA1c ever recorded, that improvement is currently invisible. Worth a baseline now.",
-   hr:"22 kg manje od početnog BMI 43,6 trebalo bi se odraziti kao stvarno metaboličko poboljšanje — ali bez ikad izmjerene glukoze natašte ili HbA1c, to poboljšanje je trenutno nevidljivo. Vrijedi napraviti osnovno mjerenje sada."}},
- {key:'lipids', t:{en:'Lipids',hr:'Lipidi'}, d:{
-   en:"~210 g/day of protein comes with real variation in saturated fat and cholesterol depending on source; a lipid panel would show whether that's moved LDL or triglycerides — worth raising with your doctor.",
-   hr:"~210 g/dan proteina nosi sa sobom stvarnu varijaciju u zasićenim mastima i kolesterolu ovisno o izvoru; lipidogram bi pokazao je li se to odrazilo na LDL ili trigliceride — vrijedi pokrenuti temu s liječnikom."}},
- {key:'kidney', t:{en:'Kidney function',hr:'Bubrežna funkcija'}, d:{
-   en:"Sustained high protein intake raises the filtration load on the kidneys; creatinine and eGFR are a simple way to confirm they're keeping up, especially alongside open-water swimming and heat exposure.",
-   hr:"Trajno visok unos proteina povećava opterećenje filtracije bubrega; kreatinin i eGFR jednostavan su način provjere da bubrezi to prate, pogotovo uz plivanje u otvorenim vodama i izloženost vrućini."}},
- {key:'liver', t:{en:'Liver enzymes',hr:'Jetreni enzimi'}, d:{
-   en:"Rapid fat loss and a high protein turnover both pass through the liver; ALT, AST and GGT are a simple check that neither is placing it under strain.",
-   hr:"Brz gubitak masnog tkiva i visok promet proteina prolaze kroz jetru; ALT, AST i GGT jednostavna su provjera da ni jedno ni drugo ne opterećuje jetru."}},
- {key:'other', t:{en:'Other: thyroid, iron, vitamin D, waist',hr:'Ostalo: štitnjača, željezo, vitamin D, struk'}, d:{
-   en:"TSH relates to metabolism and weight; ferritin matters for an endurance swimmer; vitamin D isn't guaranteed by outdoor swimming alone; and waist tracks visceral risk independently of a BMI that heavy strength training can skew upward.",
-   hr:"TSH je povezan s metabolizmom i težinom; feritin je bitan za plivača na izdržljivost; vitamin D nije zajamčen samim plivanjem na otvorenom; a opseg struka prati visceralni rizik neovisno o BMI-u koji teški trening snage može umjetno povisiti."}}
-];
-
-const ACTIONS=[
- {en:"Check blood pressure before the next 200 kg hack squat session.",
-  hr:"Provjeri krvni tlak prije sljedeće sesije hack squata sa 200 kg."},
- {en:"Get baseline bloods now that 22 kg is off — glucose/HbA1c, lipids, kidney and liver panels.",
-  hr:"Napravi osnovne pretrage krvi sada kad je 22 kg manje — glukoza/HbA1c, lipidi, bubrežni i jetreni panel."},
- {en:"Ask about a resting ECG given the open-water swimming plus one suspect 174 bpm reading; swim with a buddy and use a chest strap.",
-  hr:"Pitaj o EKG-u u mirovanju s obzirom na plivanje u otvorenim vodama i jedno sumnjivo očitanje od 174 otkucaja/min; plivaj s partnerom i koristi pojas za mjerenje pulsa."},
- {en:"Measure waist monthly; 90 kg (BMI 30.1) is the next waypoint.",
-  hr:"Mjeri opseg struka mjesečno; 90 kg (BMI 30,1) sljedeća je prekretnica."}
+const CHARTSPEC=[
+ {id:'chMetab',t:{en:'Metabolic',hr:'Metabolizam'},
+  sub:{en:'glucose, HbA1c, HOMA-IR (left) · insulin (right) · band = glucose reference',
+       hr:'glukoza, HbA1c, HOMA-IR (lijevo) · inzulin (desno) · pojas = referentni raspon glukoze'},
+  band:'glucose',
+  series:[{f:'glucose',c:'#4f8ef7'},{f:'hba1c',c:'#e0524c'},{f:'homa_ir',c:'#a78bfa'},{f:'insulin',c:'#f0b429',axis:'y1'}],
+  meds:[{n:'Siofor 1000',e:'start'},{n:'Synjardy 12.5/1000',e:'start'},{n:'Saxenda',e:'start'},{n:'Saxenda',e:'stop'},{n:'Mounjaro',e:'start'}]},
+ {id:'chLip',t:{en:'Lipids',hr:'Lipidi'},
+  sub:{en:'total cholesterol, LDL, HDL, triglycerides · band = LDL reference',
+       hr:'ukupni kolesterol, LDL, HDL, trigliceridi · pojas = referentni raspon LDL-a'},
+  band:'ldl',
+  series:[{f:'tc',c:'#4f8ef7'},{f:'ldl',c:'#e0524c'},{f:'hdl',c:'#34a853'},{f:'tg',c:'#f0b429'}],
+  meds:[{n:'Sortis',e:'start'},{n:'Co-Rowera 40/10',e:'start'}]},
+ {id:'chKid',t:{en:'Kidney & liver',hr:'Bubrezi i jetra'},
+  sub:{en:'creatinine, eGFR (left) · ALT, AST, GGT (right) · band = creatinine reference',
+       hr:'kreatinin, eGFR (lijevo) · ALT, AST, GGT (desno) · pojas = referentni raspon kreatinina'},
+  band:'creat',
+  series:[{f:'creat',c:'#4f8ef7'},{f:'egfr',c:'#14b8a6'},{f:'alt',c:'#e0524c',axis:'y1'},{f:'ast',c:'#f0b429',axis:'y1'},{f:'ggt',c:'#a78bfa',axis:'y1'}],
+  meds:[{n:'Synjardy 12.5/1000',e:'start'},{n:'Fursemid',e:'stop'}]},
+ {id:'chBlood',t:{en:'Blood counts',hr:'Krvna slika'},
+  sub:{en:'platelets, haemoglobin (left) · WBC (right) · band = platelet reference',
+       hr:'trombociti, hemoglobin (lijevo) · leukociti (desno) · pojas = referentni raspon trombocita'},
+  band:'plt',
+  series:[{f:'plt',c:'#4f8ef7'},{f:'hb',c:'#e0524c'},{f:'wbc',c:'#34a853',axis:'y1'}],
+  meds:[{n:'CellCept',e:'start'},{n:'Rituximab',e:'start'},{n:'CellCept',e:'stop'}]},
+ {id:'chBp',t:{en:'Blood pressure — home log',hr:'Krvni tlak — kućni dnevnik'},
+  sub:{en:'systolic, diastolic, pulse · band = <130 mmHg systolic (display only)',
+       hr:'sistolički, dijastolički, puls · pojas = <130 mmHg sistolički (samo prikaz)'},
+  band:'bp_sys',
+  series:[{f:'bp_sys',c:'#e0524c'},{f:'bp_dia',c:'#4f8ef7'},{f:'pulse',c:'#a78bfa'}],
+  meds:[{n:'Triplixam 10/2.5/10',e:'start'},{n:'Byol-cor',e:'stop'}]}
 ];
 
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function todayN(){ return Date.now(); }
 const DAY=86400000;
+function todayN(){ return Date.now(); }
+function daysSince(d){ const t=Date.parse(d); return isFinite(t)?Math.floor((todayN()-t)/DAY):null; }
+function num(v){ return (typeof v==='number'&&isFinite(v))?v:null; }
+function fmt(v){ if(v==null)return '—'; return (Math.round(v*100)/100).toString(); }
+function fmt1(v){ if(v==null)return '—'; return (Math.round(v*10)/10).toString(); }
 
-function latestFor(markers,field){
- let val=null,date=null;
- const sorted=markers.slice().filter(r=>r&&r.d).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
- for(let i=sorted.length-1;i>=0;i--){
-  const row=sorted[i];
-  if(row[field]!==undefined&&row[field]!==null&&row[field]!==''){ val=row[field]; date=row.d; break; }
+function markerRows(){ return ((DAT&&DAT.markers)||[]).filter(r=>r&&r.d).slice().sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0); }
+
+function latestFor(field){
+ const rows=markerRows();
+ for(let i=rows.length-1;i>=0;i--){
+  const v=num(rows[i][field]);
+  if(v!=null) return {val:v,date:rows[i].d,row:rows[i]};
  }
- return {val,date};
+ return {val:null,date:null,row:null};
+}
+function seriesFor(field){
+ return markerRows().filter(r=>num(r[field])!=null).map(r=>({x:Date.parse(r.d),y:num(r[field]),d:r.d}));
+}
+function refOf(f){ return (DAT&&DAT.ref&&DAT.ref[f])||{lo:null,hi:null}; }
+function unitOf(f){ return (DAT&&DAT.units&&DAT.units[f])||''; }
+function refText(f){
+ const r=refOf(f);
+ if(r.lo!=null&&r.hi!=null) return r.lo+'–'+r.hi+' '+unitOf(f);
+ const g=(r.note&&/display only/i.test(r.note))?(lang==='hr'?' (smjernica)':' (guideline)'):'';
+ if(r.hi!=null) return '< '+r.hi+' '+unitOf(f)+g;
+ if(r.lo!=null) return '> '+r.lo+' '+unitOf(f)+g;
+ return LBL.noRef;
+}
+function flagOf(f,v){
+ const r=refOf(f);
+ if(v==null) return null;
+ if(r.hi!=null&&v>r.hi) return 'high';
+ if(r.lo!=null&&v<r.lo) return 'low';
+ if(r.hi==null&&r.lo==null) return null;
+ return 'normal';
+}
+function medBy(name){ return ((DAT&&DAT.meds)||[]).find(m=>m.name===name)||null; }
+function currentMeds(){ return ((DAT&&DAT.meds)||[]).filter(m=>!m.stop); }
+function stoppedMeds(){ return ((DAT&&DAT.meds)||[]).filter(m=>!!m.stop); }
+function homeRows(){ return markerRows().filter(r=>r.source==='home'&&num(r.bp_sys)!=null); }
+function otherLast(key){
+ const o=DAT&&DAT.labsOther&&DAT.labsOther[key];
+ if(!o||!o.series||!o.series.length) return null;
+ const s=o.series[o.series.length-1];
+ return {d:s.d,v:s.v,label:o.label};
 }
 
+/* ---------- conditions & doctors ---------- */
+function renderConditions(){
+ const w=document.getElementById('condwrap'); w.innerHTML='';
+ ((DAT&&DAT.conditions)||[]).forEach(c=>{
+  const nm=(lang==='hr'&&c.nameHr)?c.nameHr:c.name;
+  const dt=(lang==='hr'&&c.detailHr)?c.detailHr:c.detail;
+  const d=document.createElement('div'); d.className='gcard';
+  let meta='';
+  if(c.since) meta+='<b>'+LBL.since+':</b> '+esc(c.since)+' · ';
+  if(c.status) meta+='<b>'+LBL.status+':</b> '+esc(c.status);
+  d.innerHTML='<div class="gt">'+esc(nm)+'</div>'+
+   '<div class="gd">'+esc(dt||'')+'</div>'+
+   '<div class="gm">'+meta+(c.doctor?('<br><b>'+LBL.treating+':</b> '+esc(c.doctor)):'')+'</div>';
+  w.appendChild(d);
+ });
+ const ww=document.getElementById('winswrap'); ww.innerHTML='';
+ const wins=(DAT&&DAT.wins&&DAT.wins[lang])||[];
+ wins.forEach(x=>{
+  const s=document.createElement('div'); s.className='win';
+  s.innerHTML='<b>'+esc(x.title)+'</b> — '+esc(x.detail);
+  ww.appendChild(s);
+ });
+ const dw=document.getElementById('docwrap');
+ const docs=((DAT&&DAT.doctors)||[]).map(x=>'<li>'+esc(x.name||LBL.unnamedDoc)+' — '+esc(x.specialty||'')+'</li>').join('');
+ dw.innerHTML='<div class="gt" style="font-size:12.5px;font-weight:600;margin-bottom:4px">'+LBL.docsH+'</div>'+
+  '<ul style="margin:0;padding-left:1.1rem;font-size:12.5px;line-height:1.6;color:var(--ts)">'+(docs||'<li>—</li>')+'</ul>';
+}
+
+/* ---------- markers ---------- */
 function renderMarkers(){
- const markers=(DAT&&DAT.markers)||[];
  const tb=document.getElementById('mtbody'); tb.innerHTML='';
  MARKERS.forEach(m=>{
-  const {val,date}=latestFor(markers,m.field);
+  const {val,date}=latestFor(m.f);
   const tr=document.createElement('tr');
+  const cad='<span class="cad">'+LBL.cadence+': '+esc(m.cadN[lang])+'</span>';
   if(val==null){
    tr.className='nodata';
-   tr.innerHTML=`<td>${m.label[lang]}</td><td class="valcol">${LBL.notMeasured}</td><td>—</td><td>—</td><td class="wrap">${m.ref}</td>`;
+   tr.innerHTML='<td class="wrap">'+esc(m.label[lang])+cad+'</td>'+
+    '<td class="valcol">'+LBL.notMeasured+'</td><td>—</td><td>—</td>'+
+    '<td class="wrap">'+esc(refText(m.f))+'</td>';
   }else{
-   const days=Math.floor((todayN()-Date.parse(date))/DAY);
-   const overdue=days>180;
+   const days=daysSince(date);
+   const overdue=days!=null&&days>m.cad;
    if(overdue) tr.className='overdue';
-   const daysTxt=days+' '+LBL.daysUnit+(overdue?' ⚠ '+LBL.overdue:'');
-   tr.innerHTML=`<td>${m.label[lang]}</td><td class="valcol">${esc(val)} ${m.unit}</td><td>${date}</td><td>${daysTxt}</td><td class="wrap">${m.ref}</td>`;
+   const fl=flagOf(m.f,val);
+   const flChip=fl?' <span class="chip '+fl+'">'+LBL[fl]+'</span>':'';
+   const odChip=overdue?' <span class="chip od">⚠ '+LBL.overdue+'</span>':'';
+   tr.innerHTML='<td class="wrap">'+esc(m.label[lang])+cad+'</td>'+
+    '<td class="valcol">'+fmt(val)+' '+esc(unitOf(m.f))+flChip+'</td>'+
+    '<td class="datecol">'+esc(date)+'</td>'+
+    '<td class="datecol">'+(days==null?'—':days+' '+LBL.daysUnit)+odChip+'</td>'+
+    '<td class="wrap">'+esc(refText(m.f))+'</td>';
   }
   tb.appendChild(tr);
  });
 }
 
-function renderGroups(){
- const g=document.getElementById('groups'); g.innerHTML='';
- GROUPS.forEach(x=>{
-  const d=document.createElement('div'); d.className='gcard';
-  d.innerHTML=`<div class="gt">${x.t[lang]}</div><div class="gd">${x.d[lang]}</div>`;
-  g.appendChild(d);
+/* ---------- charts ---------- */
+const bandPlugin={
+ id:'refBand',
+ beforeDatasetsDraw(chart,args,opts){
+  if(!opts||!opts.active) return;
+  const {ctx,chartArea:a,scales}=chart; const sc=scales[opts.axis||'y']; if(!sc||!a) return;
+  let lo=opts.lo,hi=opts.hi;
+  const yTop=sc.getPixelForValue(hi!=null?hi:sc.max);
+  const yBot=sc.getPixelForValue(lo!=null?lo:sc.min);
+  ctx.save(); ctx.fillStyle=opts.color; ctx.fillRect(a.left,Math.min(yTop,yBot),a.right-a.left,Math.abs(yBot-yTop)); ctx.restore();
+ }
+};
+const vlinePlugin={
+ id:'medLines',
+ afterDatasetsDraw(chart,args,opts){
+  if(!opts||!opts.lines||!opts.lines.length) return;
+  const {ctx,chartArea:a,scales}=chart; const sc=scales.x; if(!sc||!a) return;
+  ctx.save();
+  opts.lines.forEach(l=>{
+   const x=sc.getPixelForValue(l.x);
+   if(x<a.left-1||x>a.right+1) return;
+   ctx.beginPath(); ctx.setLineDash([4,3]); ctx.lineWidth=1; ctx.strokeStyle=opts.color;
+   ctx.moveTo(x,a.top); ctx.lineTo(x,a.bottom); ctx.stroke();
+   ctx.setLineDash([]); ctx.font='9px -apple-system,Segoe UI,sans-serif'; ctx.fillStyle=opts.color;
+   ctx.save(); ctx.translate(x+3,a.top+3); ctx.rotate(Math.PI/2); ctx.fillText(l.label,0,0); ctx.restore();
+  });
+  ctx.restore();
+ }
+};
+if(window.Chart){ Chart.register(bandPlugin,vlinePlugin); }
+
+function medLinesFor(spec){
+ const out=[];
+ (spec.meds||[]).forEach(mm=>{
+  const m=medBy(mm.n); if(!m) return;
+  const d=mm.e==='stop'?m.stop:m.d; if(!d) return;
+  const x=Date.parse(d); if(!isFinite(x)) return;
+  out.push({x:x,label:(mm.e==='stop'?'⏹ ':'▶ ')+m.name});
  });
- const ol=document.getElementById('actions'); ol.innerHTML='';
- ACTIONS.forEach(a=>{ const li=document.createElement('li'); li.textContent=a[lang]; ol.appendChild(li); });
+ return out;
 }
 
+function buildCharts(){
+ const wrap=document.getElementById('charts');
+ if(!window.Chart){ wrap.innerHTML='<div class="chcard"><div class="chs">Chart library unavailable — tables above still show every value.</div></div>'; return; }
+ Object.keys(CHARTS).forEach(k=>{ try{CHARTS[k].destroy();}catch(e){} delete CHARTS[k]; });
+ wrap.innerHTML='';
+ const D=theme==='dark';
+ const grid=D?'rgba(255,255,255,0.12)':'rgba(0,0,0,0.10)';
+ const tick=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';
+ const bandCol=D?'rgba(110,231,168,0.10)':'rgba(28,107,69,0.08)';
+ const lineCol=D?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.40)';
+ CHARTSPEC.forEach(spec=>{
+  const ds=[];
+  spec.series.forEach(s=>{
+   const pts=seriesFor(s.f); if(!pts.length) return;
+   const mk=MARKERS.find(x=>x.f===s.f);
+   ds.push({label:(mk?mk.label[lang]:s.f)+(unitOf(s.f)?' ('+unitOf(s.f)+')':''),
+     data:pts,borderColor:s.c,backgroundColor:s.c,borderWidth:1.6,pointRadius:1.8,pointHoverRadius:4,
+     tension:0.25,spanGaps:true,yAxisID:s.axis||'y'});
+  });
+  const card=document.createElement('div'); card.className='chcard';
+  card.innerHTML='<div class="cht">'+esc(spec.t[lang])+'</div><div class="chs">'+esc(spec.sub[lang])+'</div>'+
+   '<div class="chbox"><canvas id="'+spec.id+'"></canvas></div>';
+  wrap.appendChild(card);
+  if(!ds.length){ card.querySelector('.chbox').innerHTML='<div class="emptystate">'+LBL.none+'</div>'; return; }
+  const r=refOf(spec.band);
+  const hasY1=ds.some(x=>x.yAxisID==='y1');
+  const scales={
+   x:{type:'linear',grid:{color:grid},ticks:{color:tick,font:{size:9},maxTicksLimit:6,
+      callback:function(v){ const dt=new Date(v); return isFinite(dt.getTime())?dt.toISOString().slice(0,7):''; }}},
+   y:{position:'left',grid:{color:grid},ticks:{color:tick,font:{size:9}}}
+  };
+  if(hasY1) scales.y1={position:'right',grid:{drawOnChartArea:false},ticks:{color:tick,font:{size:9}}};
+  CHARTS[spec.id]=new Chart(document.getElementById(spec.id),{
+   type:'line',
+   data:{datasets:ds},
+   options:{responsive:true,maintainAspectRatio:false,animation:false,
+    interaction:{mode:'nearest',intersect:false},
+    plugins:{
+     legend:{labels:{color:tick,boxWidth:10,boxHeight:10,font:{size:10}}},
+     tooltip:{callbacks:{title:function(items){ const dt=new Date(items[0].parsed.x); return isFinite(dt.getTime())?dt.toISOString().slice(0,10):''; }}},
+     refBand:{active:(r.lo!=null||r.hi!=null),lo:r.lo,hi:r.hi,axis:'y',color:bandCol},
+     medLines:{lines:medLinesFor(spec),color:lineCol}
+    },
+    scales:scales}
+  });
+ });
+}
+
+/* ---------- blood pressure ---------- */
+function bpStats(){
+ const rows=homeRows();
+ if(!rows.length) return null;
+ const s=rows.map(r=>r.bp_sys),d=rows.map(r=>num(r.bp_dia)).filter(v=>v!=null),p=rows.map(r=>num(r.pulse)).filter(v=>v!=null);
+ const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+ const last=rows[rows.length-1];
+ return {n:rows.length,last:last,sysMean:avg(s),diaMean:avg(d),pulseMean:avg(p),
+  sysMin:Math.min.apply(null,s),sysMax:Math.max.apply(null,s),
+  diaMin:d.length?Math.min.apply(null,d):null,diaMax:d.length?Math.max.apply(null,d):null};
+}
+function bpClass(sys,dia){
+ if(sys==null||dia==null) return null;
+ if(sys>=140||dia>=90) return {k:'high',en:'stage 2 range (ACC/AHA ≥140/90)',hr:'raspon 2. stupnja (ACC/AHA ≥140/90)'};
+ if(sys>=130||dia>=80) return {k:'high',en:'stage 1 range (ACC/AHA ≥130/80)',hr:'raspon 1. stupnja (ACC/AHA ≥130/80)'};
+ if(sys>=120) return {k:'od',en:'elevated (ACC/AHA 120–129)',hr:'povišen (ACC/AHA 120–129)'};
+ return {k:'normal',en:'optimal (ACC/AHA <120/80 · ESC <130/85)',hr:'optimalno (ACC/AHA <120/80 · ESC <130/85)'};
+}
+function renderBp(){
+ const g=document.getElementById('bpgrid'),b=document.getElementById('bpbands');
+ const st=bpStats();
+ if(!st){ g.innerHTML='<div class="emptystate">'+LBL.none+'</div>'; b.innerHTML=''; return; }
+ const cl=bpClass(st.last.bp_sys,st.last.bp_dia);
+ const tile=(l,v,u)=>'<div class="bpstat"><div class="bl">'+l+'</div><div class="bv">'+v+' <span class="bu">'+u+'</span></div></div>';
+ g.innerHTML=
+  tile(LBL.bpLatest+' · '+esc(st.last.d),st.last.bp_sys+'/'+st.last.bp_dia,'mmHg')+
+  tile(LBL.bpPulse,(num(st.last.pulse)!=null?st.last.pulse:'—'),'bpm')+
+  tile(LBL.bpMean+' ('+st.n+' '+LBL.bpN+')',fmt1(st.sysMean)+'/'+fmt1(st.diaMean),'mmHg')+
+  tile(LBL.bpMin+' · '+LBL.bpMax,st.sysMin+'/'+(st.diaMin==null?'—':st.diaMin)+' · '+st.sysMax+'/'+(st.diaMax==null?'—':st.diaMax),'mmHg');
+ const onTx=currentMeds().filter(m=>/Triplixam|Physiotens/i.test(m.name||'')).map(m=>m.name).join(', ');
+ b.innerHTML=
+  (cl?('<b>'+(lang==='hr'?'Razred zadnjeg mjerenja':'Latest reading band')+':</b> <span class="chip '+cl.k+'">'+esc(cl[lang])+'</span><br>'):'')+
+  (lang==='hr'
+    ? 'Prikaz razreda je informativan: ACC/AHA <120/80 optimalno, 120–129 povišeno, ≥130/80 1. stupanj; ESC <130/85 optimalno. Ovo su vrijednosti <b>na terapiji</b>'+(onTx?(' ('+esc(onTx)+')'):'')+' — dakle „kontrolirano uz terapiju“, ne „normalan tlak bez lijekova“. Liječnički pregled ovog dashboarda (ne tvoj nalaz) traži: izmjeri tlak prije teškog dizanja — tvoj nalaz upozorava da čučnjevi i trap-bar dizanja mogu podići sistolički iznad 200.'
+    : 'Band display is informational: ACC/AHA <120/80 optimal, 120–129 elevated, ≥130/80 stage 1; ESC <130/85 optimal. These readings are <b>on therapy</b>'+(onTx?(' ('+esc(onTx)+')'):'')+' — so “controlled on treatment”, not “normal blood pressure without drugs”. The physician\'s review (this dashboard, not your file) asks: measure before a heavy lift — your file warns squats and trap-bar deadlifts can push systolic above 200.');
+}
+
+/* ---------- medications ---------- */
+function kindTxt(k){ return k==='medication'?LBL.medication:k==='supplement'?LBL.supplement:k==='nsaid'?LBL.nsaid:(k||'—'); }
 function renderMeds(){
- const meds=(DAT&&DAT.meds)||[];
+ const cur=currentMeds().slice().sort((a,b)=>(a.d||'')<(b.d||'')?1:-1);
+ const hist=stoppedMeds().slice().sort((a,b)=>(a.stop||'')<(b.stop||'')?1:-1);
+ document.getElementById('medcount').textContent=cur.length+' '+LBL.medCur+' · '+hist.length+' '+LBL.medStopped;
  const tb=document.getElementById('medtbody'); tb.innerHTML='';
- if(!meds.length){
-  tb.innerHTML=`<tr><td colspan="5" class="emptystate">${LBL.none}</td></tr>`;
-  return;
- }
- meds.slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0).forEach(m=>{
+ if(!cur.length){ tb.innerHTML='<tr><td colspan="5" class="emptystate">'+LBL.none+'</td></tr>'; }
+ cur.forEach(m=>{
   const tr=document.createElement('tr');
-  const isNsaid=m.kind==='nsaid';
-  if(isNsaid) tr.className='nsaid';
-  const kindTxt=m.kind==='medication'?LBL.medication:m.kind==='supplement'?LBL.supplement:m.kind==='nsaid'?LBL.nsaid:(m.kind||'—');
-  tr.innerHTML=`<td>${esc(m.d)||'—'}</td><td>${esc(m.name)||'—'}</td><td>${esc(m.dose)||'—'}</td><td>${kindTxt}${isNsaid?' ⚠':''}</td><td class="wrap">${esc(m.note)}</td>`;
+  if(m.kind==='nsaid') tr.className='nsaid';
+  tr.innerHTML='<td>'+esc(m.d||'—')+'</td>'+
+   '<td class="wrap">'+esc(m.name||'—')+(m.generic?'<span class="cad">'+esc(m.generic)+'</span>':'')+'</td>'+
+   '<td class="wrap">'+esc(m.dose||'—')+'</td>'+
+   '<td>'+kindTxt(m.kind)+(m.kind==='nsaid'?' ⚠':'')+' <span class="chip cur">'+LBL.medCur+'</span></td>'+
+   '<td class="wrap">'+esc(m.purpose||m.note||'—')+'</td>';
   tb.appendChild(tr);
  });
+ const hb=document.getElementById('hmedtbody'); hb.innerHTML='';
+ if(!hist.length){ hb.innerHTML='<tr><td colspan="5" class="emptystate">'+LBL.none+'</td></tr>'; }
+ hist.forEach(m=>{
+  const tr=document.createElement('tr');
+  if(m.kind==='nsaid') tr.className='nsaid';
+  tr.innerHTML='<td>'+esc(m.d||'—')+'</td><td>'+esc(m.stop||'—')+'</td>'+
+   '<td class="wrap">'+esc(m.name||'—')+(m.generic?'<span class="cad">'+esc(m.generic)+'</span>':'')+'</td>'+
+   '<td>'+kindTxt(m.kind)+(m.kind==='nsaid'?' ⚠':'')+'</td>'+
+   '<td class="wrap">'+esc(m.purpose||m.note||'—')+'</td>';
+  hb.appendChild(tr);
+ });
+ const btn=document.getElementById('histbtn');
+ btn.textContent=(histOpen?LBL.histHide:LBL.histShow)+' ('+hist.length+')';
+ btn.setAttribute('aria-expanded',histOpen?'true':'false');
+ document.getElementById('histwrap').hidden=!histOpen;
 }
+function toggleHist(){ histOpen=!histOpen; renderMeds(); }
 
+/* ---------- symptoms ---------- */
 function renderSymptoms(){
  const syms=(DAT&&DAT.symptoms)||[];
  const tb=document.getElementById('symtbody'); tb.innerHTML='';
- if(!syms.length){
-  tb.innerHTML=`<tr><td colspan="3" class="emptystate">${LBL.none}</td></tr>`;
-  return;
- }
- syms.slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0).forEach(s=>{
+ if(!syms.length){ tb.innerHTML='<tr><td colspan="3" class="emptystate">'+LBL.none+'</td></tr>'; return; }
+ syms.slice().sort((a,b)=>a.d<b.d?1:-1).forEach(s=>{
   const tr=document.createElement('tr');
   const typeTxt=LBL[s.type]!==undefined?LBL[s.type]:esc(s.type||'—');
-  tr.innerHTML=`<td>${esc(s.d)||'—'}</td><td>${typeTxt}</td><td class="wrap">${esc(s.note)}</td>`;
+  tr.innerHTML='<td>'+esc(s.d||'—')+'</td><td>'+typeTxt+'</td><td class="wrap">'+esc(s.note)+'</td>';
   tb.appendChild(tr);
  });
 }
 
-function renderAll(){ renderMarkers(); renderGroups(); renderMeds(); renderSymptoms(); }
+/* ---------- action plan ---------- */
+function renderActions(){
+ const ol=document.getElementById('actions'); ol.innerHTML='';
+ ((DAT&&DAT.actionPlan)||[]).slice().sort((a,b)=>(a.priority||99)-(b.priority||99)).forEach(a=>{
+  const li=document.createElement('li');
+  const txt=(lang==='hr'&&a.textHr)?a.textHr:a.text;
+  const why=(lang==='hr'&&a.whyHr)?a.whyHr:a.why;
+  const sev=a.priorityLabel==='high'?'high':a.priorityLabel==='low'?'normal':'od';
+  li.innerHTML='<b>'+esc(a.category||'')+'</b> <span class="chip '+sev+'">'+esc(a.priorityLabel||'')+'</span><br>'+esc(txt||'')+
+   (why?'<span class="why">'+esc(why)+'</span>':'');
+  ol.appendChild(li);
+ });
+}
+
+/* ---------- expert boxes (rule-based) ---------- */
+function flagText(f,which){ return (lang==='hr'&&f[which+'Hr'])?f[which+'Hr']:f[which]; }
+function findFlags(re){ return ((DAT&&DAT.safetyFlags)||[]).filter(f=>re.test(String(f.rec||'')+' '+String(f.issue||''))); }
+function findRedFlags(re){ return ((DAT&&DAT.redFlags)||[]).filter(f=>re.test(String(f.text||''))); }
+function findPlan(re){ return ((DAT&&DAT.actionPlan)||[]).filter(a=>re.test(String(a.category||'')+' '+String(a.text||''))); }
+
+function box(id,items){
+ const el=document.getElementById(id); if(!el) return;
+ const li=items.filter(Boolean).map(it=>{
+  const cls=it.sev==='danger'?' class="flagD"':it.sev==='caution'?' class="flagC"':'';
+  return '<li'+cls+'>'+it.html+'</li>';
+ }).join('');
+ el.innerHTML='<div class="eh">'+LBL.expH+'</div><ul>'+(li||'<li>—</li>')+'</ul><p class="ef">'+LBL.expFoot+'</p>';
+}
+function tx(en,hr){ return esc(lang==='hr'?hr:en); }
+
+function expertConditions(){
+ const it=[];
+ const n=((DAT&&DAT.conditions)||[]).length;
+ it.push({html:tx(
+  n+' active or documented problems are on file. The two that drive most decisions here are the 2017 STEMI (secondary prevention) and ITP in remission after rituximab (2022) — both need a named doctor to own the follow-up.',
+  n+' aktivnih ili dokumentiranih problema je u zapisu. Dvije stavke koje vode većinu odluka su STEMI iz 2017. (sekundarna prevencija) i ITP u remisiji nakon rituksimaba (2022.) — obje trebaju imenovanog liječnika koji vodi praćenje.')});
+ const igg=otherLast('igg');
+ if(igg){
+  const dd=daysSince(igg.d);
+  it.push({sev:'caution',html:tx(
+   'Immunoglobulins (IgG) were last measured on '+igg.d+' — '+dd+' days ago, value '+fmt(igg.v)+' g/L. That is the one open hematology item; a recheck belongs on the next hematology visit.',
+   'Imunoglobulini (IgG) zadnji put su mjereni '+igg.d+' — prije '+dd+' dana, vrijednost '+fmt(igg.v)+' g/L. To je jedina otvorena hematološka stavka; ponovnu provjeru stavi na sljedeći hematološki pregled.')});
+ }
+ const asa=medBy('Andol 100'), bb=medBy('Byol-cor');
+ if(asa&&asa.stop&&bb&&bb.stop){
+  it.push({sev:'danger',html:tx(
+   'Aspirin (stopped '+asa.stop+') and the beta-blocker (stopped '+bb.stop+') are both off — two standard post-STEMI drugs. Whether that was a deliberate cardiology decision should be confirmed and written down.',
+   'Aspirin (prekinut '+asa.stop+') i beta-blokator (prekinut '+bb.stop+') su oba prekinuta — dva standardna lijeka nakon STEMI-ja. Treba potvrditi i zapisati je li to bila namjerna odluka kardiologa.')});
+ }
+ findPlan(/Cardiology/i).slice(0,1).forEach(a=>{
+  it.push({sev:a.priorityLabel==='high'?'danger':'caution',
+   html:'<b>'+tx('Action plan','Plan')+' #'+a.priority+':</b> '+esc((lang==='hr'&&a.textHr)?a.textHr:a.text)});
+ });
+ box('expCond',it);
+}
+
+function expertMarkers(){
+ const it=[];
+ const od=MARKERS.map(m=>{
+  const {val,date}=latestFor(m.f);
+  if(val==null||!date) return null;
+  const dd=daysSince(date);
+  return (dd!=null&&dd>m.cad)?{m:m,dd:dd,date:date}:null;
+ }).filter(Boolean);
+ const a1c=latestFor('hba1c');
+ if(a1c.val!=null){
+  const dd=daysSince(a1c.date);
+  it.push({sev:dd>90?'caution':null,html:tx(
+   'HbA1c '+fmt(a1c.val)+' % on '+a1c.date+' — '+dd+' days ago against the 90-day cadence used here (tirzepatide + metformin, endocrinology follow-up at 3 months). '+(dd>90?'It is due.':'Still inside the interval.'),
+   'HbA1c '+fmt(a1c.val)+' % na dan '+a1c.date+' — prije '+dd+' dana, uz razmak od 90 dana koji se ovdje koristi (tirzepatid + metformin, endokrinološka kontrola za 3 mjeseca). '+(dd>90?'Kontrola je dospjela.':'Još je unutar intervala.'))});
+ }
+ const ldl=latestFor('ldl');
+ if(ldl.val!=null){
+  const dd=daysSince(ldl.date);
+  const atTarget=ldl.val<=1.4;
+  it.push({sev:atTarget?null:'caution',html:tx(
+   'LDL '+fmt(ldl.val)+' mmol/L on '+ldl.date+' ('+dd+' d) on rosuvastatin 40 + ezetimibe. '+(atTarget?'That is at or below the post-MI target of <1.4 recorded in your file — the job now is holding it.':'That is above the post-MI target of <1.4 recorded in your file — worth raising at the next cardiology visit.'),
+   'LDL '+fmt(ldl.val)+' mmol/L na dan '+ldl.date+' ('+dd+' d) uz rozuvastatin 40 + ezetimib. '+(atTarget?'To je na ili ispod cilja <1,4 nakon infarkta zabilježenog u tvom nalazu — sada ga treba samo zadržati.':'To je iznad cilja <1,4 nakon infarkta zabilježenog u tvom nalazu — vrijedi pokrenuti na sljedećem kardiološkom pregledu.'))});
+ }
+ const plt=latestFor('plt');
+ if(plt.val!=null){
+  const dd=daysSince(plt.date);
+  const r=refOf('plt');
+  it.push({sev:dd>180?'caution':null,html:tx(
+   'Platelets '+fmt(plt.val)+' ×10⁹/L on '+plt.date+' ('+dd+' d), inside the '+r.lo+'–'+r.hi+' reference range. Cadence used: 90–180 days for ITP in remission post-rituximab. '+(dd>180?'A CBC is now due.':'No repeat needed yet.'),
+   'Trombociti '+fmt(plt.val)+' ×10⁹/L na dan '+plt.date+' ('+dd+' d), unutar referentnog raspona '+r.lo+'–'+r.hi+'. Korišteni razmak: 90–180 dana za ITP u remisiji nakon rituksimaba. '+(dd>180?'KKS je dospjela.':'Ponavljanje još nije potrebno.'))});
+ }
+ const ins=latestFor('insulin');
+ if(ins.val!=null){
+  it.push({sev:'caution',html:tx(
+   'Fasting insulin and HOMA-IR are the stalest numbers in the table (last '+ins.date+'). Ask for both to be added to the next metabolic panel — the file already lists that as an action.',
+   'Inzulin natašte i HOMA-IR najstariji su brojevi u tablici (zadnje '+ins.date+'). Zamoli da se oboje doda na sljedeći metabolički panel — nalaz to već navodi kao zadatak.')});
+ }
+ const waist=latestFor('waist');
+ if(waist.val==null){
+  it.push({html:tx(
+   'Waist circumference has never been recorded. It is the only marker here you can measure yourself, and it tracks visceral risk independently of a BMI that heavy strength training skews upward.',
+   'Opseg struka nikad nije zabilježen. To je jedini pokazatelj ovdje koji možeš sam izmjeriti, a prati visceralni rizik neovisno o BMI-u koji teški trening snage umjetno povisuje.')});
+ }
+ if(od.length){
+  it.push({sev:'caution',html:tx(
+   'Past the cadence used here: '+od.map(o=>o.m.label.en+' ('+o.dd+' d)').join(', ')+'. One blood draw covers all of them.',
+   'Iznad korištenog razmaka kontrole: '+od.map(o=>o.m.label.hr+' ('+o.dd+' d)').join(', ')+'. Jedno vađenje krvi pokriva sve.')});
+ }
+ box('expMark',it);
+}
+
+function expertTrends(){
+ const it=[];
+ const pl=markerRows().filter(r=>num(r.plt)!=null);
+ if(pl.length>=2){
+  const last=pl[pl.length-1],prev=pl[pl.length-2];
+  const lo=Math.min.apply(null,pl.map(r=>r.plt));
+  it.push({html:tx(
+   'Platelet trend: '+fmt(prev.plt)+' ('+prev.d+') → '+fmt(last.plt)+' ('+last.d+'), against a recorded nadir of '+fmt(lo)+'. The rituximab line on the blood-count chart is where that turn begins.',
+   'Trend trombocita: '+fmt(prev.plt)+' ('+prev.d+') → '+fmt(last.plt)+' ('+last.d+'), uz zabilježeni minimum od '+fmt(lo)+'. Linija rituksimaba na grafu krvne slike označava gdje taj obrat počinje.')});
+ }
+ const a1c=markerRows().filter(r=>num(r.hba1c)!=null);
+ if(a1c.length>=2){
+  const hi=Math.max.apply(null,a1c.map(r=>r.hba1c)),last=a1c[a1c.length-1];
+  it.push({html:tx(
+   'HbA1c peaked at '+fmt(hi)+' % and now reads '+fmt(last.hba1c)+' % ('+last.d+'). The metabolic chart shows this against the metformin, GLP-1 and tirzepatide start lines.',
+   'HbA1c je vrhunac imao na '+fmt(hi)+' %, a sada je '+fmt(last.hba1c)+' % ('+last.d+'). Metabolički graf to prikazuje uz linije početka metformina, GLP-1 i tirzepatida.')});
+ }
+ const wj=(DAT&&DAT.weightJourney)||[];
+ if(wj.length>=2){
+  const kg=wj.map(x=>x.kg).filter(v=>num(v)!=null);
+  const peak=Math.max.apply(null,kg),last=wj[wj.length-1];
+  it.push({html:tx(
+   'Weight journey on file: peak '+fmt(peak)+' kg → '+fmt(last.kg)+' kg ('+last.d+'), '+wj.length+' recorded points. Read the lab trends against that line rather than in isolation.',
+   'Zabilježeni put težine: vrhunac '+fmt(peak)+' kg → '+fmt(last.kg)+' kg ('+last.d+'), '+wj.length+' zabilježenih točaka. Laboratorijske trendove čitaj uz tu liniju, a ne izolirano.')});
+ }
+ const ast=latestFor('ast');
+ if(ast.val!=null&&flagOf('ast',ast.val)==='high'){
+  it.push({sev:'caution',html:tx(
+   'AST '+fmt(ast.val)+' U/L ('+ast.date+') sits just above the laboratory range while ALT and GGT are inside it — a pattern that also follows hard training. Not interpreted here; mention the training load when it is reviewed.',
+   'AST '+fmt(ast.val)+' U/L ('+ast.date+') je tik iznad laboratorijskog raspona dok su ALT i GGT unutar njega — obrazac koji prati i jak trening. Ovdje se ne tumači; kod kontrole spomeni opterećenje treningom.')});
+ }
+ box('expTrend',it);
+}
+
+function expertBp(){
+ const it=[];
+ const st=bpStats();
+ if(st){
+  const over=st.sysMean>=130||st.diaMean>=80;
+  it.push({sev:over?'caution':null,html:tx(
+   'Home log mean '+fmt1(st.sysMean)+'/'+fmt1(st.diaMean)+' mmHg across '+st.n+' readings — '+(over?'at or above the 130/80 threshold used here.':'below the 130/80 threshold used here.')+' Latest '+st.last.bp_sys+'/'+st.last.bp_dia+' on '+st.last.d+'.',
+   'Prosjek kućnog dnevnika '+fmt1(st.sysMean)+'/'+fmt1(st.diaMean)+' mmHg kroz '+st.n+' mjerenja — '+(over?'na ili iznad praga 130/80 koji se ovdje koristi.':'ispod praga 130/80 koji se ovdje koristi.')+' Zadnje '+st.last.bp_sys+'/'+st.last.bp_dia+' na dan '+st.last.d+'.')});
+  it.push({html:tx(
+   'These are numbers on treatment ('+currentMeds().filter(m=>/Triplixam|Physiotens/i.test(m.name||'')).map(m=>m.name).join(' + ')+'). Read them as “controlled on therapy”; never take them as a reason to change or drop a dose on your own.',
+   'Ovo su vrijednosti na terapiji ('+currentMeds().filter(m=>/Triplixam|Physiotens/i.test(m.name||'')).map(m=>m.name).join(' + ')+'). Čitaj ih kao „kontrolirano uz terapiju“; nikad kao razlog da sam mijenjaš ili prekineš dozu.')});
+  if(st.sysMin<100||(st.diaMin!=null&&st.diaMin<60)){
+   it.push({sev:'caution',html:tx(
+    'The log also holds low readings (down to '+st.sysMin+'/'+(st.diaMin==null?'—':st.diaMin)+' mmHg). On two BP drugs plus an SGLT2 inhibitor, low readings with dizziness are worth reporting — especially before water.',
+    'Dnevnik sadrži i niske vrijednosti (do '+st.sysMin+'/'+(st.diaMin==null?'—':st.diaMin)+' mmHg). Uz dva lijeka za tlak i SGLT2 inhibitor, niske vrijednosti uz omaglicu treba prijaviti — osobito prije ulaska u vodu.')});
+  }
+ }
+ it.push({html:tx(
+  'Measure before a heavy lift (the Training tab shows 200 kg hack squats) and log the value here — the dashboard physician review names it the reading this record is missing most; your file warns systolic can exceed 200 under squats and trap-bar deadlifts.',
+  'Izmjeri tlak prije teškog dizanja (kartica Trening pokazuje hack čučanj 200 kg) i upiši vrijednost ovdje — liječnički pregled ovog dashboarda navodi ga kao mjerenje koje ovom zapisu najviše nedostaje; tvoj nalaz upozorava da sistolički pod čučnjevima i trap-barom može prijeći 200.')});
+ findRedFlags(/Fainting|Nesvjestica/i).forEach(f=>{
+  it.push({sev:'danger',html:'<b>'+tx('Red flag','Crvena zastavica')+':</b> '+esc(flagText(f,'text'))});
+ });
+ box('expBp',it);
+}
+
+function expertMeds(){
+ const it=[];
+ const cur=currentMeds(),hist=stoppedMeds();
+ it.push({html:tx(
+  cur.length+' medicines and supplements are current, '+hist.length+' are stopped and kept for history. Take this whole list — including start dates — to every appointment.',
+  cur.length+' lijekova i dodataka je u terapiji, '+hist.length+' je prekinuto i zadržano zbog povijesti. Cijeli ovaj popis — uključujući datume početka — nosi na svaki pregled.')});
+ const tz=medBy('Mounjaro');
+ if(tz&&!tz.stop){
+  it.push({sev:'caution',html:tx(
+   'Tirzepatide (started '+tz.d+') with fast weight loss: two topics for your doctor — gallstone risk during rapid loss (flagged by this dashboard nutrition review, not by your file), and lean-mass protection. The Intake tab runs 1.6–2.3 g protein/kg, which is at or above the 1.6 g/kg floor named in your file.',
+   'Tirzepatid (početak '+tz.d+') uz brz gubitak težine: dvije teme za liječnika — rizik žučnih kamenaca pri brzom mršavljenju (označio nutricionistički pregled ovog dashboarda, ne tvoj nalaz) i očuvanje mišićne mase. Kartica Unos drži 1,6–2,3 g proteina/kg, što je na ili iznad donje granice od 1,6 g/kg navedene u tvom nalazu.')});
+ }
+ const sg=medBy('Synjardy 12.5/1000');
+ if(sg&&!sg.stop){
+  it.push({sev:'danger',html:tx(
+   'Empagliflozin (SGLT2, in Synjardy since '+sg.d+') plus outdoor swimming in heat (the Training tab logs swims at ≥35 °C air temperature) plus tirzepatide-blunted thirst is the dehydration setup your file warns about. Agree a hydration plan — and any peri-exercise hold — with your doctor in advance; never decide it yourself on the day.',
+   'Empagliflozin (SGLT2, u Synjardyju od '+sg.d+') uz plivanje na otvorenom po vrućini (kartica Trening bilježi plivanja pri ≥35 °C temperature zraka) i smanjenu žeđ zbog tirzepatida upravo je scenarij dehidracije na koji tvoj nalaz upozorava. Plan hidratacije — i eventualni prekid oko treninga — dogovori s liječnikom unaprijed; nikad ne odlučuj sam na dan treninga.')});
+ }
+ const nsaids=cur.filter(m=>m.kind==='nsaid');
+ if(nsaids.length){
+  it.push({sev:'caution',html:tx(
+   'NSAIDs currently on the list ('+nsaids.map(m=>m.name).join(', ')+') sit badly with an SGLT2 inhibitor, an ACE inhibitor and heat — the classic triple-whammy for the kidneys. Raise it before the next hot session.',
+   'NSAID lijekovi trenutno na popisu ('+nsaids.map(m=>m.name).join(', ')+') loše se slažu sa SGLT2 inhibitorom, ACE inhibitorom i vrućinom — klasičan „triple whammy“ za bubrege. Pokreni to prije sljedećeg treninga po vrućini.')});
+ }else{
+  it.push({html:tx(
+   'No NSAID is currently on the list. If one is added, log it here — with an SGLT2 inhibitor, an ACE inhibitor and heat it is the combination worth flagging to your doctor.',
+   'Trenutno nema NSAID-a na popisu. Ako se doda, upiši ga ovdje — uz SGLT2 inhibitor, ACE inhibitor i vrućinu to je kombinacija koju vrijedi javiti liječniku.')});
+ }
+ findFlags(/testosterone|aspirin|beta-blocker|hydration|SGLT2/i).forEach(f=>{
+  it.push({sev:f.severity==='danger'?'danger':'caution',
+   html:'<b>'+esc(flagText(f,'rec'))+'</b><br>'+esc(flagText(f,'fix'))});
+ });
+ box('expMeds',it);
+}
+
+function expertSymptoms(){
+ const it=[];
+ it.push({html:tx(
+  'No symptoms recorded — this log is only useful if it is honest, so an empty log is a fine result. Log anything that made you stop mid-session, even if it passed.',
+  'Nema zabilježenih simptoma — ovaj dnevnik koristi samo ako je iskren, pa je prazan dnevnik dobar rezultat. Upiši sve što te natjeralo da prekineš trening, i ako je prošlo.')});
+ ((DAT&&DAT.redFlags)||[]).slice(0,4).forEach(f=>{
+  it.push({sev:'danger',html:esc(flagText(f,'text'))});
+ });
+ it.push({html:tx(
+  'These are emergency criteria, not a checklist to self-manage: they mean call for help, not log and continue.',
+  'Ovo su hitni kriteriji, a ne popis za samostalno rješavanje: znače pozovi pomoć, ne upiši i nastavi.')});
+ box('expSym',it);
+}
+
+function expertHow(){
+ const it=[];
+ const st=bpStats();
+ it.push({html:tx(
+  'The highest-value entries you can add yourself: a home BP reading before and after a heavy session, and a waist measurement once a month. Everything else needs a lab.',
+  'Unosi koje sam možeš dodati s najviše koristi: kućno mjerenje tlaka prije i nakon teške sesije te opseg struka jednom mjesečno. Sve ostalo traži laboratorij.')});
+ if(st){
+  it.push({html:tx(
+   'Home readings on file: '+st.n+', latest '+st.last.d+'. Keep the cadence — a home log is the one dataset here that no clinic visit can reconstruct afterwards.',
+   'Kućnih mjerenja u zapisu: '+st.n+', zadnje '+st.last.d+'. Zadrži ritam — kućni dnevnik je jedini skup podataka koji se poslije ne može rekonstruirati u ordinaciji.')});
+ }
+ it.push({html:tx(
+  'Print or open this page at your next appointment: conditions, current medicines with start dates, every marker with its date, and the action list are already in the order a doctor asks for them.',
+  'Otvori ili ispiši ovu stranicu na sljedećem pregledu: bolesti, aktualni lijekovi s datumima početka, svaki pokazatelj s datumom i popis zadataka već su poredani onako kako ih liječnik traži.')});
+ box('expHow',it);
+}
+
+function renderAll(){
+ renderConditions(); renderMarkers(); renderBp(); renderMeds(); renderSymptoms(); renderActions();
+ buildCharts();
+ expertConditions(); expertMarkers(); expertTrends(); expertBp(); expertMeds(); expertSymptoms(); expertHow();
+}
 
 function init(){
- renderAll();
- const f=document.getElementById('foot');
- if(f) f.textContent=LBL.foot+' '+((DAT&&DAT.meta&&DAT.meta.refreshedAt)?DAT.meta.refreshedAt.slice(0,10):'—');
+ try{ if(window.top===window) document.getElementById('backlink').hidden=false; }catch(e){ }
  applyTheme(theme);
- setLang('en');
+ setLang(lang);
  applyResponsive();
 }
 
@@ -331,13 +917,14 @@ function applyTheme(t){
  document.getElementById('hwrap').classList.toggle('dark',t==='dark');
  document.body.style.background=t==='dark'?'#262624':'#ffffff';
  markBtns();
+ if(DAT) buildCharts();
 }
 function setLang(l){
  lang=l; LBL=T[l];
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
  if(DAT) renderAll();
  const f=document.getElementById('foot');
- if(f&&DAT) f.textContent=LBL.foot+' '+((DAT.meta&&DAT.meta.refreshedAt)?DAT.meta.refreshedAt.slice(0,10):'—');
+ if(f) f.textContent=LBL.foot+' '+((DAT&&DAT.meta&&DAT.meta.refreshedAt)?String(DAT.meta.refreshedAt).slice(0,10):'—');
  markBtns();
 }
 function applyResponsive(){
@@ -365,7 +952,7 @@ fetch('clinical-data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
  .then(j=>{DAT=j;init();})
  .catch(err=>{
-  DAT={meta:{},markers:[],meds:[],symptoms:[]};
+  DAT={meta:{},conditions:[],doctors:[],meds:[],markers:[],symptoms:[],actionPlan:[],redFlags:[],safetyFlags:[],units:{},ref:{},labsOther:{},wins:{en:[],hr:[]}};
   init();
   const e=document.getElementById('foot'); if(e)e.textContent='Could not load clinical-data.json ('+err.message+').';
  });

@@ -41,6 +41,20 @@ body{padding:20px;transition:background .2s}
 .stalechip{font-size:12px;border-radius:999px;padding:5px 12px;font-weight:600;display:none}
 .wsub{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
 button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px solid #2caaf0;outline-offset:2px;border-radius:6px}
+/* expert recommendation boxes */
+.expert{--xc:#A32D2D;--xbg:rgba(163,45,45,0.07);border-left:3px solid var(--xc);background:var(--xbg);border-radius:0 8px 8px 0;padding:9px 12px;margin:0 0 1.25rem;font-size:13px;line-height:1.5;box-sizing:border-box;width:100%;max-width:100%;overflow-wrap:anywhere}
+.expert .xh{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--xc);margin:0 0 5px}
+.expert ul{margin:0;padding:0 0 0 17px}
+.expert li{margin:0 0 4px}
+.expert li:last-child{margin:0}
+.expert .xf{margin:6px 0 0;font-size:11px;color:var(--ts);font-style:italic}
+.expert[data-role=coach]{--xc:#D85A30;--xbg:rgba(216,90,48,0.08)}
+.expert[data-role=nutri]{--xc:#1D9E75;--xbg:rgba(29,158,117,0.08)}
+.expert[data-role=md]{--xc:#A32D2D;--xbg:rgba(163,45,45,0.07)}
+#wwrap.dark .expert[data-role=coach]{--xc:#EE8B58;--xbg:rgba(216,90,48,0.16)}
+#wwrap.dark .expert[data-role=nutri]{--xc:#5FD0AA;--xbg:rgba(29,158,117,0.16)}
+#wwrap.dark .expert[data-role=md]{--xc:#E24B4A;--xbg:rgba(226,75,74,0.15)}
+#wwrap.mobile .expert{font-size:12px;padding:8px 10px}
 #wwrap.mobile input[type=date]{min-height:40px;padding:8px;box-sizing:border-box}
 #wwrap.mobile .planner input[type=range]{height:40px;margin:0;box-sizing:border-box}
 </style>
@@ -71,6 +85,8 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
   <div class="pbar"><div class="pfill" id="p-fill" style="width:0%"></div><span class="prun" id="p-run" style="left:0%">🏃</span><span class="pgoal">🏆</span><span class="ppct" id="p-pct"></span></div>
 </div>
 
+<div class="expert" data-role="md" id="x-kpi"></div>
+
 <div data-i="gH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.5rem;">THE JOURNEY</div>
 <div class="wlab" style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;font-size:12px;">
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:3px solid #2caaf0;"></span><span data-i="gW">Weekly avg (kg)</span></span>
@@ -90,6 +106,8 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
 </div>
 <p class="wlab" data-i="gHint" style="font-size:11px;margin:0 0 0.6rem;">🖱️ scroll = zoom · drag = pan · double-click = reset</p>
 
+<div class="expert" data-role="md" id="x-journey"></div>
+
 <div data-i="rH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">RATE OF LOSS (kg/week)</div>
 <div id="rgwrap" style="position:relative;width:100%;height:120px;margin:0 0 4px;">
   <canvas id="rg" role="img" aria-label="Rate of weight loss between weigh-ins, kg per week, with 0.5 to 1.0 safety band"></canvas>
@@ -103,6 +121,8 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block;"></span><span data-i="rLregain">regain</span></span>
 </div>
 <p class="wlab" id="rFoot" style="font-size:11px;margin:0 0 1.25rem;"></p>
+
+<div class="expert" data-role="md" id="x-rate"></div>
 
 <div class="planner">
   <div class="wcard">
@@ -123,8 +143,12 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
   </div>
 </div>
 
+<div class="expert" data-role="md" id="x-plan"></div>
+
 <div data-i="mH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">MILESTONES</div>
 <div class="chips" id="mchips"></div>
+
+<div class="expert" data-role="md" id="x-miles"></div>
 
 <div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">WAIST (VISCERAL FAT CHECK)</div>
 <div class="wcard" id="card-waist" style="margin:0 0 1.25rem;">
@@ -136,8 +160,12 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
   </div>
 </div>
 
+<div class="expert" data-role="md" id="x-waist"></div>
+
 <div data-i="eH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">WHAT YOU'VE DROPPED SO FAR</div>
 <div class="equiv" id="equiv"></div>
+
+<div class="expert" data-role="md" id="x-equiv"></div>
 
 <p class="wlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · <span data-i="foot2">Weekly averages, updated manually — paste a new week or tell Claude.</span> · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
@@ -161,14 +189,76 @@ const T={
   rH:"RATE OF LOSS (kg/week)",wsH:"WAIST (visceral fat check)",
   rLtoofast:"too fast",rLfast:"fast",rLband:"in band",rLslow:"slow",rLflat:"flat",rLregain:"regain",
   plH:"🎯 TARGET PLANNER",plT:"Target weight",plR:"Weight loss per month",smH:"🔮 CRYSTAL BALL — weight on a date",
-  mH:"MILESTONES",eH:"WHAT YOU'VE DROPPED SO FAR",foot2:"Weekly averages, updated manually — paste a new week or tell Claude.",c3tip:"Click for another comparison"},
+  mH:"MILESTONES",eH:"WHAT YOU'VE DROPPED SO FAR",foot2:"Weekly averages, updated manually — paste a new week or tell Claude.",c3tip:"Click for another comparison",
+  xCoach:"Expert recommendation · Coach",xNutri:"Expert recommendation · Nutritionist",xMd:"Expert recommendation · Physician",
+  xDisc:"Not medical advice — discuss with your physician.",
+  xNoData:"Not enough data in this section yet — the recommendation appears as soon as the numbers are there.",
+  xKpiBmi:"{cw} kg, BMI {b} — {cls}. {tw} kg is a waypoint, not the finish: it is BMI {tb}. BMI under 30 needs under {w30} kg, under 25 needs under {w25} kg.",
+  xKpiBloods:"{k} kg gone since {d}. Book baseline bloods now — lipids, HbA1c, ALT/GGT, ferritin, vitamin D — while the loss is still running, not after it.",
+  xKpiBp:"Measure blood pressure before the next{w} hack squat and log it on the Health tab. A loaded brace is not the moment to discover a high reading.",
+  xLoadKg:" {v} kg",
+  xJourZone:"Current BMI zone {z}. The next band starts at {nw} kg — {gap} kg from today's {cw} kg.",
+  xJourZoneEnd:"BMI is already under 25 at {cw} kg — the job now is holding it, not losing more.",
+  xJourEta:"At the planner's {r} kg/month the line reaches {t} kg around {e}. That is a plan, not a promise: about {n} weigh-ins have to happen first.",
+  xJourRate:"Whole-journey rate {j} kg/week across {w} weeks — a sustainable long-run number. Judge progress on the last 4 weeks, not on this average.",
+  xRateFast:"Latest measured rate {r} kg/week is above 1.0. Slow it down — fast loss at {cw} kg raises gallstone risk and costs lean mass; add roughly {kc} kcal/day back until it settles between 0.5 and 1.0.",
+  xRateSlow:"Latest measured rate {r} kg/week is under 0.25. Before cutting food, fix the intake log — the Intake tab's reconciliation shows how much of the gap is unlogged eating.",
+  xRateLow:"Latest measured rate {r} kg/week is below the 0.5–1.0 target band but above the 0.25 review line. It is averaged over {n} days between weigh-ins, so it describes that whole span, not this week.",
+  xRateBand:"Latest measured rate {r} kg/week is inside the 0.5–1.0 band — the right speed with a{w} hack squat to protect. Change nothing.",
+  xRateGap:"The last two weigh-ins are {n} days apart ({a} → {b}). Weigh weekly, same morning, after the toilet and before breakfast — a {n}-day gap turns every rate on this chart into a long-run average.",
+  xRateEarly:"The first weigh-ins ran at {l} kg/week — that was glycogen and water, not fat. Do not use them as the benchmark for what a good week looks like now.",
+  xPlanFast:"The planner is set to {r} kg/month ({rw} kg/week) — above the 1.0 kg/week ceiling. That speed costs muscle and raises gallstone risk; pull the slider back to about {safe} kg/month.",
+  xPlanOk:"The planner is set to {r} kg/month ({rw} kg/week) — inside the safe range. Measured rate {m} kg/week: {cmp}",
+  xCmpFaster:"the plan is ahead of what the scale is actually doing, so expect the ETA to slip.",
+  xCmpSlower:"the scale is moving faster than the plan — nothing needs speeding up.",
+  xCmpMatch:"plan and scale agree.",
+  xPlanTarget:"Target {t} kg = BMI {tb} — still obesity {cls}. Treat it as a waypoint: BMI under 30 needs under {w30} kg, under 25 needs under {w25} kg.",
+  xPlanTargetOk:"Target {t} kg = BMI {tb}, inside the normal range. Keep it.",
+  xPlanSim:"The crystal ball only extrapolates the planner slider; it knows nothing about a holiday, an injury or a stalled month. Re-read it after every real weigh-in.",
+  xMilesNext:"Next milestone −{k} kg at {w} kg — {g} kg away. Milestones are motivation; the clinical wins (blood pressure, HbA1c, sleep apnoea, knee load) arrive well before the number does.",
+  xMilesBmi:"The milestone that matters medically is BMI under 30 at {w30} kg — {g} kg from today, and the point where obesity class I ends.",
+  xWaistNone:"No waist measurement logged. Measure at the navel, standing, at the end of a normal breath, the same morning each month — at {cw} kg waist tracks visceral fat far better than BMI. Men: under 102 cm first, under 94 cm second.",
+  xWaistData:"Waist {v} cm ({d} vs the previous measurement). Keep the monthly rhythm — under 102 cm is the first target, under 94 cm the second.",
+  xEquivKcal:"{k} kg is roughly {c} kcal of stored energy. Not all of it was fat — glycogen and water go first; protein at 1.6–2.2 g/kg plus the lifting is what keeps the rest muscle.",
+  xEquivNext:"{r} kg left to {t} kg. At the measured {rr} kg/week that is about {m} months — long enough that the bloods and the blood-pressure log belong in the calendar now, not at the finish."},
  hr:{title:"MISIJA KILAŽA — PATRIK U NESTAJANJU",c1:"Trenutna težina",c2:"Zadnje vaganje",c3:"Ukupno manje 🎉",c5:"Cilj",c6:"Izmjerena stopa",
   pT:"Put do cilja",gH:"PUTOVANJE",gW:"Tjedni prosjek (kg)",gP:"Projekcija",gT:"Cilj",gZ:"pojasevi = BMI zone",gM:"= prekretnice",rAll:"SVE",
   gHint:"🖱️ kotačić = zoom · povuci = pomak · dvoklik = reset",
   rH:"STOPA GUBITKA (kg/tjedan)",wsH:"STRUK (provjera visceralne masti)",
   rLtoofast:"prebrzo",rLfast:"brzo",rLband:"u pojasu",rLslow:"sporo",rLflat:"stagnacija",rLregain:"vraćanje",
   plH:"🎯 PLANER CILJA",plT:"Ciljna težina",plR:"Gubitak po mjesecu",smH:"🔮 KRISTALNA KUGLA — težina na datum",
-  mH:"PREKRETNICE",eH:"ŠTO SI SVE SKINUO",foot2:"Tjedni prosjeci, ručno ažurirano — zalijepi novi tjedan ili reci Claudeu.",c3tip:"Klikni za drugu usporedbu"}
+  mH:"PREKRETNICE",eH:"ŠTO SI SVE SKINUO",foot2:"Tjedni prosjeci, ručno ažurirano — zalijepi novi tjedan ili reci Claudeu.",c3tip:"Klikni za drugu usporedbu",
+  xCoach:"Preporuka stručnjaka · Trener",xNutri:"Preporuka stručnjaka · Nutricionist",xMd:"Preporuka stručnjaka · Liječnik",
+  xDisc:"Nije medicinski savjet — porazgovaraj sa svojim liječnikom.",
+  xNoData:"Za ovaj odjeljak još nema dovoljno podataka — preporuka se pojavljuje čim brojke stignu.",
+  xKpiBmi:"{cw} kg, BMI {b} — {cls}. {tw} kg je usputna postaja, a ne cilj: to je BMI {tb}. Za BMI ispod 30 treba ispod {w30} kg, za ispod 25 treba ispod {w25} kg.",
+  xKpiBloods:"{k} kg manje od {d} Naruči osnovne pretrage sada — lipidogram, HbA1c, ALT/GGT, feritin, vitamin D — dok gubitak još traje, a ne poslije.",
+  xKpiBp:"Izmjeri krvni tlak prije sljedećeg hack čučnja{w} i upiši ga na kartici Zdravlje. Trenutak pod šipkom nije vrijeme za otkrivanje povišenog tlaka.",
+  xLoadKg:" od {v} kg",
+  xJourZone:"Trenutna BMI zona {z}. Sljedeći pojas počinje na {nw} kg — {gap} kg od današnjih {cw} kg.",
+  xJourZoneEnd:"BMI je već ispod 25 pri {cw} kg — sada je posao zadržati, a ne skidati dalje.",
+  xJourEta:"Uz {r} kg/mjesec iz planera linija dolazi na {t} kg oko {e} To je plan, ne obećanje: prije toga mora se dogoditi otprilike {n} vaganja.",
+  xJourRate:"Stopa kroz cijelo putovanje {j} kg/tjedan kroz {w} tjedana — održiv dugoročni broj. Napredak se ocjenjuje po zadnja 4 tjedna, ne po ovom prosjeku.",
+  xRateFast:"Zadnja izmjerena stopa {r} kg/tjedan iznad je 1,0. Uspori — brz gubitak pri {cw} kg diže rizik od žučnih kamenaca i skida mišić; vrati oko {kc} kcal/dan dok se ne smiri između 0,5 i 1,0.",
+  xRateSlow:"Zadnja izmjerena stopa {r} kg/tjedan ispod je 0,25. Prije rezanja hrane popravi dnevnik unosa — usporedba s vagom na kartici Unos pokazuje koliki je dio razlike nezabilježeno jelo.",
+  xRateLow:"Zadnja izmjerena stopa {r} kg/tjedan ispod je ciljnog pojasa 0,5–1,0, ali iznad crte od 0,25. Prosječena je kroz {n} dana između vaganja, pa opisuje cijelo to razdoblje, a ne ovaj tjedan.",
+  xRateBand:"Zadnja izmjerena stopa {r} kg/tjedan je unutar pojasa 0,5–1,0 — pravi tempo uz hack čučanj{w} koji treba sačuvati. Ne mijenjaj ništa.",
+  xRateGap:"Zadnja dva vaganja razmaknuta su {n} dana ({a} → {b}). Vagaj se tjedno, isto jutro, nakon WC-a i prije doručka — razmak od {n} dana pretvara svaku stopu na ovom grafu u dugoročni prosjek.",
+  xRateEarly:"Prva vaganja išla su {l} kg/tjedan — to su bili glikogen i voda, ne mast. Ne uzimaj ih kao mjerilo dobrog tjedna danas.",
+  xPlanFast:"Planer je postavljen na {r} kg/mjesec ({rw} kg/tjedan) — iznad stropa od 1,0 kg/tjedan. Taj tempo košta mišić i diže rizik od žučnih kamenaca; vrati klizač na oko {safe} kg/mjesec.",
+  xPlanOk:"Planer je postavljen na {r} kg/mjesec ({rw} kg/tjedan) — unutar sigurnog raspona. Izmjerena stopa {m} kg/tjedan: {cmp}",
+  xCmpFaster:"plan je ispred onoga što vaga stvarno radi, pa očekuj da će procijenjeni datum kliznuti.",
+  xCmpSlower:"vaga se kreće brže od plana — ništa ne treba ubrzavati.",
+  xCmpMatch:"plan i vaga se slažu.",
+  xPlanTarget:"Cilj {t} kg = BMI {tb} — i dalje pretilost ({cls}). Shvati to kao usputnu postaju: za BMI ispod 30 treba ispod {w30} kg, za ispod 25 ispod {w25} kg.",
+  xPlanTargetOk:"Cilj {t} kg = BMI {tb}, unutar normale. Zadrži ga.",
+  xPlanSim:"Kristalna kugla samo produžuje klizač planera; ne zna za godišnji odmor, ozljedu ili mjesec zastoja. Pročitaj je ponovno nakon svakog stvarnog vaganja.",
+  xMilesNext:"Sljedeća prekretnica −{k} kg na {w} kg — još {g} kg. Prekretnice su motivacija; klinička dobit (tlak, HbA1c, apneja u snu, opterećenje koljena) dolazi puno prije brojke.",
+  xMilesBmi:"Medicinski važna prekretnica je BMI ispod 30 na {w30} kg — {g} kg od danas i točka na kojoj završava pretilost klase I.",
+  xWaistNone:"Opseg struka nije zabilježen. Mjeri oko pupka, stojeći, na kraju mirnog izdisaja, isto jutro svaki mjesec — pri {cw} kg struk prati visceralnu mast puno bolje od BMI-ja. Muškarci: prvo ispod 102 cm, zatim ispod 94 cm.",
+  xWaistData:"Struk {v} cm ({d} u odnosu na prethodno mjerenje). Zadrži mjesečni ritam — prvi cilj je ispod 102 cm, drugi ispod 94 cm.",
+  xEquivKcal:"{k} kg je otprilike {c} kcal pohranjene energije. Nije sve bila mast — glikogen i voda odlaze prvi; proteini 1,6–2,2 g/kg uz dizanje su ono što ostatak drži mišićem.",
+  xEquivNext:"Do {t} kg ostalo je {r} kg. Uz izmjerenih {rr} kg/tjedan to je oko {m} mjeseci — dovoljno dugo da pretrage i dnevnik tlaka idu u kalendar sada, a ne na kraju."}
 };
 let LBL=T.en;
 const ZONES=[
@@ -313,6 +403,7 @@ function init(){
  applyTheme(theme);
  setLang('en');
  applyResponsive();
+ loadSide();
 }
 function save(){try{localStorage.setItem('wt-planner',JSON.stringify({target:cfg.target,rate:cfg.rate}));}catch(e){}}
 
@@ -575,6 +666,112 @@ function recompute(){
   rf.textContent=!early.length?''
    :(lang==='hr'?`Prva vaganja (${lst} kg/tj) uglavnom su glikogen i voda, ne mast.`
                 :`The first weigh-ins (${lst} kg/wk) were mostly glycogen and water, not fat.`);}
+ renderExperts();
+}
+
+/* ================= expert recommendation boxes =================
+   Recomputed from the live weight-data.json on every render (planner moves,
+   language switch, refresh), so the advice can never go stale silently. */
+const xesc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const xt=(s,o)=>String(s==null?'':s).replace(/\{(\w+)\}/g,(m,k)=>(o&&o[k]!==undefined&&o[k]!==null)?String(o[k]):m);
+const xi=v=>(v==null||!isFinite(v))?'—':Math.round(v).toLocaleString(loc());
+/* read-only side load: the hack-squat top set comes from training-data.json, never from a
+   literal. If the file is missing, the bullets simply drop the "{v} kg" clause. */
+let TDAT=null;
+function xTopSet(){const g=(TDAT&&TDAT.num&&Array.isArray(TDAT.num.gym))?TDAT.num.gym.filter(r=>r&&r.lift==='hack'&&r.top&&typeof r.top.w==='number'&&isFinite(r.top.w)):[];return g.length?g[g.length-1].top.w:null;}
+function loadSide(){
+ fetch('training-data.json',{cache:'no-store'})
+  .then(r=>r.ok?r.json():null)
+  .then(j=>{TDAT=j;renderExperts();})
+  .catch(()=>{TDAT=null;});
+}
+function xBox(id,bullets){
+ const el=document.getElementById(id);if(!el)return;
+ const role=el.getAttribute('data-role')||'md';
+ const head={coach:LBL.xCoach,nutri:LBL.xNutri,md:LBL.xMd}[role]||LBL.xMd;
+ const list=(bullets||[]).filter(b=>b!=null&&b!=='');
+ if(!list.length)list.push(LBL.xNoData);
+ el.innerHTML='<div class="xh">'+xesc(head)+'</div><ul>'+list.map(b=>'<li>'+xesc(b)+'</li>').join('')+'</ul>'
+  +(role==='md'?'<div class="xf">'+xesc(LBL.xDisc)+'</div>':'');
+}
+function renderExperts(){
+ if(!DAT||!WEEKS.length||!LAST)return;
+ const t=LBL,cw=LAST.w,b=bmi(cw),lost=WEEKS[0].w-cw;
+ const cls=bmiClassLabel(b)[lang],w30=w4bmi(30),w25=w4bmi(25);
+ const p=projection();
+ const rp=sincePreviousRate(),rj=journeyRate();
+ const rw=cfg.rate/30.44*7;
+ const prev=WEEKS.length>1?WEEKS[WEEKS.length-2]:null;
+ const gapDays=prev?(LAST.day-prev.day):null;
+ const topSet=xTopSet();
+ const loadKg=topSet!=null?xt(t.xLoadKg,{v:xi(topSet)}):'';
+
+ /* --- KPI cards + journey bar --- */
+ xBox('x-kpi',[
+  xt(t.xKpiBmi,{cw:f1(cw),b:f1(b),cls:cls,tw:f1(cfg.target),tb:f1(bmi(cfg.target)),w30:f1(w30),w25:f1(w25)}),
+  xt(t.xKpiBloods,{k:f1(lost),d:fd(WEEKS[0].day)}),
+  xt(t.xKpiBp,{w:loadKg})
+ ]);
+
+ /* --- the journey chart --- */
+ const nextB=[40,35,30,25].find(x=>x<b);
+ xBox('x-journey',[
+  nextB?xt(t.xJourZone,{z:ZONES[zoneOf(cw)][lang],nw:f1(w4bmi(nextB)),gap:f1(cw-w4bmi(nextB)),cw:f1(cw)})
+       :xt(t.xJourZoneEnd,{cw:f1(cw)}),
+  cw>cfg.target?xt(t.xJourEta,{r:f1(cfg.rate),t:f1(cfg.target),e:fd(p.eta),n:Math.ceil((cw-cfg.target)/cfg.rate*4.35)}):null,
+  rj!=null?xt(t.xJourRate,{j:f1(rj),w:Math.round((LAST.day-WEEKS[0].day)/7)}):null
+ ]);
+
+ /* --- rate of loss --- */
+ let rateB=null;
+ if(rp!=null){
+  if(rp>1.0)rateB=xt(t.xRateFast,{r:f1(rp),cw:f1(cw),kc:xi((rp-1.0)*7700/7)});
+  else if(rp<0.25)rateB=xt(t.xRateSlow,{r:f1(rp)});
+  else if(rp<0.5)rateB=xt(t.xRateLow,{r:f1(rp),n:gapDays==null?'—':gapDays});
+  else rateB=xt(t.xRateBand,{r:f1(rp),w:loadKg});
+ }
+ const early=computeRates().slice(0,3).map(q=>q.lr).filter(v=>v!=null&&v>1.0);
+ xBox('x-rate',[
+  rateB,
+  (gapDays!=null&&gapDays>14)?xt(t.xRateGap,{n:gapDays,a:fdS(prev.day),b:fdS(LAST.day)}):null,
+  early.length?xt(t.xRateEarly,{l:early.map(f1).join(', ')}):null
+ ]);
+
+ /* --- planner + crystal ball --- */
+ let cmp=t.xCmpMatch;
+ if(rp!=null){if(rw>rp*1.15)cmp=t.xCmpFaster;else if(rw<rp*0.85)cmp=t.xCmpSlower;}
+ xBox('x-plan',[
+  rw>1.0?xt(t.xPlanFast,{r:f1(cfg.rate),rw:f1(rw),safe:f1(Math.min(4,30.44/7))})
+        :xt(t.xPlanOk,{r:f1(cfg.rate),rw:f1(rw),m:rp==null?'—':f1(rp),cmp:cmp}),
+  bmi(cfg.target)>=30
+   ?xt(t.xPlanTarget,{t:f1(cfg.target),tb:f1(bmi(cfg.target)),cls:bmiClassLabel(bmi(cfg.target))[lang],w30:f1(w30),w25:f1(w25)})
+   :xt(t.xPlanTargetOk,{t:f1(cfg.target),tb:f1(bmi(cfg.target))}),
+  t.xPlanSim
+ ]);
+
+ /* --- milestones --- */
+ const nk=Math.floor(lost/5)*5+5,nth=WEEKS[0].w-nk;
+ xBox('x-miles',[
+  xt(t.xMilesNext,{k:nk,w:f1(nth),g:f1(Math.max(0,cw-nth))}),
+  b>=30?xt(t.xMilesBmi,{w30:f1(w30),g:f1(cw-w30)}):null
+ ]);
+
+ /* --- waist --- */
+ const waist=(DAT&&DAT.waist)||[];
+ if(waist.length){
+  const lw=waist[waist.length-1],pw=waist.length>1?waist[waist.length-2]:null;
+  xBox('x-waist',[xt(t.xWaistData,{v:f1(lw.cm),d:pw?((lw.cm-pw.cm<0?'−':'+')+f1(Math.abs(lw.cm-pw.cm))+' cm'):'—'})]);
+ }else{
+  xBox('x-waist',[xt(t.xWaistNone,{cw:f1(cw)})]);
+ }
+
+ /* --- equivalents --- */
+ const toGo=Math.max(0,cw-cfg.target);
+ const useR=(rp!=null&&rp>0.05)?rp:rw;
+ xBox('x-equiv',[
+  xt(t.xEquivKcal,{k:f1(lost),c:xi(lost*7700)}),
+  toGo>0?xt(t.xEquivNext,{r:f1(toGo),t:f1(cfg.target),rr:f1(useR),m:f1(toGo/(useR*4.348))}):null
+ ]);
 }
 
 function applyTheme(t){theme=t;calc();document.getElementById('wwrap').classList.toggle('dark',t==='dark');document.body.style.background=BG;

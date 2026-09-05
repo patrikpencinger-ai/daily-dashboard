@@ -83,6 +83,11 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
 @media(max-width:560px){nav button{min-height:44px;padding:12px 4px}}
 .frame{display:none;width:100%;border:none;background:var(--panel);border-radius:12px;box-shadow:var(--shadow)}
 .frame.active{display:block}
+.health-lock{display:none;width:100%;min-height:220px;background:var(--panel);border-radius:12px;box-shadow:var(--shadow);flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:32px 20px}
+.health-lock.active{display:flex}
+.health-lock .lock-ic{font-size:34px;line-height:1}
+.health-lock h3{font-size:16px;font-weight:600;color:var(--ink);margin:0}
+.health-lock p{font-size:13px;color:var(--ink-soft);max-width:340px;margin:0}
 .tip{text-align:center;font-size:11px;color:var(--ink-faint);margin-top:14px;line-height:1.6}
 .tip code{color:var(--ink-soft)}
 </style>
@@ -105,7 +110,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
             <li><span class="dot train"></span><span><span class="nm">Training</span> — <code>training-data.json</code><br>Hevy + Intervals.icu</span></li>
             <li><span class="dot food"></span><span><span class="nm">Intake</span> — <code>data.json</code><br>manual food log</span></li>
             <li><span class="dot wt"></span><span><span class="nm">Weight</span> — <code>weight-data.json</code><br>weekly scale averages, manual</span></li>
-            <li><span class="dot health"></span><span><span class="nm">Health</span> — <code>clinical-data.json</code><br>manual clinical entries — never auto-refreshed</span></li>
+            <li><span class="dot health"></span><span><span class="nm">Health</span> — <code>clinical-data.json</code><br>manual clinical entries — never auto-refreshed (private, Cloudflare Access)</span></li>
           </ul>
           <div class="note">To fetch fresh numbers, ask Claude to <em>“refresh the dashboard”</em> — that rewrites these files, then this button re-pulls them.</div>
         </div>
@@ -134,7 +139,13 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
   <iframe class="frame"        data-tab="training" src="training.html" title="Training"          scrolling="no"></iframe>
   <iframe class="frame"        data-tab="intake"   src="intake.html"   title="Intake"            scrolling="no"></iframe>
   <iframe class="frame"        data-tab="weight"   src="weight.html"   title="Weight"            scrolling="no"></iframe>
-  <iframe class="frame"        data-tab="health"   src="health.html"   title="Health"            scrolling="no"></iframe>
+  <iframe class="frame" id="healthFrame" data-tab="health" title="Health" scrolling="no"></iframe>
+  <div class="health-lock" id="healthLock" data-tab="health">
+    <div class="lock-ic">🔒</div>
+    <h3 id="healthLockTitle">Health record is private</h3>
+    <p id="healthLockMsg">Sign in with your e-mail (one-time code) to open it.</p>
+    <button id="healthLockBtn" class="btn">Sign in</button>
+  </div>
 
   <div class="tip">Use 🌙 / ☀ to theme the shell. · Each tab has its own EN/HR, light/dark and font-size controls. · Hover <code>↻ Refresh</code> to see what each tab loads.</div>
 </div>
@@ -165,6 +176,40 @@ function themeAllFrames(){ document.querySelectorAll('.frame').forEach(themeFram
   };
 })();
 
+/* ---- Health lock (Cloudflare Access) — i18n + pane state ----------- */
+(function(){
+  const hr=(navigator.language||'').toLowerCase().startsWith('hr');
+  const t=hr?{
+    title:'Zdravstveni karton je privatan',
+    msg:'Prijavi se e-mailom (jednokratni kod) da ga otvoriš.',
+    btn:'Prijava',
+    chip:'🔒 prijava',
+    tip:'Zdravstveni karton štiti Cloudflare Access — prijavi se jednokratnim kodom poslanim na e-mail da ga otvoriš.'
+  }:{
+    title:'Health record is private',
+    msg:'Sign in with your e-mail (one-time code) to open it.',
+    btn:'Sign in',
+    chip:'🔒 sign in',
+    tip:'Health record is behind Cloudflare Access — sign in with a one-time e-mail code to view it.'
+  };
+  window.__healthI18n=t;
+  const setText=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  setText('healthLockTitle',t.title);
+  setText('healthLockMsg',t.msg);
+  setText('healthLockBtn',t.btn);
+  const btn=document.getElementById('healthLockBtn');
+  if(btn) btn.onclick=()=>{ window.top.location.href='health.html'; };
+})();
+let currentTab='sleep';
+let healthLocked=true;              // safe default until the probe resolves
+function refreshHealthPaneVisibility(){
+  const hl=document.getElementById('healthLock');
+  const hf=document.getElementById('healthFrame');
+  if(hf) hf.style.display=healthLocked?'none':'';
+  if(hl) hl.classList.toggle('active', healthLocked && currentTab==='health');
+}
+refreshHealthPaneVisibility();
+
 /* ---- Last-refresh status: read meta dates from the JSON files ------ */
 (function(){
   const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -180,17 +225,45 @@ function themeAllFrames(){ document.querySelectorAll('.frame').forEach(themeFram
     if(chip){ const exact=fmtExact(j.meta&&j.meta.refreshedAt)||fmtExact(lm);
       chip.title=exact?('Last refreshed: '+exact):('Snapshot date: '+(fmt(pick(j))||'—')+' (exact time unavailable)'); }
   }).catch(()=>{});
-  const pullHealth=()=>fetch('clinical-data.json',{cache:'no-store'}).then(r=>{
+  /* Probe clinical-data.json rather than loading health.html eagerly.
+     UNLOCKED only if the response is ok AND the body is JSON with a
+     `meta` key; opaqueredirect / 401 / 403 / an HTML (Access login) body
+     all fall into the catch -> LOCKED. Purely response-based: no
+     hostname checks, so a plain local dev server (no Access) is always
+     UNLOCKED. */
+  const pullHealth=()=>fetch('clinical-data.json',{cache:'no-store',credentials:'same-origin',redirect:'manual'}).then(r=>{
+    if(!r.ok) throw 0;
     const lm=r.headers.get('last-modified');
-    return r.json().then(j=>({j,lm}));
+    return r.json().then(j=>{
+      if(!j||typeof j!=='object'||!('meta' in j)) throw 0;
+      return {j,lm};
+    });
   }).then(({j,lm})=>{
-    const node=document.getElementById('ts-health'); if(!node) return;
-    const empty=(!j.markers||!j.markers.length)&&(!j.meds||!j.meds.length)&&(!j.symptoms||!j.symptoms.length);
-    node.textContent=empty?'no entries':fmt(j.meta&&j.meta.refreshedAt);
-    const chip=node.closest('.stat');
-    if(chip){ const exact=fmtExact(j.meta&&j.meta.refreshedAt)||fmtExact(lm);
-      chip.title=exact?('Last refreshed: '+exact):('no entries recorded yet'); }
-  }).catch(()=>{});
+    healthLocked=false;
+    const frame=document.getElementById('healthFrame');
+    if(frame && !frame.getAttribute('src')) frame.src='health.html';
+    const node=document.getElementById('ts-health');
+    if(node){
+      const empty=(!j.markers||!j.markers.length)&&(!j.meds||!j.meds.length)&&(!j.symptoms||!j.symptoms.length);
+      node.textContent=empty?'no entries':fmt(j.meta&&j.meta.refreshedAt);
+      const chip=node.closest('.stat');
+      if(chip){ const exact=fmtExact(j.meta&&j.meta.refreshedAt)||fmtExact(lm);
+        chip.title=exact?('Last refreshed: '+exact):('no entries recorded yet'); }
+    }
+    refreshHealthPaneVisibility();
+  }).catch(()=>{
+    healthLocked=true;
+    const frame=document.getElementById('healthFrame');
+    if(frame) frame.removeAttribute('src');
+    const node=document.getElementById('ts-health');
+    if(node){
+      const t=window.__healthI18n||{chip:'🔒 sign in',tip:'Sign in with Cloudflare Access to view health data.'};
+      node.textContent=t.chip;
+      const chip=node.closest('.stat');
+      if(chip) chip.title=t.tip;
+    }
+    refreshHealthPaneVisibility();
+  });
   window.loadStatus=()=>{
     pull('sleep-data.json',    j=>j.meta&&j.meta.snapshot,    'ts-sleep');
     pull('training-data.json', j=>j.meta&&j.meta.snapshot,    'ts-train');
@@ -245,6 +318,7 @@ document.querySelectorAll('.frame').forEach(wire);
 document.querySelectorAll('nav button').forEach(btn=>{
   btn.onclick=()=>{
     const tab=btn.dataset.tab;
+    currentTab=tab;
     document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b===btn));
     document.querySelectorAll('.frame').forEach(f=>{
       const on=f.dataset.tab===tab;
@@ -255,6 +329,7 @@ document.querySelectorAll('nav button').forEach(btn=>{
         [150,900].forEach(ms=>setTimeout(()=>fit(f),ms));
       }
     });
+    refreshHealthPaneVisibility();
   };
 });
 window.addEventListener('resize',()=>document.querySelectorAll('.frame').forEach(fit));

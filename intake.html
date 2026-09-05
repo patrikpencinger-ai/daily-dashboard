@@ -46,6 +46,20 @@ button{min-height:40px;min-width:40px}
 #daysum tbody tr,#weeksum tbody tr{min-height:40px}
 #wrap.mobile #daysum tbody td,#wrap.mobile #weeksum tbody td{padding-top:10px;padding-bottom:10px}
 a:focus-visible,button:focus-visible,tr:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:8px}
+/* expert recommendation boxes */
+.expert{--xc:#1D9E75;--xbg:rgba(29,158,117,0.08);border-left:3px solid var(--xc);background:var(--xbg);border-radius:0 8px 8px 0;padding:9px 12px;margin:0 0 1.5rem;font-size:13px;line-height:1.5;box-sizing:border-box;width:100%;max-width:100%;overflow-wrap:anywhere}
+.expert .xh{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--xc);margin:0 0 5px}
+.expert ul{margin:0;padding:0 0 0 17px}
+.expert li{margin:0 0 4px}
+.expert li:last-child{margin:0}
+.expert .xf{margin:6px 0 0;font-size:11px;color:var(--ts);font-style:italic}
+.expert[data-role=coach]{--xc:#D85A30;--xbg:rgba(216,90,48,0.08)}
+.expert[data-role=nutri]{--xc:#1D9E75;--xbg:rgba(29,158,117,0.08)}
+.expert[data-role=md]{--xc:#A32D2D;--xbg:rgba(163,45,45,0.07)}
+#wrap.dark .expert[data-role=coach]{--xc:#EE8B58;--xbg:rgba(216,90,48,0.16)}
+#wrap.dark .expert[data-role=nutri]{--xc:#5FD0AA;--xbg:rgba(29,158,117,0.16)}
+#wrap.dark .expert[data-role=md]{--xc:#E24B4A;--xbg:rgba(226,75,74,0.15)}
+#wrap.mobile .expert{font-size:12px;padding:8px 10px}
 </style>
 </head>
 <body>
@@ -125,7 +139,48 @@ const T={
    fibre:"fibre ≈ {n} g (estimate)",
    /* sodium */
    naHead:"Salt watch",naCount:"{n} flagged item(s) today",naNote:"Keyword match on item names — a heuristic, not a measurement; no sodium is logged. On a steady deficit, 1–2 kg of week-to-week scale movement is usually sodium and glycogen water, not fat.",
-   naAria:"salty item (heuristic)"},
+   naAria:"salty item (heuristic)",
+   /* expert recommendation boxes */
+   xCoach:"Expert recommendation · Coach",xNutri:"Expert recommendation · Nutritionist",xMd:"Expert recommendation · Physician",
+   xDisc:"Not medical advice — discuss with your physician.",
+   xNoData:"Not enough data in this section yet — the recommendation appears as soon as the numbers are there.",
+   xProLo:"Protein {p} g = {g} g/kg — below the 1.6 g/kg floor for a lifter in a deficit. One extra portion (150 g skyr ≈ 17 g, 30 g whey ≈ 24 g) puts the day back over the {n} g floor.",
+   xProHi:"Protein {p} g = {g} g/kg — above the 2.2 g/kg band. Not harmful, but it buys nothing more: do not add another shake, spend the room on fat or carbs.",
+   xProOk:"Protein {p} g = {g} g/kg — inside the 1.6–2.2 g/kg band. Hold it.",
+   xFatLo:"Fat {f} g is {d} g under the 60 g floor. Add it to a main meal — 25 g of olive oil or half an avocado; the gallbladder needs ≥10 g of fat per meal to empty properly.",
+   xFatOk:"Fat {f} g clears the 60 g floor. The target is a floor, not a ceiling — no reason to cut it back.",
+   xCarbLo:"Carbs {c} g against {ct} g on a {dt} — {p}% of plan. Move the missing {d} g onto the training days; rest days are where carbs come out, not training days.",
+   xCarbHi:"Carbs {c} g against {ct} g on a {dt} — {p}% of plan, over target. Fine on a training day, worth trimming on a rest day.",
+   xCarbOk:"Carbs {c} g against {ct} g on a {dt} — {p}% of plan. Nothing to change.",
+   xFillWorst:"The bar furthest from target is {n} at {p}%. Fix that one before touching anything else.",
+   xFillAll:"Every bar is within 10% of target — the day is built correctly; repeat it.",
+   xVegNone:"Vegetable portions are not logged for {d}. Log them — the target is 5 portions a day, and fibre plus micronutrients are what a long deficit strips first.",
+   xVegLow:"{v} of 5 vegetable portions. Add {d} more — a bowl of salad and a portion of legumes closes it.",
+   xVegOk:"{v} of 5 vegetable portions — target met.",
+   xBelowBmr:"Intake {i} kcal is below the {b} kcal BMR. Raise it to at least {b} kcal — a deficit dug under BMR comes out of muscle and hormones, not only fat.",
+   xBigDef:"Deficit {v} kcal ({p}% of a {t} kcal TDEE) — over the 1,200 kcal line. Cap it at 1,000 kcal/day: put about {a} kcal of carbs back around the session.",
+   xDefOk:"Deficit {v} kcal ({p}% of a {t} kcal TDEE) — inside the 20–25% band. No change.",
+   xDefBand:"Deficit {v} kcal ({p}% of a {t} kcal TDEE) — outside the 20–25% band. Steer it back by moving food, not by adding training.",
+   xSurplus:"Net surplus {v} kcal on a {dt}. One surplus day inside a weekly deficit is not a problem; two in a row is.",
+   xUnderFuel:"Intake is {p}% of the day's {t} kcal TDEE on a {dt}. Put the missing {g} g of carbs in the two hours before the session rather than after it.",
+   xLogN:"{n} item(s) logged on {d}, {k} kcal in total. Un-weighed items are the usual source of the gap between this table and the scale — weigh the oil and the bread first.",
+   xSaltN:"{n} of {m} items matched the salt heuristic today. Sodium is never actually measured here — on a steady deficit, 1–2 kg of week-to-week scale movement is salt and glycogen water, not fat.",
+   xSaltHi:"{n} flagged items in one day is a lot of cured and processed food. Keep it to one a day and drink to thirst; next week's scale will read cleaner.",
+   xDayMeanOver:"Mean deficit {v} kcal/day across {n} logged days — {p}% of the mean {t} kcal TDEE. That is over the 1,000 kcal/day cap: put the difference back on the training days.",
+   xDayMeanBand:"Mean deficit {v} kcal/day across {n} logged days — {p}% of the mean {t} kcal TDEE, outside the 20–25% band. Move the intake, not the training.",
+   xDayMeanOk:"Mean deficit {v} kcal/day across {n} logged days — {p}% of the mean {t} kcal TDEE, inside the 20–25% band.",
+   xDayBmr:"Intake fell below the {b} kcal BMR on {n} of {m} logged days. Raise those days to at least {b} kcal before cutting anything else.",
+   xDayBmrOk:"No logged day fell below the {b} kcal BMR — the floor is holding.",
+   xCovLow:"{n}/7 days logged for {w}. Log every day: with {m} day(s) missing, the weekly deficit, the implied TDEE and every macro total below are extrapolations, not measurements.",
+   xCovOk:"{n}/7 days logged for {w} — enough coverage to trust the weekly numbers.",
+   xWeekDef:"Week deficit {v} kcal, {a} kcal/day. On paper that is {kg} kg of fat for the week — check it against the scale in the reconciliation panel before believing it.",
+   xWmProt:"Weekly protein {a} g against a full-week target of {b} g ({d} g). Protein is the one macro to hit even on the days you do not log.",
+   xWmWorst:"Furthest from the full-week target: {n}, {a} vs {b} ({d}). Fix that macro on the {m} unlogged day(s).",
+   xWmNoTgt:"The full-week target is not computable until the unlogged day types are known — read the pro-rated line instead.",
+   xReconGap:"The log predicts {x}, the scale measured {y} over {n} days — a gap of about {z} kcal/day. With {l} of {n} days logged, that gap is unlogged intake, not a slow metabolism.",
+   xReconClean:"The log predicts {x}, the scale measured {y} over {n} days — a gap of about {z} kcal/day.",
+   xReconWeigh:"{n} days between the last two weigh-ins. Weigh weekly, same morning, after the toilet and before breakfast — otherwise this panel can only compare two-month averages.",
+   xReconLog:"Log every day for two full weeks before changing calories. Until then the honest reading is that real intake runs about {z} kcal/day above what the log says."},
  hr:{title:"PATRIKOV UNOS",macros:"MAKROI VS CILJ",fill:"ISPUNJENOST",energy:"ENERGETSKA BILANCA",foodlog:"DNEVNIK PREHRANE",insights:"UVIDI",
    cal:"Kalorije",prot:"Proteini",carb:"UH",fat:"Masti",total:"Ukupno",deficit:"deficit",surplus:"višak",over:"iznad",under:"ispod",target:"cilj",
    burn:"Potrošnja (TDEE)",intake:"Unos",item:"Stavka",foot:"Unos uživo · ciljevi makroa po planu",
@@ -155,7 +210,48 @@ const T={
    veg:"Povrće / voće / mahunarke",vegUnit:" porcija",vegNone:"porcije povrća nisu zabilježene — bez procjene",
    fibre:"vlakna ≈ {n} g (procjena)",
    naHead:"Pazi na sol",naCount:"{n} označenih stavki danas",naNote:"Podudaranje ključnih riječi u nazivima — heuristika, ne mjerenje; natrij se ne bilježi. Uz stabilan deficit, 1–2 kg tjednih oscilacija na vagi obično su natrij i glikogen (voda), a ne mast.",
-   naAria:"slana stavka (heuristika)"}
+   naAria:"slana stavka (heuristika)",
+   /* preporuke stručnjaka */
+   xCoach:"Preporuka stručnjaka · Trener",xNutri:"Preporuka stručnjaka · Nutricionist",xMd:"Preporuka stručnjaka · Liječnik",
+   xDisc:"Nije medicinski savjet — porazgovaraj sa svojim liječnikom.",
+   xNoData:"Za ovaj odjeljak još nema dovoljno podataka — preporuka se pojavljuje čim brojke stignu.",
+   xProLo:"Proteini {p} g = {g} g/kg — ispod granice od 1,6 g/kg za dizača u deficitu. Jedna dodatna porcija (150 g skyra ≈ 17 g, 30 g whey ≈ 24 g) vraća dan iznad granice od {n} g.",
+   xProHi:"Proteini {p} g = {g} g/kg — iznad pojasa 2,2 g/kg. Nije štetno, ali ništa više ne donosi: ne dodaj još jedan shake, taj prostor daj mastima ili ugljikohidratima.",
+   xProOk:"Proteini {p} g = {g} g/kg — unutar pojasa 1,6–2,2 g/kg. Zadrži.",
+   xFatLo:"Masti {f} g su {d} g ispod praga od 60 g. Dodaj ih glavnom obroku — 25 g maslinovog ulja ili pola avokada; žučnom mjehuru treba ≥10 g masti po obroku da se isprazni.",
+   xFatOk:"Masti {f} g prelaze prag od 60 g. Cilj je donja granica, a ne strop — nema razloga za smanjenje.",
+   xCarbLo:"UH {c} g prema {ct} g na dan tipa „{dt}” — {p}% plana. Prebaci {d} g koji nedostaju na dane treninga; ugljikohidrati se skidaju s dana odmora, ne s dana treninga.",
+   xCarbHi:"UH {c} g prema {ct} g na dan tipa „{dt}” — {p}% plana, iznad cilja. U redu na dan treninga, vrijedi smanjiti na dan odmora.",
+   xCarbOk:"UH {c} g prema {ct} g na dan tipa „{dt}” — {p}% plana. Nema što mijenjati.",
+   xFillWorst:"Najdalje od cilja je {n} s {p}%. Popravi prvo to, prije svega ostalog.",
+   xFillAll:"Sve trake su unutar 10% od cilja — dan je dobro složen; ponovi ga.",
+   xVegNone:"Porcije povrća nisu zabilježene za {d}. Zabilježi ih — cilj je 5 porcija dnevno, a vlakna i mikronutrijenti prvi stradaju u dugom deficitu.",
+   xVegLow:"{v} od 5 porcija povrća. Dodaj još {d} — zdjela salate i porcija mahunarki to zatvaraju.",
+   xVegOk:"{v} od 5 porcija povrća — cilj ispunjen.",
+   xBelowBmr:"Unos {i} kcal ispod je BMR-a od {b} kcal. Podigni ga na barem {b} kcal — deficit iskopan ispod BMR-a plaća se mišićem i hormonima, ne samo mašću.",
+   xBigDef:"Deficit {v} kcal ({p}% od TDEE {t} kcal) — iznad granice od 1.200 kcal. Ograniči ga na 1.000 kcal/dan: vrati oko {a} kcal ugljikohidrata oko treninga.",
+   xDefOk:"Deficit {v} kcal ({p}% od TDEE {t} kcal) — unutar pojasa 20–25%. Bez promjene.",
+   xDefBand:"Deficit {v} kcal ({p}% od TDEE {t} kcal) — izvan pojasa 20–25%. Vrati ga hranom, ne dodatnim treningom.",
+   xSurplus:"Neto višak {v} kcal na dan tipa „{dt}”. Jedan dan viška unutar tjednog deficita nije problem; dva zaredom jesu.",
+   xUnderFuel:"Unos je {p}% dnevnog TDEE od {t} kcal na dan tipa „{dt}”. Stavi {g} g ugljikohidrata koji nedostaju u dva sata prije treninga, a ne poslije.",
+   xLogN:"Zabilježenih stavki {d}: {n}, ukupno {k} kcal. Neizvagane stavke uobičajen su izvor razlike između ove tablice i vage — prvo izvagaj ulje i kruh.",
+   xSaltN:"{n} od {m} stavki danas je pogodila heuristika soli. Natrij se ovdje nigdje stvarno ne mjeri — uz stabilan deficit, 1–2 kg tjednih oscilacija na vagi su sol i glikogenska voda, ne mast.",
+   xSaltHi:"{n} označenih stavki u jednom danu puno je suhomesnatog i prerađenog. Drži se jedne dnevno i pij po žeđi; vaga će sljedeći tjedan biti čitljivija.",
+   xDayMeanOver:"Prosječni deficit {v} kcal/dan kroz {n} zabilježenih dana — {p}% prosječnog TDEE od {t} kcal. To je iznad granice od 1.000 kcal/dan: vrati razliku na dane treninga.",
+   xDayMeanBand:"Prosječni deficit {v} kcal/dan kroz {n} zabilježenih dana — {p}% prosječnog TDEE od {t} kcal, izvan pojasa 20–25%. Pomakni unos, ne trening.",
+   xDayMeanOk:"Prosječni deficit {v} kcal/dan kroz {n} zabilježenih dana — {p}% prosječnog TDEE od {t} kcal, unutar pojasa 20–25%.",
+   xDayBmr:"Unos je pao ispod BMR-a od {b} kcal na {n} od {m} zabilježenih dana. Podigni te dane na barem {b} kcal prije bilo kakvog daljnjeg rezanja.",
+   xDayBmrOk:"Nijedan zabilježeni dan nije pao ispod BMR-a od {b} kcal — granica drži.",
+   xCovLow:"{n}/7 dana zabilježeno za {w}. Bilježi svaki dan: uz {m} dan(a) koji nedostaje, tjedni deficit, implicirani TDEE i svi makro zbrojevi ispod su ekstrapolacije, a ne mjerenja.",
+   xCovOk:"{n}/7 dana zabilježeno za {w} — dovoljna pokrivenost da se tjednim brojkama vjeruje.",
+   xWeekDef:"Tjedni deficit {v} kcal, {a} kcal/dan. Na papiru je to {kg} kg masti u tjednu — provjeri to prema vagi u panelu usporedbe prije nego povjeruješ.",
+   xWmProt:"Tjedni proteini {a} g prema cilju cijelog tjedna od {b} g ({d} g). Proteini su jedini makro koji treba pogoditi i na danima koje ne bilježiš.",
+   xWmWorst:"Najdalje od cilja cijelog tjedna: {n}, {a} prema {b} ({d}). Popravi taj makro na {m} nezabilježenih dana.",
+   xWmNoTgt:"Cilj cijelog tjedna nije izračunljiv dok se ne zna tip nezabilježenih dana — čitaj svedenu vrijednost umjesto njega.",
+   xReconGap:"Dnevnik predviđa {x}, vaga je izmjerila {y} kroz {n} dana — razlika je oko {z} kcal/dan. Uz {l} od {n} zabilježenih dana, ta razlika je nezabilježeni unos, a ne spor metabolizam.",
+   xReconClean:"Dnevnik predviđa {x}, vaga je izmjerila {y} kroz {n} dana — razlika je oko {z} kcal/dan.",
+   xReconWeigh:"{n} dana između zadnja dva vaganja. Vagaj se tjedno, isto jutro, nakon WC-a i prije doručka — inače ovaj panel može uspoređivati samo dvomjesečne prosjeke.",
+   xReconLog:"Bilježi svaki dan dva puna tjedna prije nego mijenjaš kalorije. Do tada je pošteno čitanje da je stvarni unos oko {z} kcal/dan iznad onoga što dnevnik kaže."}
 };
 let LBL=T.en;
 const fill=(s,o)=>{let r=String(s);Object.keys(o).forEach(k=>{r=r.split('{'+k+'}').join(o[k]);});return r;};
@@ -174,6 +270,20 @@ const macroBar=(lbl,val,max,unit)=>{const p=rawPct(val,max);const over=val>max,u
   return `<div class="brow"><div class="bl"><span>${lbl}</span><b style="color:${col}">${val}${unit} / ${max}${unit} · ${p}%${tag}</b></div>
    <div class="track"><div class="fill" style="width:${w}%;background:${fillc}"></div></div></div>`;};
 const chip=(txt,col)=>`<span class="chip" style="color:${col||'var(--amber)'}">${txt}</span>`;
+
+/* ---- expert recommendation boxes ----
+   Rule-based and rebuilt from the live data on every render, so the advice
+   follows a refresh instead of going stale. */
+const xesc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const xi=v=>(v==null||!isFinite(v))?'—':Math.round(v).toLocaleString();
+function xHtml(role,bullets){
+ const head={coach:LBL.xCoach,nutri:LBL.xNutri,md:LBL.xMd}[role]||LBL.xNutri;
+ const list=(bullets||[]).filter(b=>b!=null&&b!=='');
+ if(!list.length)list.push(LBL.xNoData);
+ return `<div class="expert" data-role="${role}"><div class="xh">${xesc(head)}</div><ul>`
+  +list.map(b=>'<li>'+xesc(b)+'</li>').join('')+'</ul>'
+  +(role==='md'?`<div class="xf">${xesc(LBL.xDisc)}</div>`:'')+'</div>';
+}
 
 /* ---- safety helpers ---- */
 function defBand(deficit,tdee){const p=tdee?(deficit/tdee*100):0;return{p:Math.round(p),inBand:p>=20&&p<=25};}
@@ -249,6 +359,40 @@ function render(){
   +(bmr&&tot.kcal<bmr?('Unos je ispod BMR-a ('+bmr.toLocaleString()+' kcal). '):'')
   +(saltCount?(saltCount+' stavki označeno heuristikom soli.'):'');
 
+ /* ---- expert boxes for this day (nutritionist) ---- */
+ const pFloor=wKg?Math.ceil(1.6*wKg):null;
+ const xProt=pPerKg===null?null
+  :(pPerKg<1.6?fill(LBL.xProLo,{p:tot.p,g:f2(pPerKg),n:pFloor})
+   :(pPerKg>2.2?fill(LBL.xProHi,{p:tot.p,g:f2(pPerKg)})
+    :fill(LBL.xProOk,{p:tot.p,g:f2(pPerKg)})));
+ const xFat=tot.f<60?fill(LBL.xFatLo,{f:tot.f,d:Math.max(0,60-tot.f)}):fill(LBL.xFatOk,{f:tot.f});
+ const cP=rawPct(tot.c,tgt.c);
+ const xCarb=cP<90?fill(LBL.xCarbLo,{c:tot.c,ct:tgt.c,dt:k.dayType,p:cP,d:Math.max(0,tgt.c-tot.c)})
+  :(tot.c>tgt.c?fill(LBL.xCarbHi,{c:tot.c,ct:tgt.c,dt:k.dayType,p:cP})
+   :fill(LBL.xCarbOk,{c:tot.c,ct:tgt.c,dt:k.dayType,p:cP}));
+ const xMacrosBox=xHtml('nutri',[xProt,xFat,xCarb]);
+ const barsP=[{n:LBL.cal,p:rawPct(tot.kcal,tgt.kcal)},{n:LBL.prot,p:rawPct(tot.p,tgt.p)},{n:LBL.carb,p:cP},{n:LBL.fat,p:rawPct(tot.f,tgt.f)}];
+ let worstBar=barsP[0];barsP.forEach(x=>{if(Math.abs(100-x.p)>Math.abs(100-worstBar.p))worstBar=x;});
+ const xVeg=vegN===null?fill(LBL.xVegNone,{d:k.date})
+  :(vegN<5?fill(LBL.xVegLow,{v:vegN,d:5-vegN}):fill(LBL.xVegOk,{v:vegN}));
+ const xFillBox=xHtml('nutri',[Math.abs(100-worstBar.p)>10?fill(LBL.xFillWorst,{n:worstBar.n,p:worstBar.p}):LBL.xFillAll,xVeg]);
+ const xEn=[];
+ if(bmr&&tot.kcal<bmr)xEn.push(fill(LBL.xBelowBmr,{i:tot.kcal.toLocaleString(),b:bmr.toLocaleString()}));
+ if(bal<0)xEn.push(fill(LBL.xSurplus,{v:Math.abs(bal).toLocaleString(),dt:k.dayType}));
+ else if(bal>1200)xEn.push(fill(LBL.xBigDef,{v:bal.toLocaleString(),p:band.p,t:k.tdee.toLocaleString(),a:xi(bal-1000)}));
+ else if(band.inBand)xEn.push(fill(LBL.xDefOk,{v:bal.toLocaleString(),p:band.p,t:k.tdee.toLocaleString()}));
+ else xEn.push(fill(LBL.xDefBand,{v:bal.toLocaleString(),p:band.p,t:k.tdee.toLocaleString()}));
+ if(k.dayType&&/training/i.test(k.dayType)&&intakeRatio<0.60)
+  xEn.push(fill(LBL.xUnderFuel,{p:Math.round(intakeRatio*100),t:k.tdee.toLocaleString(),dt:k.dayType,g:Math.max(0,tgt.c-tot.c)}));
+ const xEnergyBox=xHtml('nutri',xEn);
+ const xLogBox=xHtml('nutri',[fill(LBL.xLogN,{n:k.log.length,d:k.date,k:tot.kcal.toLocaleString()}),xVeg]);
+ const xSaltBox=xHtml('nutri',[fill(LBL.xSaltN,{n:saltCount,m:k.log.length}),saltCount>=3?fill(LBL.xSaltHi,{n:saltCount}):null]);
+ let covN=0,covLabel='';
+ try{const wks=computeWeeks();const mk=isoStr(mondayOf(parseISODate(k.date)));const w=wks.find(x=>x.monKey===mk);
+  if(w){covN=w.days.length;covLabel=weekLabel(w.mon,w.sun);}}catch(e){covN=0;}
+ const xInsBox=xHtml('nutri',[xEn[0]||xProt||xFat||xCarb,
+  covN?(covN<6?fill(LBL.xCovLow,{n:covN,w:covLabel,m:7-covN}):fill(LBL.xCovOk,{n:covN,w:covLabel})):null]);
+
  const html=`
   <div class="h">${LBL.macros}</div>
   <div class="cards">
@@ -257,6 +401,7 @@ function render(){
    ${card(LBL.carb,tot.c+'g','/ '+tgt.c+'g','',cExtra)}
    ${card(LBL.fat,tot.f+'g','/ '+tgt.f+'g'+(tot.f<60?' ⚠':''),tot.f<60?'var(--amber)':'')}
   </div>
+  ${xMacrosBox}
   <div class="h">${LBL.fill}</div>
   <div class="bars">
    ${bar(LBL.cal,tot.kcal,tgt.kcal,'')}
@@ -265,6 +410,7 @@ function render(){
    ${macroBar(LBL.fat,tot.f,tgt.f,'g')}
    ${vegHtml}
   </div>
+  ${xFillBox}
   <div class="h">${LBL.energy}</div>
   <div style="margin:0 0 1.5rem;">
    <div class="bl" style="display:flex;justify-content:space-between;font-size:13px;color:var(--ts);margin-bottom:5px;"><span>${LBL.burn}</span><b style="color:var(--tp)">~${k.tdee.toLocaleString()}</b></div>
@@ -274,17 +420,20 @@ function render(){
    <div class="track" style="height:13px;"><div class="fill" style="width:${intakeW}%;background:var(--cyan)"></div></div>
    ${flags.length?`<div style="margin-top:10px;">${flags.join('')}</div>`:''}
   </div>
+  ${xEnergyBox}
   <div class="h">${LBL.foodlog}</div>
   <table>
    <thead><tr><th>${LBL.item}</th><th>kcal</th><th>P</th><th>C</th><th>F</th></tr></thead>
    <tbody>${k.log.map(f=>`<tr><td>${f.name}${isSalty(f.name)?saltIcon():''}</td><td>${f.kcal}</td><td>${f.p}</td><td>${f.c}</td><td>${f.f}</td></tr>`).join('')}</tbody>
    <tfoot><tr><td>${LBL.total}</td><td>${tot.kcal}</td><td>${tot.p}</td><td>${tot.c}</td><td>${tot.f}</td></tr></tfoot>
   </table>
+  ${xLogBox}
   <div class="h">${LBL.naHead}</div>
   <div class="note" style="margin-bottom:1.25rem;">
    <div style="font-weight:500;font-size:14px;margin-bottom:6px;">${saltIcon()} ${fill(LBL.naCount,{n:saltCount})}</div>
    <p class="lab" style="margin:0;line-height:1.6;">${LBL.naNote}</p>
   </div>
+  ${xSaltBox}
   <div class="h">${LBL.insights}</div>
   <div class="note">
    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
@@ -292,7 +441,8 @@ function render(){
     <span style="font-weight:500;font-size:15px;">${lang==='en'?insHeadEn:insHeadHr}</span>
    </div>
    <p class="lab" style="margin:0;line-height:1.6;">${lang==='en'?insBodyEn:insBodyHr}</p>
-  </div>`;
+  </div>
+  ${xInsBox}`;
  document.getElementById('content').innerHTML=html;
 }
 
@@ -355,7 +505,16 @@ function renderSummary(){
   <thead><tr><th>${LBL.sDay}</th><th>${LBL.intake}</th><th>${LBL.sBase}</th><th>${LBL.sEx}</th><th>TDEE</th><th>${LBL.sDeficit}</th></tr></thead>
   <tbody>${trs}</tbody>
   <tfoot><tr><td>${LBL.avg}</td>${intakeCell(avgRow.intake)}<td>${fmt(avgRow.base)}</td><td>${fmt(avgRow.ex)}</td><td>${fmt(avgRow.tdee)}</td>${defCell(avgRow.deficit,avgRow.tdee,true)}</tr></tfoot>
- </table></div>`;
+ </table></div>`
+ +(()=>{
+   const mb=defBand(Math.max(avgRow.deficit,0),avgRow.tdee);
+   const key=avgRow.deficit>1000?LBL.xDayMeanOver:(mb.inBand?LBL.xDayMeanOk:LBL.xDayMeanBand);
+   const belowN=bmr?rows.filter(r=>r.intake<bmr).length:0;
+   return xHtml('nutri',[
+    fill(key,{v:fmt(avgRow.deficit),n:n,p:mb.p,t:fmt(avgRow.tdee)}),
+    bmr?(belowN?fill(LBL.xDayBmr,{b:bmr.toLocaleString(),n:belowN,m:n}):fill(LBL.xDayBmrOk,{b:bmr.toLocaleString()})):null
+   ]);
+  })();
 }
 
 /* ---- weekly aggregation (Mon–Sun), derived at render time ---- */
@@ -520,7 +679,17 @@ function renderWeekMacros(weeks){
   ${proteinBar(LBL.prot,agg.actual.p,ft.p,'g')}
   ${macroBar(LBL.carb,agg.actual.c,ft.c,'g')}
   ${macroBar(LBL.fat,agg.actual.f,ft.f,'g')}
- </div>`:''}`;
+ </div>`:''}`
+ +(()=>{
+   if(!ft)return xHtml('nutri',[LBL.xWmNoTgt]);
+   const dTxt=v=>(v>0?'+':(v<0?'−':''))+Math.abs(v).toLocaleString();
+   const cand=[{n:LBL.cal,a:agg.actual.kcal,b:ft.kcal},{n:LBL.carb,a:agg.actual.c,b:ft.c},{n:LBL.fat,a:agg.actual.f,b:ft.f}];
+   let w2=cand[0];cand.forEach(x=>{if(Math.abs(rawPct(x.a,x.b)-100)>Math.abs(rawPct(w2.a,w2.b)-100))w2=x;});
+   return xHtml('nutri',[
+    fill(LBL.xWmProt,{a:agg.actual.p.toLocaleString(),b:ft.p.toLocaleString(),d:dTxt(agg.actual.p-ft.p)}),
+    fill(LBL.xWmWorst,{n:w2.n,a:w2.a.toLocaleString(),b:w2.b.toLocaleString(),d:dTxt(w2.a-w2.b),m:agg.fwMiss})
+   ]);
+  })();
 }
 function renderWeekly(){
  const el=document.getElementById('weeksum');
@@ -575,6 +744,11 @@ function renderWeekly(){
    <thead><tr><th>${LBL.wWeek}</th><th>${LBL.wDays}</th><th>${LBL.intake}</th><th>${LBL.sBase}</th><th>${LBL.sEx}</th><th>TDEE</th><th>${LBL.wDeficitHdr}</th><th>${LBL.wWeightDelta}</th></tr></thead>
    <tbody>${rows}</tbody>
   </table></div>`
+  +xHtml('nutri',[
+    selAgg.n<6?fill(LBL.xCovLow,{n:selAgg.n,w:weekLabel(selWeek.mon,selWeek.sun),m:7-selAgg.n})
+              :fill(LBL.xCovOk,{n:selAgg.n,w:weekLabel(selWeek.mon,selWeek.sun)}),
+    fill(LBL.xWeekDef,{v:fmt(selAgg.deficit),a:fmt(selAgg.avgDeficit),kg:(selAgg.deficit/7700).toFixed(2)})
+   ])
   +(stale?`<div style="margin:0 0 1rem;">${stale}</div>`:'<div style="height:0.75rem"></div>')
   +renderWeekMacros(weeks);
 }
@@ -661,7 +835,13 @@ function renderRecon(){
    <p class="lab" style="margin:0 0 6px;line-height:1.6;">${verdict}</p>
    <p class="mini" style="margin:0;line-height:1.6;">${fill(LBL.rSpanNote,{a:prev.d,b:curr.d,pw:prev.w,cw:curr.w,n:spanDays})}</p>
    <div style="margin-top:8px;">${weighStaleChips()}</div>
-  </div>`;
+  </div>`
+  +xHtml('nutri',[
+    fill(unreliable?LBL.xReconGap:LBL.xReconClean,
+     {x:predVal,y:actVal,n:spanDays,z:Math.abs(gap).toLocaleString(),l:spanLogged}),
+    spanDays>14?fill(LBL.xReconWeigh,{n:spanDays}):null,
+    unreliable?fill(LBL.xReconLog,{z:Math.abs(gap).toLocaleString()}):null
+   ]);
 }
 
 applyTheme(theme);applyResponsive();markBtns();

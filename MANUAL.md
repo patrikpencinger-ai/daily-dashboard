@@ -126,30 +126,57 @@ Full spec: [`WEIGHT.md`](WEIGHT.md).
 
 ## 3. Clinical values — the Health tab
 
-`clinical-data.json` ships **empty**, and the Health tab honestly says "not yet measured"
-for every marker. It fills up one sentence at a time:
+`clinical-data.json` (version **`cl-2.0`**) now carries your actual record — conditions,
+doctors, 24 medications with start/stop dates, every lab series, the home blood-pressure log,
+the physician action plan and the red flags. It is a **private file**: it is served only
+behind the login on `dash.er45.com`, and the automated refresh never touches it. It grows one
+sentence at a time:
 
-> **`add clinical: BP 128/82 on 2026-09-05`**
+> **`add clinical: BP 118/76, pulse 61 on 2026-09-06`**
 > **`add clinical: total cholesterol 5.8, LDL 3.9, HDL 1.1, triglycerides 1.7 — lab 2026-09-02`**
+> **`add clinical: waist 104 cm today`**
 > **`add clinical: started ibuprofen 400 mg for a strained shoulder`**
+> **`add clinical: stopped Physiotens on 2026-09-10`**
 > **`add clinical: right-upper-quadrant ache after a fatty meal, yesterday evening`**
 
-Claude turns that into rows in one of three arrays. Any field may be omitted:
+Claude turns that into rows in one of three arrays. Any field may be omitted — a markers row
+carries whatever that date actually has, and `source` says where it came from (`"lab"` for a
+laboratory report, `"home"` for a cuff reading at home):
 
 ```json
 {
-  "markers":  [{"d":"YYYY-MM-DD","bp_sys":n,"bp_dia":n,"glucose":n,"hba1c":n,
+  "markers":  [{"d":"YYYY-MM-DD","source":"lab|home",
+                "bp_sys":n,"bp_dia":n,"pulse":n,
+                "glucose":n,"hba1c":n,"insulin":n,"homa_ir":n,
                 "tc":n,"ldl":n,"hdl":n,"tg":n,"creat":n,"egfr":n,
                 "alt":n,"ast":n,"ggt":n,"urate":n,"tsh":n,
-                "ferritin":n,"vitd":n,"waist":n,"note":""}],
-  "meds":     [{"d":"YYYY-MM-DD","name":"","dose":"","kind":"medication|supplement|nsaid","note":""}],
+                "ferritin":n,"vitd":n,"plt":n,"hb":n,"wbc":n,"crp":n,
+                "testosterone":n,"psa":n,"waist":n,"note":""}],
+  "meds":     [{"d":"YYYY-MM-DD","stop":"YYYY-MM-DD|null","name":"","generic":"",
+                "dose":"","drugClass":"","kind":"medication|supplement|nsaid","purpose":"","note":""}],
   "symptoms": [{"d":"YYYY-MM-DD","type":"chest_pressure|dyspnoea|palpitations|near_syncope|ruq_pain|dark_urine|other","note":""}]
 }
 ```
 
-The same shape is printed inside the Health tab itself, under "How to update this record".
-Nothing here is medical advice — the tab's job is to make the missing measurements visible
-so you can take a list to a physician.
+Rules worth knowing:
+
+- `conditions[]` rows carry `doctor` (the treating physician) alongside `name`, `since`, `status`.
+- **A medication is "current" when `stop` is `null`.** Stopping one means setting its `stop`
+  date, never deleting the row — the history table and the medication lines on the trend
+  charts are built from stopped rows.
+- **Several home readings on one day are several rows**, each with `source:"home"`. Don't
+  average them into one.
+- Any lab test that has no key in the list above is kept in full under `labsOther`
+  (41 further analytes — immunoglobulins, iron studies, differential, prolactin, SHBG…),
+  so nothing from your record is dropped.
+- `units` and `ref` at the top of the file hold the unit and the laboratory reference range
+  per key; the table's high/low chips are a display comparison against `ref`, not an
+  interpretation.
+- `symptoms` stays empty until you actually report something — it is never filled in for you.
+
+The same shapes are printed inside the Health tab itself, under "How to update this record".
+Nothing here is medical advice — the tab's job is to lay the record out in the order a doctor
+asks for it, and to make the overdue and missing measurements visible.
 
 ---
 

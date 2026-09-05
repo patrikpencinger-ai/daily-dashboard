@@ -26,6 +26,20 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 #wrap.mobile button{min-height:40px;min-width:40px}
 .sig{background:var(--surf);border-radius:8px;padding:0.85rem 1rem;flex:1 1 260px}
 .sig .lab{font-weight:500;margin-bottom:6px;font-size:13px}
+/* expert recommendation boxes */
+.expert{--xc:#A32D2D;--xbg:rgba(163,45,45,0.07);border-left:3px solid var(--xc);background:var(--xbg);border-radius:0 8px 8px 0;padding:9px 12px;margin:0 0 1.5rem;font-size:13px;line-height:1.5;box-sizing:border-box;width:100%;max-width:100%;overflow-wrap:anywhere}
+.expert .xh{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--xc);margin:0 0 5px}
+.expert ul{margin:0;padding:0 0 0 17px}
+.expert li{margin:0 0 4px}
+.expert li:last-child{margin:0}
+.expert .xf{margin:6px 0 0;font-size:11px;color:var(--ts);font-style:italic}
+.expert[data-role=coach]{--xc:#D85A30;--xbg:rgba(216,90,48,0.08)}
+.expert[data-role=nutri]{--xc:#1D9E75;--xbg:rgba(29,158,117,0.08)}
+.expert[data-role=md]{--xc:#A32D2D;--xbg:rgba(163,45,45,0.07)}
+#wrap.dark .expert[data-role=coach]{--xc:#EE8B58;--xbg:rgba(216,90,48,0.16)}
+#wrap.dark .expert[data-role=nutri]{--xc:#5FD0AA;--xbg:rgba(29,158,117,0.16)}
+#wrap.dark .expert[data-role=md]{--xc:#E24B4A;--xbg:rgba(226,75,74,0.15)}
+#wrap.mobile .expert{font-size:12px;padding:8px 10px}
 </style>
 </head>
 <body>
@@ -94,6 +108,8 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
   </div>
 </div>
 
+<div class="expert" data-role="md" id="x-lastnight"></div>
+
 <div data-i="h1b" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">SLEEP DEBT (7 DAYS)</div>
 <div class="cards">
   <div class="card">
@@ -123,6 +139,8 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
   </div>
 </div>
 
+<div class="expert" data-role="md" id="x-debt"></div>
+
 <div style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 1.25rem;">
   <div class="sig" id="divBox">
     <div class="lab" data-i="divTitle">RHR / HRV divergence</div>
@@ -133,6 +151,9 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
     <div id="ctxBody" style="font-size:13px;line-height:1.6;">—</div>
   </div>
 </div>
+
+<div class="expert" data-role="md" id="x-div"></div>
+<div class="expert" data-role="md" id="x-ctx"></div>
 
 <div data-i="swH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">SLEEP &amp; WAKE TIMES</div>
 <div class="lab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
@@ -145,6 +166,8 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 <div id="swwrap" style="position:relative;width:100%;height:300px;margin:0 0 2rem;">
   <canvas id="sw" role="img" aria-label="Sleep and wake times for the last seven nights"></canvas>
 </div>
+
+<div class="expert" data-role="md" id="x-sw"></div>
 
 <div data-i="h2" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">TRAILING 7 DAYS</div>
 
@@ -163,6 +186,8 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 </div>
 <p class="lab" data-i="footWeek" style="font-size:11px;margin:0 0 1.5rem;">Nights are labelled by the evening they start (Fri 4 = Fri→Sat). The Training tab labels by calendar day, so the same RHR appears one label apart there.</p>
 
+<div class="expert" data-role="md" id="x-week"></div>
+
 <div id="trend90Section" hidden>
   <div data-i="h3" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">90-DAY HRV / RHR</div>
   <div class="lab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
@@ -174,6 +199,7 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
   <div id="t90wrap" style="position:relative;width:100%;height:260px;margin:0 0 1.5rem;">
     <canvas id="t90" role="img" aria-label="90 day HRV and RHR trend with a rolling HRV band and sleep score bars"></canvas>
   </div>
+  <div class="expert" data-role="md" id="x-t90"></div>
 </div>
 
 <div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin-bottom:0.25rem;">
@@ -217,7 +243,39 @@ const T={
    ctxBands:"< 56 athlete · 56–61 excellent · 62–65 good · 66–70 above average · 71–75 average",
    ctxSrc:"General population norms for a 47-year-old male (not Garmin-specific).",
    ctxNote:"Garmin's overnight RHR typically reads a few bpm lower than a seated clinic reading.",
-   artifactNote:"⚠ Likely sensor artifact — 0 min awake, 100% efficiency"},
+   artifactNote:"⚠ Likely sensor artifact — 0 min awake, 100% efficiency",
+   xCoach:"Expert recommendation · Coach",xNutri:"Expert recommendation · Nutritionist",xMd:"Expert recommendation · Physician",
+   xDisc:"Not medical advice — discuss with your physician.",
+   xNoData:"Not enough data in this section yet — the recommendation appears as soon as the numbers are there.",
+   xDirUp:"trending up",xDirDown:"trending down",xDirFlat:"flat",
+   xLnShort:"Last night {d} asleep — {g} short of the 7.5 h target. Lights out at {b2} instead of {b} closes the gap without touching the alarm.",
+   xLnOk:"Last night {d} asleep — at or above the 7.5 h target. Keep {b} as the anchor bedtime.",
+   xLnDeepOk:"Deep sleep {n} min ({p}% of time asleep) — inside the normal range; no action.",
+   xLnDeepLow:"Deep sleep {n} min ({p}% of time asleep) is below the 15% mark — alcohol and a late heavy meal are the usual causes; finish eating 3 h before {b}.",
+   xLnVitals:"Score {s}, RHR {r} bpm, HRV {h} ms. Nothing here needs a doctor tonight — use the Training tab readiness score as the daily go / hold gate.",
+   xDebtHi:"Sleep debt {v} h against the 7.5 h target. Protect a full 7.5 h on 5 of the next 7 nights — that clears it without a weekend lie-in.",
+   xDebtVeryHi:"Sleep debt {v} h — more than a whole night. Protect 7.5 h on 5 of the next 7 nights and drop one training session if it will not fit.",
+   xDebtOk:"Sleep debt {v} h against the 7.5 h target — inside the normal range; hold the current bedtime.",
+   xDebtNights:"{n} of {m} nights under 7 h. Set a 22:30 bedtime alarm — short sleep raises next-day appetite, which is the part that costs weight{kg}.",
+   xDebtNightsOk:"{n} of {m} nights under 7 h — under the 4-night threshold; no bedtime change needed.",
+   xDebtSd:"Bedtime varies by {b} min, wake by {w} min. Anchor the wake time at {wk} every day, weekends included — it is the cheaper of the two to fix.",
+   xDivAmber:"RHR 7-day {a} vs 28-day {b} bpm AND HRV 7-day {c} vs 28-day {d} ms — both signals have moved the wrong way. Reduce training load for 48 h and watch for sore throat, fever or unusual fatigue.",
+   xDivGrey:"RHR 7-day {a} vs 28-day {b} bpm, HRV 7-day {c} vs 28-day {d} ms — one signal is moving. No action today; re-read tomorrow.",
+   xDivGreen:"RHR 7-day {a} vs 28-day {b} bpm, HRV 7-day {c} vs 28-day {d} ms — no divergence, no illness signal today.",
+   xDivWatch:"Act when the RHR 7-day mean rises above {t} bpm (+5%) while the HRV 7-day mean falls below {u} ms (−15%): 48 h of reduced load and a temperature check.",
+   xDivNeed:"Only {n} of the 28 nights the divergence check needs are in the history — nothing to act on until the trend fills up.",
+   xCtxBand:"RHR {v} bpm sits in the \"{b}\" band on the population norms shown above. Garmin's overnight value reads a few bpm below a seated clinic reading, so do not use it to rule out high blood pressure.",
+   xCtxBloods:"{k} kg down: book baseline bloods now — lipids, HbA1c, ALT/GGT, ferritin, vitamin D — so the remaining {r} kg to {t} kg has a before picture.",
+   xCtxBp:"Take a blood-pressure reading before the next{w} hack squat session and log it on the Health tab.",
+   xAtKg:" at {v} kg",xLoadKg:" {v} kg",
+   xSwSd:"Bedtime SD {b} min, wake SD {w} min. Hold the wake time within ±30 min of {wk}, weekends included; the bedtime follows it on its own.",
+   xSwSplitOk:"Weekday {a} vs weekend {b} per night — no weekend catch-up pattern, which is what you want.",
+   xSwSplitGap:"Weekday {a} vs weekend {b} per night — {g} of weekend catch-up says the weekdays are too short; fix the weekday bedtime, not the weekend.",
+   xWkMean:"Mean {m} per night across {t} nights, {n} of them under 7 h. The number that matters for recovery{kg} is 7.5 h, not 7.",
+   xWkWorst:"Worst night: {d}, score {s}, {dur}. Look at what happened that evening — one bad night is a cause, seven are a habit.",
+   xWkHrv:"HRV averaged {a} ms this week against the 28-day mean of {b} ms — {dir}. No escalation needed on this alone.",
+   xT90Hrv:"90-day HRV: {a} ms over the first 4 weeks vs {b} ms over the last 4 — {dir}. Read the trend line, never a single night.",
+   xT90Rhr:"90-day RHR: {a} bpm early vs {b} bpm now — {dir}. A sustained rise of 5 bpm with no change in training is worth a GP visit."},
  hr:{title:"PATRIKOV SAN I OPORAVAK",h1:"PROŠLA NOĆ",h2:"ZADNJIH 7 DANA",h1b:"DUG SPAVANJA (7 DANA)",h3:"HRV / RHR — 90 DANA",swH:"VRIJEME SPAVANJA I BUĐENJA",swBed:"Lijeganje",swWake:"Buđenje",swDur:"oznaka = trajanje sna",swScoreLeg:"= ocjena sna",swScoreBtn:"Ocjena",
    c1:"Ocjena sna",c2:"Trajanje sna",c4:"HRV tijekom noći",c5:"Spremnost (izračunata)",
    deep:"Duboki",light:"Lagani",awake:"Budan",deep2:"Duboki",light2:"Lagani",awake2:"Budan",badge:"značka = ocjena sna",hours:"Sati",
@@ -233,7 +291,39 @@ const T={
    ctxBands:"< 56 sportaš · 56–61 izvrsno · 62–65 dobro · 66–70 iznad prosjeka · 71–75 prosječno",
    ctxSrc:"Opće populacijske norme za muškarca od 47 godina (nisu specifične za Garmin).",
    ctxNote:"Garminov noćni RHR obično očitava nekoliko otkucaja niže od izmjerenog sjedećeg u ordinaciji.",
-   artifactNote:"⚠ Vjerojatno greška senzora — 0 min budnosti, 100% učinkovitost"}
+   artifactNote:"⚠ Vjerojatno greška senzora — 0 min budnosti, 100% učinkovitost",
+   xCoach:"Preporuka stručnjaka · Trener",xNutri:"Preporuka stručnjaka · Nutricionist",xMd:"Preporuka stručnjaka · Liječnik",
+   xDisc:"Nije medicinski savjet — porazgovaraj sa svojim liječnikom.",
+   xNoData:"Za ovaj odjeljak još nema dovoljno podataka — preporuka se pojavljuje čim brojke stignu.",
+   xDirUp:"u porastu",xDirDown:"u padu",xDirFlat:"bez promjene",
+   xLnShort:"Sinoć {d} sna — {g} manje od cilja 7,5 h. Gašenje svjetla u {b2} umjesto u {b} zatvara razliku bez diranja budilice.",
+   xLnOk:"Sinoć {d} sna — na cilju od 7,5 h ili iznad njega. Zadrži {b} kao sidro za lijeganje.",
+   xLnDeepOk:"Duboki san {n} min ({p}% vremena sna) — unutar normale; bez akcije.",
+   xLnDeepLow:"Duboki san {n} min ({p}% vremena sna) ispod je granice od 15% — uobičajeni uzroci su alkohol i kasni teški obrok; završi s jelom 3 h prije {b}.",
+   xLnVitals:"Ocjena {s}, RHR {r} otk/min, HRV {h} ms. Ništa ovdje večeras ne traži liječnika — koristi ocjenu spremnosti na kartici Trening kao dnevni filter kreni / stani.",
+   xDebtHi:"Dug spavanja {v} h prema cilju od 7,5 h. Osiguraj punih 7,5 h u 5 od sljedećih 7 noći — to ga briše bez vikend-odspavanja.",
+   xDebtVeryHi:"Dug spavanja {v} h — više od cijele noći. Osiguraj 7,5 h u 5 od sljedećih 7 noći i otkaži jedan trening ako drugačije ne stane.",
+   xDebtOk:"Dug spavanja {v} h prema cilju od 7,5 h — unutar normale; zadrži trenutno vrijeme lijeganja.",
+   xDebtNights:"{n} od {m} noći ispod 7 h. Postavi alarm za lijeganje u 22:30 — kratak san diže apetit sljedećeg dana, a to je dio koji košta kilograme{kg}.",
+   xDebtNightsOk:"{n} od {m} noći ispod 7 h — ispod praga od 4 noći; promjena lijeganja nije potrebna.",
+   xDebtSd:"Lijeganje varira {b} min, buđenje {w} min. Usidri buđenje u {wk} svaki dan, uključujući vikend — to je jeftinije popraviti.",
+   xDivAmber:"RHR 7 dana {a} prema 28 dana {b} otk/min I HRV 7 dana {c} prema 28 dana {d} ms — oba signala idu u krivom smjeru. Smanji opterećenje 48 h i pazi na grlobolju, temperaturu ili neuobičajen umor.",
+   xDivGrey:"RHR 7 dana {a} prema 28 dana {b} otk/min, HRV 7 dana {c} prema 28 dana {d} ms — jedan signal odstupa. Danas bez akcije; provjeri sutra.",
+   xDivGreen:"RHR 7 dana {a} prema 28 dana {b} otk/min, HRV 7 dana {c} prema 28 dana {d} ms — nema divergencije, danas nema znaka bolesti.",
+   xDivWatch:"Reagiraj kad 7-dnevni prosjek RHR-a prijeđe {t} otk/min (+5%), a 7-dnevni HRV padne ispod {u} ms (−15%): 48 h smanjenog opterećenja i mjerenje temperature.",
+   xDivNeed:"U povijesti je samo {n} od 28 noći koje provjera divergencije treba — nema što poduzeti dok se trend ne napuni.",
+   xCtxBand:"RHR {v} otk/min je u pojasu „{b}” prema populacijskim normama iznad. Garminovo noćno očitanje je nekoliko otkucaja niže od sjedećeg u ordinaciji, pa ga ne koristi za isključivanje povišenog tlaka.",
+   xCtxBloods:"{k} kg manje: naruči osnovne pretrage sada — lipidogram, HbA1c, ALT/GGT, feritin, vitamin D — da preostalih {r} kg do {t} kg ima početnu sliku.",
+   xCtxBp:"Izmjeri krvni tlak prije sljedećeg treninga s hack čučnjem{w} i upiši ga na kartici Zdravlje.",
+   xAtKg:" pri {v} kg",xLoadKg:" od {v} kg",
+   xSwSd:"SD lijeganja {b} min, SD buđenja {w} min. Drži buđenje unutar ±30 min od {wk}, i vikendom; lijeganje se samo poravna.",
+   xSwSplitOk:"Radni dan {a} prema vikendu {b} po noći — nema vikend-odspavanja, što je i cilj.",
+   xSwSplitGap:"Radni dan {a} prema vikendu {b} po noći — {g} vikend-odspavanja govori da su radni dani prekratki; popravi lijeganje radnim danom, ne vikend.",
+   xWkMean:"Prosjek {m} po noći kroz {t} noći, {n} ih je ispod 7 h. Za oporavak{kg} vrijedi 7,5 h, ne 7.",
+   xWkWorst:"Najgora noć: {d}, ocjena {s}, {dur}. Pogledaj što se dogodilo te večeri — jedna loša noć je uzrok, sedam je navika.",
+   xWkHrv:"HRV je ovaj tjedan u prosjeku {a} ms prema 28-dnevnom prosjeku od {b} ms — {dir}. Samo zbog toga nema razloga za uzbunu.",
+   xT90Hrv:"HRV kroz 90 dana: {a} ms u prva 4 tjedna prema {b} ms u zadnja 4 — {dir}. Čitaj liniju trenda, nikad pojedinačnu noć.",
+   xT90Rhr:"RHR kroz 90 dana: {a} otk/min na početku prema {b} otk/min sada — {dir}. Trajni porast od 5 otkucaja bez promjene treninga vrijedi posjeta liječniku."}
 };
 let lang='en', LBL=T.en;
 let DAT=null;
@@ -385,6 +475,118 @@ function renderTrend90(){
  else{t90=new Chart(document.getElementById('t90'),cfg);}
 }
 
+/* ================= expert recommendation boxes =================
+   Every bullet is recomputed from the live JSON on each render, so the text
+   stays true after a data refresh. Static fallback only when data is absent. */
+const xesc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const xt=(s,o)=>String(s==null?'':s).replace(/\{(\w+)\}/g,(m,k)=>(o&&o[k]!==undefined&&o[k]!==null)?String(o[k]):m);
+const xn=(v,d)=>(v==null||!isFinite(v))?'—':(lang==='hr'?v.toFixed(d==null?1:d).replace('.',','):v.toFixed(d==null?1:d));
+const xhm=h=>{const m=Math.max(0,Math.round(h*60));return Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m';};
+const xclock=v=>{const t=Math.round((((v%24)+24)%24)*60);return String(Math.floor(t/60)%24).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};
+const xshift=(s,mins)=>{const m=/^(\d{1,2}):(\d{2})/.exec(String(s||'').trim());if(!m)return String(s||'—');let t=(+m[1])*60+(+m[2])-(mins||0);t=((t%1440)+1440)%1440;return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};
+const xmean=a=>{const v=(a||[]).filter(x=>typeof x==='number'&&isFinite(x));return v.length?v.reduce((p,q)=>p+q,0)/v.length:null;};
+/* read-only side loads: bodyweight from weight-data.json, top set from training-data.json.
+   Nothing here is ever baked into a string — a missing file just drops the bullet or the clause. */
+let WDAT=null,TDAT=null;
+const xnum=v=>(typeof v==='number'&&isFinite(v))?v:null;
+function xWeeks(){return (WDAT&&Array.isArray(WDAT.weeks))?WDAT.weeks.filter(r=>r&&xnum(r.w)!=null):[];}
+function xStartW(){const w=xWeeks();return w.length?w[0].w:null;}
+function xCurW(){const w=xWeeks();return w.length?w[w.length-1].w:null;}
+function xTgtW(){return (WDAT&&WDAT.config)?xnum(WDAT.config.targetKg):null;}
+function xTopSet(){const g=(TDAT&&TDAT.num&&Array.isArray(TDAT.num.gym))?TDAT.num.gym.filter(r=>r&&r.lift==='hack'&&r.top&&xnum(r.top.w)!=null):[];return g.length?g[g.length-1].top.w:null;}
+function loadSide(){
+ const g=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+ Promise.all([g('weight-data.json'),g('training-data.json')]).then(([w,t])=>{WDAT=w;TDAT=t;renderExperts();});
+}
+function xdir(a,b){if(a==null||b==null||!b)return LBL.xDirFlat;if(a>b*1.03)return LBL.xDirUp;if(a<b*0.97)return LBL.xDirDown;return LBL.xDirFlat;}
+function xBox(id,bullets){
+ const el=document.getElementById(id);if(!el)return;
+ const role=el.getAttribute('data-role')||'md';
+ const head={coach:LBL.xCoach,nutri:LBL.xNutri,md:LBL.xMd}[role]||LBL.xMd;
+ const list=(bullets||[]).filter(b=>b!=null&&b!=='');
+ if(!list.length)list.push(LBL.xNoData);
+ el.innerHTML='<div class="xh">'+xesc(head)+'</div><ul>'+list.map(b=>'<li>'+xesc(b)+'</li>').join('')+'</ul>'
+  +(role==='md'?'<div class="xf">'+xesc(LBL.xDisc)+'</div>':'');
+}
+function renderExperts(){
+ if(!DAT||!DAT.num||!SDUR)return;
+ const t=LBL,ln=DAT.num.lastNight,r=computeDebt(),dv=computeDivergence();
+ const tr=Array.isArray(DAT.num.trend)?DAT.num.trend:[];
+ const curW=xCurW(),startW=xStartW(),tgtW=xTgtW(),topSet=xTopSet();
+ const atKg=curW!=null?xt(t.xAtKg,{v:xn(curW)}):'';
+ const loadKg=topSet!=null?xt(t.xLoadKg,{v:xn(topSet,0)}):'';
+
+ /* --- last night --- */
+ const asleep=ln.deepMin+ln.lightMin+ln.remMin;
+ const durH=asleep/60;
+ const bw=String(ln.bedWake||'').split('→');
+ const bed=(bw[0]||'').trim()||'—';
+ const gapMin=Math.max(0,Math.round((7.5-durH)*60));
+ const deepPc=asleep?Math.round(ln.deepMin/asleep*100):0;
+ xBox('x-lastnight',[
+  durH<7.5?xt(t.xLnShort,{d:xhm(durH),g:gapMin+' min',b:bed,b2:xshift(bed,gapMin)}):xt(t.xLnOk,{d:xhm(durH),b:bed}),
+  deepPc<15?xt(t.xLnDeepLow,{n:ln.deepMin,p:deepPc,b:bed}):xt(t.xLnDeepOk,{n:ln.deepMin,p:deepPc}),
+  xt(t.xLnVitals,{s:ln.score,r:ln.rhr,h:ln.hrv})
+ ]);
+
+ /* --- sleep debt --- */
+ const wkAnchor=xclock(xmean(WAKE)==null?7:xmean(WAKE));
+ xBox('x-debt',[
+  r.debt>5?xt(t.xDebtVeryHi,{v:xn(r.debt,2)}):(r.debt>3?xt(t.xDebtHi,{v:xn(r.debt,2)}):xt(t.xDebtOk,{v:xn(r.debt,2)})),
+  r.nights7>=4?xt(t.xDebtNights,{n:r.nights7,m:SDUR.length,kg:atKg}):xt(t.xDebtNightsOk,{n:r.nights7,m:SDUR.length}),
+  xt(t.xDebtSd,{b:Math.round(r.bedSd),w:Math.round(r.wakeSd),wk:wkAnchor})
+ ]);
+
+ /* --- RHR / HRV divergence --- */
+ if(dv.state==='need'||dv.state==='nodata'){
+  xBox('x-div',[dv.state==='need'?xt(t.xDivNeed,{n:dv.n}):t.divNoData]);
+ }else{
+  const key=dv.state==='amber'?t.xDivAmber:(dv.state==='grey'?t.xDivGrey:t.xDivGreen);
+  xBox('x-div',[
+   xt(key,{a:xn(dv.rhr7),b:xn(dv.rhr28),c:xn(dv.hrv7),d:xn(dv.hrv28)}),
+   xt(t.xDivWatch,{t:xn(dv.rhr28*1.05),u:xn(dv.hrv28*0.85)})
+  ]);
+ }
+
+ /* --- RHR in context --- */
+ xBox('x-ctx',[
+  xt(t.xCtxBand,{v:ln.rhr,b:rhrBandName(ln.rhr)}),
+  (startW!=null&&curW!=null&&tgtW!=null)?xt(t.xCtxBloods,{k:xn(startW-curW),r:xn(curW-tgtW),t:xn(tgtW,0)}):null,
+  xt(t.xCtxBp,{w:loadKg})
+ ]);
+
+ /* --- sleep & wake times --- */
+ const catchUp=(r.wkend!=null&&r.wkday!=null)?(r.wkend-r.wkday):null;
+ xBox('x-sw',[
+  xt(t.xSwSd,{b:Math.round(r.bedSd),w:Math.round(r.wakeSd),wk:wkAnchor}),
+  (catchUp!=null&&catchUp>0.75)
+   ?xt(t.xSwSplitGap,{a:xhm(r.wkday),b:xhm(r.wkend),g:xhm(catchUp)})
+   :((r.wkday!=null&&r.wkend!=null)?xt(t.xSwSplitOk,{a:xhm(r.wkday),b:xhm(r.wkend)}):null)
+ ]);
+
+ /* --- trailing 7 days --- */
+ const labels=txtL().daysFull||[];
+ let wi=0;for(let i=1;i<scores.length;i++){if(scores[i]<scores[wi])wi=i;}
+ const hrvWeek=xmean(hrv);
+ const hrv28=xmean(tr.slice(-28).map(x=>x&&x.hrv));
+ xBox('x-week',[
+  xt(t.xWkMean,{m:r.mean!=null?xhm(r.mean):'—',t:SDUR.length,n:r.nights7,kg:atKg}),
+  xt(t.xWkWorst,{d:labels[wi]||('#'+(wi+1)),s:scores[wi],dur:SDUR[wi]||'—'}),
+  (hrvWeek!=null&&hrv28!=null)?xt(t.xWkHrv,{a:xn(hrvWeek),b:xn(hrv28),dir:xdir(hrvWeek,hrv28)}):null
+ ]);
+
+ /* --- 90-day trend --- */
+ if(tr.length>=8){
+  const half=Math.min(28,Math.floor(tr.length/2));
+  const h0=xmean(tr.slice(0,half).map(x=>x&&x.hrv)),h1=xmean(tr.slice(-half).map(x=>x&&x.hrv));
+  const r0=xmean(tr.slice(0,half).map(x=>x&&x.rhr)),r1=xmean(tr.slice(-half).map(x=>x&&x.rhr));
+  xBox('x-t90',[
+   (h0!=null&&h1!=null)?xt(t.xT90Hrv,{a:xn(h0),b:xn(h1),dir:xdir(h1,h0)}):null,
+   (r0!=null&&r1!=null)?xt(t.xT90Rhr,{a:xn(r0),b:xn(r1),dir:xdir(r1,r0)}):null
+  ]);
+ }else{xBox('x-t90',[]);}
+}
+
 function init(){
  const n=DAT.num;
  deep=n.week.deep; light=n.week.light; rem=n.week.rem; awake=n.week.awake;
@@ -491,6 +693,8 @@ function init(){
  renderRhrContext();
  renderDivergence();
  renderTrend90();
+ renderExperts();
+ loadSide();
  applyTheme(theme);
  setLang('en');
  applyResponsive();
@@ -506,7 +710,7 @@ function applyTheme(t){theme=t;calc();document.getElementById('wrap').classList.
 function setLang(l){
  lang=l;LBL=T[l];
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
- if(DAT){fillCards();renderDebt();renderRhrContext();renderDivergence();}
+ if(DAT){fillCards();renderDebt();renderRhrContext();renderDivergence();renderExperts();}
  const dl={en:['Deep','Light','REM','Awake'],hr:['Duboki','Lagani','REM','Budan']}[l];
  if(dn){dn.data.labels=dl;
   wk.data.labels=layout==='mobile'?txtL().daysShort:txtL().daysFull;
