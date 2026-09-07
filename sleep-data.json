@@ -1,10 +1,10 @@
 {
   "meta": {
-    "version": "v1.84-auto",
-    "snapshot": "2026-09-06",
-    "refreshedAt": "2026-09-06T07:12:06+02:00",
-    "footEn": "Data snapshot: 2026-09-06 · Garmin fenix 8 via Freddy",
-    "footHr": "Podaci: 2026-09-06 · Garmin fenix 8 putem Freddyja"
+    "version": "v1.85-auto",
+    "snapshot": "2026-09-07",
+    "refreshedAt": "2026-09-07T13:05:00+02:00",
+    "footEn": "Data snapshot: 2026-09-07 · Garmin fenix 8 via Freddy · the last-night panel and the 7-day charts show the last Garmin-recorded night (Sat 5, wake date 2026-09-06); the Sun→Mon record has not reached the connector yet, so for that night only Intervals.icu's score, duration, HRV and RHR exist — they are in the badge and in the 90-day trend, not in the stage split.",
+    "footHr": "Podaci: 7.9.2026. · Garmin fenix 8 putem Freddyja · panel sinoćnje noći i grafovi za 7 dana prikazuju zadnju noć koju je Garmin zabilježio (Sub 5, datum buđenja 6.9.2026.); zapis za noć ned→pon još nije stigao do konektora, pa za tu noć postoje samo ocjena, trajanje, HRV i RHR iz Intervals.icu-a — nalaze se u oznaci i u 90-dnevnom trendu, ne u podjeli faza."
   },
   "num": {
     "lastNight": {
@@ -960,6 +960,15 @@
         "durH": 7.2,
         "deepH": 1.7,
         "awakeMin": 15
+      },
+      {
+        "d": "2026-09-07",
+        "rhr": 52,
+        "hrv": 52,
+        "score": 92,
+        "durH": 7.28,
+        "deepH": null,
+        "awakeMin": null
       }
     ]
   },
@@ -984,16 +993,16 @@
         "S5"
       ],
       "scoreWord": "score 85",
-      "c1d": "-2 vs last night (87) · very good",
+      "c1d": "-2 vs the night before (87) · very good",
       "c2d": "+1m vs 7-night avg (7h 11m)",
-      "c3d": "0 vs last night (51) · -1 vs 7-night avg (52)",
-      "c4d": "-1 vs last night (46) · 0 vs 7-night avg (45)",
+      "c3d": "0 vs the night before (51) · -1 vs 7-night avg (52)",
+      "c4d": "-1 vs the night before (46) · 0 vs 7-night avg (45)",
       "c5l": "Excellent",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
       "havg": "HRV 7d avg 45",
-      "today": "Today: nothing logged yet",
-      "badge": "RHR 51 a second night — the window low",
-      "rec": "Last night scored 85 on 7h 12m (23:33–07:00): RHR 51 against a 28-day baseline of 54, HRV 45 against 41, and 1h 42m of deep sleep — the second-deepest of the seven nights. Flag: ACWR is 1.33 — 39,240 kg of lifting in the last seven days against a 29,550 kg chronic week — so recovery is absorbing more load than usual even while the overnight numbers read clean. Next session: barbell deadlift 3 × 8 at 100 kg, down from 120 kg × 10 on Sep 1. Lever: bedtime. Lights-out has drifted to 23:33 and the 28-day duration mean sits at 6.94 h; a 22:45 lights-out tonight buys those 45 minutes without needing a late wake."
+      "today": "Sun→Mon night: Garmin stages pending sync",
+      "badge": "Intervals.icu (from Garmin): 92 · 7h 17m · HRV 52 · RHR 52",
+      "rec": "Last night, via Intervals.icu (from Garmin): score 92 on 7h 17m, HRV 52 against the 28-day baseline of 41 — the highest single reading since 56 on Jul 24 — and RHR 52 against a baseline of 54. Flag: the ACWR is 1.33 — 39,240 kg of lifting in the last seven days against a 29,550 kg chronic week — so load, not recovery, is what limits today. Next session: pool swim 2,200 m as 10×100 + 10×50, target 136–138 s/100 at HR ≤125 — the Aug 31 set held 136 s/100 at HR 121. Swim before 14:00; Zagreb air peaks at 30.7 °C at 17:00 today. Take 500 ml of water with electrolytes beforehand (SGLT2), chest strap if available. Lever: carbohydrate. Both logged training days came in short — 151 g on Tuesday and 132 g on Thursday against the 212 g training-day target — so put 60–70 g in the two hours before the swim."
     },
     "hr": {
       "daysFull": [
@@ -1015,16 +1024,16 @@
         "S5"
       ],
       "scoreWord": "ocjena 85",
-      "c1d": "-2 vs sinoć (87) · vrlo dobra",
+      "c1d": "-2 vs noć prije (87) · vrlo dobra",
       "c2d": "+1m vs prosjek 7 noći (7h 11m)",
-      "c3d": "0 vs sinoć (51) · -1 vs prosjek 7 noći (52)",
-      "c4d": "-1 vs sinoć (46) · 0 vs prosjek 7 noći (45)",
+      "c3d": "0 vs noć prije (51) · -1 vs prosjek 7 noći (52)",
+      "c4d": "-1 vs noć prije (46) · 0 vs prosjek 7 noći (45)",
       "c5l": "Izvrsna",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
       "havg": "HRV 7d prosjek 45",
-      "today": "Danas: još ništa zabilježeno",
-      "badge": "RHR 51 drugu noć — najniže u prozoru",
-      "rec": "Sinoć ocjena 85 uz 7h 12m (23:33–07:00): RHR 51 naspram 28-dnevne osnove 54, HRV 45 naspram 41 i 1h 42m dubokog sna — druga najdublja od sedam noći. Zastavica: ACWR je 1,33 — 39.240 kg dizanja u zadnjih sedam dana naspram kroničnog tjedna od 29.550 kg — pa oporavak upija više opterećenja nego inače iako noćni brojevi izgledaju čisto. Sljedeći trening: mrtvo dizanje s šipkom 3 × 8 sa 100 kg, niže od 120 kg × 10 od 1.9. Poluga: lijeganje. Gašenje svjetla otišlo je na 23:33, a 28-dnevni prosjek trajanja je 6,94 h; gašenje u 22:45 večeras donosi tih 45 minuta bez kasnog buđenja."
+      "today": "Noć ned→pon: Garminove faze čekaju sinkronizaciju",
+      "badge": "Intervals.icu (iz Garmina): 92 · 7h 17m · HRV 52 · RHR 52",
+      "rec": "Sinoć, preko Intervals.icu-a (iz Garmina): ocjena 92 uz 7h 17m, HRV 52 naspram 28-dnevne osnove od 41 — najviše pojedinačno očitanje od 56 od 24.7. — i RHR 52 naspram osnove od 54. Zastavica: ACWR je 1,33 — 39.240 kg dizanja u zadnjih sedam dana naspram kroničnog tjedna od 29.550 kg — pa danas ograničava opterećenje, a ne oporavak. Sljedeći trening: plivanje u bazenu 2.200 m kao 10×100 + 10×50, cilj 136–138 s/100 uz HR ≤125 — serija od 31.8. držala je 136 s/100 uz HR 121. Plivaj prije 14:00; zrak u Zagrebu doseže vrh od 30,7 °C u 17:00 danas. Popij 500 ml vode s elektrolitima prije toga (SGLT2), remen za prsa ako ga imaš. Poluga: ugljikohidrati. Oba zabilježena dana treninga bila su kratka — 151 g u utorak i 132 g u četvrtak naspram cilja od 212 g za dan treninga — pa ubaci 60–70 g u dva sata prije plivanja."
     }
   }
 }
