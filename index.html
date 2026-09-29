@@ -25,6 +25,7 @@
   --food:#f0a23c;
   --wt:#a64ce8;
   --health:#c23b3b;
+  --str:#D85A30;
 }
 [data-theme="dark"]{
   --bg:#0b0f17;          /* stylish near-black, slight navy tint */
@@ -40,6 +41,7 @@
   --accent-ink:#08121f;
   --brand:#f2f5fa;
   --health:#ff6f6f;
+  --str:#EE8B58;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);transition:background .25s ease,color .25s ease}
@@ -62,7 +64,7 @@ header{display:flex;align-items:flex-start;justify-content:space-between;gap:10p
 .stat{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 11px;box-shadow:var(--shadow)}
 .stat b{color:var(--ink);font-weight:600}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
-.dot.sleep{background:var(--sleep)} .dot.train{background:var(--train)} .dot.food{background:var(--food)} .dot.wt{background:var(--wt)} .dot.health{background:var(--health)}
+.dot.sleep{background:var(--sleep)} .dot.train{background:var(--train)} .dot.food{background:var(--food)} .dot.wt{background:var(--wt)} .dot.health{background:var(--health)} .dot.str{background:var(--str)}
 
 /* Refresh tooltip (custom hover popover) */
 .refresh-wrap{position:relative}
@@ -80,7 +82,13 @@ nav button{flex:1;font:inherit;font-size:14px;font-weight:500;color:var(--ink-so
 nav button.active{background:var(--accent);color:var(--accent-ink)}
 nav button:hover:not(.active){color:var(--ink)}
 nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media(max-width:560px){nav button{min-height:44px;padding:12px 4px}}
+/* <=560 px: 6 tabs must fit a 375 px phone; labels may wrap to 2 lines, and if they still
+   do not fit the nav scrolls sideways inside itself - the page never does */
+@media(max-width:560px){
+  nav{gap:2px;padding:4px;min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav button{flex:1 1 auto;font-size:12px;line-height:1.2;padding:4px 5px;min-height:44px}
+}
 .frame{display:none;width:100%;border:none;background:var(--panel);border-radius:12px;box-shadow:var(--shadow)}
 .frame.active{display:block}
 .health-lock{display:none;width:100%;min-height:220px;background:var(--panel);border-radius:12px;box-shadow:var(--shadow);flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:32px 20px}
@@ -108,6 +116,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
           <ul class="src">
             <li><span class="dot sleep"></span><span><span class="nm">Sleep &amp; recovery</span> — <code>sleep-data.json</code><br>Garmin fenix 8 via Freddy</span></li>
             <li><span class="dot train"></span><span><span class="nm">Training</span> — <code>training-data.json</code><br>Hevy + Intervals.icu</span></li>
+            <li><span class="dot str"></span><span><span class="nm">Strength</span> — <code>strength-data.json</code><br>Hevy sets + HR stream (Strava/Garmin, HRM600)</span></li>
             <li><span class="dot food"></span><span><span class="nm">Intake</span> — <code>data.json</code><br>manual food log</span></li>
             <li><span class="dot wt"></span><span><span class="nm">Weight</span> — <code>weight-data.json</code><br>weekly scale averages, manual</span></li>
             <li><span class="dot health"></span><span><span class="nm">Health</span> — <code>clinical-data.json</code><br>manual clinical entries — never auto-refreshed (private, Cloudflare Access)</span></li>
@@ -122,6 +131,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
     <span class="lbl">Last refresh</span>
     <span class="stat"><span class="dot sleep"></span>Sleep <b id="ts-sleep">—</b></span>
     <span class="stat"><span class="dot train"></span>Training <b id="ts-train">—</b></span>
+    <span class="stat"><span class="dot str"></span>Strength <b id="ts-str">—</b></span>
     <span class="stat"><span class="dot food"></span>Food <b id="ts-food">—</b></span>
     <span class="stat"><span class="dot wt"></span>Weight <b id="ts-wt">—</b></span>
     <span class="stat"><span class="dot health"></span>Health <b id="ts-health">—</b></span>
@@ -130,6 +140,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
   <nav>
     <button data-tab="sleep" class="active">Sleep &amp; recovery</button>
     <button data-tab="training">Training</button>
+    <button data-tab="strength">Strength</button>
     <button data-tab="intake">Intake</button>
     <button data-tab="weight">Weight</button>
     <button data-tab="health">Health</button>
@@ -137,6 +148,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
 
   <iframe class="frame active" data-tab="sleep"    src="sleep.html"    title="Sleep & recovery" scrolling="no"></iframe>
   <iframe class="frame"        data-tab="training" src="training.html" title="Training"          scrolling="no"></iframe>
+  <iframe class="frame"        data-tab="strength" src="strength.html" title="Strength"          scrolling="no"></iframe>
   <iframe class="frame"        data-tab="intake"   src="intake.html"   title="Intake"            scrolling="no"></iframe>
   <iframe class="frame"        data-tab="weight"   src="weight.html"   title="Weight"            scrolling="no"></iframe>
   <iframe class="frame" id="healthFrame" data-tab="health" title="Health" scrolling="no"></iframe>
@@ -199,6 +211,11 @@ function themeAllFrames(){ document.querySelectorAll('.frame').forEach(themeFram
   setText('healthLockBtn',t.btn);
   const btn=document.getElementById('healthLockBtn');
   if(btn) btn.onclick=()=>{ window.top.location.href='health.html'; };
+})();
+/* Strength tab label follows the browser language like the health lock (EN "Strength" / HR "Snaga") */
+(function(){
+  if(!(navigator.language||'').toLowerCase().startsWith('hr')) return;
+  const b=document.querySelector('nav button[data-tab="strength"]'); if(b) b.textContent='Snaga';
 })();
 let currentTab='sleep';
 let healthLocked=true;              // safe default until the probe resolves
@@ -267,6 +284,7 @@ refreshHealthPaneVisibility();
   window.loadStatus=()=>{
     pull('sleep-data.json',    j=>j.meta&&j.meta.snapshot,    'ts-sleep');
     pull('training-data.json', j=>j.meta&&j.meta.snapshot,    'ts-train');
+    pull('strength-data.json', j=>j.meta&&j.meta.refreshedAt, 'ts-str');
     pull('data.json',          j=>j.meta&&j.meta.intake_asof, 'ts-food');
     pull('weight-data.json',   j=>j.meta&&j.meta.asOf,        'ts-wt');
     pullHealth();

@@ -1,7 +1,7 @@
 # Patrik · Daily Dashboard
 
-A static, five-tab personal health dashboard — **Sleep & recovery**, **Training**,
-**Intake**, **Weight**, **Health** — served at **https://dash.er45.com**.
+A static, six-tab personal health dashboard — **Sleep & recovery**, **Training**,
+**Strength**, **Intake**, **Weight**, **Health** — served at **https://dash.er45.com**.
 
 `index.html` is a thin shell. Each tab is a standalone page in a same-origin `<iframe>`,
 and **each tab fetches its own JSON data file at runtime** (`{cache:'no-store'}`). No build
@@ -18,12 +18,13 @@ light/dark and font-size controls. The shell pushes its theme down into every fr
 
 ```
 daily-dashboard/
-├── index.html            tab shell — 5 iframes, theme push, auto-sizing,
+├── index.html            tab shell — 6 iframes, theme push, auto-sizing,
 │                         "last refresh" chips read from each file's meta
 ├── sleep.html            Sleep & recovery (Chart.js)  →  fetch sleep-data.json
 ├── training.html         Training (Chart.js)          →  fetch training-data.json
 │                                                      +  fetch sleep-data.json
 │                                                         (readiness / recovery input)
+├── strength.html         Strength: sets, load, HR/set →  fetch strength-data.json
 ├── intake.html           Intake / food log            →  fetch data.json
 │                                                      +  fetch weight-data.json
 │                                                         (weigh-in reconciliation)
@@ -32,12 +33,24 @@ daily-dashboard/
 │
 ├── sleep-data.json       AUTO   sleep, HRV, RHR, 90-day recovery trend + EN/HR text
 ├── training-data.json    AUTO   gym + swim history, per-set HR, energy + EN/HR text
+│                                (gym rows also carry volWork, written by tools/)
+├── strength-data.json    AUTO   Hevy sets x HR peaks, load, muscles, progression
+│                                (built by tools/build_strength.py, not by the connector)
 ├── data.json             MANUAL food log, athlete profile, macro targets by day type
 ├── weight-data.json      MANUAL weekly scale averages, waist series, planner config
 ├── clinical-data.json    MANUAL BP, labs, medications, symptoms (empty until measured)
 │
+├── tools/                Python (stdlib) scripts for the strength pipeline — versioned,
+│   │                     NOT deployed (.assetsignore)
+│   ├── hevy_fetch.py         Hevy API  → raw cache (workouts)
+│   ├── strava_sync.py        Strava API: fetch-hr → raw cache (HR); sync → rename activities
+│   ├── build_strength.py     raw cache → strength-data.json (+ volWork in training-data.json)
+│   ├── strength-config.json  gym note tokens (regex → gym), matcher / HRmax settings
+│   ├── test_build_strength.py  unit tests for the builder
+│   └── README-strava.md      Strava setup + commands (HR/EN)
+│
 ├── wrangler.toml         Cloudflare Workers static-assets config (serves the repo root)
-├── .assetsignore         keeps *.md, wrangler.toml, .assetsignore, .gitignore unpublished
+├── .assetsignore         keeps *.md, wrangler.toml, tools/, .assetsignore, .gitignore unpublished
 │
 ├── REFRESH.md            the exact procedure the refresh agent follows
 ├── MANUAL.md             the operator's manual — how you feed it data day to day
@@ -56,6 +69,12 @@ daily-dashboard/
   Intervals.icu   ┘         "dashboard-morning-       training-data.json ▶  Training
   Open-Meteo (air temp) ▶    refresh" (06:00-07:30)
 
+  Hevy API    ┐  hevy_fetch.py            ┐
+  Strava API  ┴▶ strava_sync.py fetch-hr  ├▶ build_strength.py ▶ strength-data.json ▶ Strength
+                 (raw cache, not in repo) ┘   (tools/)        └▶ volWork in training-data.json
+                                                                   (read by the Training tab)
+  Strava write-back:  strava_sync.py sync ▶ Hevy title + set log → Strava activity name/description
+
   you, in a chat        ▶  Claude, on request     ▶  data.json          ▶  Intake
   scale + tape measure  ▶  Claude, on request     ▶  weight-data.json   ▶  Weight
   clinic / pharmacy     ▶  Claude, on request     ▶  clinical-data.json ▶  Health
@@ -72,7 +91,7 @@ food log is only credible against the scale). Cross-tab reads are one-way — a 
 writes a file it does not own.
 
 **Automated vs manual — the line matters.** The scheduled routine stages **only**
-`sleep-data.json` and `training-data.json`. It is forbidden from touching `data.json`,
+`sleep-data.json`, `training-data.json` and `strength-data.json`. It is forbidden from touching `data.json`,
 `weight-data.json` and `clinical-data.json` (REFRESH.md §1e), because those hold things
 only you can know: what you ate, what the scale said, what the lab said. Nothing in this
 repo auto-syncs food, weight or clinical data.
@@ -86,10 +105,15 @@ repo auto-syncs food, weight or clinical data.
 training, rewrites the two auto files (numbers *and* the bilingual EN/HR analysis text),
 commits and pushes; the later attempts are catch-ups for a slow watch→phone sync.
 [`REFRESH.md`](REFRESH.md) is the spec it follows, down to the field formulas and the
-four-slot format of the coaching text.
+four-slot format of the coaching text. After the two files are written, the routine also
+runs the strength pipeline in `tools/` (REFRESH.md §1f: `hevy_fetch.py`, `strava_sync.py
+fetch-hr`, `build_strength.py`, `strava_sync.py sync`), which rebuilds `strength-data.json`,
+adds `volWork` to the gym rows and renames the day's Strava strength activity from Hevy.
+Its raw data and API secrets live under `C:\Users\patri\.claude\cache\daily-dashboard`,
+never in the repo.
 
 **By hand.** In a Claude session that has the wearable connector *and* this repo, say
-`refresh the dashboard`. Same procedure, same two files.
+`refresh the dashboard`. Same procedure, same three files.
 
 **Food, weight, clinical.** You supply the content; Claude writes the file. See
 [`MANUAL.md`](MANUAL.md) for the exact phrasings, and
@@ -144,10 +168,11 @@ a refresh commit.
 | File | Shape | Notes |
 |---|---|---|
 | `sleep-data.json` | `{meta, num{lastNight, week, sleepWake, trend}, text{en,hr}}` | `num.trend[]` is an append-only ≥90-day series of `{d, rhr, hrv, score, durH, deepH, awakeMin}`, one row per calendar day, nulls on untracked nights |
-| `training-data.json` | `{meta, num{kpis, daily, energy, burn, bridge, mld, gym, swim}, text{en,hr}}` | `num.gym[]` / `num.swim[]` are append-only session histories; gym rows carry `lift` and `top{w,reps}`; `tmax`/`tmin` are **air** temperature |
+| `training-data.json` | `{meta, num{kpis, daily, energy, burn, bridge, mld, gym, swim}, text{en,hr}}` | `num.gym[]` / `num.swim[]` are append-only session histories; gym rows carry `lift`, `top{w,reps}` and the builder-written `volWork`; `tmax`/`tmin` are **air** temperature |
+| `strength-data.json` | `{meta, config, muscles, workouts[], exercises{}, weekly[], muscleWeekly[]}` | written only by `tools/build_strength.py`; `workouts[]` newest first, each with `setRows[]` (kg, reps, RPE, e1rm, HR peak + `conf`); `exercises` keyed `<templateId>@<gym>`; see REFRESH.md §1f |
 | `data.json` | `{meta, athlete, targets, targetsNote, days[]}` | targets are per **day type** (training / rest); `days[].veg` is optional and absent means "not logged", not zero |
 | `weight-data.json` | `{meta, config, weeks[], waist[]}` | weekly scale averages + optional waist series — see [`WEIGHT.md`](WEIGHT.md) |
 | `clinical-data.json` | `{meta, markers[], meds[], symptoms[]}` | ships empty; the Health tab renders "not yet measured" per marker |
 
-Full field-by-field definitions live in [`REFRESH.md`](REFRESH.md) (§1c, §1d, §3c–§3e) and,
+Full field-by-field definitions live in [`REFRESH.md`](REFRESH.md) (§1c, §1d, §1f, §3c–§3e) and,
 for the Weight tab, in [`WEIGHT.md`](WEIGHT.md).

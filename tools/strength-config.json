@@ -1,0 +1,21 @@
+{
+  "gyms": {
+    "the ?fit(ness)?": "The Fitness",
+    "\\bxxl\\s*1?": "XXL",
+    "technogym": "The Fitness"
+  },
+  "machineTokens": ["kl", "pq", "sprava", "1sprava", "masina", "sjedeci", "siroki", "uski", "normal grip", "technogym"],
+  "defaultGym": "unknown",
+  "warmupMin": 18,
+  "warmupWindowMin": [15, 22],
+  "hrMax": 173,
+  "mainBlockOffsetMin": 20,
+  "mainBlockTolMin": 5,
+  "anchorSearchMin": 15,
+  "endSlackMin": 5,
+  "anchorRestS": [90, 300],
+  "shortRestS": 30,
+  "_notes": "gyms: case-insensitive regex (searched in workout title, description and all exercise notes) -> gym name; first regex with the most hits wins. Seeded from note tokens: 'The fitness', 'Klthe fit', 'Xxl', 'Xxl1'; 'technogym' -> The Fitness (Technogym machines are only in The Fitness; user fact).",
+  "_notesMatcher": "anchor matcher: main block = Garmin duration - mainBlockOffsetMin (+/- mainBlockTolMin) and ends at the stream end (last set within endSlackMin); exercise 1's work sets (anchor) are searched with their first peak in [warmupWindowMin[0], mainBlockOffsetMin + anchorSearchMin] min, rest between them anchorRestS; any matched rest < shortRestS s is flagged low-confidence.",
+  "_notesMachineTokens": "machineTokens: whole-word, case-insensitive note tokens that describe a MACHINE, not a gym ('Kl', 'Pq', 'sprava X' / '1sprava', 'masina', 'sjedeci', grip words 'siroki' / 'uski' / 'normal grip', 'technogym'). Gym inference: workouts without an explicit gym token get the gym whose explicit workouts are the only ones that used one of their machine / cable exercises (template, or template + machine token); conflicting evidence -> unknown (gymSource 'conflict')."
+}

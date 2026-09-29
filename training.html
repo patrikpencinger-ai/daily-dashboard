@@ -216,6 +216,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <canvas id="ml" role="img" aria-label="Main lift trend: top set weight bars with max and average per-set HR peak lines"></canvas>
 </div>
 <p class="tlab" style="font-size:11px;margin:0 0 1.2rem;" data-i="mlNote">Per-set peaks from 1s FIT heart-rate streams. * = detection flagged for review.</p>
+<p class="tlab" style="font-size:12px;margin:-0.8rem 0 1.2rem;"><a href="strength.html" onclick="return goStrength()" data-i="toStr" style="color:inherit;">Set-level detail and HR per set → Strength tab</a></p>
 <div class="expert" data-role="coach" id="x-mainlift"></div>
 <div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">LATEST VS PREVIOUS — PER-SET PEAKS</div>
 <div class="tlab" id="mlSub" style="font-size:12px;margin:0 0 8px;"></div>
@@ -316,6 +317,7 @@ const T={
   fAll:"All",fSwim:"Swimming",fStr:"Strength",mEff:"Effort",mDur:"Duration",mVol:"Volume",mDist:"Distance",
   lPool:"Pool swim",lOws:"Open water",lStr:"Strength",lMax:"Max HR",lAvg:"Avg HR",lEff:"effort = min × %HRR (max 174 / rest 53)",
   mlH:"MAIN LIFT HR — SET PEAKS",mlW:"Top set weight (kg)",mlMx:"Max set peak",mlAv:"Avg set peak",mlD:"badge = Δ last−first set",rAll:"ALL",
+  toStr:"Set-level detail and HR per set → Strength tab",
   mlNote:"Per-set peaks from 1s FIT heart-rate streams: main block anchored at the post-warmup trough, first N peaks where N = main-compound sets in Hevy. * = detection flagged for review.",
   wsH:"LATEST VS PREVIOUS — PER-SET PEAKS",wsPrev:"previous",wsLast:"latest",
   gH:"GYM — VOLUME, HR & AIR TEMP",gVol:"Volume",gTmp:"Air temp (Open-Meteo daily max/min)",
@@ -324,7 +326,7 @@ const T={
   wH:"DAILY KCAL BRIDGE",wInt:"Intake",wBas:"Basal",wEx:"Exercise",wBal:"Balance",
   eH:"ENERGY BALANCE",eDaily:"Daily exercise burn",eAvg:"7-day avg burn",eInt:"Logged intake",eTgt:"2,000 kcal target",h2:"FINDINGS",
   lwH:"WEEKLY LOAD & ACWR",lwBars:"Weekly tonnage",lwLine:"ACWR (acute : chronic)",lwBand:"bands: green 0.8–1.3 · amber 1.3–1.5 · red >1.5",
-  lwFoot:"ACWR = tonnage of the trailing 7 days ÷ (tonnage of the trailing 28 days ÷ 4), plotted at each week end. Weeks run Mon–Sun.",
+  lwFoot:"Tonnage = work sets (warm-ups excluded) where Hevy data exists, else the session's logged volume. ACWR = tonnage of the trailing 7 days ÷ (tonnage of the trailing 28 days ÷ 4), plotted at each week end. Weeks run Mon–Sun.",
   lwAcwrL:"ACWR today",lwDeloadL:"weeks since deload",lwRestL:"rest days, last 7",lwStreakL:"longest active streak",lwWeeks:"weeks",lwTon:"tonnage",
   lwZ0:"under-loaded",lwZ1:"in range",lwZ2:"caution",lwZ3:"high risk",
   lwNullT:"{x} of {y} gym sessions in the 12-week window have estimated (null) volume — excluded from tonnage.",
@@ -412,6 +414,7 @@ const T={
   fAll:"Sve",fSwim:"Plivanje",fStr:"Snaga",mEff:"Napor",mDur:"Trajanje",mVol:"Volumen",mDist:"Udaljenost",
   lPool:"Bazen",lOws:"Otvorene vode",lStr:"Snaga",lMax:"Maks. puls",lAvg:"Prosj. puls",lEff:"napor = min × %HRR (maks 174 / mirovanje 53)",
   mlH:"PULS GLAVNE VJEŽBE — VRHOVI PO SERIJI",mlW:"Najteža serija (kg)",mlMx:"Maks. vrh serije",mlAv:"Prosj. vrh serije",mlD:"značka = Δ zadnja−prva serija",rAll:"SVE",
+  toStr:"Detalji po seriji i puls po seriji → kartica Snaga",
   mlNote:"Vrhovi po seriji iz 1s FIT zapisa pulsa: glavni blok usidren na minimumu nakon zagrijavanja, prvih N vrhova gdje je N = broj serija glavne vježbe u Hevyju. * = označeno za provjeru.",
   wsH:"ZADNJI VS PRETHODNI — VRHOVI PO SERIJI",wsPrev:"prethodni",wsLast:"zadnji",
   gH:"TERETANA — VOLUMEN, PULS I TEMP. ZRAKA",gVol:"Volumen",gTmp:"Temp. zraka (Open-Meteo dnevni max/min)",
@@ -420,7 +423,7 @@ const T={
   wH:"DNEVNI KCAL MOST",wInt:"Unos",wBas:"Bazalni",wEx:"Trening",wBal:"Bilanca",
   eH:"ENERGETSKA BILANCA",eDaily:"Dnevna potrošnja",eAvg:"7-dnevni prosjek",eInt:"Zabilježeni unos",eTgt:"Cilj 2.000 kcal",h2:"NALAZI",
   lwH:"TJEDNO OPTEREĆENJE I ACWR",lwBars:"Tjedna tonaža",lwLine:"ACWR (akutno : kronično)",lwBand:"pojasi: zeleno 0,8–1,3 · jantar 1,3–1,5 · crveno >1,5",
-  lwFoot:"ACWR = tonaža zadnjih 7 dana ÷ (tonaža zadnjih 28 dana ÷ 4), iscrtano na kraju svakog tjedna. Tjedni idu pon–ned.",
+  lwFoot:"Tonaža = radne serije (bez zagrijavanja) gdje postoje Hevy podaci, inače zabilježeni volumen treninga. ACWR = tonaža zadnjih 7 dana ÷ (tonaža zadnjih 28 dana ÷ 4), iscrtano na kraju svakog tjedna. Tjedni idu pon–ned.",
   lwAcwrL:"ACWR danas",lwDeloadL:"tjedana od rasterećenja",lwRestL:"dana odmora, zadnjih 7",lwStreakL:"najduži niz aktivnih dana",lwWeeks:"tjedni",lwTon:"tonaža",
   lwZ0:"ispod raspona",lwZ1:"u rasponu",lwZ2:"oprez",lwZ3:"visok rizik",
   lwNullT:"{x} od {y} treninga u 12-tjednom prozoru ima procijenjen (prazan) volumen — nije uključen u tonažu.",
@@ -561,7 +564,7 @@ const hotPlug=di=>({id:'hot_'+di,afterDatasetsDraw(ch){const m=ch.getDatasetMeta
 function computeLoad(){
  const g=(DAT.num&&DAT.num.gym)||[];
  if(!g.length)return null;
- const rows=g.map(r=>({d:pd(r.d),vol:nz(r.vol)})).filter(r=>!isNaN(r.d.getTime()));
+ const rows=g.map(r=>({d:pd(r.d),vol:nz(r.volWork ?? r.vol)})).filter(r=>!isNaN(r.d.getTime()));
  if(!rows.length)return null;
  const curMon=monOf(TODAY);
  const weeks=[];for(let i=11;i>=0;i--){const m=shiftD(curMon,-i*7);const e=shiftD(m,6);weeks.push({m,end:e>TODAY?TODAY:e,ton:0,n:0,nulls:0});}
@@ -1349,6 +1352,8 @@ function mlRefresh(mode){
  renderExperts();
 }
 function setLift(l){liftSel=l;markBtns();mlRefresh();}
+/* inside the dashboard shell: switch to the Strength tab; standalone: follow the link */
+function goStrength(){try{const b=window.parent!==window&&window.parent.document.querySelector('nav button[data-tab="strength"]');if(b){b.click();return false;}}catch(e){}return true;}
 function setRange(r){rangeSel=r;markBtns();mlRefresh();}
 
 function redraw(){tr.data.datasets[0].data=D[metric];tr.data.datasets[0].backgroundColor=colors();tr.options.scales.y.min=AX[metric].min;tr.options.scales.y.max=AX[metric].max;tr.options.scales.y.title.text=AX[metric].u;tr.update();}

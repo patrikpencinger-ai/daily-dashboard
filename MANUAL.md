@@ -22,7 +22,8 @@ the machine-facing spec in [`REFRESH.md`](REFRESH.md).
         ↓ 06:00 / 06:30 / 07:00 / 07:30          tape measure        →  weight-data.json
   sleep-data.json  →  SLEEP tab                  BP / labs / meds    →  clinical-data.json
   training-data.json → TRAINING tab              ↓
-                                                 you tell Claude, Claude writes the file
+  Hevy + Strava → tools/ → strength-data.json    you tell Claude, Claude writes the file
+                        → STRENGTH tab (+ Strava activity names)
 ```
 
 The morning routine **never** touches the three manual files. If your food log looks stale,
@@ -184,7 +185,7 @@ asks for it, and to make the overdue and missing measurements visible.
 
 Nothing to do. The routine **`dashboard-morning-refresh`** pulls Garmin + Hevy +
 Intervals.icu, rewrites `sleep-data.json` and `training-data.json` (numbers *and* the EN/HR
-analysis text), commits and pushes.
+analysis text), runs the strength pipeline (`strength-data.json`, §4b), commits and pushes.
 
 **To run it by hand:** open the Claude app → **Routines** in the sidebar → select
 **dashboard-morning-refresh** → **Run now**. Use this after an evening session, or when the
@@ -203,6 +204,102 @@ record.
 The one exception is the 90-day recovery trend chart, which is keyed on the raw wake date
 because it plots daily resting heart rate too — and RHR exists on days you did not sleep
 with the watch on.
+
+---
+
+## 4b. Strength tab & Strava names / Tab Snaga i nazivi na Stravi
+
+The **Strength** tab (`strength-data.json`) and the Strava activity names come from the
+scripts in `tools/`, run by the same morning routine (REFRESH.md §1f). What you type in Hevy
+decides how well the heart-rate peaks land on the sets. / **Tab Snaga** i nazivi aktivnosti na
+Stravi dolaze iz skripti u `tools/`, koje pokreće ista jutarnja rutina (REFRESH.md §1f).
+Ono što upišeš u Hevy određuje koliko dobro se vrhovi pulsa poklope sa serijama.
+
+### How to log in Hevy so matching works / Kako upisivati u Hevy
+
+- **Mark warm-up sets as *warm-up*** (the set type, not just a light weight). / **Zagrijavanje
+  označi kao tip serije "Warm-up".** Only type `warmup` stays out of tonnage and hard sets;
+  a light "normal" set is recognised as a warm-up for HR matching only and still counts in
+  tonnage. / Samo tip `warmup` ne ulazi u tonažu i teške serije; lagana "normal" serija se
+  prepozna kao zagrijavanje samo za uparivanje pulsa, ali ostaje u tonaži.
+- **Log every set, warm-ups included.** Each Hevy set is matched to exactly one HR peak, in
+  order; a missing set shifts everything after it. / **Upiši svaku seriju, i zagrijavanje.**
+  Svaka serija dobije točno jedan vrh pulsa, redom; izostavljena serija pomakne sve iza sebe.
+- **One HR peak per set** — rest long enough for the pulse to come back down between sets;
+  a matched rest under 30 s is flagged low-confidence. / **Jedan vrh pulsa po seriji** —
+  odmori se dovoljno da puls padne između serija; odmor kraći od 30 s se označava kao nepouzdan.
+- **Enter RPE** on work sets — hard sets, e1RM and sRPE need it. / **Upiši RPE** na radnim
+  serijama — teške serije, e1RM i sRPE ovise o njemu.
+- **Keep the watch strength activity running for the whole session, walk + DNS included**
+  (~18–20 min before the first set). The main block is computed as watch duration − 20 min;
+  stopping or splitting the activity breaks that. / **Aktivnost snage na satu neka radi cijelu
+  sesiju, uključujući hodanje i DNS** (~18–20 min prije prve serije). Glavni blok se računa kao
+  trajanje na satu − 20 min; zaustavljanje ili dijeljenje aktivnosti to kvari.
+- Sessions where the peak order stays uncertain show a note in the tab; the numbers remain,
+  read them as a trend. / Treninzi s nesigurnim redoslijedom vrhova imaju napomenu u tabu;
+  brojke ostaju, čitaj ih kao trend.
+
+### Add a gym / Dodaj dvoranu
+
+Edit `tools/strength-config.json`, object **`gyms`**: one line per gym, case-insensitive regex
+→ gym name. The regex is searched in the workout title, description and every exercise note
+(so write the gym name in a note), the gym with the most hits wins, no hit gives `unknown`.
+In JSON the backslash is doubled. / Uredi `tools/strength-config.json`, objekt **`gyms`**:
+jedan redak po dvorani, regex (bez razlike veliko/malo) → naziv. Regex se traži u naslovu,
+opisu i bilješkama vježbi; pobjeđuje dvorana s najviše pogodaka; bez pogotka je `unknown`.
+U JSON-u se obrnuta kosa crta udvostručuje.
+
+```json
+"gyms": {
+  "the ?fit(ness)?": "The Fitness",
+  "\\bxxl\\s*1?": "XXL",
+  "\\bnovi ?gym\\b": "New Gym"
+}
+```
+
+Then `python tools/build_strength.py` (or wait for the morning routine) and commit the config
+by name: `git add tools/strength-config.json`. / Zatim `python tools/build_strength.py` (ili
+pričekaj jutarnju rutinu) i commit konfiguracije po imenu.
+
+### Strava names by hand / Nazivi na Stravi ručno
+
+```powershell
+cd "C:\Users\patri\OneDrive\CLAUDE\daily-dashboard"
+python tools/strava_sync.py sync --days 7 --dry-run     # only prints the plan / samo ispiše plan
+python tools/strava_sync.py sync --days 7               # writes name + description to Strava
+```
+
+`sync` renames each Strava weight-training activity to the Hevy workout title and writes the
+set log into its description (footer `— synced from Hevy`). `--dry-run` changes nothing;
+already-synced activities are skipped unless `--force`; an existing description without our
+footer is replaced (the dry-run says so). The morning routine runs `sync --days 3` **without**
+`--dry-run`. Exit code 2 = not configured / needs re-authorisation, 3 = Strava daily limit.
+/ `sync` prepiše naziv svake Strava aktivnosti snage u naslov Hevy treninga, a u opis upiše
+zapis serija. `--dry-run` ne mijenja ništa; već sinkronizirane se preskaču osim uz `--force`.
+Rutina pokreće `sync --days 3` **bez** `--dry-run`. Kod 2 = nije postavljeno / treba ponovna
+autorizacija, 3 = dnevni limit Strave.
+
+### Re-authorise Strava / Ponovna autorizacija Strave
+
+If `strava_sync.py` says *"No Strava tokens yet"*, *"token refresh failed"* or *"Strava rejected
+the token"* (exit code 2): run **`python tools/strava_sync.py auth`** and click **Authorize** in the
+browser (callback `http://localhost:8765/callback`). / Ako `strava_sync.py` javi da nema tokena
+ili da je token odbijen (kod 2): pokreni `python tools/strava_sync.py auth` i klikni
+**Authorize** u pregledniku.
+
+### Where the keys live, and rotating them / Gdje su ključevi i kako ih zamijeniti
+
+All secrets sit **outside the repo**, in `C:\Users\patri\.claude\cache\daily-dashboard\secrets\`
+(`tools/` is not deployed either):
+
+| File | Holds | Rotate |
+|---|---|---|
+| `secrets\hevy.env` | `HEVY_API_KEY=...` | new key at https://hevy.com/settings?developer, replace the value after `HEVY_API_KEY=` |
+| `secrets\strava.json` | `client_id`, `client_secret` + tokens | regenerate the Client Secret at https://www.strava.com/settings/api, paste it into `client_secret`, then run `python tools/strava_sync.py auth` |
+
+Never paste a key into a chat, a commit or a `.md` file. Raw workouts and HR streams are in
+`C:\Users\patri\.claude\cache\daily-dashboard\strength\raw\` (not `%TEMP%`, which Windows
+clears). / Ključeve nikad ne lijepi u chat, commit ni `.md` datoteku.
 
 ---
 
@@ -241,6 +338,12 @@ for this. If all four missed it, run the routine by hand (§4) later in the morn
 Hevy syncs a few hours behind Garmin. The session is recorded with `vol`, `sets`, `reps`
 and `top` as `null` on purpose — the Garmin heart-rate data is real and belongs on the
 board. The next refresh fills the gaps in. Nothing to do.
+
+**The Strava activity still has the watch's garbage name.**
+`sync` only renames activities it can pair with a Hevy workout (time overlap, 30 min
+tolerance), and only once the Hevy workout exists. Run the dry-run (§4b) to see `NO MATCH`
+lines; if it says setup is needed, re-authorise. / `sync` preimenuje samo aktivnosti koje može
+upariti s Hevy treningom; `--dry-run` pokaže `NO MATCH` retke.
 
 **The routine ran but the site didn't change.**
 Two different failures, and they look identical from the outside:

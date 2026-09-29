@@ -10,8 +10,9 @@ from the Claude app routine **`dashboard-morning-refresh`** (attempts at 06:00, 
 07:00, 07:30 — the first run that finds fresh Garmin data does the work, the rest are
 catch-ups for a late watch sync).
 
-Each refresh rewrites only `sleep-data.json` and `training-data.json` — never the HTML,
-never the three manual data files (§1e) — then commits and pushes. **Cloudflare Workers
+Each refresh rewrites only `sleep-data.json`, `training-data.json` and `strength-data.json`
+(the last one produced by the scripts in `tools/`, §1f) — never the HTML, never the three
+manual data files (§1e) — then commits and pushes. **Cloudflare Workers
 static assets** redeploy from `main` automatically (~1 min) to **dash.er45.com**.
 
 ---
@@ -147,6 +148,10 @@ rows on disk are currently `null`: 2026-06-23 (`hack`, Hevy never synced) and th
 once. From now on they are written **only on the newly appended row**. Never recompute
 `lift` or `top` for existing rows — a title-rule change would silently rewrite history.
 
+**One key is not the agent's: `volWork`.** The schema above is what the agent writes. One
+extra key, `gym[].volWork` (work-set tonnage, kg), is written into every gym row by
+`tools/build_strength.py` (§1f) — the agent never computes it and never strips it.
+
 ## 1d. Recovery trend (`sleep-data.json` → `num.trend`)
 
 `num.trend[]` is the long recovery series that RHR/HRV baselines, sleep-debt counting and
@@ -189,11 +194,12 @@ Row shape (exact keys, ascending by `d`):
 ## 1e. Files the routine must never touch
 
 The scheduled refresh — and any "refresh the dashboard" run without an explicit user
-instruction — stages **exactly two files**:
+instruction — stages **exactly three files**:
 
 ```
 sleep-data.json      ← automated (this document, §1, §1b, §1d)
-training-data.json   ← automated (this document, §1, §1c)
+training-data.json   ← automated (this document, §1, §1c; `volWork` from §1f)
+strength-data.json   ← automated (tools/build_strength.py, §1f)
 ```
 
 These three are **manual only**. They change when the user supplies the content, never as
@@ -206,9 +212,114 @@ a side effect of a refresh:
 | `clinical-data.json` | clinic + pharmacy (§3d) | the user says "add clinical: …" |
 
 Also never touched by a refresh: every `*.html` file, `wrangler.toml`, `.assetsignore`,
-and the `.md` docs. Stage files by name — `git add sleep-data.json training-data.json` —
+the `.md` docs and the scripts/config in `tools/`. Stage files by name —
+`git add sleep-data.json training-data.json strength-data.json` —
 **never `git add .` or `git add -A`**, which is how a half-finished HTML edit from another
 session ends up in a refresh commit.
+
+## 1f. Strength pipeline (`strength-data.json`)
+
+`strength-data.json` is built by three stdlib-only Python scripts in `tools/` (Python 3.11+),
+not by the connector. Data goes Hevy API + Strava API → local cache → `build_strength.py` →
+`strength-data.json` (Strength tab), plus a write-back that renames the Strava activity.
+Nothing in this section needs the wearable connector; it needs the local machine.
+
+### Morning steps — in this order, from the repo root
+
+```
+python tools/hevy_fetch.py --days 3
+python tools/strava_sync.py fetch-hr --days 3
+python tools/build_strength.py
+python tools/strava_sync.py sync --days 3
+```
+
+1. `hevy_fetch.py --days 3` — Hevy API → `…\strength\raw\hevy\<date>_<id>.json` (verbatim;
+   also picks up edited and deleted workouts). Idempotent; prints counts only. Exit 0 ok,
+   1 = missing/unusable key or API error.
+2. `strava_sync.py fetch-hr --days 3` — 1 Hz heart-rate stream of every Strava
+   WeightTraining/Workout activity → `…\strength\raw\strava_hr\<local date>_<strava id>.json`.
+   Existing files are skipped (no `--force`). The chest-strap stream is the HR input.
+3. `build_strength.py` — no flags in the routine. Reads the raw cache, matches HR peaks to
+   sets, writes `strength-data.json` in the repo root **and** `volWork` into
+   `training-data.json` (below). Run it after §1–§3 have written `training-data.json` and
+   before §4, so the new gym row gets its `volWork`. The first run (or
+   `--refresh-templates`) fetches the Hevy exercise templates into `…\strength\templates.json`;
+   an exercise added in Hevy later shows muscle `other` until templates are refreshed.
+4. `strava_sync.py sync --days 3` — renames each Strava weight-training activity to the
+   Hevy title and writes the clean set log into its description (footer `— synced from
+   Hevy`; already-synced activities are skipped). The routine runs it **without `--dry-run`**.
+
+Exit codes of `strava_sync.py`: 0 ok, **2 = not configured** (missing keys/tokens; message says
+what to do — the routine logs it and continues), 3 = Strava daily rate limit, 1 = other API
+error. A non-zero exit of any §1f step goes into the refresh report; it never blocks the
+sleep and training files from being committed.
+
+### Where things live (never in the repo)
+
+```
+C:\Users\patri\.claude\cache\daily-dashboard\strength\raw\hevy\        Hevy workouts (hevy_fetch.py)
+C:\Users\patri\.claude\cache\daily-dashboard\strength\raw\strava_hr\   HR streams (fetch-hr)
+C:\Users\patri\.claude\cache\daily-dashboard\strength\raw\garmin_hr\   older hand-filled HR streams
+C:\Users\patri\.claude\cache\daily-dashboard\strength\templates.json   Hevy exercise templates
+C:\Users\patri\.claude\cache\daily-dashboard\secrets\hevy.env          HEVY_API_KEY=...
+C:\Users\patri\.claude\cache\daily-dashboard\secrets\strava.json       client id/secret + tokens
+```
+
+`ZG_CACHE` overrides the cache root. Secrets are never printed and never committed; `tools/`
+is listed in `.assetsignore`, so the scripts and `tools/strength-config.json` are versioned but
+not deployed to dash.er45.com. When `raw\strava_hr` and `raw\garmin_hr` hold the same
+activity (starts within 2 min), Strava wins; the choice is stored per workout as
+`hr.source` (`strava` | `garmin`).
+
+### Matching model — HR peaks to sets (plain words)
+
+No source has set markers, so each Hevy set is assigned one HR peak:
+
+- **Warm-up** on the watch is ~18–20 min (walk + DNS drills) and holds no Hevy sets. Hevy's own
+  start/end times are not trusted.
+- **Main block** ≈ Garmin duration − 20 min (`mainBlockOffsetMin`, ± `mainBlockTolMin`), and
+  it ends where the HR stream ends.
+- **Anchor** = the first compound's main work sets (usually 3 big, similar, well-separated
+  peaks); its warm-up sets are matched to smaller peaks just before the anchor.
+- **Remaining sets** are matched forward from the anchor in Hevy order (exercise order ×
+  set order; supersets interleaved), **one peak per set, peaks are never invented** — a set
+  with no peak stays unmatched with conf 0.
+- **`conf` per set** (0–1) says how clearly the set sits on its bump versus the best
+  alternative. A matched rest under 30 s is flagged `shortRest` and capped at 0.25. A
+  session whose median set `conf` is below 0.3 is listed in
+  `meta.matchSummary.lowConfSessions` and the Strength tab shows a "peak order uncertain"
+  note on it; its numbers stay visible.
+- Warm-ups typed `warmup` in Hevy are used as such; ones logged as `normal` but obviously
+  ramp-up sets are inferred (`warmupInferred`) **for matching only**.
+
+### Load definitions
+
+| Field | Definition |
+|---|---|
+| `tonnageWork` | Σ kg × reps over sets whose Hevy type is not `warmup` (`tonnageAll` includes them) |
+| hard set | non-warm-up set with RPE ≥ 7 (no RPE → unknown, except type `failure` → hard) |
+| failure | RPE ≥ 9.5 or type `failure` |
+| `e1rm` | kg × (1 + (reps + 10 − RPE) / 30); no RPE → RIR 0; none for warm-ups, unloaded or rep-less sets |
+| `sRPE` | average RPE of the work sets × main-block minutes (`mainMin`; Hevy duration if no HR) |
+| `hrLoad` | Edwards TRIMP over the main block, HRmax 173 (`hrMax`): 1 Hz zone weight 1–5 for 50–60 / 60–70 / 70–80 / 80–90 / ≥ 90 % HRmax, below 50 % = 0, in zone-minutes |
+| muscle credit | per exercise: hard sets and `tonnageWork` credited 1 × to the primary muscle and 0.5 × to each secondary, from the Hevy exercise templates |
+| ACWR (`weekly`) | acute = last 7 d ÷ (last 28 d ÷ 4), on `tonnageWork` and on `sRPE` |
+
+**Gyms.** `tools/strength-config.json` → `gyms` maps case-insensitive regexes to gym names.
+Each regex is searched in the workout title, description and every exercise note; the gym
+with the most hits wins (ties → config order), no hit → `defaultGym` (`unknown`). The gym goes
+into each exercise key `<templateId>@<gym>`, so progression is tracked per exercise **per
+gym**. Add a gym by adding a line there — no code change.
+
+**`training-data.json` → `num.gym[].volWork`.** The builder writes it into every gym row,
+right after `top`: `round(Σ tonnageWork of that date's Hevy workouts)` in kg, `null` when
+there is no Hevy workout that date. It is recomputed on every run (it is builder-owned, unlike
+`lift`/`top`) and skipped with `--no-training-data`. The Training tab's tonnage/ACWR chart
+reads `volWork ?? vol`. §3a slot 1 and flag 1 still name `num.gym[].vol` (Hevy's total, warm-ups
+included), so the agent's ACWR and the tab's ACWR can differ slightly.
+
+`strength-data.json` `meta.refreshedAt` is what the shell's "Strength" last-refresh chip
+reads (not `meta.snapshot`).
 
 ## 2. Transform into the JSON shapes
 
@@ -351,7 +462,7 @@ file.
 ## 4. Commit & push
 
 ```
-git add sleep-data.json training-data.json   # + data.json if food was updated
+git add sleep-data.json training-data.json strength-data.json   # + data.json if food was updated
 git commit -m "refresh: data for <YYYY-MM-DD>"
 git push
 ```

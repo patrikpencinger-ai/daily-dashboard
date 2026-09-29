@@ -2,3 +2,4 @@ wrangler.toml
 .assetsignore
 .gitignore
 *.md
+tools/
