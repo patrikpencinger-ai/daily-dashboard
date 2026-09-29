@@ -28,7 +28,7 @@
    "status": "improving - down 44 kg from 155kg peak to 111.4kg (2026-06-25); BMI 51.8 -> 37.2",
    "detail": "Peak weight ~155 kg (BMI 51.8); current 111.4 kg (BMI 37.2) after tirzepatide + lifestyle change.",
    "detailHr": null,
-   "doctor": "diabetologist/endocrinologist Dr. Majic-Milotic"
+   "doctor": "diabetologist/endocrinologist Dr. Majić-Milotić"
   },
   {
    "name": "Dyslipidaemia",
@@ -46,7 +46,7 @@
    "status": "improved - HbA1c 6.2% -> 5.5%; prediabetes resolved per dossier wins",
    "detail": "HOMA-IR historically elevated (up to 5.9), fasting insulin elevated (up to 275.6 pmol/L); HbA1c trended from 6.2% down to 5.5% (last measured 2026-02-17: 5.5%). On metformin (Siofor + Synjardy) and tirzepatide (Mounjaro).",
    "detailHr": null,
-   "doctor": "diabetologist/endocrinologist Dr. Majic-Milotic"
+   "doctor": "diabetologist/endocrinologist Dr. Majić-Milotić"
   },
   {
    "name": "Hypertension",
@@ -163,7 +163,7 @@
    "specialty": "hematologist"
   },
   {
-   "name": "Majic-Milotic",
+   "name": "Majić-Milotić",
    "specialty": "diabetologist/endocrinologist"
   },
   {
@@ -609,14 +609,14 @@
    "lo": null,
    "hi": 130,
    "label": "Blood pressure - systolic",
-   "labelHr": "Krvni tlak - sistolicki",
+   "labelHr": "Krvni tlak - sistolički",
    "note": "display only: ACC/AHA <120 optimal, 120-129 elevated, >=130 stage 1; ESC <130"
   },
   "bp_dia": {
    "lo": null,
    "hi": 80,
    "label": "Blood pressure - diastolic",
-   "labelHr": "Krvni tlak - dijastolicki",
+   "labelHr": "Krvni tlak - dijastolički",
    "note": "display only: ACC/AHA <80; ESC <85"
   },
   "pulse": {
@@ -6102,7 +6102,7 @@
  },
  "disclaimers": [
   "This is an informational clinical-safety review based on a summarized data pack, not a medical consultation, diagnosis, or prescription. It does not establish a doctor-patient relationship.",
-  "Every medication, dose, supplement, and therapy decision — including aspirin, the diabetes regimen, testosterone, PDE5 inhibitors, and any peri-exercise medication holds — must be made by his own physicians (cardiologist, hematologist Dr. Mandac Rogulj, diabetologist Dr. Majic-Milotic, and endocrinologist), who can examine him and see current results. Do not start, stop, or change any medication on your own.",
+  "Every medication, dose, supplement, and therapy decision — including aspirin, the diabetes regimen, testosterone, PDE5 inhibitors, and any peri-exercise medication holds — must be made by his own physicians (cardiologist, hematologist Dr. Mandac Rogulj, diabetologist Dr. Majić-Milotić, and endocrinologist), who can examine him and see current results. Do not start, stop, or change any medication on your own.",
   "Drug identities for Articel (perindopril) and Pinox (amlodipine) were inferred from the records and should be confirmed; recommendations assume they are correct.",
   "Some data are still pending rather than outdated: fasting insulin/HOMA-IR and SHBG (last 2023–24), immunoglobulins (2022), and an updated echocardiogram/stress test (~2019). Your bloodwork itself is current (Feb 2026).",
   "Red-flag symptoms warranting urgent or emergency care take precedence over any routine recommendation here — when in doubt, seek medical care.",

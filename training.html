@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's training — trailing 7 days</title>
+<title>Patrikov trening — zadnjih 7 dana</title>
+<script>/* language before first paint: hide the page until the i18n pass has run (fallback 3 s) */
+(function(){var l='hr';try{var v=localStorage.getItem('dash-lang');if(v==='en'||v==='hr')l=v;}catch(e){}
+ var h=document.documentElement;h.lang=l;h.classList.add('i18n-pending');
+ setTimeout(function(){h.classList.remove('i18n-pending');},3000);})();</script>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%23D85A30'/><rect%20x='4'%20y='12'%20width='4'%20height='8'%20rx='1.5'%20fill='%23fff'/><rect%20x='24'%20y='12'%20width='4'%20height='8'%20rx='1.5'%20fill='%23fff'/><rect%20x='8'%20y='10'%20width='4'%20height='12'%20rx='1.5'%20fill='%23fff'/><rect%20x='20'%20y='10'%20width='4'%20height='12'%20rx='1.5'%20fill='%23fff'/><rect%20x='12'%20y='14.5'%20width='8'%20height='3'%20rx='1.5'%20fill='%23fff'/></svg>">
 <style>
+html.i18n-pending #twrap{visibility:hidden}
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 body{padding:20px;transition:background .2s}
 #twrap{--bg:#ffffff;--surf:#f1efe8;--tp:#1a1a18;--ts:rgba(0,0,0,0.62);--bd:rgba(0,0,0,0.28);--acc:#D85A30;--good:#1D9E75;--warn:#BA7517;--bad:#A32D2D;background:var(--bg);color:var(--tp);padding:16px;border-radius:12px;width:100%;max-width:900px;margin:0 auto;box-sizing:border-box}
@@ -74,7 +79,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
     <button id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hr" onclick="setLang('hr')">HR</button>
-    <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
+    <button id="btn-fs" onclick="toggleFont()" data-ia="aFs" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
   </div>
 </div>
 
@@ -96,7 +101,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
     <span data-i="lwBand" style="display:flex;align-items:center;gap:4px;">bands: green 0.8–1.3 · amber 1.3–1.5 · red &gt;1.5</span>
   </div>
   <div id="acwwrap" style="position:relative;width:100%;height:280px;margin:0 0 0.4rem;">
-    <canvas id="acw" role="img" aria-label="Weekly lifted tonnage bars with acute to chronic workload ratio line and risk bands"></canvas>
+    <canvas id="acw" role="img" data-ia="aAcw" aria-label="Weekly lifted tonnage bars with acute to chronic workload ratio line and risk bands"></canvas>
   </div>
   <p class="tlab note" id="loadSub" style="margin:0 0 0.2rem;"></p>
   <p class="tlab note" id="loadFoot" data-i="lwFoot" style="margin:0 0 10px;"></p>
@@ -142,13 +147,13 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#D85A30;"></span><span data-i="lStr">Strength</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="color:#E24B4A;">♥</span><span data-i="lMax">Max HR</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="color:#E0A53C;">♥</span><span data-i="lAvg">Avg HR</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="color:#1D9E75;">♥</span>RHR</span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="color:#1D9E75;">♥</span><span data-i="lRhr">RHR</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:1.5px dashed #E24B4A;"></span><span data-i="lRef">HR max reference 173 (Fox) / 175 (Tanaka)</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:11px;height:11px;border-radius:50%;border:1.5px solid #A32D2D;"></span><span data-i="lHot">ring = peak ≥165 (95% of 173)</span></span>
   <span data-i="lEff" style="display:flex;align-items:center;gap:4px;">effort = min × %HRR (max 174 / rest 53)</span>
 </div>
 <div id="trwrap" style="position:relative;width:100%;height:380px;margin:0 0 0.4rem;">
-  <canvas id="tr" role="img" aria-label="Daily training bars with switchable metric and three heart-rate overlays"></canvas>
+  <canvas id="tr" role="img" data-ia="aTr" aria-label="Daily training bars with switchable metric and three heart-rate overlays"></canvas>
 </div>
 <p class="tlab note" data-i="xNote" style="margin:0 0 10px;"></p>
 
@@ -162,7 +167,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #888780;"></span><span data-i="eTgt">2,000 kcal target</span></span>
 </div>
 <div id="enwrap" style="position:relative;width:100%;height:300px;margin:0 0 0.5rem;">
-  <canvas id="en" role="img" aria-label="Energy lines: daily exercise calories, 7-day average burn, logged intake, 2000 kcal target"></canvas>
+  <canvas id="en" role="img" data-ia="aEn" aria-label="Energy lines: daily exercise calories, 7-day average burn, logged intake, 2000 kcal target"></canvas>
 </div>
 <p class="tlab" style="font-size:11px;margin:0 0 10px;" data-i="eNote"></p>
 
@@ -177,7 +182,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <span style="display:flex;align-items:center;gap:4px;color:#1D9E75;font-weight:500;" data-i="bBal">badge = daily balance</span>
 </div>
 <div id="bcwrap" style="position:relative;width:100%;height:330px;margin:0 0 0.5rem;">
-  <canvas id="bc" role="img" aria-label="Stacked burn bars: basal plus net exercise, with intake line, target, and daily balance badges"></canvas>
+  <canvas id="bc" role="img" data-ia="aBc" aria-label="Stacked burn bars: basal plus net exercise, with intake line, target, and daily balance badges"></canvas>
 </div>
 <p class="tlab" style="font-size:11px;margin:0 0 10px;" data-i="bNote"></p>
 
@@ -186,7 +191,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <div data-i="wH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">DAILY KCAL BRIDGE</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;" id="bridgerow"></div>
 <div id="brwrap" style="position:relative;width:100%;height:330px;margin:0 0 0.5rem;">
-  <canvas id="br" role="img" aria-label="Waterfall bridge: intake minus basal minus net exercise equals daily balance"></canvas>
+  <canvas id="br" role="img" data-ia="aBr" aria-label="Waterfall bridge: intake minus basal minus net exercise equals daily balance"></canvas>
 </div>
 <p class="tlab" style="font-size:11px;margin:0 0 10px;" data-i="wNote"></p>
 
@@ -194,14 +199,14 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 
 <div data-i="mlH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">MAIN LIFT HR — SET PEAKS</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;" id="liftrow">
-  <button data-l="trap" onclick="setLift('trap')">Trap-bar DL</button>
-  <button data-l="hack" onclick="setLift('hack')">Hack Squat</button>
-  <button data-l="goblet" onclick="setLift('goblet')">Goblet Squat</button>
+  <button data-l="trap" onclick="setLift('trap')" data-i="lbTrap">Trap-bar DL</button>
+  <button data-l="hack" onclick="setLift('hack')" data-i="lbHack">Hack Squat</button>
+  <button data-l="goblet" onclick="setLift('goblet')" data-i="lbGoblet">Goblet Squat</button>
 </div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;" id="rangerow">
-  <button data-r="7" onclick="setRange(7)">7D</button>
-  <button data-r="28" onclick="setRange(28)">4W</button>
-  <button data-r="84" onclick="setRange(84)">12W</button>
+  <button data-r="7" onclick="setRange(7)" data-i="r7">7D</button>
+  <button data-r="28" onclick="setRange(28)" data-i="r28">4W</button>
+  <button data-r="84" onclick="setRange(84)" data-i="r84">12W</button>
   <button data-r="0" onclick="setRange(0)" data-i="rAll">ALL</button>
 </div>
 <div class="tlab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
@@ -213,7 +218,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 </div>
 <div class="chiprow" id="jumpChips"></div>
 <div id="mlwrap" style="position:relative;width:100%;height:360px;margin:0 0 0.4rem;">
-  <canvas id="ml" role="img" aria-label="Main lift trend: top set weight bars with max and average per-set HR peak lines"></canvas>
+  <canvas id="ml" role="img" data-ia="aMl" aria-label="Main lift trend: top set weight bars with max and average per-set HR peak lines"></canvas>
 </div>
 <p class="tlab" style="font-size:11px;margin:0 0 1.2rem;" data-i="mlNote">Per-set peaks from 1s FIT heart-rate streams. * = detection flagged for review.</p>
 <p class="tlab" style="font-size:12px;margin:-0.8rem 0 1.2rem;"><a href="strength.html" onclick="return goStrength()" data-i="toStr" style="color:inherit;">Set-level detail and HR per set → Strength tab</a></p>
@@ -225,7 +230,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#D85A30;"></span><span data-i="wsLast">latest</span></span>
 </div>
 <div id="wswrap" style="position:relative;width:100%;height:280px;margin:0 0 10px;">
-  <canvas id="ws" role="img" aria-label="Per-set HR peaks of latest vs previous session"></canvas>
+  <canvas id="ws" role="img" data-ia="aWs" aria-label="Per-set HR peaks of latest vs previous session"></canvas>
 </div>
 
 <div class="expert" data-role="coach" id="x-sets"></div>
@@ -249,7 +254,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:11px;height:11px;border-radius:50%;border:1.5px solid #A32D2D;"></span><span data-i="lHot">ring = peak ≥165 (95% of 173)</span></span>
 </div>
 <div id="gmwrap" style="position:relative;width:100%;height:340px;margin:0 0 10px;">
-  <canvas id="gm" role="img" aria-label="Gym sessions: lifted volume bars with max and average heart rate lines and the day's temperature"></canvas>
+  <canvas id="gm" role="img" data-ia="aGm" aria-label="Gym sessions: lifted volume bars with max and average heart rate lines and the day's temperature"></canvas>
 </div>
 <div class="expert" data-role="coach" id="x-gym"></div>
 </div>
@@ -267,7 +272,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:11px;height:11px;border-radius:50%;border:1.5px solid #A32D2D;"></span><span data-i="lHot">ring = peak ≥165 (95% of 173)</span></span>
 </div>
 <div id="swwrap" style="position:relative;width:100%;height:340px;margin:0 0 0.4rem;">
-  <canvas id="sw" role="img" aria-label="Swim sessions: pace per 100 meters, axis inverted so a faster pace sits higher, with max and average heart rate"></canvas>
+  <canvas id="sw" role="img" data-ia="aSw" aria-label="Swim sessions: pace per 100 meters, axis inverted so a faster pace sits higher, with max and average heart rate"></canvas>
 </div>
 <p class="tlab note" data-i="swOpt" style="margin:0 0 10px;"></p>
 
@@ -278,7 +283,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <p class="tlab note" data-i="seNote" style="margin:0 0 8px;"></p>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;" id="effrow"></div>
   <div id="sewrap" style="position:relative;width:100%;height:260px;margin:0 0 0.4rem;">
-    <canvas id="se" role="img" aria-label="Swim efficiency index per session within one matched set type, lower is better"></canvas>
+    <canvas id="se" role="img" data-ia="aSe" aria-label="Swim efficiency index per session within one matched set type, lower is better"></canvas>
   </div>
   <p class="tlab note" id="effSub" style="margin:0 0 10px;"></p>
   <div class="expert" data-role="coach" id="x-eff"></div>
@@ -295,13 +300,15 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 
 <div class="expert" data-role="coach" id="x-findings"></div>
 
-<p class="tlab" style="font-size:11px;margin:10px 2px 0;"><span data-i="foot"></span> · Training Dashboard · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a> · <span data-i="foot2"></span></p>
+<p class="tlab" style="font-size:11px;margin:10px 2px 0;"><span data-i="foot"></span> · <span data-i="fBrand">Training Dashboard</span> · <span data-i="fBy">by</span> <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a> · <span data-i="foot2"></span></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-let layout='',metric='effort',filter='all',lang='en';
+let layout='',metric='effort',filter='all';
+/* shared language contract: localStorage['dash-lang'] = 'hr' | 'en', default 'hr', read before first render */
+let lang=(()=>{try{const v=localStorage.getItem('dash-lang');return (v==='en'||v==='hr')?v:'hr';}catch(e){return 'hr';}})();
 let fontbig=false;
 let BG,txt,strong,halo,grid;
 function calc(){const D=theme==='dark';BG=D?'#262624':'#ffffff';txt=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';strong=D?'#fff':'#1a1a18';halo=D?'rgba(38,38,36,0.85)':'rgba(255,255,255,0.85)';grid=D?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.08)';}
@@ -314,6 +321,21 @@ const AX={effort:{min:0,max:55,u:'pts'},dur:{min:0,max:95,u:'min'},kcal:{min:0,m
 /* Static UI labels only. Data + analysis text come from training-data.json */
 const T={
  en:{title:"PATRIK'S TRAINING — TRAILING 7 DAYS",k1:"Sessions",k2:"Total time",k3:"Lifted volume",k4:"Active calories",
+  docTitle:"Patrik's training — trailing 7 days",fBrand:"Training Dashboard",fBy:"by",
+  errLoad:"Could not load training-data.json ({m}). Serve over http (works on GitHub Pages).",
+  lRhr:"RHR",uPts:"pts",lbTrap:"Trap-bar DL",lbHack:"Hack Squat",lbGoblet:"Goblet Squat",r7:"7D",r28:"4W",r84:"12W",
+  swLen:"{n} lengths",swSpm:"{n} spm",stPool:"Pool Swim",
+  dtPool:"Pool swim",dtOws:"Open-water swim",dtStr:"Strength session",dtRest:"Rest day",
+  aFs:"Large font",aAcw:"Weekly lifted tonnage bars with acute to chronic workload ratio line and risk bands",
+  aTr:"Daily training bars with switchable metric and three heart-rate overlays",
+  aEn:"Energy lines: daily exercise calories, 7-day average burn, logged intake, 2000 kcal target",
+  aBc:"Stacked burn bars: basal plus net exercise, with intake line, target, and daily balance badges",
+  aBr:"Waterfall bridge: intake minus basal minus net exercise equals daily balance",
+  aMl:"Main lift trend: top set weight bars with max and average per-set HR peak lines",
+  aWs:"Per-set HR peaks of latest vs previous session",
+  aGm:"Gym sessions: lifted volume bars with max and average heart rate lines and the day's temperature",
+  aSw:"Swim sessions: pace per 100 meters, axis inverted so a faster pace sits higher, with max and average heart rate",
+  aSe:"Swim efficiency index per session within one matched set type, lower is better",
   fAll:"All",fSwim:"Swimming",fStr:"Strength",mEff:"Effort",mDur:"Duration",mVol:"Volume",mDist:"Distance",
   lPool:"Pool swim",lOws:"Open water",lStr:"Strength",lMax:"Max HR",lAvg:"Avg HR",lEff:"effort = min × %HRR (max 174 / rest 53)",
   mlH:"MAIN LIFT HR — SET PEAKS",mlW:"Top set weight (kg)",mlMx:"Max set peak",mlAv:"Avg set peak",mlD:"badge = Δ last−first set",rAll:"ALL",
@@ -411,6 +433,21 @@ const T={
   xFindNothing:"Nothing on this tab needs a change this week — repeat the block and let the numbers move.",
   xFindDont:"Do not change training and food in the same week. Intake has {n} of 7 days logged, so a training change made now would be untestable."},
  hr:{title:"PATRIKOV TRENING — ZADNJIH 7 DANA",k1:"Treninzi",k2:"Ukupno vrijeme",k3:"Podignuti volumen",k4:"Aktivne kalorije",
+  docTitle:"Patrikov trening — zadnjih 7 dana",fBrand:"Nadzorna ploča treninga",fBy:"autor",
+  errLoad:"Nije moguće učitati training-data.json ({m}). Otvori preko http-a (radi na GitHub Pages).",
+  lRhr:"Puls u mirovanju",uPts:"bod.",lbTrap:"Trap-bar MD",lbHack:"Hack čučanj",lbGoblet:"Goblet čučanj",r7:"7D",r28:"4T",r84:"12T",
+  swLen:"{n} dužina",swSpm:"{n} zav/min",stPool:"Bazen",
+  dtPool:"Plivanje u bazenu",dtOws:"Plivanje na otvorenom",dtStr:"Trening snage",dtRest:"Dan odmora",
+  aFs:"Veliki font",aAcw:"Stupci tjedne podignute tonaže s linijom omjera akutnog i kroničnog opterećenja i pojasevima rizika",
+  aTr:"Dnevni stupci treninga s promjenjivom metrikom i tri sloja pulsa",
+  aEn:"Energetske linije: dnevne kalorije treninga, 7-dnevni prosjek potrošnje, zabilježeni unos, cilj 2.000 kcal",
+  aBc:"Složeni stupci potrošnje: bazalno plus neto trening, s linijom unosa, ciljem i značkama dnevne bilance",
+  aBr:"Vodopadni most: unos minus bazalno minus neto trening jednako dnevna bilanca",
+  aMl:"Trend glavne vježbe: stupci najteže serije s linijama maks. i prosječnog vrha pulsa po seriji",
+  aWs:"Vrhovi pulsa po seriji, zadnji naspram prethodnog treninga",
+  aGm:"Treninzi u teretani: stupci podignutog volumena s linijama maks. i prosječnog pulsa i dnevnom temperaturom",
+  aSw:"Plivanja: tempo na 100 metara, os obrnuta pa je brži tempo više, s maks. i prosječnim pulsom",
+  aSe:"Indeks učinkovitosti plivanja po treningu unutar istog tipa treninga, manje je bolje",
   fAll:"Sve",fSwim:"Plivanje",fStr:"Snaga",mEff:"Napor",mDur:"Trajanje",mVol:"Volumen",mDist:"Udaljenost",
   lPool:"Bazen",lOws:"Otvorene vode",lStr:"Snaga",lMax:"Maks. puls",lAvg:"Prosj. puls",lEff:"napor = min × %HRR (maks 174 / mirovanje 53)",
   mlH:"PULS GLAVNE VJEŽBE — VRHOVI PO SERIJI",mlW:"Najteža serija (kg)",mlMx:"Maks. vrh serije",mlAv:"Prosj. vrh serije",mlD:"značka = Δ zadnja−prva serija",rAll:"SVE",
@@ -432,17 +469,17 @@ const T={
   pgTon:"tonaža",pgKgr:"kg/pon",pgE1:"e1RM (Epley)",pgDelta:"vs prvi",pgSess:"{n} treninga",pgDrop:"kg/pon −{p}% kroz zadnja 3 treninga",pgNoVol:"nema zabilježenog volumena",
   lname:{hack:"Hack čučanj",front:"Prednji čučanj (šipka)",bbdl:"Mrtvo dizanje (šipka)",trap:"Trap-bar mrtvo dizanje",goblet:"Goblet čučanj",squat:"Čučnjevi",other:"Ostali treninzi"},
   seH:"UČINKOVITOST PLIVANJA — ISTI TIP TRENINGA",seNote:"Učinkovitost = tempo (s/100 m) × (prosj. puls − puls u mirovanju). Manje je bolje. Uspoređuju se samo treninzi istog tipa; plivanja na otvorenom su isključena.",
-  seAxis:"indeks (manje = bolje)",seRhrDay:"puls u mirovanju tog dana",seRhrLatest:"zadnji dostupni puls u mirovanju ({v} otk/min, {d})",seRhrShort:"zadnji dostupni",
+  seAxis:"indeks (manje = bolje)",seRhrDay:"puls u mirovanju tog dana",seRhrLatest:"zadnji dostupni puls u mirovanju ({v} bpm, {d})",seRhrShort:"zadnji dostupni",
   seSubT:"Referentni puls u mirovanju: {n} od {m} treninga koristi {a}; ostatak ({o}): {b}.",seVal:"Učinkovitost",
   heat30T:"{n} treninga na temp. zraka 30–35 °C (zadnji {d})",heat35T:"{n} treninga na ≥35 °C — hidracija + elektroliti (zadnji {d})",
   heatTip:"toplinsko opterećenje — temp. zraka {v} °C",heatTip35:"hidracija + elektroliti — temp. zraka {v} °C",
   lRef:"Referentni maks. puls 173 (Fox) / 175 (Tanaka)",lHot:"prsten = vrh ≥165 (95% od 173)",hotTip:"≥95% maks. pulsa",
-  swOpt:"Optički senzor pulsa na zapešću nepouzdan je u vodi: izolirani skok znatno iznad prosjeka treninga (npr. 174 otk/min uz prosjek 126) treba tretirati kao sumnjiv podatak, a ne stvarni napor. Pojas na prsima to rješava.",
+  swOpt:"Optički senzor pulsa na zapešću nepouzdan je u vodi: izolirani skok znatno iznad prosjeka treninga (npr. 174 bpm uz prosjek 126) treba tretirati kao sumnjiv podatak, a ne stvarni napor. Pojas na prsima to rješava.",
   rdH:"DANAŠNJI TRENING",rdR:"spremnost",rdGo:"Nastavi po planu; opterećenje smije rasti",rdHold:"Nastavi; zadrži težine, bez pokušaja rekorda",rdCut:"Smanji najteže serije ~30% ili zamijeni laganim plivanjem",
-  rdInT:"Ulazi: ocjena sna {s}, HRV {h} ms (osnovica {hb}), puls u mirovanju {r} otk/min (osnovica {rb}), ACWR {a}.",rdBaseT:"Osnovice: {src}.",
+  rdInT:"Ulazi: ocjena sna {s}, HRV {h} ms (osnovica {hb}), puls u mirovanju {r} bpm (osnovica {rb}), ACWR {a}.",rdBaseT:"Osnovice: {src}.",
   rdSrc28:"28-dnevni prosjeci iz trenda sna ({n} noći)",rdSrc7:"prosjeci 7 noći iz tjedna sna (28-dnevni trend još nije dostupan)",rdNoAcwr:"nedostupno",
   rdDiv:"Puls u mirovanju +≥5% i HRV −≥15% u odnosu na 28-dnevnu osnovicu — smanji opterećenje, moguća bolest",rdDivOk:"RHR/HRV divergencija: nema",rdDivNo:"Provjera RHR/HRV divergencije treba 28 dana povijesti",
-  xNote:"Kartica Spavanje označava noći prema večeri u kojoj počinju; ova kartica označava po kalendarskom danu — isti puls u mirovanju pojavljuje se jednu oznaku dalje.",
+  xNote:"Kartica San i oporavak označava noći prema večeri u kojoj počinju; ova kartica označava po kalendarskom danu — isti puls u mirovanju pojavljuje se jednu oznaku dalje.",
   /* ---- preporuke stručnjaka ---- */
   xCoach:"Preporuka stručnjaka · Trener",xNutri:"Preporuka stručnjaka · Nutricionist",xMd:"Preporuka stručnjaka · Liječnik",
   xDisc:"Nije medicinski savjet — porazgovaraj sa svojim liječnikom.",
@@ -466,7 +503,7 @@ const T={
   xRestLow:"Dana odmora u zadnjih 7: {n}. Ubaci jedan prije sljedećeg teškog dana čučnjeva — dan odmora je dio programa, a ne rupa u njemu.",
   xRestOk:"Dana odmora u zadnjih 7: {n} — dovoljno oporavka{kg}. Najduži niz aktivnih dana {s}.",
   xAtKg:" pri {v} kg",
-  xTodayIn:"Ocjena sna {s}, HRV {h} ms prema osnovici {hb}, puls u mirovanju {r} otk/min prema {rb}, ACWR {a} — to je dalo ocjenu.",
+  xTodayIn:"Ocjena sna {s}, HRV {h} ms prema osnovici {hb}, puls u mirovanju {r} bpm prema {rb}, ACWR {a} — to je dalo ocjenu.",
   xDivWarn:"Puls u mirovanju je gore ≥5%, a HRV dolje ≥15% u odnosu na 28-dnevnu osnovicu. Smanji opterećenje 48 h i pazi na bolest prije nego išta dodaš.",
   xDivOk:"Nema RHR/HRV divergencije — provjera bolesti i pretreniranosti je danas čista.",
   xDivNo:"Provjera RHR/HRV divergencije treba 28 dana povijesti; današnju ocjenu tretiraj kao privremenu.",
@@ -481,12 +518,12 @@ const T={
   xBrDay:"{d}: {i} kcal unos, −{b} bazalno, −{e} trening = bilanca {v} kcal.",
   xBrDeep:"Rupa od {v} kcal preduboka je za ponavljanje na dan treninga. Vrati oko {a} kcal ugljikohidrata oko treninga i drži deficit oko 1.000.",
   xBrOk:"Ta bilanca je u radnom rasponu — ponovi dan umjesto da ga produbljuješ.",
-  xMlLast:"{n}: zadnja najteža serija {w} kg na dan {d}, maks. vrh serije {mx} otk/min, prosjek {av} otk/min.",
-  xMlHot:"Vrh serije od {mx} otk/min je na ili iznad 165 — 95% referentnog maksimuma 173. Ta je serija bila maksimalna; ponovi težinu prije nego dodaš.",
-  xMlHotNo:"Vrh od {mx} otk/min ostao je ispod prstena na 165, pa na ovoj vježbi ima prostora.",
-  xMlDrift:"Pomak pulsa kroz glavni blok bio je {d} otk/min (zadnja minus prva serija). Iznad +20 pauze su prekratke za tu težinu — dodaj 30 s.",
-  xMlDriftOk:"Pomak pulsa kroz glavni blok bio je {d} otk/min — pauze odgovaraju težini.",
-  xWsCmp:"Zadnji trening {wl} kg s prosjekom {al} otk/min po seriji prema {wp} kg i {ap} otk/min prije — {v}",
+  xMlLast:"{n}: zadnja najteža serija {w} kg na dan {d}, maks. vrh serije {mx} bpm, prosjek {av} bpm.",
+  xMlHot:"Vrh serije od {mx} bpm je na ili iznad 165 — 95% referentnog maksimuma 173. Ta je serija bila maksimalna; ponovi težinu prije nego dodaš.",
+  xMlHotNo:"Vrh od {mx} bpm ostao je ispod prstena na 165, pa na ovoj vježbi ima prostora.",
+  xMlDrift:"Pomak pulsa kroz glavni blok bio je {d} bpm (zadnja minus prva serija). Iznad +20 pauze su prekratke za tu težinu — dodaj 30 s.",
+  xMlDriftOk:"Pomak pulsa kroz glavni blok bio je {d} bpm — pauze odgovaraju težini.",
+  xWsCmp:"Zadnji trening {wl} kg s prosjekom {al} bpm po seriji prema {wp} kg i {ap} bpm prije — {v}",
   xWsHarder:"više pulsa uz istu ili manju šipku: ovaj tjedan te ograničava oporavak, a ne program.",
   xWsBetter:"manje pulsa uz istu ili veću šipku: adaptacija je stvarna; nastavi s blokom.",
   xWsFlat:"praktički bez promjene — zadrži težinu još jedan trening prije nego dodaš.",
@@ -494,12 +531,12 @@ const T={
   xPgDrop:"{n}: kg/pon je pao {p}% kroz zadnja 3 treninga. Provjeri tehniku i oporavak i vrati se na prethodnu težinu prije novog dodavanja.",
   xPgBest:"Najbolji trend: {n} na {v} kg/pon, {d} u odnosu na prvi zabilježeni trening.",
   xPgNone:"Nijedna vježba ne pokazuje pad kg/pon od 15% ili više — napredak je netaknut.",
-  xGymHeat:"Treninzi u teretani na 30 °C zraka ili više: {n} (zadnji {d}). Hidriraj se unaprijed, dodaj elektrolite i očekuj puls oko 10 otk/min viši za isti rad.",
+  xGymHeat:"Treninzi u teretani na 30 °C zraka ili više: {n} (zadnji {d}). Hidriraj se unaprijed, dodaj elektrolite i očekuj puls oko 10 bpm viši za isti rad.",
   xGymHeatOk:"Nijedan trening u teretani iznad 30 °C u ovom prozoru — toplina trenutno nije faktor.",
   xGymVol:"Zadnji trening u teretani {v} kg na dan {d} prema prosjeku od {avg} kg kroz zadnjih {n} treninga. Volumen, ne težina, je prva poluga.",
-  xGymHot:"Treninzi u teretani s vrhom 165 otk/min ili više: {n} — 95% referentnog maksimuma 173. Povremeno je u redu, kao pravilo na svakom treningu nije.",
+  xGymHot:"Treninzi u teretani s vrhom 165 bpm ili više: {n} — 95% referentnog maksimuma 173. Povremeno je u redu, kao pravilo na svakom treningu nije.",
   xSwPace:"Zadnje plivanje {p} /100 m na dan {d} prema {pp} prije — {dir}.",
-  xSwHr:"Maks. puls {v} otk/min u vodi na dan {d}. Optički senzor na zapešću nepouzdan je pri plivanju — uzmi pojas na prsima prije nego to shvatiš kao stvarni napor.",
+  xSwHr:"Maks. puls {v} bpm u vodi na dan {d}. Optički senzor na zapešću nepouzdan je pri plivanju — uzmi pojas na prsima prije nego to shvatiš kao stvarni napor.",
   xSwHeat:"Plivanja na 30 °C zraka ili više: {n} (zadnje {d}). Na toj temperaturi hidracija ide prije plivanja, ne samo poslije.",
   xEffImp:"{k}: učinkovitost se popravila, {a} → {b}. Zadrži ovaj tip treninga još barem tri puta prije bilo kakve promjene.",
   xEffWorse:"{k}: učinkovitost se pogoršala, {a} → {b}. Sljedeći trening posveti tehnici — broju zaveslaja po dužini — a ne tempu.",
@@ -508,7 +545,7 @@ const T={
   xFindNothing:"Ništa na ovoj kartici ne treba promjenu ovaj tjedan — ponovi blok i pusti brojke da se pomaknu.",
   xFindDont:"Ne mijenjaj trening i prehranu u istom tjednu. Unos ima zabilježeno {n} od 7 dana, pa se promjena treninga sada ne bi mogla izmjeriti."}
 };
-let LBL=T.en;
+let LBL=T[lang];
 let DAT=null;
 let TYPE,NAMES,D,MAXHR,AVGHR,RHR;
 let EDAILY,EAVG,EINT,ETGT;
@@ -532,8 +569,25 @@ function shiftD(dt,n){const d=new Date(dt.getTime());d.setDate(d.getDate()+n);re
 function dayDiff(a,b){return Math.round((d0(a).getTime()-d0(b).getTime())/DAY);}
 const TODAY=d0(new Date());
 function monOf(dt){const d=d0(dt);return shiftD(d,-((d.getDay()+6)%7));}
-const MONA=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const shortD=dt=>MONA[dt.getMonth()]+' '+dt.getDate();
+const MONA={en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+ hr:['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro']};
+/* "Sep 5" (en) / "5. ruj" (hr) */
+const shortD=dt=>lang==='hr'?(dt.getDate()+'. '+MONA.hr[dt.getMonth()]):(MONA.en[dt.getMonth()]+' '+dt.getDate());
+/* session label: rebuilt from the ISO date so it follows the language; the JSON's English "l" is only a fallback */
+const lab=r=>(r&&r.d&&/^\d{4}-\d{2}-\d{2}$/.test(String(r.d)))?shortD(pd(r.d)):String((r&&r.l)||'');
+/* JSON weekday labels such as "Thu 3" (bridge) → "Čet 3" */
+const WDX={Mon:'pon',Tue:'uto',Wed:'sri',Thu:'čet',Fri:'pet',Sat:'sub',Sun:'ned'};
+const wdLab=s=>{if(lang!=='hr')return String(s==null?'':s);const m=/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)( .*)?$/.exec(String(s||''));return m?WDX[m[1]]+(m[2]||''):String(s==null?'':s);};
+/* numbers for display: hr-HR (1.234,5) or en-US (1,234.5). d = fixed decimals; d==='a' = 0–2 as needed */
+const NFC={};
+const loc=()=>lang==='hr'?'hr-HR':'en-US';
+function nf(v,d){if(v==null||typeof v!=='number'||!isFinite(v))return '—';
+ const k=loc()+'|'+d;if(!NFC[k])NFC[k]=new Intl.NumberFormat(loc(),d==='a'?{minimumFractionDigits:0,maximumFractionDigits:2}:{minimumFractionDigits:d||0,maximumFractionDigits:d||0});
+ return NFC[k].format(v);}
+const nfa=v=>nf(nz(v),'a');
+/* reformat en-US numbers inside a JSON string ("21,814 kg") for hr */
+const locStr=s=>{s=String(s==null?'':s);if(lang!=='hr')return s;
+ return s.replace(/\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+\.\d+/g,m=>{const dec=(m.split('.')[1]||'').length;return nf(parseFloat(m.replace(/,/g,'')),dec);});};
 const chipEl=(cls,html)=>'<span class="chip '+cls+'">'+html+'</span>';
 function liftOf(r){if(r&&r.lift)return String(r.lift);
  const t=String((r&&r.t)||''),tl=t.toLowerCase();
@@ -603,7 +657,7 @@ function renderLoad(){
  const zc=['','good','warn','bad'][z==null?0:z];
  const zl=[LBL.lwZ0,LBL.lwZ1,LBL.lwZ2,LBL.lwZ3][z==null?0:z];
  let h='';
- h+=chipEl(zc,'<b>'+(LOAD.acwr==null?'—':LOAD.acwr.toFixed(2))+'</b> '+esc(LBL.lwAcwrL)+(LOAD.acwr==null?'':' · '+esc(zl)));
+ h+=chipEl(zc,'<b>'+(LOAD.acwr==null?'—':nf(LOAD.acwr,2))+'</b> '+esc(LBL.lwAcwrL)+(LOAD.acwr==null?'':' · '+esc(zl)));
  h+=chipEl(LOAD.since>=6?'warn':'','<b>'+LOAD.since+'</b> '+esc(LBL.lwDeloadL));
  h+=chipEl('','<b>'+LOAD.rest+'</b> '+esc(LBL.lwRestL));
  h+=chipEl('','<b>'+LOAD.streak+'</b> '+esc(LBL.lwStreakL));
@@ -644,7 +698,7 @@ function renderJump(){
  const el=document.getElementById('jumpChips');if(!el)return;
  let h='';
  jumpSeries().forEach(x=>{const p=(x.last-x.prev)/x.prev*100;
-  if(p>10)h+=chipEl('warn',esc(tpl(LBL.jumpT,{n:lname(x.k),p:p.toFixed(1),a:x.prev,b:x.last})));});
+  if(p>10)h+=chipEl('warn',esc(tpl(LBL.jumpT,{n:lname(x.k),p:nf(p,1),a:nfa(x.prev),b:nfa(x.last)})));});
  el.innerHTML=h;
 }
 
@@ -697,17 +751,17 @@ function renderProg(){
  grid2.innerHTML=PROG.map((p,i)=>{
   const d=(p.last!=null&&p.first!=null)?(p.last-p.first):null;
   const dpc=(d!=null&&p.first)?(d/p.first*100):null;
-  const dTxt=d==null?'—':((d<0?'−':'+')+Math.abs(d).toFixed(1)+(dpc==null?'':' ('+(dpc<0?'−':'+')+Math.abs(dpc).toFixed(0)+'%)'));
-  const flag=(p.drop!=null&&p.drop<=-15)?('<div class="chiprow" style="margin:6px 0 0;">'+chipEl('bad',esc(tpl(LBL.pgDrop,{p:Math.abs(p.drop).toFixed(0)})))+'</div>'):'';
+  const dTxt=d==null?'—':((d<0?'−':'+')+nf(Math.abs(d),1)+(dpc==null?'':' ('+(dpc<0?'−':'+')+nf(Math.abs(dpc),0)+'%)'));
+  const flag=(p.drop!=null&&p.drop<=-15)?('<div class="chiprow" style="margin:6px 0 0;">'+chipEl('bad',esc(tpl(LBL.pgDrop,{p:nf(Math.abs(p.drop),0)})))+'</div>'):'';
   return '<div class="spcard">'
    +'<div class="spname">'+esc(lname(p.k))+'</div>'
    +'<div class="spsub">'+esc(tpl(LBL.pgSess,{n:p.n}))+'</div>'
    +'<canvas class="spcanv" id="spk_t'+i+'" aria-hidden="true"></canvas>'
-   +'<div class="spsub">'+esc(LBL.pgTon)+': '+(p.tonLast!=null?(p.tonLast/1000).toFixed(1)+' t':esc(LBL.pgNoVol))+'</div>'
+   +'<div class="spsub">'+esc(LBL.pgTon)+': '+(p.tonLast!=null?nf(p.tonLast/1000,1)+' t':esc(LBL.pgNoVol))+'</div>'
    +'<canvas class="spcanv" id="spk_k'+i+'" aria-hidden="true"></canvas>'
-   +'<div class="spval">'+(p.last!=null?p.last.toFixed(1):'—')+' <span style="font-size:12px;font-weight:400;">'+esc(LBL.pgKgr)+'</span></div>'
+   +'<div class="spval">'+(p.last!=null?nf(p.last,1):'—')+' <span style="font-size:12px;font-weight:400;">'+esc(LBL.pgKgr)+'</span></div>'
    +'<div class="spsub">'+esc(LBL.pgDelta)+': '+dTxt+'</div>'
-   +(p.hasE1?('<canvas class="spcanv" id="spk_e'+i+'" aria-hidden="true"></canvas><div class="spsub">'+esc(LBL.pgE1)+': '+(p.e1last!=null?p.e1last.toFixed(1)+' kg':'—')+'</div>'):'')
+   +(p.hasE1?('<canvas class="spcanv" id="spk_e'+i+'" aria-hidden="true"></canvas><div class="spsub">'+esc(LBL.pgE1)+': '+(p.e1last!=null?nf(p.e1last,1)+' kg':'—')+'</div>'):'')
    +flag+'</div>';}).join('');
  requestAnimationFrame(()=>{PROG.forEach((p,i)=>{
   drawSpark(document.getElementById('spk_t'+i),p.ton,'#54718D');
@@ -723,6 +777,8 @@ function swimGroup(r){const t=String((r&&r.t)||'');if(!t)return null;
  if(/8\s*x\s*200/i.test(t))return '500 + 8x200';
  if(/^\s*pool swim\s*$/i.test(t))return 'Pool Swim';
  return t.replace(/\s+/g,' ').trim();}
+/* display name of a set-type key: only the generic Garmin default is translated; set titles stay as typed */
+function stName(k){return k==='Pool Swim'?LBL.stPool:k;}
 function computeEff(){
  const s=(DAT.num&&DAT.num.swim)||[];if(!s.length)return null;
  const dl=(DAT.num&&DAT.num.daily)||{},rh=dl.rhr||[];
@@ -751,7 +807,8 @@ function computeEff(){
 function effRefresh(mode){
  if(!EFF||!seC)return;
  const rows=EFF.groups[effSel]||[];
- seC.data.labels=rows.map(x=>x.r.l);
+ seC.data.labels=rows.map(x=>lab(x.r));
+ seC.options.locale=loc();
  seC.data.datasets[0].data=rows.map(x=>x.val);
  seC.options.scales.y.title.text=LBL.seAxis;
  seC.update(mode||undefined);
@@ -767,12 +824,12 @@ function heatChips(rows,elId){
  const hot=(rows||[]).filter(r=>nz(r.tmax)!=null&&r.tmax>=30);
  const red=hot.filter(r=>r.tmax>=35),amb=hot.filter(r=>r.tmax<35);
  let h='';
- if(red.length)h+=chipEl('bad',esc(tpl(LBL.heat35T,{n:red.length,d:red[red.length-1].l})));
- if(amb.length)h+=chipEl('warn',esc(tpl(LBL.heat30T,{n:amb.length,d:amb[amb.length-1].l})));
+ if(red.length)h+=chipEl('bad',esc(tpl(LBL.heat35T,{n:red.length,d:lab(red[red.length-1])})));
+ if(amb.length)h+=chipEl('warn',esc(tpl(LBL.heat30T,{n:amb.length,d:lab(amb[amb.length-1])})));
  el.innerHTML=h;
 }
 function heatLine(r){const t=nz(r&&r.tmax);if(t==null||t<30)return null;
- return tpl(t>=35?LBL.heatTip35:LBL.heatTip,{v:t.toFixed(1)});}
+ return tpl(t>=35?LBL.heatTip35:LBL.heatTip,{v:nf(t,1)});}
 
 /* F7 — readiness */
 function computeReadiness(){
@@ -826,7 +883,7 @@ function renderReadiness(){
  else h+=chipEl('',esc(LBL.rdDivNo));
  document.getElementById('rdChips').innerHTML=h;
  document.getElementById('rdInputs').textContent=
-  tpl(LBL.rdInT,{s:R.score,h:R.hrv,hb:R.hrvBase.toFixed(1),r:R.rhr,rb:R.rhrBase.toFixed(1),a:R.acwr==null?LBL.rdNoAcwr:R.acwr.toFixed(2)})
+  tpl(LBL.rdInT,{s:nfa(R.score),h:nfa(R.hrv),hb:nf(R.hrvBase,1),r:nfa(R.rhr),rb:nf(R.rhrBase,1),a:R.acwr==null?LBL.rdNoAcwr:nf(R.acwr,2)})
   +' '+tpl(LBL.rdBaseT,{src:R.src});
 }
 
@@ -834,7 +891,7 @@ function renderReadiness(){
    One coach box per section. Every bullet is a rule applied to the live
    training-data.json / sleep-data.json numbers and is recomputed on each
    render, so the advice follows a refresh instead of going stale. */
-const x1=v=>(v==null||!isFinite(v))?'—':v.toFixed(1);
+const x1=v=>(v==null||!isFinite(v))?'—':nf(v,1);
 /* read-only side load: bodyweight and rest TDEE come from data.json, never from a literal.
    If the file is missing the clause that would quote them is simply dropped. */
 let ATH=null;
@@ -845,7 +902,7 @@ function loadAthlete(){
   .then(j=>{ATH=(j&&j.athlete)||null;renderExperts();})
   .catch(()=>{ATH=null;});
 }
-const xi=v=>(v==null||!isFinite(v))?'—':Math.round(v).toLocaleString('en-US');
+const xi=v=>(v==null||!isFinite(v))?'—':nf(Math.round(v),0);
 const xsig=v=>(v==null||!isFinite(v))?'—':((v<0?'−':'+')+xi(Math.abs(v)));
 function xBox(id,bullets){
  const el=document.getElementById(id);if(!el)return;
@@ -879,11 +936,11 @@ function renderExperts(){
 
  /* --- KPI cards --- */
  xBox('x-kpi',[
-  deloadDue?tpl(L.xKpiLoadDeload,{s:k.sessions,t:k.totalTime,v:k.volume,d:LOAD.since})
-   :(acwr!=null&&acwr>1.3?tpl(L.xKpiLoadHi,{s:k.sessions,t:k.totalTime,v:k.volume,a:acwr.toFixed(2)})
-   :(acwr!=null?tpl(L.xKpiLoad,{s:k.sessions,t:k.totalTime,v:k.volume,a:acwr.toFixed(2),ton:x1(wkTon)})
-               :tpl(L.xKpiLoadNo,{s:k.sessions,t:k.totalTime,v:k.volume}))),
-  eMean!=null?tpl(L.xKpiCals,{k:k.activeCals,d:xi(eMean),ref:tdeeRef}):null,
+  deloadDue?tpl(L.xKpiLoadDeload,{s:k.sessions,t:k.totalTime,v:locStr(k.volume),d:LOAD.since})
+   :(acwr!=null&&acwr>1.3?tpl(L.xKpiLoadHi,{s:k.sessions,t:k.totalTime,v:locStr(k.volume),a:nf(acwr,2)})
+   :(acwr!=null?tpl(L.xKpiLoad,{s:k.sessions,t:k.totalTime,v:locStr(k.volume),a:nf(acwr,2),ton:x1(wkTon)})
+               :tpl(L.xKpiLoadNo,{s:k.sessions,t:k.totalTime,v:locStr(k.volume)}))),
+  eMean!=null?tpl(L.xKpiCals,{k:locStr(k.activeCals),d:xi(eMean),ref:tdeeRef}):null,
   xReady(R)
  ]);
 
@@ -891,9 +948,9 @@ function renderExperts(){
  if(LOAD){
   const z=acwrZone(acwr);
   xBox('x-load',[
-   acwr==null?null:((z===2||z===3)?tpl(L.xAcwrHi,{a:acwr.toFixed(2),ton:x1(wkTon),cut:x1(wkTon*0.75)})
-    :(z===0?tpl(L.xAcwrLo,{a:acwr.toFixed(2)})
-           :(deloadDue?null:tpl(L.xAcwrOk,{a:acwr.toFixed(2),ton:x1(wkTon)})))),
+   acwr==null?null:((z===2||z===3)?tpl(L.xAcwrHi,{a:nf(acwr,2),ton:x1(wkTon),cut:x1(wkTon*0.75)})
+    :(z===0?tpl(L.xAcwrLo,{a:nf(acwr,2)})
+           :(deloadDue?null:tpl(L.xAcwrOk,{a:nf(acwr,2),ton:x1(wkTon)})))),
    deloadDue?tpl(L.xDeload,{n:LOAD.since,cut:x1(wkTon*0.6)}):tpl(L.xDeloadOk,{n:LOAD.since}),
    LOAD.rest<2?tpl(L.xRestLow,{n:LOAD.rest}):tpl(L.xRestOk,{n:LOAD.rest,s:LOAD.streak,kg:atKg})
   ]);
@@ -903,7 +960,7 @@ function renderExperts(){
  xBox('x-today',[
   xReady(R),
   R?(R.div===true?L.xDivWarn:(R.div===false?L.xDivOk:L.xDivNo)):null,
-  jumps.length?tpl(L.xJumpHold,{n:lname(jumps[0].k),p:jumps[0].p.toFixed(1),a:jumps[0].prev,b:jumps[0].last}):null
+  jumps.length?tpl(L.xJumpHold,{n:lname(jumps[0].k),p:nf(jumps[0].p,1),a:nfa(jumps[0].prev),b:nfa(jumps[0].last)}):null
  ]);
 
  /* --- daily chart --- */
@@ -912,7 +969,7 @@ function renderExperts(){
  let hi=-1,hv=null;((D&&D.effort)||[]).forEach((v,i)=>{if(nz(v)!=null&&(hv==null||v>hv)){hv=v;hi=i;}});
  xBox('x-daily',[
   tpl(L.xDayMix,{a:activeN,r:restN,s:LOAD?LOAD.streak:'—'}),
-  hi>=0?tpl(L.xDayHard,{n:(NAMES&&NAMES[hi])||labels[hi]||'',e:Math.round(hv),h:Math.round(hv*0.6)}):null,
+  hi>=0?tpl(L.xDayHard,{n:dayName(hi)||labels[hi]||'',e:Math.round(hv),h:Math.round(hv*0.6)}):null,
   restN<2?tpl(L.xRestLow,{n:restN}):null
  ]);
 
@@ -934,7 +991,7 @@ function renderExperts(){
  /* --- daily kcal bridge (selected day) --- */
  const bd=(BR&&BR[bday])||null;
  xBox('x-bridge',bd?[
-  tpl(L.xBrDay,{d:bd.label,i:xi(bd.int),b:xi(BMR),e:xi(bd.ex),v:xsig(bd.bal)}),
+  tpl(L.xBrDay,{d:wdLab(bd.label),i:xi(bd.int),b:xi(BMR),e:xi(bd.ex),v:xsig(bd.bal)}),
   bd.bal<-1200?tpl(L.xBrDeep,{v:xsig(bd.bal),a:xi(Math.abs(bd.bal)-1000)}):L.xBrOk
  ]:[]);
 
@@ -942,7 +999,7 @@ function renderExperts(){
  const rowsML=mlRows(),allML=mlAll();
  const lastML=rowsML.length?rowsML[rowsML.length-1]:null;
  xBox('x-mainlift',lastML?[
-  tpl(L.xMlLast,{n:lname(liftSel),w:lastML.w,d:lastML.l,mx:lastML.mx,av:lastML.av}),
+  tpl(L.xMlLast,{n:lname(liftSel),w:nfa(lastML.w),d:lab(lastML),mx:lastML.mx,av:lastML.av}),
   lastML.mx>=HOT?tpl(L.xMlHot,{mx:lastML.mx}):tpl(L.xMlHotNo,{mx:lastML.mx}),
   lastML.dl>20?tpl(L.xMlDrift,{d:xsig(lastML.dl)}):tpl(L.xMlDriftOk,{d:xsig(lastML.dl)})
  ]:[]);
@@ -953,7 +1010,7 @@ function renderExperts(){
  const al=aS?avg(aS.pk):null,ap=pS?avg(pS.pk):null;
  if(al!=null&&ap!=null){
   const harder=(al>ap+2&&aS.w<=pS.w),better=(al<ap-2&&aS.w>=pS.w);
-  xBox('x-sets',[tpl(L.xWsCmp,{wl:aS.w,al:x1(al),wp:pS.w,ap:x1(ap),v:harder?L.xWsHarder:(better?L.xWsBetter:L.xWsFlat)})]);
+  xBox('x-sets',[tpl(L.xWsCmp,{wl:nfa(aS.w),al:x1(al),wp:nfa(pS.w),ap:x1(ap),v:harder?L.xWsHarder:(better?L.xWsBetter:L.xWsFlat)})]);
  }else{xBox('x-sets',[L.xWsNo]);}
 
  /* --- per-lift progression --- */
@@ -964,9 +1021,9 @@ function renderExperts(){
    if(p.first&&p.last!=null){const g=(p.last-p.first)/p.first*100;if(bestTrend==null||g>bestTrend.g)bestTrend={p,g};}
   });
   xBox('x-prog',[
-   worstDrop?tpl(L.xPgDrop,{n:lname(worstDrop.k),p:Math.abs(worstDrop.drop).toFixed(0)}):L.xPgNone,
+   worstDrop?tpl(L.xPgDrop,{n:lname(worstDrop.k),p:nf(Math.abs(worstDrop.drop),0)}):L.xPgNone,
    bestTrend?tpl(L.xPgBest,{n:lname(bestTrend.p.k),v:x1(bestTrend.p.last),
-     d:(bestTrend.g<0?'−':'+')+Math.abs(bestTrend.g).toFixed(0)+'%'}):null
+     d:(bestTrend.g<0?'−':'+')+nf(Math.abs(bestTrend.g),0)+'%'}):null
   ]);
  }else{xBox('x-prog',[]);}
 
@@ -979,8 +1036,8 @@ function renderExperts(){
   const pn=Math.min(5,Math.max(0,wv.length-1));
   const avgV=pn?wv.slice(wv.length-1-pn,wv.length-1).reduce((a,r)=>a+r.vol,0)/pn:null;
   xBox('x-gym',[
-   hot.length?tpl(L.xGymHeat,{n:hot.length,d:hot[hot.length-1].l}):L.xGymHeatOk,
-   (lastG&&avgV!=null)?tpl(L.xGymVol,{v:xi(lastG.vol),d:lastG.l,avg:xi(avgV),n:pn}):null,
+   hot.length?tpl(L.xGymHeat,{n:hot.length,d:lab(hot[hot.length-1])}):L.xGymHeatOk,
+   (lastG&&avgV!=null)?tpl(L.xGymVol,{v:xi(lastG.vol),d:lab(lastG),avg:xi(avgV),n:pn}):null,
    hotHr.length?tpl(L.xGymHot,{n:hotHr.length}):null
   ]);
  }else{xBox('x-gym',[]);}
@@ -993,9 +1050,9 @@ function renderExperts(){
   const heat=SWIM.filter(r=>nz(r.tmax)!=null&&r.tmax>=30);
   const dir=(s1&&s2)?(s1.sec100<s2.sec100-1?L.xDirFaster:(s1.sec100>s2.sec100+1?L.xDirSlower:L.xDirSame)):null;
   xBox('x-swim',[
-   (s1&&s2)?tpl(L.xSwPace,{p:s1.pace||(s1.sec100+' s'),d:s1.l,pp:s2.pace||(s2.sec100+' s'),dir:dir}):null,
-   hotHr.length?tpl(L.xSwHr,{v:hotHr[hotHr.length-1].mx,d:hotHr[hotHr.length-1].l}):null,
-   heat.length?tpl(L.xSwHeat,{n:heat.length,d:heat[heat.length-1].l}):null
+   (s1&&s2)?tpl(L.xSwPace,{p:s1.pace||(s1.sec100+' s'),d:lab(s1),pp:s2.pace||(s2.sec100+' s'),dir:dir}):null,
+   hotHr.length?tpl(L.xSwHr,{v:hotHr[hotHr.length-1].mx,d:lab(hotHr[hotHr.length-1])}):null,
+   heat.length?tpl(L.xSwHeat,{n:heat.length,d:lab(heat[heat.length-1])}):null
   ]);
  }else{xBox('x-swim',[]);}
 
@@ -1004,18 +1061,18 @@ function renderExperts(){
  if(eg.length>=2){
   const b=eg[eg.length-1].val,a=eg[eg.length-2].val;
   const key=b<a*0.97?L.xEffImp:(b>a*1.03?L.xEffWorse:L.xEffFlat);
-  xBox('x-eff',[tpl(key,{k:effSel,a:xi(a),b:xi(b)})]);
+  xBox('x-eff',[tpl(key,{k:stName(effSel),a:xi(a),b:xi(b)})]);
  }else{xBox('x-eff',[]);}
 
  /* --- findings: the single highest-priority action --- */
  let top=null;
  if(R&&R.div===true)top=L.xDivWarn;
- else if(acwr!=null&&acwr>1.3)top=tpl(L.xAcwrHi,{a:acwr.toFixed(2),ton:x1(wkTon),cut:x1(wkTon*0.75)});
+ else if(acwr!=null&&acwr>1.3)top=tpl(L.xAcwrHi,{a:nf(acwr,2),ton:x1(wkTon),cut:x1(wkTon*0.75)});
  else if(R&&R.rule==='cut')top=tpl(L.xRdyCut,{r:R.R});
  else if(deloadDue)top=tpl(L.xDeload,{n:LOAD.since,cut:x1(wkTon*0.6)});
- else if(jumps.length)top=tpl(L.xJumpHold,{n:lname(jumps[0].k),p:jumps[0].p.toFixed(1),a:jumps[0].prev,b:jumps[0].last});
- else if(worstDrop)top=tpl(L.xPgDrop,{n:lname(worstDrop.k),p:Math.abs(worstDrop.drop).toFixed(0)});
- else if(acwr!=null&&acwr<0.8)top=tpl(L.xAcwrLo,{a:acwr.toFixed(2)});
+ else if(jumps.length)top=tpl(L.xJumpHold,{n:lname(jumps[0].k),p:nf(jumps[0].p,1),a:nfa(jumps[0].prev),b:nfa(jumps[0].last)});
+ else if(worstDrop)top=tpl(L.xPgDrop,{n:lname(worstDrop.k),p:nf(Math.abs(worstDrop.drop),0)});
+ else if(acwr!=null&&acwr<0.8)top=tpl(L.xAcwrLo,{a:nf(acwr,2)});
  else if(R&&R.rule==='hold')top=tpl(L.xRdyHold,{r:R.R});
  xBox('x-findings',[top?tpl(L.xFindTop,{a:top}):L.xFindNothing,tpl(L.xFindDont,{n:loggedN})]);
 }
@@ -1028,12 +1085,26 @@ function refreshV2(){
  heatChips((DAT.num&&DAT.num.swim)||[],'swHeat');
  effRefresh('none');renderReadiness();renderExperts();
 }
-const fmt={effort:v=>Math.round(v),dur:v=>Math.round(v)+'m',kcal:v=>Math.round(v),vol:v=>v.toFixed(1)+'t',dist:v=>Math.round(v)+'m'};
+const fmt={effort:v=>nf(Math.round(v),0),dur:v=>nf(Math.round(v),0)+'m',kcal:v=>nf(Math.round(v),0),vol:v=>nf(v,1)+'t',dist:v=>nf(Math.round(v),0)+'m'};
+/* axis/tooltip unit for the switchable daily metric */
+const axU=m=>m==='effort'?LBL.uPts:AX[m].u;
+/* tooltip title of a daily bar: the JSON name in English; in Croatian rebuilt from the day type + that day's numbers
+   (the JSON names are generated English prose, not titles the athlete typed) */
+function dayName(i){
+ if(lang!=='hr')return (NAMES&&NAMES[i])||'';
+ const t=TYPE&&TYPE[i];const snap=(DAT.meta&&DAT.meta.snapshot)?pd(DAT.meta.snapshot):TODAY;
+ const iso=isoD(shiftD(snap,-((TYPE||[]).length-1-i)));
+ if(t==='pool'||t==='ows'){const sw=((DAT.num&&DAT.num.swim)||[]).filter(r=>r.d===iso).pop();const dist=nz(D.dist[i]);
+  return (t==='ows'?LBL.dtOws:LBL.dtPool)+(dist!=null?' '+nf(dist,0)+' m':'')+(sw&&sw.t?' ('+sw.t+')':'');}
+ if(t==='str'){const g=((DAT.num&&DAT.num.gym)||[]).filter(r=>r.d===iso).pop();const vol=nz(D.vol[i]);
+  return (g?lname(liftOf(g)):LBL.dtStr)+(vol!=null?' — '+nf(vol,0)+' kg':'');}
+ if(t==='rest')return LBL.dtRest;
+ return (NAMES&&NAMES[i])||'';}
 function txtL(){return DAT.text[lang];}
 function inFilter(i){if(filter==='all')return true;if(filter==='swim')return TYPE[i]==='pool'||TYPE[i]==='ows';return TYPE[i]==='str';}
 function colors(){return TYPE.map((t,i)=>{const c=TC[t]||'#9b9b94';return inFilter(i)?c:c+'26';});}
 
-function fillKpis(){const k=DAT.num.kpis;const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};s('kv1',k.sessions);s('kv2',k.totalTime);s('kv3',k.volume);s('kv4',k.activeCals);}
+function fillKpis(){const k=DAT.num.kpis;const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};s('kv1',locStr(k.sessions));s('kv2',k.totalTime);s('kv3',locStr(k.volume));s('kv4',locStr(k.activeCals));}
 
 function init(){
  const n=DAT.num;
@@ -1080,11 +1151,11 @@ function init(){
    {type:'line',label:'rhr',data:RHR,borderColor:HC.rhr,borderWidth:2.5,borderDash:[3,4],tension:0.3,pointRadius:0,yAxisID:'y1',order:3,spanGaps:true}
   ]},
   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18}},
-   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>NAMES[c[0].dataIndex],label:c=>{
-    if(c.datasetIndex===0){const v=D[metric][c.dataIndex];return v==null?'':fmt[metric](v)+' '+AX[metric].u;}
-    const nm={max:LBL.lMax,avg:LBL.lAvg,rhr:'RHR'}[c.dataset.label];return nm+': '+c.parsed.y+' bpm';}}}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>dayName(c[0].dataIndex),label:c=>{
+    if(c.datasetIndex===0){const v=D[metric][c.dataIndex];return v==null?'':fmt[metric](v)+' '+axU(metric);}
+    const nm={max:LBL.lMax,avg:LBL.lAvg,rhr:LBL.lRhr}[c.dataset.label];return nm+': '+nfa(c.parsed.y)+' bpm';}}}},
    scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},
-    y:{min:0,max:55,title:{display:true,text:'pts',color:txt},grid:{color:grid},ticks:{color:txt}},
+    y:{min:0,max:55,title:{display:true,text:axU('effort'),color:txt},grid:{color:grid},ticks:{color:txt}},
     y1:{position:'right',min:40,max:180,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}}}},
   plugins:[bgPlug,hrRefPlug('y1'),overlay,hotPlug(1),axUnitsT]
  });
@@ -1100,14 +1171,14 @@ function init(){
     plugins:{legend:{display:false},tooltip:{callbacks:{
      title:c=>c.length?(shortD(LOAD.weeks[c[0].dataIndex].m)+' – '+shortD(LOAD.weeks[c[0].dataIndex].end)):'',
      label:c=>{const w=LOAD.weeks[c.dataIndex];
-      if(c.datasetIndex===0){let s=LBL.lwBars+': '+(w.ton/1000).toFixed(1)+' t';if(w.nulls)s+=' ('+w.nulls+'/'+w.n+' ∅)';return s;}
-      return LBL.lwLine+': '+(w.acwr==null?'—':w.acwr.toFixed(2));}}}},
+      if(c.datasetIndex===0){let s=LBL.lwBars+': '+nf(w.ton/1000,1)+' t';if(w.nulls)s+=' ('+w.nulls+'/'+w.n+' ∅)';return s;}
+      return LBL.lwLine+': '+(w.acwr==null?'—':nf(w.acwr,2));}}}},
     scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt,maxRotation:60}},
      y:{min:0,title:{display:true,text:'t',color:txt},grid:{color:grid},ticks:{color:txt}},
      y1:{position:'right',min:0,max:2,afterFit:a=>{a.width=Math.min(a.width,34)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:0.5},title:{display:true,text:'ACWR',color:txt}}}},
    plugins:[bgPlug,acwBands,{id:'acwv',afterDatasetsDraw(ch){const ctx=ch.ctx;const m=ch.getDatasetMeta(0);
     ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 8px ':'500 10px ')+'sans-serif';ctx.fillStyle=strong;
-    m.data.forEach((bar,i)=>{const v=LOAD.weeks[i].ton;if(!v)return;ctx.fillText((v/1000).toFixed(1),bar.x,bar.y-5);});ctx.restore();}}]
+    m.data.forEach((bar,i)=>{const v=LOAD.weeks[i].ton;if(!v)return;ctx.fillText(nf(v/1000,1),bar.x,bar.y-5);});ctx.restore();}}]
   });
  }
 
@@ -1119,11 +1190,11 @@ function init(){
    {label:'target',data:EDAILY.map(_=>ETGT),borderColor:'#888780',borderWidth:1.5,borderDash:[2,4],pointRadius:0}
   ]},
   options:{responsive:true,maintainAspectRatio:false,
-   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const nm={burn:LBL.eDaily,avg7:LBL.eAvg,intake:LBL.eInt,target:LBL.eTgt}[c.dataset.label];return nm+': '+Math.round(c.parsed.y)+' kcal';}}}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const nm={burn:LBL.eDaily,avg7:LBL.eAvg,intake:LBL.eInt,target:LBL.eTgt}[c.dataset.label];return nm+': '+nf(Math.round(c.parsed.y),0)+' kcal';}}}},
    scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt}},y:{min:0,max:2200,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}}},
   plugins:[bgPlug,{id:'envals',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 10px ':'500 12px ')+'sans-serif';
-   ch.getDatasetMeta(0).data.forEach((pt,i)=>{if(EDAILY[i]==null)return;ctx.fillStyle='#BA7517';ctx.fillText(EDAILY[i],pt.x,pt.y-8);});
-   ch.getDatasetMeta(2).data.forEach((pt,i)=>{if(EINT[i]==null)return;ctx.fillStyle='#2caaf0';ctx.fillText(EINT[i].toLocaleString('en-US'),pt.x,pt.y-10);});
+   ch.getDatasetMeta(0).data.forEach((pt,i)=>{if(EDAILY[i]==null)return;ctx.fillStyle='#BA7517';ctx.fillText(nf(EDAILY[i],0),pt.x,pt.y-8);});
+   ch.getDatasetMeta(2).data.forEach((pt,i)=>{if(EINT[i]==null)return;ctx.fillStyle='#2caaf0';ctx.fillText(nf(EINT[i],0),pt.x,pt.y-10);});
    ctx.restore();}}]
  });
 
@@ -1136,14 +1207,14 @@ function init(){
   ]},
   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20}},
    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
-    if(c.dataset.label==='basal')return LBL.bBasal+': '+BMR;
-    if(c.dataset.label==='ex')return LBL.bEx+': '+EXNET[c.dataIndex];
-    if(c.dataset.label==='intake')return LBL.bInt.split(' (')[0]+': '+INTAKE[c.dataIndex]+(LOGGED[c.dataIndex]?'':' *');
+    if(c.dataset.label==='basal')return LBL.bBasal+': '+nf(BMR,0);
+    if(c.dataset.label==='ex')return LBL.bEx+': '+nf(EXNET[c.dataIndex],0);
+    if(c.dataset.label==='intake')return LBL.bInt.split(' (')[0]+': '+nf(INTAKE[c.dataIndex],0)+(LOGGED[c.dataIndex]?'':' *');
     return LBL.bTgt;}}}},
    scales:{x:{stacked:true,grid:{display:false},ticks:{autoSkip:false,color:txt}},y:{stacked:true,min:0,max:3600,title:{display:true,text:'kcal',color:txt},grid:{color:grid},ticks:{color:txt}}}},
   plugins:[bgPlug,{id:'balbadge',afterDatasetsDraw(ch){const{ctx}=ch;const meta=ch.getDatasetMeta(0);
    ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
-   meta.data.forEach((bar,i)=>{const topY=ch.scales.y.getPixelForValue(BMR+EXNET[i]);const v=BAL[i];const sc=(v<0?'−':'+')+Math.abs(v).toLocaleString('en-US');
+   meta.data.forEach((bar,i)=>{const topY=ch.scales.y.getPixelForValue(BMR+EXNET[i]);const v=BAL[i];const sc=(v<0?'−':'+')+nf(Math.abs(v),0);
     const w=ctx.measureText(sc).width+10;ctx.fillStyle=v<0?'#1D9E75':'#A32D2D';ctx.beginPath();ctx.roundRect(bar.x-w/2,topY-18,w,14,7);ctx.fill();ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,topY-7);});
    ctx.restore();}}]
  });
@@ -1167,7 +1238,7 @@ function init(){
   mmx.data.forEach((pt,i)=>{ctx.font=fH;ctx.fillStyle='#E24B4A';ctx.fillText('♥',pt.x,pt.y+4);
    ctx.font=fV;const lab=rows[i].mx+(rows[i].cf?'':'*');ctx.fillStyle=halo;ctx.fillRect(pt.x-13,pt.y-19,26,11);ctx.fillStyle='#E24B4A';ctx.fillText(lab,pt.x,pt.y-10);});
   if(!many||M===false){mav.data.forEach((pt,i)=>{ctx.font=fV;ctx.fillStyle='#E0A53C';ctx.fillText(rows[i].av,pt.x,pt.y+14);});}
-  mb.data.forEach((bar,i)=>{ctx.font=fV;ctx.fillStyle='#fff';ctx.fillText(rows[i].w,bar.x,bar.y+12);
+  mb.data.forEach((bar,i)=>{ctx.font=fV;ctx.fillStyle='#fff';ctx.fillText(nfa(rows[i].w),bar.x,bar.y+12);
    const d=rows[i].dl;const sc=(d<0?'−':'+')+Math.abs(d);ctx.font=(M||many?'500 8px ':'500 10px ')+'sans-serif';
    const w=ctx.measureText(sc).width+8;ctx.fillStyle=d>=20?'#A35A1D':'#1D9E75';ctx.beginPath();ctx.roundRect(bar.x-w/2,ch.chartArea.bottom+4,w,12,6);ctx.fill();ctx.fillStyle='#fff';ctx.fillText(sc,bar.x,ch.chartArea.bottom+13);});
   ctx.restore();}};
@@ -1178,8 +1249,8 @@ function init(){
    {type:'line',data:[],borderColor:'#E0A53C',borderWidth:2.5,borderDash:[8,4],tension:0.25,pointRadius:0,yAxisID:'y1',order:2}
   ]},
   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,bottom:18}},
-   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>{const r=mlRows()[c[0].dataIndex];return r.l+' · '+r.w+' kg';},label:c=>{const r=mlRows()[c.dataIndex];
-    if(c.datasetIndex===0)return LBL.mlW+': '+r.w;if(c.datasetIndex===1)return LBL.mlMx+': '+r.mx+' ('+r.pk.join(', ')+')';return LBL.mlAv+': '+r.av+' · Δ '+(r.dl<0?'−':'+')+Math.abs(r.dl);}}}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>{const r=mlRows()[c[0].dataIndex];return lab(r)+' · '+nfa(r.w)+' kg';},label:c=>{const r=mlRows()[c.dataIndex];
+    if(c.datasetIndex===0)return LBL.mlW+': '+nfa(r.w);if(c.datasetIndex===1)return LBL.mlMx+': '+r.mx+' ('+r.pk.join(', ')+')';return LBL.mlAv+': '+r.av+' · Δ '+(r.dl<0?'−':'+')+Math.abs(r.dl);}}}},
    scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt,maxRotation:60}},
     y:{min:0,max:170,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,stepSize:40}},
     y1:{position:'right',min:85,max:180,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2,stepSize:20}}}},
@@ -1190,7 +1261,7 @@ function init(){
  const wsPlug={id:'wsp',afterDatasetsDraw(ch){const{ctx}=ch;ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';
   [0,1].forEach(di=>{ch.getDatasetMeta(di).data.forEach((bar,i)=>{const v=ch.data.datasets[di].data[i];if(v==null)return;ctx.fillStyle=strong;ctx.fillText(v,bar.x,bar.y-5);});});ctx.restore();}};
  ws=new Chart(document.getElementById('ws'),{type:'bar',
-  data:{labels:[],datasets:[{data:[],backgroundColor:'rgba(84,113,141,0.45)',maxBarThickness:40},{data:[],backgroundColor:'#D85A30',maxBarThickness:40}]},
+  data:{labels:[],datasets:[{label:LBL.wsPrev,data:[],backgroundColor:'rgba(84,113,141,0.45)',maxBarThickness:40},{label:LBL.wsLast,data:[],backgroundColor:'#D85A30',maxBarThickness:40}]},
   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},
    plugins:{legend:{display:false},tooltip:{enabled:true}},
    scales:{x:{grid:{display:false},ticks:{color:txt}},y:{min:80,max:165,afterFit:a=>{a.width=Math.min(a.width,30)},grid:{color:grid},ticks:{color:txt,padding:2,stepSize:20}}}},
@@ -1199,22 +1270,22 @@ function init(){
 
  const AXP=sec=>{if(sec==null)return'';const m=Math.floor(sec/60),s=Math.round(sec%60);return m+':'+String(s).padStart(2,'0');};
  const swimIsOws=r=>/open water/i.test(r.t||'');
- const swimLabels=()=>{const seen={};return SWIM.map(r=>{seen[r.d]=(seen[r.d]||0)+1;const n=seen[r.d];return n>1?r.l+' ('+n+')':r.l;});};
+ const swimLabels=()=>{const seen={};return SWIM.map(r=>{seen[r.d]=(seen[r.d]||0)+1;const n=seen[r.d];return n>1?lab(r)+' ('+n+')':lab(r);});};
  if(GYM){
   const gmTip={mode:'index',intersect:false,
    filter:it=>{const r=GYM[it.dataIndex];if(it.datasetIndex===0)return r.vol!=null;const lb=it.dataset.label;if(lb==='mx')return r.mx!=null;if(lb==='av')return r.av!=null;if(lb==='tmax')return r.tmax!=null&&r.tmin!=null;return true;},
    callbacks:{title:c=>c.length?(GYM[c[0].dataIndex].t||''):'',
     label:c=>{const r=GYM[c.dataIndex];
-     if(c.datasetIndex===0){let s=LBL.gVol+': '+r.vol.toLocaleString('en-US')+' kg';if(r.sets!=null&&r.reps!=null)s+=' ('+r.sets+'×'+r.reps+')';
-      const ex=[];if(nz(r.dur)!=null)ex.push(r.dur+' min');if(nz(r.kcal)!=null)ex.push(r.kcal+' kcal');
+     if(c.datasetIndex===0){let s=LBL.gVol+': '+nf(r.vol,0)+' kg';if(r.sets!=null&&r.reps!=null)s+=' ('+r.sets+'×'+r.reps+')';
+      const ex=[];if(nz(r.dur)!=null)ex.push(nfa(r.dur)+' min');if(nz(r.kcal)!=null)ex.push(nf(r.kcal,0)+' kcal');
       return ex.length?[s,ex.join(' · ')]:s;}
      const lb=c.dataset.label;
      if(lb==='mx')return LBL.lMax+': '+r.mx+' bpm'+(r.mx>=HOT?' · '+LBL.hotTip:'');
      if(lb==='av')return LBL.lAvg+': '+r.av+' bpm';
-     if(lb==='tmax'){const s=LBL.gTmp+': '+r.tmax.toFixed(1)+' / '+r.tmin.toFixed(1)+' °C';const hl=heatLine(r);return hl?[s,hl]:s;}
+     if(lb==='tmax'){const s=LBL.gTmp+': '+nf(r.tmax,1)+' / '+nf(r.tmin,1)+' °C';const hl=heatLine(r);return hl?[s,hl]:s;}
     }}};
   gm=new Chart(document.getElementById('gm'),{
-   data:{labels:GYM.map(r=>r.l),datasets:[
+   data:{labels:GYM.map(r=>lab(r)),datasets:[
     {type:'bar',data:GYM.map(r=>r.vol??null),backgroundColor:'#54718D',maxBarThickness:46,yAxisID:'y',order:10},
     {type:'line',label:'mx',data:GYM.map(r=>r.mx??null),borderColor:HC.max,borderWidth:2.5,tension:0.25,pointRadius:0,yAxisID:'y1',order:1,spanGaps:true},
     {type:'line',label:'av',data:GYM.map(r=>r.av??null),borderColor:HC.avg,borderWidth:2.5,borderDash:[8,4],tension:0.25,pointRadius:0,yAxisID:'y1',order:2,spanGaps:true},
@@ -1237,9 +1308,9 @@ function init(){
    callbacks:{title:c=>c.length?(SWIM[c[0].dataIndex].t||''):'',
     label:c=>{const r=SWIM[c.dataIndex];
      if(c.datasetIndex===0){const lines=[LBL.swPace+': '+(r.pace||AXP(r.sec100))+' /100m'];
-      if(r.dist!=null)lines.push(LBL.mDist+': '+r.dist.toLocaleString('en-US')+' m');
-      const extra=[];if(r.lengths!=null)extra.push(r.lengths+' lengths');if(r.spm!=null)extra.push(r.spm+' spm');
-      if(nz(r.dur)!=null)extra.push(r.dur+' min');if(nz(r.kcal)!=null)extra.push(r.kcal+' kcal');
+      if(r.dist!=null)lines.push(LBL.mDist+': '+nf(r.dist,0)+' m');
+      const extra=[];if(r.lengths!=null)extra.push(tpl(LBL.swLen,{n:nfa(r.lengths)}));if(r.spm!=null)extra.push(tpl(LBL.swSpm,{n:nfa(r.spm)}));
+      if(nz(r.dur)!=null)extra.push(nfa(r.dur)+' min');if(nz(r.kcal)!=null)extra.push(nf(r.kcal,0)+' kcal');
       if(extra.length)lines.push(extra.join(' · '));
       const hl=heatLine(r);if(hl)lines.push(hl);
       return lines;}
@@ -1274,7 +1345,7 @@ function init(){
  setMetric('effort');
  mlRefresh();
  applyTheme(theme);
- setLang('en');
+ setLang(lang);
  applyResponsive();
  loadSleep();
  loadAthlete();
@@ -1289,13 +1360,13 @@ function makeEffChart(){
      plugins:{legend:{display:false},tooltip:{callbacks:{
       title:c=>{const x=(EFF.groups[effSel]||[])[c[0].dataIndex];return x?String(x.r.t||''):'';},
       label:c=>{const x=(EFF.groups[effSel]||[])[c.dataIndex];if(!x)return '';
-       return [LBL.seVal+': '+c.parsed.y,
-        LBL.swPace+': '+(x.r.pace||'')+' /100m · '+LBL.lAvg+': '+x.r.av+' bpm · RHR '+x.ref+' ('+(x.src==='day'?LBL.seRhrDay:LBL.seRhrShort)+')'];}}}},
+       return [LBL.seVal+': '+nf(c.parsed.y,0),
+        LBL.swPace+': '+(x.r.pace||'')+' /100m · '+LBL.lAvg+': '+x.r.av+' bpm · '+LBL.lRhr+' '+x.ref+' ('+(x.src==='day'?LBL.seRhrDay:LBL.seRhrShort)+')'];}}}},
      scales:{x:{grid:{display:false},ticks:{autoSkip:false,color:txt,maxRotation:60}},
       y:{title:{display:true,text:LBL.seAxis,color:txt},grid:{color:grid},ticks:{color:txt}}}},
     plugins:[bgPlug,{id:'sev',afterDatasetsDraw(ch){const ctx=ch.ctx;const m=ch.getDatasetMeta(0);const ds=ch.data.datasets[0];
      ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 9px ':'500 11px ')+'sans-serif';ctx.fillStyle=strong;
-     m.data.forEach((pt,i)=>{const v=nz(ds.data[i]);if(v==null)return;ctx.fillText(v.toLocaleString('en-US'),pt.x,pt.y-9);});ctx.restore();}}]
+     m.data.forEach((pt,i)=>{const v=nz(ds.data[i]);if(v==null)return;ctx.fillText(nf(v,0),pt.x,pt.y-9);});ctx.restore();}}]
    });
 }
 function buildEffUI(){
@@ -1305,7 +1376,7 @@ function buildEffUI(){
  sec.style.display='';
  if(effSel==null||EFF.keys.indexOf(effSel)<0)effSel=EFF.keys[0];
  row.innerHTML='';
- EFF.keys.forEach(k=>{const b=document.createElement('button');b.textContent=k;b.setAttribute('data-st',k);b.onclick=()=>setEff(k);row.appendChild(b);});
+ EFF.keys.forEach(k=>{const b=document.createElement('button');b.textContent=stName(k);b.setAttribute('data-st',k);b.onclick=()=>setEff(k);row.appendChild(b);});
  makeEffChart();
  markBtns();
  effRefresh('none');
@@ -1325,9 +1396,9 @@ function afterSleep(){
 
 let bday=0;
 function brData(){const d=BR[bday];return{data:[[0,d.int],[d.int-BMR,d.int],[d.bal,d.int-BMR],[d.bal,0]],
- vals:['+'+d.int.toLocaleString('en-US'),'−'+BMR.toLocaleString('en-US'),'−'+d.ex,(d.bal<0?'−':'+')+Math.abs(d.bal).toLocaleString('en-US')]};}
+ vals:['+'+nf(d.int,0),'−'+nf(BMR,0),'−'+nf(d.ex,0),(d.bal<0?'−':'+')+nf(Math.abs(d.bal),0)]};}
 function brLabels(){return [LBL.wInt,LBL.wBas,LBL.wEx,LBL.wBal];}
-function buildBridgeButtons(){const row=document.getElementById('bridgerow');row.innerHTML='';BR.forEach((d,i)=>{const b=document.createElement('button');b.textContent=d.label;b.setAttribute('data-d',i);b.onclick=()=>setBday(i);row.appendChild(b);});}
+function buildBridgeButtons(){const row=document.getElementById('bridgerow');row.innerHTML='';BR.forEach((d,i)=>{const b=document.createElement('button');b.textContent=wdLab(d.label);b.setAttribute('data-d',i);b.onclick=()=>setBday(i);row.appendChild(b);});}
 function setBday(d){bday=d;const nd=brData();br.data.datasets[0].data=nd.data;br.data.datasets[0].backgroundColor=['#2caaf0','#54718D','#BA7517',BR[bday].bal<0?'#1D9E75':'#A32D2D'];markBtns();br.update();renderExperts();}
 
 let liftSel='trap',rangeSel=0;
@@ -1337,17 +1408,18 @@ function mlAll(){const a=MLD&&MLD[liftSel];return Array.isArray(a)?a:[];}
 function mlRows(){const cut=CUT[rangeSel]||'';return mlAll().filter(r=>String(r.d||'')>=cut);}
 function mlRefresh(mode){
  const rows=mlRows();
- ml.data.labels=rows.map(r=>r.l);ml.data.datasets[0].data=rows.map(r=>r.w);ml.data.datasets[1].data=rows.map(r=>r.mx);ml.data.datasets[2].data=rows.map(r=>r.av);ml.update(mode||undefined);
+ ml.data.labels=rows.map(r=>lab(r));ml.data.datasets[0].data=rows.map(r=>r.w);ml.data.datasets[1].data=rows.map(r=>r.mx);ml.data.datasets[2].data=rows.map(r=>r.av);ml.update(mode||undefined);
  const all=mlAll();const last=all.length?all[all.length-1]:null,prev=all.length>1?all[all.length-2]:null;
  const pk=r=>(r&&Array.isArray(r.pk))?r.pk:[];
  const cnt=Math.max(pk(last).length,pk(prev).length);
  ws.data.labels=Array.from({length:cnt},(_,i)=>'S'+(i+1));
+ ws.data.datasets[0].label=LBL.wsPrev;ws.data.datasets[1].label=LBL.wsLast;
  ws.data.datasets[0].data=Array.from({length:cnt},(_,i)=>pk(prev)[i]??null);
  ws.data.datasets[1].data=Array.from({length:cnt},(_,i)=>pk(last)[i]??null);
  ws.update(mode||undefined);
  const nm=lname(liftSel);
  document.getElementById('mlSub').textContent=last
-  ?(nm+' — '+LBL.wsLast+': '+last.l+' @ '+last.w+' kg'+(prev?(' · '+LBL.wsPrev+': '+prev.l+' @ '+prev.w+' kg'):''))
+  ?(nm+' — '+LBL.wsLast+': '+lab(last)+' @ '+nfa(last.w)+' kg'+(prev?(' · '+LBL.wsPrev+': '+lab(prev)+' @ '+nfa(prev.w)+' kg'):''))
   :nm+' — —';
  renderExperts();
 }
@@ -1356,7 +1428,7 @@ function setLift(l){liftSel=l;markBtns();mlRefresh();}
 function goStrength(){try{const b=window.parent!==window&&window.parent.document.querySelector('nav button[data-tab="strength"]');if(b){b.click();return false;}}catch(e){}return true;}
 function setRange(r){rangeSel=r;markBtns();mlRefresh();}
 
-function redraw(){tr.data.datasets[0].data=D[metric];tr.data.datasets[0].backgroundColor=colors();tr.options.scales.y.min=AX[metric].min;tr.options.scales.y.max=AX[metric].max;tr.options.scales.y.title.text=AX[metric].u;tr.update();}
+function redraw(){tr.data.datasets[0].data=D[metric];tr.data.datasets[0].backgroundColor=colors();tr.options.scales.y.min=AX[metric].min;tr.options.scales.y.max=AX[metric].max;tr.options.scales.y.title.text=axU(metric);tr.update();}
 function setMetric(m){metric=m;markBtns();if(tr)redraw();}
 function setFilter(f){filter=f;markBtns();if(tr)redraw();}
 function applyTheme(t){theme=t;calc();document.getElementById('twrap').classList.toggle('dark',t==='dark');document.body.style.background=BG;
@@ -1373,14 +1445,36 @@ function applyTheme(t){theme=t;calc();document.getElementById('twrap').classList
  tr.update('none');en.update('none');bc.update('none');br.update('none');ml.update('none');ws.update('none');
  if(gm)gm.update('none');if(sw)sw.update('none');if(acw)acw.update('none');if(seC)seC.update('none');
  renderProg();}
-function setLang(l){lang=l;LBL=T[l];
- document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');let v=(LBL[k]!==undefined)?LBL[k]:(DAT?DAT.text[lang][k]:undefined);if(v!==undefined&&v!==null)el.textContent=v;});
- if(!tr)return;
+/* static strings: [data-i] text, [data-ia] aria-labels, <title>, <html lang> — safe before the data lands */
+function applyStatic(){
+ document.documentElement.lang=lang;
+ if(LBL.docTitle)document.title=LBL.docTitle;
+ document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');
+  const dt=(DAT&&DAT.text&&DAT.text[lang])?DAT.text[lang][k]:undefined;
+  const v=(typeof LBL[k]==='string')?LBL[k]:dt;if(typeof v==='string')el.textContent=v;});
+ document.querySelectorAll('[data-ia]').forEach(el=>{const v=LBL[el.getAttribute('data-ia')];if(typeof v==='string')el.setAttribute('aria-label',v);});
+ /* the shell owns the language switch: internal EN/HR buttons only when opened top-level */
+ let embedded=false;try{embedded=window.top!==window;}catch(e){embedded=true;}
+ ['btn-en','btn-hr'].forEach(id=>{const b=document.getElementById(id);if(b)b.style.display=embedded?'none':'';});
+ document.documentElement.classList.remove('i18n-pending');
+}
+function setLang(l){if(l!=='en'&&l!=='hr')return;lang=l;LBL=T[l];
+ try{localStorage.setItem('dash-lang',l);}catch(e){}
+ if(typeof Chart!=='undefined')Chart.defaults.locale=loc();
+ applyStatic();
+ markBtns();
+ if(!tr||!DAT)return;
+ fillKpis();buildBridgeButtons();
  const dlabels=layout==='mobile'?txtL().daysM:txtL().days;
  tr.data.labels=dlabels;en.data.labels=dlabels;bc.data.labels=dlabels;br.data.labels=brLabels();
+ const nd=brData();br.data.datasets[0].data=nd.data;
+ tr.options.scales.y.title.text=axU(metric);
+ if(acw&&LOAD)acw.data.labels=LOAD.weeks.map(w=>shortD(w.m));
+ if(gm&&GYM)gm.data.labels=GYM.map(r=>lab(r));
+ if(sw&&SWIM)sw.data.labels=SWIM.map((r,i,a)=>{const n=a.slice(0,i+1).filter(x=>x.d===r.d).length;return n>1?lab(r)+' ('+n+')':lab(r);});
+ if(EFF&&EFF.keys&&EFF.keys.length)buildEffUI();
  markBtns();
- tr.update('none');en.update('none');bc.update('none');br.update('none');
- if(gm)gm.update('none');if(sw)sw.update('none');if(acw)acw.update('none');
+ [tr,en,bc,br,ml,ws,gm,sw,acw,seC].forEach(c=>{if(c){c.options.locale=loc();c.update('none');}});
  mlRefresh('none');refreshV2();}
 function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want)return;layout=want;const M=want==='mobile';
  document.getElementById('twrap').classList.toggle('mobile',M);
@@ -1419,13 +1513,16 @@ function markBtns(){
  document.querySelectorAll('#rangerow button').forEach(b=>style(b,Number(b.getAttribute('data-r'))===rangeSel));
  document.querySelectorAll('#effrow button').forEach(b=>style(b,b.getAttribute('data-st')===effSel));
 }
+/* first paint already in the stored language (default hr) */
+if(typeof Chart!=='undefined')Chart.defaults.locale=loc();
+applyStatic();
 markBtns();
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
 
 fetch('training-data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
  .then(j=>{DAT=j;init();})
- .catch(err=>{const e=document.querySelector('[data-i="rec"]');if(e)e.textContent='Could not load training-data.json ('+err.message+'). Serve over http (works on GitHub Pages).';});
+ .catch(err=>{const e=document.querySelector('[data-i="rec"]');if(e)e.textContent=tpl(LBL.errLoad,{m:err.message});});
 </script>
 </body>
 </html>

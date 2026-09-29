@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's sleep and recovery</title>
+<title>Patrikov san i oporavak</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><circle%20cx='16'%20cy='16'%20r='9.5'%20fill='none'%20stroke='%23084a8f'%20stroke-width='5'%20stroke-dasharray='15%2045'/><circle%20cx='16'%20cy='16'%20r='9.5'%20fill='none'%20stroke='%232caaf0'%20stroke-width='5'%20stroke-dasharray='30%2030'%20stroke-dashoffset='-15'/><circle%20cx='16'%20cy='16'%20r='9.5'%20fill='none'%20stroke='%23a64ce8'%20stroke-width='5'%20stroke-dasharray='14%2046'%20stroke-dashoffset='-45'/></svg>">
 <style>
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -45,24 +45,24 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 <body>
 <div id="wrap">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 1.25rem;flex-wrap:wrap;">
-  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">PATRIK'S SLEEP AND RECOVERY</div>
+  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">PATRIKOV SAN I OPORAVAK</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
     <button class="lbtn" id="btn-en" onclick="setLang('en')">EN</button>
     <button class="lbtn" id="btn-hr" onclick="setLang('hr')">HR</button>
-    <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
+    <button id="btn-fs" onclick="toggleFont()" data-a="aFs" aria-label="Veliki font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
   </div>
 </div>
 
-<div data-i="h1" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">LAST NIGHT</div>
+<div data-i="h1" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">PROŠLA NOĆ</div>
 
 <div class="cards">
   <div class="card">
-    <div class="lab" data-i="c1">Sleep score</div>
+    <div class="lab" data-i="c1">Ocjena sna</div>
     <div style="font-size:24px;font-weight:500;" id="v-score">—</div>
     <div class="dlt" id="d-score"></div>
   </div>
   <div class="card">
-    <div class="lab" data-i="c2">Sleep duration</div>
+    <div class="lab" data-i="c2">Trajanje sna</div>
     <div style="font-size:24px;font-weight:500;" id="v-dur">—</div>
     <div class="dlt" id="d-dur"></div>
   </div>
@@ -72,12 +72,12 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
     <div class="dlt" id="d-rhr"></div>
   </div>
   <div class="card">
-    <div class="lab" data-i="c5">Readiness (computed)</div>
+    <div class="lab" data-i="c5">Spremnost (izračunata)</div>
     <div style="font-size:24px;font-weight:500;color:#1D9E75;"><span id="v-ready">—</span> <span style="font-size:14px;font-weight:400;" id="l-ready"></span></div>
     <div class="lab" style="font-size:12px;" id="d-ready"></div>
   </div>
   <div class="card">
-    <div class="lab" data-i="c4">HRV overnight</div>
+    <div class="lab" data-i="c4">HRV tijekom noći</div>
     <div style="font-size:24px;font-weight:500;"><span id="v-hrv">—</span> <span style="font-size:14px;font-weight:400;">ms</span></div>
     <div class="dlt" id="d-hrv" style="color:var(--ts)"></div>
   </div>
@@ -85,15 +85,15 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 
 <div class="nightrow">
   <div style="position:relative;width:180px;height:180px;">
-    <canvas id="donut" role="img" aria-label="Donut chart of last night's sleep stages"></canvas>
+    <canvas id="donut" role="img" data-a="aDonut" aria-label="Kružni grafikon faza sna zadnje noći"></canvas>
   </div>
   <div class="stages" style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
     <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#084a8f;margin-right:6px;vertical-align:-1px;"></span><span data-i="deep">Deep</span></span><span style="font-weight:500;" id="st-deep-v"></span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#084a8f;margin-right:6px;vertical-align:-1px;"></span><span data-i="deep">Duboki</span></span><span style="font-weight:500;" id="st-deep-v"></span></div>
       <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-deep-bar" style="width:0;height:6px;background:#084a8f;border-radius:3px;"></div></div>
     </div>
     <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2caaf0;margin-right:6px;vertical-align:-1px;"></span><span data-i="light">Light</span></span><span style="font-weight:500;" id="st-light-v"></span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2caaf0;margin-right:6px;vertical-align:-1px;"></span><span data-i="light">Lagani</span></span><span style="font-weight:500;" id="st-light-v"></span></div>
       <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-light-bar" style="width:0;height:6px;background:#2caaf0;border-radius:3px;"></div></div>
     </div>
     <div>
@@ -101,7 +101,7 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
       <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-rem-bar" style="width:0;height:6px;background:#a64ce8;border-radius:3px;"></div></div>
     </div>
     <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#f06fa0;margin-right:6px;vertical-align:-1px;"></span><span data-i="awake">Awake</span></span><span style="font-weight:500;" id="st-awake-v"></span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span class="lab"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#f06fa0;margin-right:6px;vertical-align:-1px;"></span><span data-i="awake">Budan</span></span><span style="font-weight:500;" id="st-awake-v"></span></div>
       <div style="height:6px;background:var(--surf);border-radius:3px;"><div id="st-awake-bar" style="width:0;height:6px;background:#f06fa0;border-radius:3px;"></div></div>
     </div>
     <div id="artifactNote" class="lab" style="font-size:11px;color:#BA7517;"></div>
@@ -110,31 +110,31 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 
 <div class="expert" data-role="md" id="x-lastnight"></div>
 
-<div data-i="h1b" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">SLEEP DEBT (7 DAYS)</div>
+<div data-i="h1b" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">DUG SPAVANJA (7 DANA)</div>
 <div class="cards">
   <div class="card">
-    <div class="lab" data-i="dbtDebt">Weekly debt vs 7.5h target</div>
+    <div class="lab" data-i="dbtDebt">Tjedni dug prema cilju 7,5h</div>
     <div style="font-size:22px;font-weight:500;" id="v-debt">—</div>
     <div class="lab" style="font-size:12px;" id="d-debt"></div>
   </div>
   <div class="card">
-    <div class="lab" data-i="dbtNights">Nights under 7h</div>
+    <div class="lab" data-i="dbtNights">Noći ispod 7h</div>
     <div style="font-size:22px;font-weight:500;" id="v-nights7">—</div>
   </div>
   <div class="card">
-    <div class="lab" data-i="dbtMean">Mean duration</div>
+    <div class="lab" data-i="dbtMean">Prosječno trajanje</div>
     <div style="font-size:22px;font-weight:500;" id="v-meandur">—</div>
   </div>
   <div class="card">
-    <div class="lab" data-i="dbtSplit">Weekday / weekend</div>
+    <div class="lab" data-i="dbtSplit">Radni dan / vikend</div>
     <div style="font-size:18px;font-weight:500;" id="v-split">—</div>
   </div>
   <div class="card">
-    <div class="lab" data-i="dbtBedSd">Bedtime regularity (SD)</div>
+    <div class="lab" data-i="dbtBedSd">Pravilnost lijeganja (SD)</div>
     <div style="font-size:22px;font-weight:500;" id="v-bedsd">—</div>
   </div>
   <div class="card">
-    <div class="lab" data-i="dbtWakeSd">Wake regularity (SD)</div>
+    <div class="lab" data-i="dbtWakeSd">Pravilnost buđenja (SD)</div>
     <div style="font-size:22px;font-weight:500;" id="v-wakesd">—</div>
   </div>
 </div>
@@ -143,11 +143,11 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 
 <div style="display:flex;gap:12px;flex-wrap:wrap;margin:0 0 1.25rem;">
   <div class="sig" id="divBox">
-    <div class="lab" data-i="divTitle">RHR / HRV divergence</div>
+    <div class="lab" data-i="divTitle">RHR / HRV divergencija</div>
     <div id="divBody" style="font-size:13px;line-height:1.6;">—</div>
   </div>
   <div class="sig" id="ctxBox">
-    <div class="lab" data-i="ctxTitle">RHR in context (47M)</div>
+    <div class="lab" data-i="ctxTitle">RHR u kontekstu (muškarac, 47 g.)</div>
     <div id="ctxBody" style="font-size:13px;line-height:1.6;">—</div>
   </div>
 </div>
@@ -155,49 +155,49 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
 <div class="expert" data-role="md" id="x-div"></div>
 <div class="expert" data-role="md" id="x-ctx"></div>
 
-<div data-i="swH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">SLEEP &amp; WAKE TIMES</div>
+<div data-i="swH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">VRIJEME SPAVANJA I BUĐENJA</div>
 <div class="lab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#084a8f;"></span><span data-i="swBed">Bedtime</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#E0A53C;"></span><span data-i="swWake">Wake</span></span>
-  <span data-i="swDur" style="display:flex;align-items:center;gap:4px;">label = sleep duration</span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;min-width:18px;text-align:center;background:#1D9E75;color:#fff;border-radius:7px;padding:1px 5px;font-size:11px;font-weight:500;">85</span><span data-i="swScoreLeg">= sleep score</span></span>
-  <button id="btn-swscore" data-i="swScoreBtn" onclick="toggleSwScore()" style="margin-left:auto;">Score</button>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#084a8f;"></span><span data-i="swBed">Lijeganje</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#E0A53C;"></span><span data-i="swWake">Buđenje</span></span>
+  <span data-i="swDur" style="display:flex;align-items:center;gap:4px;">oznaka = trajanje sna</span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;min-width:18px;text-align:center;background:#1D9E75;color:#fff;border-radius:7px;padding:1px 5px;font-size:11px;font-weight:500;">85</span><span data-i="swScoreLeg">= ocjena sna</span></span>
+  <button id="btn-swscore" data-i="swScoreBtn" onclick="toggleSwScore()" style="margin-left:auto;">Ocjena</button>
 </div>
 <div id="swwrap" style="position:relative;width:100%;height:300px;margin:0 0 2rem;">
-  <canvas id="sw" role="img" aria-label="Sleep and wake times for the last seven nights"></canvas>
+  <canvas id="sw" role="img" data-a="aSw" aria-label="Vrijeme spavanja i buđenja zadnjih sedam noći"></canvas>
 </div>
 
 <div class="expert" data-role="md" id="x-sw"></div>
 
-<div data-i="h2" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">TRAILING 7 DAYS</div>
+<div data-i="h2" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">ZADNJIH 7 DANA</div>
 
 <div class="lab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#084a8f;"></span><span data-i="deep2">Deep</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2caaf0;"></span><span data-i="light2">Light</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#084a8f;"></span><span data-i="deep2">Duboki</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#2caaf0;"></span><span data-i="light2">Lagani</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#a64ce8;"></span>REM</span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#f06fa0;"></span><span data-i="awake2">Awake</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#f06fa0;"></span><span data-i="awake2">Budan</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:3px solid #1D9E75;"></span>HRV ms</span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #1D9E75;"></span><span id="havg">HRV 7d avg</span></span>
   <span style="display:flex;align-items:center;gap:4px;"><span style="color:#E24B4A;">&hearts;</span><span style="width:14px;height:0;border-top:3px dashed #D85A30;"></span>RHR bpm</span>
-  <span data-i="badge" style="display:flex;align-items:center;gap:4px;font-weight:500;">badge = sleep score</span>
+  <span data-i="badge" style="display:flex;align-items:center;gap:4px;font-weight:500;">značka = ocjena sna</span>
 </div>
 <div id="weekwrap" style="position:relative;width:100%;height:380px;margin:0 0 1.5rem;">
-  <canvas id="week" role="img" aria-label="Stacked sleep stage bars with totals and score badges, HRV and RHR overlays"></canvas>
+  <canvas id="week" role="img" data-a="aWeek" aria-label="Složeni stupci faza sna s ukupnim trajanjem i značkama ocjene, uz HRV i RHR"></canvas>
 </div>
-<p class="lab" data-i="footWeek" style="font-size:11px;margin:0 0 1.5rem;">Nights are labelled by the evening they start (Fri 4 = Fri→Sat). The Training tab labels by calendar day, so the same RHR appears one label apart there.</p>
+<p class="lab" data-i="footWeek" style="font-size:11px;margin:0 0 1.5rem;">Noći su označene večeri kad počinju (Pet 4 = Pet→Sub). Kartica Trening označava po kalendarskom danu, pa se isti RHR ondje pojavljuje jednu oznaku dalje.</p>
 
 <div class="expert" data-role="md" id="x-week"></div>
 
 <div id="trend90Section" hidden>
-  <div data-i="h3" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">90-DAY HRV / RHR</div>
+  <div data-i="h3" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.75rem;">HRV / RHR — 90 DANA</div>
   <div class="lab" style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px;font-size:12px;">
     <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px solid #1D9E75;"></span><span data-i="t90hrv">HRV</span></span>
-    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(29,158,117,0.25);"></span><span data-i="t90band">HRV ±1 SD (28d rolling)</span></span>
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(29,158,117,0.25);"></span><span data-i="t90band">HRV ±1 SD (28d klizni prosjek)</span></span>
     <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dashed #D85A30;"></span><span data-i="t90rhr">RHR</span></span>
-    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(140,140,136,0.3);"></span><span data-i="t90score">Sleep score</span></span>
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(140,140,136,0.3);"></span><span data-i="t90score">Ocjena sna</span></span>
   </div>
   <div id="t90wrap" style="position:relative;width:100%;height:260px;margin:0 0 1.5rem;">
-    <canvas id="t90" role="img" aria-label="90 day HRV and RHR trend with a rolling HRV band and sleep score bars"></canvas>
+    <canvas id="t90" role="img" data-a="aT90" aria-label="Trend HRV-a i RHR-a kroz 90 dana s klizećim HRV pojasom i stupcima ocjene sna"></canvas>
   </div>
   <div class="expert" data-role="md" id="x-t90"></div>
 </div>
@@ -210,7 +210,7 @@ button:focus-visible,a:focus-visible{outline:2px solid #2caaf0;outline-offset:2p
   </div>
   <p class="lab" id="rec" style="margin:0;line-height:1.6;">—</p>
 </div>
-<p class="lab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · Sleep &amp; Recovery Dashboard · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+<p class="lab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · <span data-i="footApp">Nadzorna ploča sna i oporavka</span> · <span data-i="footBy">autor</span> <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -228,7 +228,7 @@ const bgPlug={id:'bg',beforeDraw(c){const x=c.ctx;x.save();x.globalCompositeOper
 
 /* Static UI labels only. All data + analysis text comes from sleep-data.json */
 const T={
- en:{title:"PATRIK'S SLEEP AND RECOVERY",h1:"LAST NIGHT",h2:"TRAILING 7 DAYS",h1b:"SLEEP DEBT (7 DAYS)",h3:"90-DAY HRV / RHR",swH:"SLEEP & WAKE TIMES",swBed:"Bedtime",swWake:"Wake",swDur:"label = sleep duration",swScoreLeg:"= sleep score",swScoreBtn:"Score",
+ en:{title:"PATRIK'S SLEEP AND RECOVERY",docTitle:"Patrik's sleep and recovery",aFs:"Large font",aDonut:"Donut chart of last night's sleep stages",aSw:"Sleep and wake times for the last seven nights",aWeek:"Stacked sleep stage bars with totals and score badges, HRV and RHR overlays",aT90:"90 day HRV and RHR trend with a rolling HRV band and sleep score bars",footApp:"Sleep & Recovery Dashboard",footBy:"by",errLoad:"Could not load sleep-data.json ({m}). Serve over http (works on GitHub Pages).",bands:["Athlete","Excellent","Good","Above average","Average","Elevated"],h1:"LAST NIGHT",h2:"TRAILING 7 DAYS",h1b:"SLEEP DEBT (7 DAYS)",h3:"90-DAY HRV / RHR",swH:"SLEEP & WAKE TIMES",swBed:"Bedtime",swWake:"Wake",swDur:"label = sleep duration",swScoreLeg:"= sleep score",swScoreBtn:"Score",
    c1:"Sleep score",c2:"Sleep duration",c4:"HRV overnight",c5:"Readiness (computed)",
    deep:"Deep",light:"Light",awake:"Awake",deep2:"Deep",light2:"Light",awake2:"Awake",badge:"badge = sleep score",hours:"Hours",
    dbtDebt:"Weekly debt vs 7.5h target",dbtNights:"Nights under 7h",dbtMean:"Mean duration",dbtSplit:"Weekday / weekend",dbtBedSd:"Bedtime regularity (SD)",dbtWakeSd:"Wake regularity (SD)",
@@ -276,12 +276,12 @@ const T={
    xWkHrv:"HRV averaged {a} ms this week against the 28-day mean of {b} ms — {dir}. No escalation needed on this alone.",
    xT90Hrv:"90-day HRV: {a} ms over the first 4 weeks vs {b} ms over the last 4 — {dir}. Read the trend line, never a single night.",
    xT90Rhr:"90-day RHR: {a} bpm early vs {b} bpm now — {dir}. A sustained rise of 5 bpm with no change in training is worth a GP visit."},
- hr:{title:"PATRIKOV SAN I OPORAVAK",h1:"PROŠLA NOĆ",h2:"ZADNJIH 7 DANA",h1b:"DUG SPAVANJA (7 DANA)",h3:"HRV / RHR — 90 DANA",swH:"VRIJEME SPAVANJA I BUĐENJA",swBed:"Lijeganje",swWake:"Buđenje",swDur:"oznaka = trajanje sna",swScoreLeg:"= ocjena sna",swScoreBtn:"Ocjena",
+ hr:{title:"PATRIKOV SAN I OPORAVAK",docTitle:"Patrikov san i oporavak",aFs:"Veliki font",aDonut:"Kružni grafikon faza sna zadnje noći",aSw:"Vrijeme spavanja i buđenja zadnjih sedam noći",aWeek:"Složeni stupci faza sna s ukupnim trajanjem i značkama ocjene, uz HRV i RHR",aT90:"Trend HRV-a i RHR-a kroz 90 dana s klizećim HRV pojasom i stupcima ocjene sna",footApp:"Nadzorna ploča sna i oporavka",footBy:"autor",errLoad:"Nije moguće učitati sleep-data.json ({m}). Otvori stranicu preko http-a (radi na GitHub Pagesu).",bands:["Sportaš","Izvrsno","Dobro","Iznad prosjeka","Prosječno","Povišeno"],h1:"PROŠLA NOĆ",h2:"ZADNJIH 7 DANA",h1b:"DUG SPAVANJA (7 DANA)",h3:"HRV / RHR — 90 DANA",swH:"VRIJEME SPAVANJA I BUĐENJA",swBed:"Lijeganje",swWake:"Buđenje",swDur:"oznaka = trajanje sna",swScoreLeg:"= ocjena sna",swScoreBtn:"Ocjena",
    c1:"Ocjena sna",c2:"Trajanje sna",c4:"HRV tijekom noći",c5:"Spremnost (izračunata)",
    deep:"Duboki",light:"Lagani",awake:"Budan",deep2:"Duboki",light2:"Lagani",awake2:"Budan",badge:"značka = ocjena sna",hours:"Sati",
    dbtDebt:"Tjedni dug prema cilju 7,5h",dbtNights:"Noći ispod 7h",dbtMean:"Prosječno trajanje",dbtSplit:"Radni dan / vikend",dbtBedSd:"Pravilnost lijeganja (SD)",dbtWakeSd:"Pravilnost buđenja (SD)",
    dbtTarget:"prema cilju od 7,5h/noć",
-   divTitle:"RHR / HRV divergencija",ctxTitle:"RHR u kontekstu (47M)",
+   divTitle:"RHR / HRV divergencija",ctxTitle:"RHR u kontekstu (muškarac, 47 g.)",
    footWeek:"Noći su označene večeri kad počinju (Pet 4 = Pet→Sub). Kartica Trening označava po kalendarskom danu, pa se isti RHR ondje pojavljuje jednu oznaku dalje.",
    t90hrv:"HRV",t90band:"HRV ±1 SD (28d klizni prosjek)",t90rhr:"RHR",t90score:"Ocjena sna",
    divNeed:"Potrebna je povijest od 28 dana ({n}/28 dana) za provjeru divergencije (bolest/pretreniranost).",
@@ -300,19 +300,19 @@ const T={
    xLnOk:"Sinoć {d} sna — na cilju od 7,5 h ili iznad njega. Zadrži {b} kao sidro za lijeganje.",
    xLnDeepOk:"Duboki san {n} min ({p}% vremena sna) — unutar normale; bez akcije.",
    xLnDeepLow:"Duboki san {n} min ({p}% vremena sna) ispod je granice od 15% — uobičajeni uzroci su alkohol i kasni teški obrok; završi s jelom 3 h prije {b}.",
-   xLnVitals:"Ocjena {s}, RHR {r} otk/min, HRV {h} ms. Ništa ovdje večeras ne traži liječnika — koristi ocjenu spremnosti na kartici Trening kao dnevni filter kreni / stani.",
+   xLnVitals:"Ocjena {s}, RHR {r} bpm, HRV {h} ms. Ništa ovdje večeras ne traži liječnika — koristi ocjenu spremnosti na kartici Trening kao dnevni filter kreni / stani.",
    xDebtHi:"Dug spavanja {v} h prema cilju od 7,5 h. Osiguraj punih 7,5 h u 5 od sljedećih 7 noći — to ga briše bez vikend-odspavanja.",
    xDebtVeryHi:"Dug spavanja {v} h — više od cijele noći. Osiguraj 7,5 h u 5 od sljedećih 7 noći i otkaži jedan trening ako drugačije ne stane.",
    xDebtOk:"Dug spavanja {v} h prema cilju od 7,5 h — unutar normale; zadrži trenutno vrijeme lijeganja.",
    xDebtNights:"{n} od {m} noći ispod 7 h. Postavi alarm za lijeganje u 22:30 — kratak san diže apetit sljedećeg dana, a to je dio koji košta kilograme{kg}.",
    xDebtNightsOk:"{n} od {m} noći ispod 7 h — ispod praga od 4 noći; promjena lijeganja nije potrebna.",
    xDebtSd:"Lijeganje varira {b} min, buđenje {w} min. Usidri buđenje u {wk} svaki dan, uključujući vikend — to je jeftinije popraviti.",
-   xDivAmber:"RHR 7 dana {a} prema 28 dana {b} otk/min I HRV 7 dana {c} prema 28 dana {d} ms — oba signala idu u krivom smjeru. Smanji opterećenje 48 h i pazi na grlobolju, temperaturu ili neuobičajen umor.",
-   xDivGrey:"RHR 7 dana {a} prema 28 dana {b} otk/min, HRV 7 dana {c} prema 28 dana {d} ms — jedan signal odstupa. Danas bez akcije; provjeri sutra.",
-   xDivGreen:"RHR 7 dana {a} prema 28 dana {b} otk/min, HRV 7 dana {c} prema 28 dana {d} ms — nema divergencije, danas nema znaka bolesti.",
-   xDivWatch:"Reagiraj kad 7-dnevni prosjek RHR-a prijeđe {t} otk/min (+5%), a 7-dnevni HRV padne ispod {u} ms (−15%): 48 h smanjenog opterećenja i mjerenje temperature.",
+   xDivAmber:"RHR 7 dana {a} prema 28 dana {b} bpm I HRV 7 dana {c} prema 28 dana {d} ms — oba signala idu u krivom smjeru. Smanji opterećenje 48 h i pazi na grlobolju, temperaturu ili neuobičajen umor.",
+   xDivGrey:"RHR 7 dana {a} prema 28 dana {b} bpm, HRV 7 dana {c} prema 28 dana {d} ms — jedan signal odstupa. Danas bez akcije; provjeri sutra.",
+   xDivGreen:"RHR 7 dana {a} prema 28 dana {b} bpm, HRV 7 dana {c} prema 28 dana {d} ms — nema divergencije, danas nema znaka bolesti.",
+   xDivWatch:"Reagiraj kad 7-dnevni prosjek RHR-a prijeđe {t} bpm (+5%), a 7-dnevni HRV padne ispod {u} ms (−15%): 48 h smanjenog opterećenja i mjerenje temperature.",
    xDivNeed:"U povijesti je samo {n} od 28 noći koje provjera divergencije treba — nema što poduzeti dok se trend ne napuni.",
-   xCtxBand:"RHR {v} otk/min je u pojasu „{b}” prema populacijskim normama iznad. Garminovo noćno očitanje je nekoliko otkucaja niže od sjedećeg u ordinaciji, pa ga ne koristi za isključivanje povišenog tlaka.",
+   xCtxBand:"RHR {v} bpm je u pojasu „{b}” prema populacijskim normama iznad. Garminovo noćno očitanje je nekoliko otkucaja niže od sjedećeg u ordinaciji, pa ga ne koristi za isključivanje povišenog tlaka.",
    xCtxBloods:"{k} kg manje: naruči osnovne pretrage sada — lipidogram, HbA1c, ALT/GGT, feritin, vitamin D — da preostalih {r} kg do {t} kg ima početnu sliku.",
    xCtxBp:"Izmjeri krvni tlak prije sljedećeg treninga s hack čučnjem{w} i upiši ga na kartici Zdravlje.",
    xAtKg:" pri {v} kg",xLoadKg:" od {v} kg",
@@ -323,9 +323,14 @@ const T={
    xWkWorst:"Najgora noć: {d}, ocjena {s}, {dur}. Pogledaj što se dogodilo te večeri — jedna loša noć je uzrok, sedam je navika.",
    xWkHrv:"HRV je ovaj tjedan u prosjeku {a} ms prema 28-dnevnom prosjeku od {b} ms — {dir}. Samo zbog toga nema razloga za uzbunu.",
    xT90Hrv:"HRV kroz 90 dana: {a} ms u prva 4 tjedna prema {b} ms u zadnja 4 — {dir}. Čitaj liniju trenda, nikad pojedinačnu noć.",
-   xT90Rhr:"RHR kroz 90 dana: {a} otk/min na početku prema {b} otk/min sada — {dir}. Trajni porast od 5 otkucaja bez promjene treninga vrijedi posjeta liječniku."}
+   xT90Rhr:"RHR kroz 90 dana: {a} bpm na početku prema {b} bpm sada — {dir}. Trajni porast od 5 otkucaja bez promjene treninga vrijedi posjeta liječniku."}
 };
-let lang='en', LBL=T.en;
+const readLang=()=>{try{const v=localStorage.getItem('dash-lang');return v==='en'||v==='hr'?v:'hr';}catch(e){return 'hr';}};
+let lang=readLang(), LBL=T[lang];
+const NF=()=>lang==='hr'?'hr-HR':'en-US';
+const nf=(v,d)=>v.toLocaleString(NF(),{minimumFractionDigits:d,maximumFractionDigits:d});
+const MON={hr:['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro'],en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']};
+const fmtDate=(iso,yr)=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||'');if(!m)return iso==null?'':String(iso);const d=+m[3],mo=+m[2]-1;return lang==='hr'?d+'. '+MON.hr[mo]+(yr?' '+m[1]+'.':''):MON.en[mo]+' '+d+(yr?', '+m[1]:'');};
 let DAT=null;
 let deep,light,rem,awake,scores,hrv,rhr,HRV_AVG,totals;
 let BED,WAKE,BEDL,WAKEL,SDUR;
@@ -375,7 +380,7 @@ function renderDebt(){
  const r=computeDebt(),t=LBL;
  const setv=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
  const dEl=document.getElementById('v-debt');
- if(dEl){dEl.textContent=r.debt.toFixed(2)+'h';dEl.style.color=r.debt>5?'#A32D2D':(r.debt>3?'#BA7517':'#1D9E75');}
+ if(dEl){dEl.textContent=nf(r.debt,2)+'h';dEl.style.color=r.debt>5?'#A32D2D':(r.debt>3?'#BA7517':'#1D9E75');}
  setv('d-debt',t.dbtTarget);
  setv('v-nights7',r.nights7+' / '+SDUR.length);
  setv('v-meandur',r.mean!=null?hm(r.mean):'—');
@@ -385,13 +390,13 @@ function renderDebt(){
 }
 
 function rhrBandName(v){
- const D=lang==='hr';
- if(v<56) return D?'Sportaš':'Athlete';
- if(v<=61) return D?'Izvrsno':'Excellent';
- if(v<=65) return D?'Dobro':'Good';
- if(v<=70) return D?'Iznad prosjeka':'Above average';
- if(v<=75) return D?'Prosječno':'Average';
- return D?'Povišeno':'Elevated';
+ const b=LBL.bands;
+ if(v<56) return b[0];
+ if(v<=61) return b[1];
+ if(v<=65) return b[2];
+ if(v<=70) return b[3];
+ if(v<=75) return b[4];
+ return b[5];
 }
 function renderRhrContext(){
  const t=LBL,ln=DAT.num.lastNight,v=ln.rhr,el=document.getElementById('ctxBody');
@@ -422,7 +427,7 @@ function renderDivergence(){
  const chip=d.state==='amber'?t.divAmber:(d.state==='grey'?t.divGrey:t.divGreen);
  el.innerHTML='<div style="display:inline-block;background:'+col+'22;color:'+col+';padding:3px 10px;border-radius:8px;font-weight:500;margin-bottom:6px;">'+chip+'</div>'+
   '<div style="margin-top:6px;font-size:12px;color:var(--ts);">'+t.divLbls+'</div>'+
-  '<div style="margin-top:2px;">RHR7 '+d.rhr7.toFixed(1)+' &middot; RHR28 '+d.rhr28.toFixed(1)+' &middot; HRV7 '+d.hrv7.toFixed(1)+' &middot; HRV28 '+d.hrv28.toFixed(1)+'</div>';
+  '<div style="margin-top:2px;">RHR7 '+nf(d.rhr7,1)+' &middot; RHR28 '+nf(d.rhr28,1)+' &middot; HRV7 '+nf(d.hrv7,1)+' &middot; HRV28 '+nf(d.hrv28,1)+'</div>';
 }
 
 function rollingHrvBand(tr){
@@ -449,7 +454,7 @@ function renderTrend90(){
  const bandLine='rgba(29,158,117,0.35)';
  const M=layout==='mobile';
  const cfg={data:{labels,datasets:[
-   {type:'bar',label:'Score',data:scoreArr,backgroundColor:'rgba(140,140,136,0.28)',yAxisID:'yScore',order:5,barPercentage:1,categoryPercentage:1,borderWidth:0},
+   {type:'bar',label:LBL.t90score,data:scoreArr,backgroundColor:'rgba(140,140,136,0.28)',yAxisID:'yScore',order:5,barPercentage:1,categoryPercentage:1,borderWidth:0},
    {type:'line',label:'HRV upper',data:band.up,borderColor:bandLine,backgroundColor:bandFill,pointRadius:0,borderWidth:1,fill:'+1',yAxisID:'y',spanGaps:false,order:2,tension:0.2},
    {type:'line',label:'HRV lower',data:band.down,borderColor:bandLine,backgroundColor:bandFill,pointRadius:0,borderWidth:1,fill:false,yAxisID:'y',spanGaps:false,order:2,tension:0.2},
    {type:'line',label:'HRV',data:hrvArr,borderColor:C.hrv,backgroundColor:C.hrv,pointRadius:0,borderWidth:2,yAxisID:'y',spanGaps:false,order:1,tension:0.15},
@@ -458,20 +463,20 @@ function renderTrend90(){
   options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
    interaction:{mode:'index',intersect:false},
    plugins:{legend:{display:false},tooltip:{filter:it=>it.datasetIndex===0||it.datasetIndex===3||it.datasetIndex===4,
-    callbacks:{title:items=>items.length?labels[items[0].dataIndex]:'',
+    callbacks:{title:items=>items.length?fmtDate(labels[items[0].dataIndex],true):'',
      label:c=>{const t=LBL;
       if(c.datasetIndex===0)return t.t90score+': '+(c.parsed.y==null?'—':c.parsed.y);
       if(c.datasetIndex===3)return t.t90hrv+': '+(c.parsed.y==null?'—':c.parsed.y+' ms');
       return t.t90rhr+': '+(c.parsed.y==null?'—':c.parsed.y+' bpm');
      }}}},
    scales:{
-    x:{grid:{display:false},ticks:{color:txt,maxTicksLimit:8,autoSkip:true,font:{size:M?9:11}}},
+    x:{grid:{display:false},ticks:{color:txt,maxTicksLimit:8,autoSkip:true,font:{size:M?9:11},callback:function(v){return fmtDate(this.getLabelForValue(v));}}},
     y:{position:'left',grid:{color:grid},ticks:{color:txt,font:{size:M?9:11}}},
     y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:txt,font:{size:M?9:11}}},
     yScore:{display:false,min:0,max:100}
    }},
   plugins:[bgPlug]};
- if(t90){t90.data=cfg.data;t90.options=cfg.options;t90.update();}
+ if(t90){t90.data=cfg.data;t90.options=cfg.options;t90.update('none');}
  else{t90=new Chart(document.getElementById('t90'),cfg);}
 }
 
@@ -480,7 +485,7 @@ function renderTrend90(){
    stays true after a data refresh. Static fallback only when data is absent. */
 const xesc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const xt=(s,o)=>String(s==null?'':s).replace(/\{(\w+)\}/g,(m,k)=>(o&&o[k]!==undefined&&o[k]!==null)?String(o[k]):m);
-const xn=(v,d)=>(v==null||!isFinite(v))?'—':(lang==='hr'?v.toFixed(d==null?1:d).replace('.',','):v.toFixed(d==null?1:d));
+const xn=(v,d)=>(v==null||!isFinite(v))?'—':nf(v,d==null?1:d);
 const xhm=h=>{const m=Math.max(0,Math.round(h*60));return Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m';};
 const xclock=v=>{const t=Math.round((((v%24)+24)%24)*60);return String(Math.floor(t/60)%24).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};
 const xshift=(s,mins)=>{const m=/^(\d{1,2}):(\d{2})/.exec(String(s||'').trim());if(!m)return String(s||'—');let t=(+m[1])*60+(+m[2])-(mins||0);t=((t%1440)+1440)%1440;return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};
@@ -609,7 +614,7 @@ function init(){
   const f2=M?'600 12px sans-serif':'600 15px sans-serif';
   barMeta.data.forEach((bar,i)=>{
    const topY=ch.scales.y.getPixelForValue(totals[i]);
-   ctx.font=f1;ctx.fillStyle=strong;ctx.fillText(M?totals[i].toFixed(1)+'h':hm(totals[i]),bar.x,topY-32);
+   ctx.font=f1;ctx.fillStyle=strong;ctx.fillText(M?nf(totals[i],1)+'h':hm(totals[i]),bar.x,topY-32);
    const sc=String(scores[i]);ctx.font=f2;
    const w=ctx.measureText(sc).width+16;
    ctx.fillStyle=scoreColor(scores[i]);
@@ -696,7 +701,7 @@ function init(){
  renderExperts();
  loadSide();
  applyTheme(theme);
- setLang('en');
+ setLang(lang);
  applyResponsive();
 }
 
@@ -708,15 +713,21 @@ function restyle(){
 }
 function applyTheme(t){theme=t;calc();document.getElementById('wrap').classList.toggle('dark',t==='dark');restyle();markBtns();if(dn){dn.update();wk.update();swc.update();}if(t90){renderTrend90();}}
 function setLang(l){
+ if(l!=='en'&&l!=='hr')l='hr';
  lang=l;LBL=T[l];
+ try{localStorage.setItem('dash-lang',l);}catch(e){}
+ document.documentElement.lang=l;
+ document.title=LBL.docTitle;
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
+ document.querySelectorAll('[data-a]').forEach(el=>{const k=el.getAttribute('data-a');if(LBL[k]!==undefined)el.setAttribute('aria-label',LBL[k]);});
  if(DAT){fillCards();renderDebt();renderRhrContext();renderDivergence();renderExperts();}
- const dl={en:['Deep','Light','REM','Awake'],hr:['Duboki','Lagani','REM','Budan']}[l];
+ const dl=[LBL.deep,LBL.light,'REM',LBL.awake];
  if(dn){dn.data.labels=dl;
   wk.data.labels=layout==='mobile'?txtL().daysShort:txtL().daysFull;
   wk.data.datasets[0].label=dl[0];wk.data.datasets[1].label=dl[1];wk.data.datasets[3].label=dl[3];
   swc.data.labels=layout==='mobile'?txtL().daysShort:txtL().daysFull;
-  dn.update();wk.update();swc.update();}
+  renderTrend90();
+  dn.update('none');wk.update('none');swc.update('none');}
  markBtns();
 }
 function applyResponsive(){
@@ -744,13 +755,14 @@ function markBtns(){
  const M=layout==='mobile';
  Object.entries(states).forEach(([id,on])=>{const b=document.getElementById(id);if(!b)return;b.style.background=on?actBg:'transparent';b.style.color=on?actFg:inFg;b.style.border=bd;b.style.borderRadius='8px';b.style.padding=M?'10px 14px':'4px 10px';b.style.fontSize='12px';b.style.fontWeight='500';b.style.cursor='pointer';b.style.minHeight=M?'40px':'';b.style.minWidth=M?'40px':'';});
 }
+(function(){let emb=false;try{emb=window.top!==window;}catch(e){emb=true;}if(emb){['btn-en','btn-hr'].forEach(id=>{const b=document.getElementById(id);if(b)b.style.display='none';});}})();
 markBtns();
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
 
 fetch('sleep-data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
  .then(j=>{DAT=j;init();})
- .catch(err=>{const e=document.getElementById('rec');if(e)e.textContent='Could not load sleep-data.json ('+err.message+'). Serve over http (works on GitHub Pages).';});
+ .catch(err=>{const e=document.getElementById('rec');if(e)e.textContent=xt(LBL.errLoad,{m:err.message});});
 </script>
 </body>
 </html>

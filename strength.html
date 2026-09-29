@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's strength — sets, load &amp; HR per set</title>
+<title>Patrikova snaga — serije, opterećenje i puls po seriji</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%23D85A30'/><rect%20x='4'%20y='12'%20width='4'%20height='8'%20rx='1.5'%20fill='%23fff'/><rect%20x='24'%20y='12'%20width='4'%20height='8'%20rx='1.5'%20fill='%23fff'/><rect%20x='8'%20y='10'%20width='4'%20height='12'%20rx='1.5'%20fill='%23fff'/><rect%20x='20'%20y='10'%20width='4'%20height='12'%20rx='1.5'%20fill='%23fff'/><rect%20x='12'%20y='14.5'%20width='8'%20height='3'%20rx='1.5'%20fill='%23fff'/></svg>">
 <style>
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -101,11 +101,11 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 <body>
 <div id="swrap">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 1.25rem;flex-wrap:wrap;">
-  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">PATRIK'S STRENGTH — SETS, LOAD &amp; HR PER SET</div>
+  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">PATRIKOVA SNAGA — SERIJE, OPTEREĆENJE I PULS PO SERIJI</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
     <button id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hr" onclick="setLang('hr')">HR</button>
-    <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
+    <button id="btn-fs" onclick="toggleFont()" data-ia="aFs" aria-label="Veliki font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
   </div>
 </div>
 
@@ -113,28 +113,28 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 
 <div id="kpiSec" style="display:none;">
 <div class="tcards">
-  <div class="tcard"><div class="tlab" data-i="kLast">Last session</div><div class="kv" id="kLastV">—</div><div class="tlab kd" id="kLastD"></div></div>
-  <div class="tcard"><div class="tlab" data-i="kTon">Work tonnage</div><div class="kv" id="kTonV">—</div><div class="tlab kd" id="kTonD"></div></div>
-  <div class="tcard"><div class="tlab" data-i="kHard">Hard sets</div><div class="kv" id="kHardV">—</div><div class="tlab kd" id="kHardD"></div></div>
-  <div class="tcard"><div class="tlab" data-i="kRpe">Avg RPE</div><div class="kv" id="kRpeV">—</div><div class="tlab kd" id="kRpeD"></div></div>
+  <div class="tcard"><div class="tlab" data-i="kLast">Zadnji trening</div><div class="kv" id="kLastV">—</div><div class="tlab kd" id="kLastD"></div></div>
+  <div class="tcard"><div class="tlab" data-i="kTon">Radna tonaža</div><div class="kv" id="kTonV">—</div><div class="tlab kd" id="kTonD"></div></div>
+  <div class="tcard"><div class="tlab" data-i="kHard">Teške serije</div><div class="kv" id="kHardV">—</div><div class="tlab kd" id="kHardD"></div></div>
+  <div class="tcard"><div class="tlab" data-i="kRpe">Prosj. RPE</div><div class="kv" id="kRpeV">—</div><div class="tlab kd" id="kRpeD"></div></div>
   <div class="tcard"><div class="tlab" data-i="kSrpe">sRPE</div><div class="kv" id="kSrpeV">—</div><div class="tlab kd" id="kSrpeD"></div></div>
-  <div class="tcard"><div class="tlab" data-i="kHrl">HR load</div><div class="kv" id="kHrlV">—</div><div class="tlab kd" id="kHrlD"></div></div>
-  <div class="tcard"><div class="tlab" data-i="kWk">This week</div><div class="kv" id="kWkV">—</div><div class="tlab kd" id="kWkD"></div></div>
+  <div class="tcard"><div class="tlab" data-i="kHrl">Opterećenje pulsom</div><div class="kv" id="kHrlV">—</div><div class="tlab kd" id="kHrlD"></div></div>
+  <div class="tcard"><div class="tlab" data-i="kWk">Ovaj tjedan</div><div class="kv" id="kWkV">—</div><div class="tlab kd" id="kWkD"></div></div>
 </div>
 <div class="expert" data-role="coach" id="x-kpi"></div>
 </div>
 
 <div id="sesSec" class="sec" style="display:none;">
-  <div class="sh" data-i="sesH">SESSION EXPLORER</div>
+  <div class="sh" data-i="sesH">PREGLED TRENINGA</div>
   <div class="btnrow" id="sesChips"></div>
-  <div class="selrow"><label for="sesSel" data-i="sesPick">All sessions</label><select id="sesSel" class="sel" onchange="setSes(+this.value)"></select></div>
+  <div class="selrow"><label for="sesSel" data-i="sesPick">Svi treninzi</label><select id="sesSel" class="sel" onchange="setSes(+this.value)"></select></div>
   <div class="shead" id="sesHead"></div>
   <div class="chiprow" id="sesBadges"></div>
   <div class="warnnote" id="sesWarn"></div>
   <div id="hrBlock">
     <div class="tlab legend" id="sesLegend"></div>
     <div id="hrwrap" style="position:relative;width:100%;height:340px;margin:0 0 0.4rem;">
-      <canvas id="hrc" role="img" aria-label="Heart rate over the session with the warm-up shaded and one marker per logged set at its matched HR peak"></canvas>
+      <canvas id="hrc" role="img" data-ia="aHrc" aria-label=""></canvas>
     </div>
   </div>
   <p class="tlab note" id="hrNote" style="margin:0 0 10px;"></p>
@@ -143,69 +143,74 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 </div>
 
 <div id="musSec" class="sec" style="display:none;">
-  <div class="sh" data-i="musH">MUSCLE LOAD — HARD SETS PER WEEK</div>
+  <div class="sh" data-i="musH">OPTEREĆENJE MIŠIĆA — TEŠKE SERIJE PO TJEDNU</div>
   <div class="btnrow" id="musMode">
-    <button data-m="hard" onclick="setMus('hard')" data-i="mHard">Hard sets</button>
-    <button data-m="ton" onclick="setMus('ton')" data-i="mTon">Tonnage</button>
+    <button data-m="hard" onclick="setMus('hard')" data-i="mHard">Teške serije</button>
+    <button data-m="ton" onclick="setMus('ton')" data-i="mTon">Tonaža</button>
   </div>
   <div class="tlab legend" id="musLegend"></div>
   <div class="tblwrap" id="musHeat"></div>
-  <div class="sh2" data-i="musWkH">THIS WEEK (LAST 7 DAYS)</div>
+  <div class="sh2" data-i="musWkH">OVAJ TJEDAN (ZADNJIH 7 DANA)</div>
   <div class="chiprow" id="musWeek"></div>
   <p class="tlab note" data-i="musNote" style="margin:0 0 10px;"></p>
   <div class="expert" data-role="coach" id="x-mus"></div>
 </div>
 
 <div id="exSec" class="sec" style="display:none;">
-  <div class="sh" data-i="exH">EXERCISE PROGRESS</div>
-  <div class="selrow"><label for="exSel" data-i="exPick">Exercise</label><select id="exSel" class="sel" onchange="setEx(this.value)"></select></div>
+  <div class="sh" data-i="exH">NAPREDAK PO VJEŽBI</div>
+  <div class="selrow"><label for="exSel" data-i="exPick">Vježba</label><select id="exSel" class="sel" onchange="setEx(this.value)"></select></div>
   <div class="btnrow" id="gymRow"></div>
   <p class="tlab note" id="gymRule" style="margin:0 0 8px;"></p>
   <div class="chiprow" id="exChips"></div>
   <div class="tlab legend">
-    <span><span class="swl" style="border-top:2.5px solid #1D9E75;"></span><span data-i="lgE1">best e1RM per session</span></span>
-    <span><span class="swc" style="background:#54718D;"></span><span data-i="lgTop">top-set kg</span></span>
-    <span><span class="swl" style="border-top:2px dashed #D85A30;"></span><span data-i="lgRpe">avg RPE at the modal weight</span></span>
-    <span><span class="swl" style="border-top:2px dotted #E24B4A;"></span><span data-i="lgPk">avg peak HR at the modal weight</span></span>
+    <span><span class="swl" style="border-top:2.5px solid #1D9E75;"></span><span data-i="lgE1">najbolji e1RM po treningu</span></span>
+    <span><span class="swc" style="background:#54718D;"></span><span data-i="lgTop">kg najteže serije</span></span>
+    <span><span class="swl" style="border-top:2px dashed #D85A30;"></span><span data-i="lgRpe">prosj. RPE na modalnoj težini (desna os)</span></span>
+    <span><span class="swl" style="border-top:2px dotted #E24B4A;"></span><span data-i="lgPk">prosj. vrh pulsa na modalnoj težini (desna os)</span></span>
   </div>
   <div id="exwrap" style="position:relative;width:100%;height:320px;margin:0 0 0.4rem;">
-    <canvas id="exc" role="img" aria-label="Exercise progress: best e1RM line, top-set weight dots, RPE and peak heart rate at the modal working weight"></canvas>
+    <canvas id="exc" role="img" data-ia="aExc" aria-label=""></canvas>
   </div>
   <p class="tlab note" data-i="exNote" style="margin:0 0 10px;"></p>
   <div class="expert" data-role="coach" id="x-ex"></div>
 </div>
 
 <div id="wkSec" class="sec" style="display:none;">
-  <div class="sh" data-i="wkH">WEEKLY LOAD &amp; ACWR</div>
+  <div class="sh" data-i="wkH">TJEDNO OPTEREĆENJE I ACWR</div>
   <div class="chiprow" id="wkChips"></div>
   <div class="tlab legend">
-    <span><span class="sw" style="background:#54718D;"></span><span data-i="lgTonW">work tonnage (t)</span></span>
+    <span><span class="sw" style="background:#54718D;"></span><span data-i="lgTonW">radna tonaža (t)</span></span>
     <span><span class="swl" style="border-top:2.5px solid #D85A30;"></span><span data-i="lgSrpe">sRPE (AU)</span></span>
-    <span><span class="swl" style="border-top:2.5px dashed #E24B4A;"></span><span data-i="lgHrl">HR load (TRIMP)</span></span>
+    <span><span class="swl" style="border-top:2.5px dashed #E24B4A;"></span><span data-i="lgHrl">opterećenje pulsom (TRIMP)</span></span>
   </div>
   <div id="wkwrap" style="position:relative;width:100%;height:280px;margin:0 0 0.6rem;">
-    <canvas id="wkc" role="img" aria-label="Weekly work tonnage bars with sRPE and heart-rate load lines"></canvas>
+    <canvas id="wkc" role="img" data-ia="aWkc" aria-label=""></canvas>
   </div>
   <div class="tlab legend">
-    <span><span class="swl" style="border-top:2.5px solid #D85A30;"></span><span data-i="lgAcwr">ACWR on sRPE</span></span>
-    <span><span class="swl" style="border-top:1.5px dashed #888780;"></span><span data-i="lgAcwrT">ACWR on tonnage</span></span>
-    <span data-i="lwBand">bands: green 0.8–1.3 · amber 1.3–1.5 · red &gt;1.5</span>
+    <span><span class="swl" style="border-top:2.5px solid #D85A30;"></span><span data-i="lgAcwr">ACWR na sRPE</span></span>
+    <span><span class="swl" style="border-top:1.5px dashed #888780;"></span><span data-i="lgAcwrT">ACWR na tonaži</span></span>
+    <span data-i="lwBand">pojasi: zeleno 0,8–1,3 · jantar 1,3–1,5 · crveno &gt;1,5</span>
   </div>
   <div id="acwrap" style="position:relative;width:100%;height:210px;margin:0 0 0.4rem;">
-    <canvas id="acc" role="img" aria-label="Acute to chronic workload ratio on sRPE with risk bands"></canvas>
+    <canvas id="acc" role="img" data-ia="aAcc" aria-label=""></canvas>
   </div>
   <p class="tlab note" id="wkNote" style="margin:0 0 10px;"></p>
   <div class="expert" data-role="coach" id="x-wk"></div>
 </div>
 
 <p class="tlab note" id="srcNote" style="margin:10px 2px 4px;"></p>
-<p class="tlab" style="font-size:11px;margin:0 2px 0;"><span data-i="foot">Strength Dashboard</span> · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+<p class="tlab" style="font-size:11px;margin:0 2px 0;"><span data-i="foot">Nadzorna ploča snage</span> · <span data-i="byL">izradio</span> <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-let layout='',lang='en';
+let layout='';
+/* language contract: localStorage['dash-lang'] ('hr' | 'en'), default 'hr', read before the first render */
+let lang=(()=>{let v=null;try{v=localStorage.getItem('dash-lang');}catch(e){}return v==='en'||v==='hr'?v:'hr';})();
+const EMBED=(()=>{try{return window.top!==window;}catch(e){return true;}})();
+let QUIET=false;   /* true while setLang re-renders: charts update without animation */
+const upd=c=>{if(c)c.update(QUIET?'none':undefined);};
 let fontbig=false;
 let BG,txt,strong,halo,grid,hrLine;
 function calc(){const D=theme==='dark';BG=D?'#262624':'#ffffff';txt=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';strong=D?'#fff':'#1a1a18';halo=D?'rgba(38,38,36,0.85)':'rgba(255,255,255,0.85)';grid=D?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.08)';hrLine=D?'rgba(255,255,255,0.5)':'rgba(0,0,0,0.42)';}
@@ -216,7 +221,11 @@ const EXC=['#D85A30','#2caaf0','#1D9E75','#a64ce8','#E0A53C','#E24B4A','#6c8cff'
 
 /* Static UI labels + rule texts. All numbers come from strength-data.json */
 const T={
- en:{title:"PATRIK'S STRENGTH — SETS, LOAD & HR PER SET",
+ en:{title:"PATRIK'S STRENGTH — SETS, LOAD & HR PER SET",docT:"Patrik's strength — sets, load & HR per set",byL:"by",
+  aFs:"Large font",aHrc:"Heart rate over the session with the warm-up shaded and one marker per logged set at its matched HR peak",
+  aExc:"Exercise progress: best e1RM line, top-set weight dots, RPE and peak heart rate at the modal working weight",
+  aWkc:"Weekly work tonnage bars with sRPE and heart-rate load lines",aAcc:"Acute to chronic workload ratio on sRPE with risk bands",
+  hrMaxL:"HRmax {v}",prL:"PR",abW:"W",abw:"w",abF:"F",tDrop:"drop set",meth_anchor:"anchor",
   kLast:"Last session",kTon:"Work tonnage",kHard:"Hard sets",kRpe:"Avg RPE",kSrpe:"sRPE",kHrl:"HR load",kWk:"This week",
   kTonD:"all sets incl. warm-ups {a}",kHardD:"of {w} work sets · {f} to failure",kRpeD:"work sets",kRpeNo:"no RPE logged",
   kSrpeD:"avg RPE × {m} min main block",kHrlD:"TRIMP, main block",kHrlNo:"no HR stream",
@@ -291,14 +300,18 @@ const T={
   xAcwrOk:"ACWR on sRPE is {a}, inside 0.8–1.3. Hold the weekly volume and progress the load.",
   xAcwrNa:"ACWR on sRPE needs 28 days of RPE logging; until then use the tonnage ratio ({a}).",
   xWkAvg:"Last 4 full weeks averaged {t} of work tonnage and {h} hard sets per week."},
- hr:{title:"PATRIKOVA SNAGA — SERIJE, OPTEREĆENJE I PULS PO SERIJI",
+ hr:{title:"PATRIKOVA SNAGA — SERIJE, OPTEREĆENJE I PULS PO SERIJI",docT:"Patrikova snaga — serije, opterećenje i puls po seriji",byL:"izradio",
+  aFs:"Veliki font",aHrc:"Puls kroz trening: zagrijavanje je osjenčano, a svaka zabilježena serija ima oznaku na svom uparenom vrhu pulsa",
+  aExc:"Napredak po vježbi: linija najboljeg e1RM-a, točke težine najteže serije, RPE i vrh pulsa na modalnoj radnoj težini",
+  aWkc:"Stupci tjedne radne tonaže s linijama sRPE-a i opterećenja pulsom",aAcc:"Omjer akutnog i kroničnog opterećenja (ACWR) na sRPE s pojasima rizika",
+  hrMaxL:"maks. puls {v}",prL:"OR",abW:"Z",abw:"z",abF:"O",tDrop:"drop set",meth_anchor:"sidro",
   kLast:"Zadnji trening",kTon:"Radna tonaža",kHard:"Teške serije",kRpe:"Prosj. RPE",kSrpe:"sRPE",kHrl:"Opterećenje pulsom",kWk:"Ovaj tjedan",
   kTonD:"sve serije uklj. zagrijavanje {a}",kHardD:"od {w} radnih serija · {f} do otkaza",kRpeD:"radne serije",kRpeNo:"RPE nije zabilježen",
   kSrpeD:"prosj. RPE × {m} min glavnog bloka",kHrlD:"TRIMP, glavni blok",kHrlNo:"nema zapisa pulsa",
-  kWkD:"{n:trening} · {h} teških serija — prošli tjedan {lt}, {ln:trening}, {lh} teških serija",
+  kWkD:"{n:trening} · {h:tserija} — prošli tjedan {lt}, {ln:trening}, {lh:tserija}",
   sesH:"PREGLED TRENINGA",sesPick:"Svi treninzi",
-  sesMeta:"{d} · {g} · {m} min u Hevyju · {s} serija",descL:"Bilješka treninga",
-  bMatch:"upareno {m}/{e}",bMethod:"metoda {v}",bConf:"medijan pouzd. {v}",bWarm:"zagrijavanje {m} min · prosj. {a} otk/min",bNoHr:"nema zapisa pulsa za ovaj trening",
+  sesMeta:"{d} · {g} · {m} min u Hevyju · {s:serija}",descL:"Bilješka treninga",
+  bMatch:"upareno {m}/{e}",bMethod:"metoda {v}",bConf:"medijan pouzd. {v}",bWarm:"zagrijavanje {m} min · prosj. {a} bpm",bNoHr:"nema zapisa pulsa za ovaj trening",
   lowConf:"Redoslijed vrhova na ovom treningu je nesiguran — puls po seriji je približan. Brojke ostaju vidljive; uspoređuj ih kao trend, ne seriju po seriju.",
   lgHr:"Puls (5 s)",lgWarm:"hodanje + DNS",lgHollow:"prazan = serija zagrijavanja",lgTri:"trokut = serija do otkaza",lgStart:"blijeda linija = početak serije",
   hrNote:"Puls s HRM600 pojasa na prsima, točke svakih 5 s; x = minute od starta sata. Svaka oznaka = vrh pulsa uparen s jednom zabilježenom serijom.",
@@ -306,10 +319,10 @@ const T={
   hrNoHr:"Nijedan zapis pulsa (Strava/Garmin, HRM600) nije uparen s ovim Hevy treningom — samo tablica serija, bez pulsa po seriji.",
   errNoWk:"strength-data.json još nema nijednog treninga.",
   errLoad:"Nije moguće učitati strength-data.json ({e}). Otvori stranicu preko http-a (radi na GitHub Pages).",
-  thLoad:"kg × pon @RPE",thE1:"e1RM",thPk:"♥ vrh",thD:"ΔHR",thRest:"pauza",thConf:"pouzd.",
-  exMeta:"{m} · {q} · {h} teških serija",noteL:"Bilješka",
+  thLoad:"kg × pon @RPE",thE1:"e1RM",thPk:"♥ vrh",thD:"Δpuls",thRest:"pauza",thConf:"pouzd.",
+  exMeta:"{m} · {q} · {h:tserija}",noteL:"Bilješka",
   tWarm:"zagrijavanje",tWarmInf:"serija prilaza (uparena kao zagrijavanje)",tWork:"radna serija",tFail:"do otkaza",repsU:"pon",
-  ttSet:"Serija {n}",ttPeak:"vrh pulsa {v} otk/min",ttDelta:"ΔHR {v}",ttRest:"pauza prije {v}",ttHrr:"HRR60 {v} otk/min",ttConf:"pouzd. uparivanja {v}",
+  ttSet:"Serija {n}",ttPeak:"vrh pulsa {v} bpm",ttDelta:"Δpuls {v}",ttRest:"pauza prije {v}",ttHrr:"oporavak pulsa 60 s {v} bpm",ttConf:"pouzd. uparivanja {v}",
   musH:"OPTEREĆENJE MIŠIĆA — TEŠKE SERIJE PO TJEDNU",mHard:"Teške serije",mTon:"Tonaža",
   musL0:"ispod 10 = premalo podražaja",musL1:"10–20 = raspon iz istraživanja",musL2:"iznad 20 = visoko",musLnr:"šrafirano = taj tjedan nema RPE-a",musLt:"radna tonaža po mišiću, t — sekundarni mišići broje ½",
   musWkH:"OVAJ TJEDAN (ZADNJIH 7 DANA)",
@@ -317,15 +330,15 @@ const T={
   musNone:"nema teških serija u zadnjih 7 dana",musNoRpe:"nema zabilježenog RPE-a u zadnjih 7 dana",muscleCol:"mišić",
   exH:"NAPREDAK PO VJEŽBI",exPick:"Vježba",gymAll:"Sve teretane (spojeno)",gymUnknown:"teretana nije označena",
   gymRuleM:"Slobodni utezi ({q}): teretane su po zadanom spojene — kilogram na šipki je svugdje isti.",
-  gymRuleS:"Sprava / sajla ({q}): po zadanom odvojeno po teretani — utezi i poluge se razlikuju.",
+  gymRuleS:"Sprava / kabel ({q}): po zadanom odvojeno po teretani — utezi i poluge se razlikuju.",
   gymOne:"Zabilježeno samo u jednoj teretani.",nSess:"{n:trening}",
   gymInf:"pretpostavljeno",gymInfT:"Teretana pretpostavljena prema spravama zabilježenima samo tamo: {l}",gymUnclear:"teretana nejasna",gymUnclearT:"Sprave upućuju na različite teretane: {l}",
   lgE1:"najbolji e1RM po treningu",lgTop:"kg najteže serije",lgRpe:"prosj. RPE na modalnoj težini (desna os)",lgPk:"prosj. vrh pulsa na modalnoj težini (desna os)",
-  exNote:"e1RM = Epley prilagođen RPE-u: kg × (1 + (pon + RIR) / 30), samo radne serije. Modalna težina = težina većine radnih serija tog treninga. PR = novi najbolji e1RM (po teretani kad je odvojeno).",
-  cPr:"{n} e1RM rekorda · zadnji {d}",cPrNone:"još nema e1RM rekorda",cBest:"najbolji e1RM {v} kg ({d})",
-  cDrift:"{kg} kg × {n:trening}: {d} → {v}",dR:"RPE {v}/tj",dH:"♥ {v} otk/min/tj",cDriftNo:"pomak se računa uz ≥3 treninga na istoj težini s RPE-om ili pulsom",
+  exNote:"e1RM = Epley prilagođen RPE-u: kg × (1 + (pon + RIR) / 30), samo radne serije. Modalna težina = težina većine radnih serija tog treninga. OR (osobni rekord) = novi najbolji e1RM (po teretani kad je odvojeno).",
+  cPr:"e1RM: {n:rekord} · zadnji {d}",cPrNone:"još nema e1RM rekorda",cBest:"najbolji e1RM {v} kg ({d})",
+  cDrift:"{kg} kg × {n:trening}: {d} → {v}",dR:"RPE {v}/tj",dH:"♥ {v} bpm/tj",cDriftNo:"pomak se računa uz ≥3 treninga na istoj težini s RPE-om ili pulsom",
   dFit:"forma raste",dFat:"umor",dFlat:"ravno",
-  ttE1:"najbolji e1RM {v} kg",ttTop:"najteža serija {v}",ttRpe:"RPE {v} na {kg} kg ({n} serija)",ttPkX:"vrh pulsa {v} otk/min na {kg} kg",ttPR:"e1RM rekord",ttRepPR:"rekord ponavljanja",
+  ttE1:"najbolji e1RM {v} kg",ttTop:"najteža serija {v}",ttRpe:"RPE {v} na {kg} kg ({n:serija})",ttPkX:"vrh pulsa {v} bpm na {kg} kg",ttPR:"e1RM rekord",ttRepPR:"rekord ponavljanja",
   wkH:"TJEDNO OPTEREĆENJE I ACWR",lgTonW:"radna tonaža (t)",lgSrpe:"sRPE (AU)",lgHrl:"opterećenje pulsom (TRIMP)",lgAcwr:"ACWR na sRPE",lgAcwrT:"ACWR na tonaži",
   lwBand:"pojasi: zeleno 0,8–1,3 · jantar 1,3–1,5 · crveno >1,5",
   wkNote:"sRPE = prosj. RPE × minute glavnog bloka; opterećenje pulsom = minute ponderirane zonom (TRIMP, zone od maks. pulsa {hm}) kroz glavni blok. ACWR = zadnjih 7 dana ÷ (zadnjih 28 dana ÷ 4) na kraju svakog tjedna. Omjer na sRPE crta se tek kad postoji 28 dana bilježenja RPE-a (RPE od {d}); tjedni bez RPE-a nemaju sRPE točku.",
@@ -337,18 +350,18 @@ const T={
   /* ---- preporuke stručnjaka ---- */
   xCoach:"Preporuka stručnjaka · Trener",
   xNoData:"Za ovaj odjeljak još nema dovoljno podataka — preporuka se pojavljuje čim brojke stignu.",
-  xKpiLast:"Zadnji trening {d} ({n}): {t} radne tonaže, {h} teških serija, prosj. RPE {r}.",
+  xKpiLast:"Zadnji trening {d} ({n}): {t} radne tonaže, {h:tserija}, prosj. RPE {r}.",
   xKpiLastNoRpe:"Zadnji trening {d} ({n}): {t} radne tonaže; RPE nije zabilježen pa teške serije i sRPE nisu dostupni.",
   xKpiWeek:"Ovaj tjedan do sada: {a} kroz {n:trening}, prema {b} kroz {m:trening} prošli tjedan.",
   xWkJump:"Radna tonaža zadnjeg punog tjedna bila je {p} u odnosu na tjedan prije. Zadrži sljedeći tjedan na toj razini umjesto novog dodavanja — skokovi iznad 20% su mjesto gdje počinju ozljede od preopterećenja.",
-  xFail:"{n} serija do otkaza (RPE ≥ 9,5) na dan {d}. Većinu rada drži na RPE 7–9, a otkaz čuvaj za zadnju seriju izolacijske vježbe — otkaz na složenim vježbama troši oporavak bez dodatnog rasta.",
+  xFail:"{n:serija} do otkaza (RPE ≥ 9,5) na dan {d}. Većinu rada drži na RPE 7–9, a otkaz čuvaj za zadnju seriju izolacijske vježbe — otkaz na složenim vježbama troši oporavak bez dodatnog rasta.",
   xFailOk:"Serija do otkaza: {n} — većina rada ostala je na RPE 7–9, gdje i treba biti.",
-  xSesTop:"Najviši vrh serije: {ex}, serija {s} ({ld}) na {hr} otk/min, ΔHR {dh}.",
+  xSesTop:"Najviši vrh serije: {ex}, serija {s} ({ld}) na {hr} bpm, Δpuls {dh}.",
   xLowConf:"Puls po seriji na ovom treningu je približan (medijan pouzdanosti uparivanja {c}). Vrhove čitaj kao trend kroz treninge, ne seriju po seriju.",
   xConfOk:"Uparivanje vrh↔serija na ovom treningu je pouzdano (medijan {c}) — puls po seriji može se uspoređivati serija po seriju.",
   xNoHr:"Nema zapisa pulsa za ovaj trening — preporuke ovdje koriste samo zabilježene serije.",
-  xRest:"Medijan pauze prije radnih serija {r} uz HRR60 {h} otk/min. Oporavak ispod ~15 otk/min u prvoj minuti znači da sljedeća teška serija kreće umorna — na složenim vježbama odmaraj 30 s dulje.",
-  xRestOk:"Medijan pauze prije radnih serija {r} uz HRR60 {h} otk/min — oporavak između serija drži korak.",
+  xRest:"Medijan pauze prije radnih serija {r} uz oporavak pulsa u 60 s od {h} bpm. Oporavak ispod ~15 bpm u prvoj minuti znači da sljedeća teška serija kreće umorna — na složenim vježbama odmaraj 30 s dulje.",
+  xRestOk:"Medijan pauze prije radnih serija {r} uz oporavak pulsa u 60 s od {h} bpm — oporavak između serija drži korak.",
   xMusUnder:"Izravno trenirani mišići ispod 10 teških serija u zadnjih 7 dana: {l}. Dodaj 2–4 teške serije za svaki sljedeći tjedan, raspoređeno na dva treninga.",
   xMusOver:"Iznad 20 teških serija u zadnjih 7 dana: {l}. Tu stani — više serija brže dodaje umor nego rast.",
   xMusBand:"{n} od {m} izravno treniranih mišićnih skupina ovaj je tjedan u rasponu 10–20; mišići koji rade samo kao pomoćni nisu označeni.",
@@ -365,15 +378,15 @@ const T={
   xAcwrLo:"ACWR na sRPE je {a} — ispod 0,8. Ima prostora za jednu seriju više po vježbi ovaj tjedan.",
   xAcwrOk:"ACWR na sRPE je {a}, unutar 0,8–1,3. Zadrži tjedni volumen i napreduj težinom.",
   xAcwrNa:"ACWR na sRPE treba 28 dana bilježenja RPE-a; do tada koristi omjer na tonaži ({a}).",
-  xWkAvg:"Zadnja 4 puna tjedna u prosjeku {t} radne tonaže i {h} teških serija tjedno."}
+  xWkAvg:"Zadnja 4 puna tjedna u prosjeku {t} radne tonaže i {h:tserija} tjedno."}
 };
 const MUS={
  en:{abdominals:"Abs",adductors:"Adductors",abductors:"Abductors",biceps:"Biceps",calves:"Calves",chest:"Chest",forearms:"Forearms",glutes:"Glutes",hamstrings:"Hamstrings",lats:"Lats",lower_back:"Lower back",quadriceps:"Quads",shoulders:"Shoulders",traps:"Traps",triceps:"Triceps",upper_back:"Upper back",neck:"Neck",cardio:"Cardio",full_body:"Full body",other:"Other"},
  hr:{abdominals:"Trbušnjaci",adductors:"Aduktori",abductors:"Abduktori",biceps:"Biceps",calves:"Listovi",chest:"Prsa",forearms:"Podlaktice",glutes:"Gluteusi",hamstrings:"Stražnja loža",lats:"Latissimus",lower_back:"Donja leđa",quadriceps:"Kvadriceps",shoulders:"Ramena",traps:"Trapez",triceps:"Triceps",upper_back:"Gornja leđa",neck:"Vrat",cardio:"Kardio",full_body:"Cijelo tijelo",other:"Ostalo"}};
 const EQ={
  en:{barbell:"barbell",dumbbell:"dumbbell",kettlebell:"kettlebell",machine:"machine",cable:"cable",plate:"plate",none:"bodyweight",bodyweight:"bodyweight",resistance_band:"band",suspension:"suspension",other:"other"},
- hr:{barbell:"šipka",dumbbell:"bučice",kettlebell:"girja",machine:"sprava",cable:"sajla",plate:"ploča",none:"vlastita težina",bodyweight:"vlastita težina",resistance_band:"guma",suspension:"TRX",other:"ostalo"}};
-let LBL=T.en;
+ hr:{barbell:"šipka",dumbbell:"bučice",kettlebell:"girja",machine:"sprava",cable:"kabel",plate:"ploča",none:"bez opreme",bodyweight:"vlastita težina",resistance_band:"guma",suspension:"TRX",other:"ostalo"}};
+let LBL=T[lang];
 let S=null;
 let hrc=null,exc=null,wkc=null,acc=null;
 let sesIdx=0,musMode='hard',exSel=null,gymSel='all';
@@ -384,10 +397,14 @@ const DAY=86400000;
 const nz=v=>(typeof v==='number'&&isFinite(v))?v:null;
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 /* {k:noun} = count + noun with plural: Croatian 1, 21, 31 trening; 2-4, 5+, 11-14 treninga; English 1 session, N sessions */
-const HRPL={trening:['trening','treninga']};
+/* Croatian forms: [1, 21 …] [2–4, 22–24 …] [0, 5–20, decimals …] */
+const HRPL={trening:['trening','treninga','treninga'],serija:['serija','serije','serija'],tserija:['teška serija','teške serije','teških serija'],rekord:['rekord','rekorda','rekorda']};
 const ENPL={session:['session','sessions'],hrsession:['HR session','HR sessions']};
-const hrPl=(n,w)=>{const a=Math.abs(+n),f=HRPL[w],e=ENPL[w];
- if(f)return n+' '+((a%10===1&&a%100!==11)?f[0]:f[1]);
+const hrPl=(n,w)=>{const f=HRPL[w],e=ENPL[w];
+ if(f){const a=Math.abs(+String(n).replace(/\./g,'').replace(',','.'));
+  const i=a%100,j=a%10,form=!Number.isInteger(a)?2:(j===1&&i!==11?0:(j>=2&&j<=4&&(i<12||i>14)?1:2));
+  return n+' '+f[form];}
+ const a=Math.abs(+n);
  if(e)return n+' '+(a===1?e[0]:e[1]);
  return n+' '+w;};
 const tpl=(s,o)=>String(s==null?'':s).replace(/\{(\w+)(?::(\w+))?\}/g,(m,k,w)=>o[k]!==undefined&&o[k]!==null?(w?hrPl(o[k],w):o[k]):m);
@@ -401,13 +418,22 @@ function monOf(dt){const d=d0(dt);return shiftD(d,-((d.getDay()+6)%7));}
 const MEN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MHR=['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro'];
 function fmtD(iso){const d=pd(iso);return lang==='hr'?(d.getDate()+'. '+MHR[d.getMonth()]):(MEN[d.getMonth()]+' '+d.getDate());}
-function fmtWk(iso){const d=pd(iso);return lang==='hr'?(d.getDate()+'.'+(d.getMonth()+1)+'.'):((d.getMonth()+1)+'/'+d.getDate());}
-const fmtT=kg=>nz(kg)==null?'—':(kg/1000).toFixed(1)+' t';
-const f0=v=>nz(v)==null?'—':String(Math.round(v));
-const f1=v=>nz(v)==null?'—':v.toFixed(1);
-const f2=v=>nz(v)==null?'—':v.toFixed(2);
-const fH=v=>nz(v)==null?'—':(Math.round(v*10)/10).toString();   /* 11.5 / 12 — hard sets may be half sets */
-const sig=(v,d)=>nz(v)==null?'—':((v<0?'−':'+')+Math.abs(v).toFixed(d==null?1:d));
+/* with year: "5. ruj 2026." / "Sep 5, 2026" */
+function fmtDY(iso){const d=pd(iso);return lang==='hr'?(fmtD(iso)+' '+d.getFullYear()+'.'):(fmtD(iso)+', '+d.getFullYear());}
+/* heatmap column heads: day + month abbreviation; compact numeric on phones */
+function fmtWk(iso){const d=pd(iso);if(layout!=='mobile')return fmtD(iso);return lang==='hr'?(d.getDate()+'.'+(d.getMonth()+1)+'.'):((d.getMonth()+1)+'/'+d.getDate());}
+/* numbers: hr-HR (1.234,5) / en-US (1,234.5); d = fixed decimals, dMax = up to that many */
+const LOC=()=>lang==='hr'?'hr-HR':'en-US';
+const NFC={};
+function nf(v,d,dMax){if(nz(v)==null)return '—';const mn=d||0,mx=dMax==null?mn:dMax;
+ const k=LOC()+'|'+mn+'|'+mx;const f=NFC[k]||(NFC[k]=new Intl.NumberFormat(LOC(),{minimumFractionDigits:mn,maximumFractionDigits:mx}));return f.format(v);}
+const fmtT=kg=>nz(kg)==null?'—':nf(kg/1000,1)+' t';
+const f0=v=>nf(v,0);
+const f1=v=>nf(v,1);
+const f2=v=>nf(v,2);
+const fH=v=>nf(v,0,1);   /* 11,5 / 12 — hard sets may be half sets */
+const fKg=v=>nf(v,0,1);  /* 62,5 / 100 */
+const sig=(v,d)=>nz(v)==null?'—':((v<0?'−':'+')+nf(Math.abs(v),d==null?1:d));
 const fRest=s=>nz(s)==null?'—':(Math.floor(s/60)+':'+String(Math.round(s%60)).padStart(2,'0'));
 const avg=a=>{const f=a.filter(v=>nz(v)!=null);return f.length?f.reduce((x,y)=>x+y,0)/f.length:null;};
 const med=a=>{const f=a.filter(v=>nz(v)!=null).sort((x,y)=>x-y);if(!f.length)return null;const m=f.length>>1;return f.length%2?f[m]:(f[m-1]+f[m])/2;};
@@ -422,15 +448,19 @@ function gymHtml(w){const ev=(w.gymEvidence||[]).join(', ');
  if(w.gymSource==='inferred')return n+'<span class="gtag" title="'+esc(tpl(LBL.gymInfT,{l:ev}))+'">'+esc(LBL.gymInf)+'</span>';
  return n;}
 const isWU=r=>r.type==='warmup'||!!r.warmupInferred;
+/* Hevy set types: warmup / normal / failure / dropset */
+const typeLbl=r=>r.type==='warmup'?LBL.tWarm:(r.warmupInferred?LBL.tWarmInf:(r.type==='dropset'?LBL.tDrop:(r.type==='failure'?LBL.tFail:LBL.tWork)));
+const isFail=r=>!!r.failure||r.type==='failure';
+const methName=m=>m?(LBL['meth_'+m]||m):'—';
 function setTxt(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 function show(id,on){const e=document.getElementById(id);if(e)e.style.display=on?'':'none';}
 function safe(fn){try{fn();}catch(e){if(window.console)console.error(e);}}
 function loadStr(r){if(!r)return '—';
  const k=nz(r.kg),rp=nz(r.reps);let s;
- if(rp==null&&nz(r.durS)!=null)s=r.durS+' s';
+ if(rp==null&&nz(r.durS)!=null)s=f0(r.durS)+' s';
  else if(k==null||k===0)s=(rp==null?'—':rp+' '+LBL.repsU);
- else s=(Math.round(k*10)/10)+' × '+(rp==null?'—':rp);
- if(nz(r.rpe)!=null)s+=' @'+r.rpe;
+ else s=fKg(k)+' × '+(rp==null?'—':rp);
+ if(nz(r.rpe)!=null)s+=' @'+nf(r.rpe,0,1);
  return s;}
 function acwrZone(v){return v==null?null:(v<0.8?0:(v<=1.3?1:(v<=1.5?2:3)));}
 
@@ -499,8 +529,8 @@ function renderKpi(){
  setTxt('kLastV',fmtD(w.date));document.getElementById('kLastD').innerHTML=esc(w.title)+' · '+gymHtml(w);
  setTxt('kTonV',fmtT(w.tonnageWork));setTxt('kTonD',tpl(LBL.kTonD,{a:fmtT(w.tonnageAll)}));
  const hasRpe=nz(w.avgRPE)!=null;
- setTxt('kHardV',hasRpe?String(w.hardSets):'—');setTxt('kHardD',tpl(LBL.kHardD,{w:w.workSets,f:w.failureSets}));
- setTxt('kRpeV',hasRpe?w.avgRPE.toFixed(1):'—');setTxt('kRpeD',hasRpe?LBL.kRpeD:LBL.kRpeNo);
+ setTxt('kHardV',hasRpe?fH(w.hardSets):'—');setTxt('kHardD',tpl(LBL.kHardD,{w:w.workSets,f:w.failureSets}));
+ setTxt('kRpeV',hasRpe?f1(w.avgRPE):'—');setTxt('kRpeD',hasRpe?LBL.kRpeD:LBL.kRpeNo);
  setTxt('kSrpeV',f0(w.sRPE));setTxt('kSrpeD',nz(w.sRPE)!=null?tpl(LBL.kSrpeD,{m:f0(w.mainMin)}):LBL.kRpeNo);
  setTxt('kHrlV',f0(w.hrLoad));setTxt('kHrlD',nz(w.hrLoad)!=null?LBL.kHrlD:LBL.kHrlNo);
  const cm=monOf(TODAY),tw=weekAgg(isoD(cm)),lw=weekAgg(isoD(shiftD(cm,-7)));
@@ -524,7 +554,7 @@ const startPlug={id:'starts',beforeDatasetsDraw(ch){const w=CUR;if(!w)return;con
 const hrRefPlug={id:'hrref',beforeDatasetsDraw(ch){const s=ch.scales.y,a=ch.chartArea;if(!s||!a)return;const hm=(S&&S.meta&&nz(S.meta.hrMax))||173;
  if(hm<s.min||hm>s.max)return;const y=s.getPixelForValue(hm),ctx=ch.ctx;
  ctx.save();ctx.setLineDash([5,4]);ctx.lineWidth=1;ctx.strokeStyle='#E24B4A';ctx.beginPath();ctx.moveTo(a.left,y);ctx.lineTo(a.right,y);ctx.stroke();
- ctx.setLineDash([]);ctx.fillStyle='#E24B4A';ctx.font='500 9px sans-serif';ctx.textAlign='right';ctx.fillText('HRmax '+hm,a.right-3,y-3);ctx.restore();}};
+ ctx.setLineDash([]);ctx.fillStyle='#E24B4A';ctx.font='500 9px sans-serif';ctx.textAlign='right';ctx.fillText(tpl(LBL.hrMaxL,{v:f0(hm)}),a.right-3,y-3);ctx.restore();}};
 /* tooltip/hover only on the set markers, never on the HR trace */
 if(window.Chart&&Chart.Interaction&&Chart.Interaction.modes){
  Chart.Interaction.modes.setpk=function(chart,e){
@@ -536,13 +566,13 @@ if(window.Chart&&Chart.Interaction&&Chart.Interaction.modes){
 function makeHrChart(){
  if(hrc)return;
  hrc=new Chart(document.getElementById('hrc'),{type:'scatter',data:{datasets:[]},
-  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:6}},
+  options:{locale:LOC(),responsive:true,maintainAspectRatio:false,layout:{padding:{top:6}},
    interaction:{mode:'setpk',intersect:false},
    plugins:{legend:{display:false},tooltip:{filter:it=>it.datasetIndex>0,callbacks:{
     title:c=>c.length&&c[0].raw&&c[0].raw.e?c[0].raw.e.title:'',
     label:c=>{const r=c.raw&&c.raw.r;if(!r)return '';
-     const typ=r.type==='warmup'?LBL.tWarm:(r.warmupInferred?LBL.tWarmInf:LBL.tWork);
-     const lines=[tpl(LBL.ttSet,{n:r.set+1})+' · '+loadStr(r),typ+(r.failure?' · '+LBL.tFail:'')];
+     const typ=typeLbl(r);
+     const lines=[tpl(LBL.ttSet,{n:r.set+1})+' · '+loadStr(r),typ+(isFail(r)&&r.type!=='failure'?' · '+LBL.tFail:'')];
      lines.push(tpl(LBL.ttPeak,{v:f0(r.peakHR)})+' · '+tpl(LBL.ttDelta,{v:sig(r.hrDelta,0)}));
      lines.push(tpl(LBL.ttRest,{v:fRest(r.restBeforeS)})+' · '+tpl(LBL.ttHrr,{v:f0(r.hrr60)}));
      lines.push(tpl(LBL.ttConf,{v:f2(r.conf)}));
@@ -556,7 +586,7 @@ function buildSesUI(){
  const row=document.getElementById('sesChips');row.innerHTML='';
  ws.slice(0,8).forEach((w,i)=>{const b=document.createElement('button');b.textContent=fmtD(w.date);b.title=w.title;b.setAttribute('data-w',i);b.onclick=()=>setSes(i);row.appendChild(b);});
  const sel=document.getElementById('sesSel');
- sel.innerHTML=ws.map((w,i)=>'<option value="'+i+'">'+esc(w.date+' · '+w.title+(w.match?' ♥':''))+'</option>').join('');
+ sel.innerHTML=ws.map((w,i)=>'<option value="'+i+'">'+esc(fmtDY(w.date)+' · '+w.title+(w.match?' ♥':''))+'</option>').join('');
  sel.value=String(sesIdx);
 }
 function setSes(i){sesIdx=i;const sel=document.getElementById('sesSel');if(sel)sel.value=String(i);markBtns();safe(renderSes);safe(renderExperts);}
@@ -571,7 +601,7 @@ function renderSes(){
  document.getElementById('sesHead').innerHTML=head;
  const mt=w.match;let bh='';
  if(mt){const c=nz(mt.conf);const cls=c==null?'':(c<0.3?'warn':(c>=0.5?'good':''));
-  bh+=chipEl(cls,'<b>'+esc(tpl(LBL.bMatch,{m:mt.matched,e:mt.expected}))+'</b> · '+esc(tpl(LBL.bMethod,{v:mt.method||'—'}))+' · '+esc(tpl(LBL.bConf,{v:f2(c)})));
+  bh+=chipEl(cls,'<b>'+esc(tpl(LBL.bMatch,{m:mt.matched,e:mt.expected}))+'</b> · '+esc(tpl(LBL.bMethod,{v:methName(mt.method)}))+' · '+esc(tpl(LBL.bConf,{v:f2(c)})));
   if(w.warmup)bh+=chipEl('',esc(tpl(LBL.bWarm,{m:f1(w.warmup.minutes),a:f0(w.warmup.avgHR)})));
  }else bh+=chipEl('',esc(LBL.bNoHr));
  document.getElementById('sesBadges').innerHTML=bh;
@@ -600,6 +630,7 @@ function renderSes(){
   hrc.options.scales.x.ticks.stepSize=tmax>90?20:10;
   const lo=Math.min.apply(null,ser.map(p=>p[1]));hrc.options.scales.y.min=lo<60?40:60;
   wrap.setAttribute('data-markers',String(ds.slice(1).reduce((a,d)=>a+d.data.length,0)));
+  hrc.options.locale=LOC();
   hrc.update('none');   /* no rise-from-the-floor animation when switching sessions */
   setTxt('hrNote',LBL.hrNote);
  }else{
@@ -618,9 +649,9 @@ function renderSetTable(w){
    +esc(tpl(LBL.exMeta,{m:mName(e.primary),q:eqName(e.equipment),h:fH(e.hardSets)}))+'</span></td></tr>';
   rows.filter(r=>r.ex===e.idx).forEach(r=>{
    const wu=isWU(r);
-   const lab=(r.type==='warmup'?'W':'')+(r.set+1);
-   h+='<tr class="'+(wu?'wu':'')+'" title="'+esc(r.type==='warmup'?LBL.tWarm:(r.warmupInferred?LBL.tWarmInf:LBL.tWork))+'"><td>'+esc(lab)+(r.warmupInferred?'<span class="wtag">w</span>':'')+'</td>'
-    +'<td class="ld">'+esc(loadStr(r))+(r.failure?'<span class="fl" title="'+esc(LBL.tFail)+'">F</span>':'')+'</td>'
+   const lab=(r.type==='warmup'?LBL.abW:'')+(r.set+1);
+   h+='<tr class="'+(wu?'wu':'')+'" title="'+esc(typeLbl(r))+'"><td>'+esc(lab)+(r.warmupInferred?'<span class="wtag">'+esc(LBL.abw)+'</span>':'')+'</td>'
+    +'<td class="ld">'+esc(loadStr(r))+(isFail(r)?'<span class="fl" title="'+esc(LBL.tFail)+'">'+esc(LBL.abF)+'</span>':'')+'</td>'
     +'<td>'+f0(r.e1rm)+'</td>';
    if(hasHr){const lc=nz(r.conf)!=null&&r.conf<0.3;
     h+='<td>'+f0(r.peakHR)+'</td><td>'+sig(r.hrDelta,0)+'</td><td>'+fRest(r.restBeforeS)+'</td><td class="'+(lc?'lowc':'')+'">'+f2(r.conf)+'</td>';}
@@ -660,11 +691,11 @@ function renderMus(){
    if(musMode==='hard'){
     const nr=w.n>0&&(w.cov==null||w.cov<0.5);
     const v=c?nz(c.hardSets)||0:0;
-    if(nr){h+='<td class="nr" title="'+esc(LBL.musLnr)+'">'+(v>0?(M?Math.round(v):fH(v)):'')+'</td>';return;}
-    h+='<td style="background:'+hardCol(v)+'" title="'+esc(mName(k)+' · '+fmtD(w.iso)+' · '+fH(v))+'">'+(v>0?(M?Math.round(v):fH(v)):'')+'</td>';
+    if(nr){h+='<td class="nr" title="'+esc(LBL.musLnr)+'">'+(v>0?(M?f0(v):fH(v)):'')+'</td>';return;}
+    h+='<td style="background:'+hardCol(v)+'" title="'+esc(mName(k)+' · '+fmtD(w.iso)+' · '+fH(v))+'">'+(v>0?(M?f0(v):fH(v)):'')+'</td>';
    }else{
     const v=c?nz(c.tonnageWork)||0:0;const a=mx>0?(0.08+0.6*v/mx):0;
-    h+='<td style="background:'+(v>0?'rgba(44,170,240,'+a.toFixed(2)+')':'transparent')+'" title="'+esc(mName(k)+' · '+fmtD(w.iso)+' · '+fmtT(v))+'">'+(v>0?(M?Math.round(v/1000):(v/1000).toFixed(1)):'')+'</td>';
+    h+='<td style="background:'+(v>0?'rgba(44,170,240,'+a.toFixed(2)+')':'transparent')+'" title="'+esc(mName(k)+' · '+fmtD(w.iso)+' · '+fmtT(v))+'">'+(v>0?(M?f0(v/1000):f1(v/1000)):'')+'</td>';
    }});
   h+='</tr>';});
  h+='</tbody></table>';
@@ -685,7 +716,7 @@ function setMus(m){musMode=m;markBtns();safe(renderMus);}
 /* ================= exercise progress ================= */
 const prPlug={id:'prl',afterDatasetsDraw(ch){const ser=ch.$ser||[];const m=ch.getDatasetMeta(0);if(!m)return;const ctx=ch.ctx;
  ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'600 9px ':'600 10px ')+'sans-serif';ctx.fillStyle='#1D9E75';
- m.data.forEach((pt,i)=>{const p=ser[i];if(!p||!p.prE1rm||nz(p.bestE1rm)==null)return;ctx.fillText('PR',pt.x,pt.y-9);});ctx.restore();}};
+ m.data.forEach((pt,i)=>{const p=ser[i];if(!p||!p.prE1rm||nz(p.bestE1rm)==null)return;ctx.fillText(LBL.prL,pt.x,pt.y-9);});ctx.restore();}};
 function makeExChart(){
  if(exc)return;
  exc=new Chart(document.getElementById('exc'),{type:'line',
@@ -694,14 +725,14 @@ function makeExChart(){
    {label:'top',data:[],showLine:false,borderColor:'#54718D',backgroundColor:'#54718D',pointRadius:4,pointHoverRadius:6,yAxisID:'y',order:3},
    {label:'rpe',data:[],borderColor:'#D85A30',backgroundColor:'#D85A30',borderWidth:2,borderDash:[6,4],tension:0.2,pointRadius:3,yAxisID:'y1',spanGaps:true,order:1},
    {label:'pk',data:[],borderColor:'#E24B4A',backgroundColor:'#E24B4A',borderWidth:2,borderDash:[2,3],tension:0.2,pointRadius:3,yAxisID:'y2',spanGaps:true,order:1}]},
-  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},interaction:{mode:'index',intersect:false},
+  options:{locale:LOC(),responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},interaction:{mode:'index',intersect:false},
    plugins:{legend:{display:false},tooltip:{filter:it=>it.raw!=null,callbacks:{
     title:c=>{if(!c.length)return '';const p=(exc.$ser||[])[c[0].dataIndex];if(!p)return '';return fmtD(p.d)+(gymSel==='all'&&EXT[exSel]&&EXT[exSel].keys.length>1?' · '+gymName(p.gym):'');},
     label:c=>{const p=(exc.$ser||[])[c.dataIndex];if(!p)return '';
      if(c.datasetIndex===0)return tpl(LBL.ttE1,{v:f1(p.bestE1rm)})+(p.prE1rm?' · '+LBL.ttPR:'');
      if(c.datasetIndex===1)return tpl(LBL.ttTop,{v:loadStr(p.top)})+(p.repPR?' · '+LBL.ttRepPR:'');
-     if(c.datasetIndex===2)return tpl(LBL.ttRpe,{v:f1(p.rpeAtModal),kg:p.modalKg,n:p.nAtModal});
-     return tpl(LBL.ttPkX,{v:f0(p.peakHRAtModal),kg:p.modalKg});}}}},
+     if(c.datasetIndex===2)return tpl(LBL.ttRpe,{v:f1(p.rpeAtModal),kg:fKg(p.modalKg),n:p.nAtModal});
+     return tpl(LBL.ttPkX,{v:f0(p.peakHRAtModal),kg:fKg(p.modalKg)});}}}},
    scales:{x:{grid:{display:false},ticks:{color:txt,maxRotation:60,autoSkip:true}},
     y:{grace:'8%',title:{display:true,text:'kg',color:txt},grid:{color:grid},ticks:{color:txt}},
     y1:{position:'right',min:5,max:10,afterFit:a=>{a.width=Math.min(a.width,34)},grid:{drawOnChartArea:false},ticks:{color:'#D85A30',stepSize:1,padding:2},title:{display:false,text:'RPE'}},
@@ -752,7 +783,8 @@ function renderEx(){
  exc.data.datasets[1].data=ser.map(p=>(p.top&&nz(p.top.kg))?p.top.kg:null);
  exc.data.datasets[2].data=ser.map(p=>nz(p.rpeAtModal));
  exc.data.datasets[3].data=ser.map(p=>nz(p.peakHRAtModal));
- exc.update();
+ exc.options.locale=LOC();
+ upd(exc);
  /* chips: PRs, best, drift */
  let ch='';
  const prs=ser.filter(p=>p.prE1rm);
@@ -761,7 +793,7 @@ function renderEx(){
  if(best)ch+=chipEl('',esc(tpl(LBL.cBest,{v:f1(best.bestE1rm),d:fmtD(best.d)})));
  const dr=drifts(ser);
  if(dr.length)dr.slice(0,3).forEach(x=>{const cls=x.v==='fit'?'good':(x.v==='flat'?'':'warn');
-  ch+=chipEl(cls,esc(tpl(LBL.cDrift,{kg:x.kg,n:x.n,d:driftTxt(x),v:x.v==='fit'?LBL.dFit:(x.v==='flat'?LBL.dFlat:LBL.dFat)})));});
+  ch+=chipEl(cls,esc(tpl(LBL.cDrift,{kg:fKg(x.kg),n:x.n,d:driftTxt(x),v:x.v==='fit'?LBL.dFit:(x.v==='flat'?LBL.dFlat:LBL.dFat)})));});
  else ch+=chipEl('',esc(LBL.cDriftNo));
  document.getElementById('exChips').innerHTML=ch;
  markBtns();
@@ -779,7 +811,7 @@ function makeWkCharts(){
    {type:'bar',label:'ton',data:[],backgroundColor:'#54718D',maxBarThickness:34,borderWidth:0,yAxisID:'y',order:10},
    {type:'line',label:'srpe',data:[],borderColor:'#D85A30',backgroundColor:'#D85A30',borderWidth:2.5,tension:0.25,pointRadius:3,yAxisID:'y1',order:1,spanGaps:false},
    {type:'line',label:'hrl',data:[],borderColor:'#E24B4A',backgroundColor:'#E24B4A',borderWidth:2.5,borderDash:[6,4],tension:0.25,pointRadius:3,yAxisID:'y1',order:2,spanGaps:false}]},
-  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18}},interaction:{mode:'index',intersect:false},
+  options:{locale:LOC(),responsive:true,maintainAspectRatio:false,layout:{padding:{top:18}},interaction:{mode:'index',intersect:false},
    plugins:{legend:{display:false},tooltip:{filter:it=>it.raw!=null,callbacks:{
     title:c=>{const w=c.length?WL[c[0].dataIndex]:null;return w?(fmtD(w.iso)+' – '+fmtD(isoD(w.e))+' · '+tpl(LBL.nSess,{n:w.n})):'';},
     label:c=>{const w=WL[c.dataIndex];if(c.datasetIndex===0)return LBL.lgTonW+': '+fmtT(w.ton);if(c.datasetIndex===1)return LBL.lgSrpe+': '+f0(w.srpe);return LBL.lgHrl+': '+f0(w.hrl);}}}},
@@ -788,12 +820,12 @@ function makeWkCharts(){
     y1:{position:'right',min:0,afterFit:a=>{a.width=Math.min(a.width,40)},grid:{drawOnChartArea:false},ticks:{color:txt,padding:2},title:{display:true,text:'AU',color:txt}}}},
   plugins:[bgPlug,{id:'wkv',afterDatasetsDraw(ch){const ctx=ch.ctx;const m=ch.getDatasetMeta(0);
    ctx.save();ctx.textAlign='center';ctx.font=(layout==='mobile'?'500 8px ':'500 10px ')+'sans-serif';ctx.fillStyle=strong;
-   m.data.forEach((bar,i)=>{const v=WL[i]&&WL[i].ton;if(!v)return;ctx.fillText((v/1000).toFixed(1),bar.x,bar.y-5);});ctx.restore();}}]});
+   m.data.forEach((bar,i)=>{const v=WL[i]&&WL[i].ton;if(!v)return;ctx.fillText(f1(v/1000),bar.x,bar.y-5);});ctx.restore();}}]});
  acc=new Chart(document.getElementById('acc'),{type:'line',
   data:{labels:[],datasets:[
    {label:'acwrS',data:[],borderColor:'#D85A30',backgroundColor:'#D85A30',borderWidth:2.5,tension:0.25,pointRadius:3,spanGaps:false,order:1},
    {label:'acwrT',data:[],borderColor:'#888780',backgroundColor:'#888780',borderWidth:1.5,borderDash:[4,4],tension:0.25,pointRadius:0,spanGaps:true,order:2}]},
-  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},interaction:{mode:'index',intersect:false},
+  options:{locale:LOC(),responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},interaction:{mode:'index',intersect:false},
    plugins:{legend:{display:false},tooltip:{filter:it=>it.raw!=null,callbacks:{
     title:c=>{const w=c.length?WL[c[0].dataIndex]:null;return w?(fmtD(w.iso)+' – '+fmtD(isoD(w.e))):'';},
     label:c=>(c.datasetIndex===0?LBL.lgAcwr:LBL.lgAcwrT)+': '+f2(c.raw)}}},
@@ -809,11 +841,12 @@ function renderWk(){
  wkc.data.datasets[0].data=WL.map(w=>w.ton==null?null:+(w.ton/1000).toFixed(2));
  wkc.data.datasets[1].data=WL.map(w=>w.srpe);
  wkc.data.datasets[2].data=WL.map(w=>w.hrl);
- wkc.update();
+ wkc.options.locale=LOC();acc.options.locale=LOC();
+ upd(wkc);
  acc.data.labels=labs;
  acc.data.datasets[0].data=WL.map(w=>w.acwrS==null?null:Math.min(2,w.acwrS));
  acc.data.datasets[1].data=WL.map(w=>w.acwrT==null?null:Math.min(2,w.acwrT));
- acc.update();
+ upd(acc);
  const cur=WL[WL.length-1];let ch='';
  if(cur.acwrS!=null){const z=acwrZone(cur.acwrS);ch+=chipEl(['warn','good','warn','bad'][z],'<b>'+esc(tpl(LBL.cAcwr,{v:f2(cur.acwrS)}))+'</b> · '+esc([LBL.lwZ0,LBL.lwZ1,LBL.lwZ2,LBL.lwZ3][z]));}
  else ch+=chipEl('',esc(LBL.cAcwrNa));
@@ -827,8 +860,8 @@ function renderWk(){
 /* ================= footer ================= */
 function renderSrc(){
  const m=S.meta||{},ms=m.matchSummary||{};
- let t='—';if(m.refreshedAt){const d=new Date(m.refreshedAt);if(!isNaN(d))t=fmtD(isoD(d))+' '+d.getFullYear()+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
- setTxt('srcNote',tpl(LBL.srcT,{t,m:ms.setsMatched==null?'—':ms.setsMatched,e:ms.setsExpected==null?'—':ms.setsExpected,s:ms.withHR==null?'—':ms.withHR}));
+ let t='—';if(m.refreshedAt){const d=new Date(m.refreshedAt);if(!isNaN(d))t=fmtDY(isoD(d))+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+ setTxt('srcNote',tpl(LBL.srcT,{t,m:f0(ms.setsMatched),e:f0(ms.setsExpected),s:ms.withHR==null?'—':ms.withHR}));
 }
 
 /* ================= expert recommendation boxes =================
@@ -848,7 +881,7 @@ function renderExperts(){
   const cm=monOf(TODAY),tw=weekAgg(isoD(cm)),lw=weekAgg(isoD(shiftD(cm,-7))),pw=weekAgg(isoD(shiftD(cm,-14)));
   const jump=(lw.ton>0&&pw.ton>0)?(lw.ton-pw.ton)/pw.ton*100:null;
   xBox('x-kpi',[
-   nz(w0.avgRPE)!=null?tpl(L.xKpiLast,{d:fmtD(w0.date),n:w0.title,t:fmtT(w0.tonnageWork),h:w0.hardSets,r:w0.avgRPE.toFixed(1)})
+   nz(w0.avgRPE)!=null?tpl(L.xKpiLast,{d:fmtD(w0.date),n:w0.title,t:fmtT(w0.tonnageWork),h:fH(w0.hardSets),r:f1(w0.avgRPE)})
     :tpl(L.xKpiLastNoRpe,{d:fmtD(w0.date),n:w0.title,t:fmtT(w0.tonnageWork)}),
    tpl(L.xKpiWeek,{a:fmtT(tw.ton),n:tw.n,b:fmtT(lw.ton),m:lw.n}),
    (jump!=null&&jump>20)?tpl(L.xWkJump,{p:sig(jump,0)+'%'}):null,
@@ -897,7 +930,7 @@ function renderExperts(){
   let best=null;ser.forEach(p=>{if(nz(p.bestE1rm)!=null&&(best==null||p.bestE1rm>best.bestE1rm))best=p;});
   const dr=drifts(ser),d0x=dr[0];
   let drTxt=L.xDriftNo;
-  if(d0x){const a={kg:d0x.kg,n:d0x.n,d:driftTxt(d0x)};
+  if(d0x){const a={kg:fKg(d0x.kg),n:d0x.n,d:driftTxt(d0x)};
    drTxt=tpl(d0x.v==='fatR'?L.xDriftRpe:(d0x.v==='fatH'?L.xDriftHr:(d0x.v==='fit'?L.xDriftFit:L.xDriftFlat)),a);}
   /* PRs across every exercise in the last 14 days */
   const cut=isoD(shiftD(TODAY,-14)),rec=[];
@@ -937,7 +970,7 @@ function init(){
  safe(buildExIndex);
  safe(buildExUI);
  applyTheme(theme);
- setLang(lang);
+ applyLang(lang);
  applyResponsive();
 }
 function allCharts(){return [hrc,exc,wkc,acc].filter(Boolean);}
@@ -954,11 +987,18 @@ let ERR=null;
 function showErr(k,o){ERR={k:k,o:o||{}};renderErr();}
 function renderErr(){const e=document.getElementById('errBox');if(!e)return;if(!ERR){e.textContent='';e.style.display='none';return;}
  e.textContent=tpl(LBL[ERR.k],ERR.o);e.style.display='block';}
-function setLang(l){lang=l;LBL=T[l];document.documentElement.lang=l;
+/* static strings, aria-labels, <title>, then every dynamic section (charts via update('none')) */
+function applyLang(l){lang=T[l]?l:'hr';LBL=T[lang];document.documentElement.lang=lang;document.title=LBL.docT;
  renderErr();
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');const v=LBL[k];if(v!==undefined&&v!==null)el.textContent=v;});
+ document.querySelectorAll('[data-ia]').forEach(el=>{const v=LBL[el.getAttribute('data-ia')];if(v!=null)el.setAttribute('aria-label',v);});
+ allCharts().forEach(c=>{c.options.locale=LOC();});
  markBtns();
- if(S)renderAll();}
+ if(S){QUIET=true;try{renderAll();}finally{QUIET=false;}}
+ allCharts().forEach(c=>c.update('none'));}
+/* shell contract: the dashboard calls setLang(l) in every frame; it persists the choice */
+function setLang(l){if(!T[l])l='hr';try{localStorage.setItem('dash-lang',l);}catch(e){}applyLang(l);}
+window.setLang=setLang;
 function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want){markBtns();return;}layout=want;const M=want==='mobile';
  document.getElementById('swrap').classList.toggle('mobile',M);
  document.getElementById('hrwrap').style.height=M?'300px':'340px';
@@ -980,7 +1020,9 @@ function markBtns(){
  document.querySelectorAll('#musMode button').forEach(b=>style(b,b.getAttribute('data-m')===musMode));
  document.querySelectorAll('#gymRow button').forEach(b=>style(b,b.getAttribute('data-g')===gymSel));
 }
-markBtns();
+/* internal EN/HR buttons only when opened top-level; embedded, the dashboard's language button drives setLang */
+if(EMBED)['btn-en','btn-hr'].forEach(id=>{const b=document.getElementById(id);if(b)b.style.display='none';});
+applyLang(lang);   /* before the data loads: no English flash in labels, aria-labels or <title> */
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
 
 fetch('strength-data.json',{cache:'no-store'})

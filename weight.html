@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's weight mission</title>
+<title>Patrikova misija kilaže</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><path%20d='M8%2024L16%208l8%2016'%20fill='none'%20stroke='%23a64ce8'%20stroke-width='4'%20stroke-linecap='round'%20stroke-linejoin='round'/><circle%20cx='16'%20cy='8'%20r='3.5'%20fill='%23f06fa0'/></svg>">
 <style>
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -62,63 +62,63 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
 <body>
 <div id="wwrap">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 1.25rem;flex-wrap:wrap;">
-  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">WEIGHT MISSION — THE SHRINKING OF PATRIK</div>
+  <div class="ttl" data-i="title" style="font-size:20px;font-weight:500;letter-spacing:0.04em;">MISIJA KILAŽA — PATRIK U NESTAJANJU</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
     <span id="staleChip" class="stalechip"></span>
     <button id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hr" onclick="setLang('hr')">HR</button>
-    <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
+    <button id="btn-fs" onclick="toggleFont()" data-a="aFs" aria-label="Veliki font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
   </div>
 </div>
 
 <div class="wcards">
-  <div class="wcard"><div class="wlab" data-i="c1">Current weight</div><div style="font-size:24px;font-weight:500;" id="v-now">—</div><div class="wlab" style="font-size:12px;" id="d-now"></div></div>
-  <div class="wcard"><div class="wlab" data-i="c2">Last weigh-in</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-wk">—</div><div class="wlab" style="font-size:12px;" id="d-wk"></div></div>
-  <div class="wcard" id="card-lost" style="cursor:pointer;" title="Click for another comparison" tabindex="0" role="button"><div class="wlab" data-i="c3">Total lost 🎉</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-lost">—</div><div class="wlab" style="font-size:12px;" id="d-lost"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c1">Trenutna težina</div><div style="font-size:24px;font-weight:500;" id="v-now">—</div><div class="wlab" style="font-size:12px;" id="d-now"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c2">Zadnje vaganje</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-wk">—</div><div class="wlab" style="font-size:12px;" id="d-wk"></div></div>
+  <div class="wcard" id="card-lost" style="cursor:pointer;" data-t="c3tip" title="Klikni za drugu usporedbu" tabindex="0" role="button"><div class="wlab" data-i="c3">Ukupno manje 🎉</div><div style="font-size:24px;font-weight:500;color:#1D9E75;" id="v-lost">—</div><div class="wlab" style="font-size:12px;" id="d-lost"></div></div>
   <div class="wcard"><div class="wlab">BMI</div><div style="font-size:24px;font-weight:500;" id="v-bmi">—</div><div class="wlab" style="font-size:12px;" id="d-bmi"></div></div>
-  <div class="wcard"><div class="wlab" data-i="c5">Target</div><div style="font-size:24px;font-weight:500;color:#a64ce8;" id="v-tgt">—</div><div class="wlab" style="font-size:12px;" id="d-tgt"></div><div class="wlab" style="font-size:11px;margin-top:2px;" id="d-tgt-note"></div></div>
-  <div class="wcard"><div class="wlab" data-i="c6">Measured rate</div><div style="font-size:22px;font-weight:500;" id="v-rate">—</div><div class="wlab" style="font-size:12px;" id="d-rate"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c5">Cilj</div><div style="font-size:24px;font-weight:500;color:#a64ce8;" id="v-tgt">—</div><div class="wlab" style="font-size:12px;" id="d-tgt"></div><div class="wlab" style="font-size:11px;margin-top:2px;" id="d-tgt-note"></div></div>
+  <div class="wcard"><div class="wlab" data-i="c6">Izmjerena stopa</div><div style="font-size:22px;font-weight:500;" id="v-rate">—</div><div class="wlab" style="font-size:12px;" id="d-rate"></div></div>
 </div>
 
 <div class="pwrap">
-  <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ts);"><span data-i="pT">Journey to target</span><span id="p-lbl"></span></div>
+  <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ts);"><span data-i="pT">Put do cilja</span><span id="p-lbl"></span></div>
   <div class="pbar"><div class="pfill" id="p-fill" style="width:0%"></div><span class="prun" id="p-run" style="left:0%">🏃</span><span class="pgoal">🏆</span><span class="ppct" id="p-pct"></span></div>
 </div>
 
 <div class="expert" data-role="md" id="x-kpi"></div>
 
-<div data-i="gH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.5rem;">THE JOURNEY</div>
+<div data-i="gH" style="font-size:16px;font-weight:500;letter-spacing:0.08em;margin:0 0 0.5rem;">PUTOVANJE</div>
 <div class="wlab" style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;font-size:12px;">
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:3px solid #2caaf0;"></span><span data-i="gW">Weekly avg (kg)</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2.5px dashed #E0A53C;"></span><span data-i="gP">Projection</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #1D9E75;"></span><span data-i="gT">Target</span></span>
-  <span data-i="gZ" style="display:flex;align-items:center;gap:4px;">bands = BMI zones</span>
-  <span>🏅/👑 <span data-i="gM">= milestones</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:3px solid #2caaf0;"></span><span data-i="gW">Tjedni prosjek (kg)</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2.5px dashed #E0A53C;"></span><span data-i="gP">Projekcija</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:14px;height:0;border-top:2px dotted #1D9E75;"></span><span data-i="gT">Cilj</span></span>
+  <span data-i="gZ" style="display:flex;align-items:center;gap:4px;">pojasevi = BMI zone</span>
+  <span>🏅/👑 <span data-i="gM">= prekretnice</span></span>
 </div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px;" id="rangerow">
-  <button data-r="3" onclick="setView(3)">3M</button>
-  <button data-r="6" onclick="setView(6)">6M</button>
-  <button data-r="0" onclick="setView(0)" data-i="rAll">ALL</button>
-  <button data-r="9" onclick="setView(9)">🔮</button>
+  <button data-r="3" onclick="setView(3)" data-i="r3">3 mj</button>
+  <button data-r="6" onclick="setView(6)" data-i="r6">6 mj</button>
+  <button data-r="0" onclick="setView(0)" data-i="rAll">SVE</button>
+  <button data-r="9" onclick="setView(9)" data-a="rSim" data-t="rSim" aria-label="Prikaz projekcije" title="Prikaz projekcije">🔮</button>
 </div>
 <div id="wgwrap" style="position:relative;width:100%;height:400px;margin:0 0 4px;">
-  <canvas id="wg" role="img" aria-label="Weight journey: weekly averages, BMI zones, projection to target"></canvas>
+  <canvas id="wg" role="img" data-a="aWg" aria-label="Putovanje težine: tjedni prosjeci, BMI zone, projekcija do cilja"></canvas>
 </div>
-<p class="wlab" data-i="gHint" style="font-size:11px;margin:0 0 0.6rem;">🖱️ scroll = zoom · drag = pan · double-click = reset</p>
+<p class="wlab" data-i="gHint" style="font-size:11px;margin:0 0 0.6rem;">🖱️ kotačić = zoom · povuci = pomak · dvoklik = reset</p>
 
 <div class="expert" data-role="md" id="x-journey"></div>
 
-<div data-i="rH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">RATE OF LOSS (kg/week)</div>
+<div data-i="rH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.4rem;">STOPA GUBITKA (kg/tjedan)</div>
 <div id="rgwrap" style="position:relative;width:100%;height:120px;margin:0 0 4px;">
-  <canvas id="rg" role="img" aria-label="Rate of weight loss between weigh-ins, kg per week, with 0.5 to 1.0 safety band"></canvas>
+  <canvas id="rg" role="img" data-a="aRg" aria-label="Stopa gubitka težine između vaganja, kg tjedno, sa sigurnosnim pojasom od 0,5 do 1,0"></canvas>
 </div>
 <div class="wlab" style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 4px;font-size:11px;" id="rLegend">
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block;"></span><span data-i="rLtoofast">too fast</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E0A53C;display:inline-block;"></span><span data-i="rLfast">fast</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;display:inline-block;"></span><span data-i="rLband">in band</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E0A53C;display:inline-block;"></span><span data-i="rLslow">slow</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#9b9b93;display:inline-block;"></span><span data-i="rLflat">flat</span></span>
-  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block;"></span><span data-i="rLregain">regain</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block;"></span><span data-i="rLtoofast">prebrzo</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E0A53C;display:inline-block;"></span><span data-i="rLfast">brzo</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;display:inline-block;"></span><span data-i="rLband">u pojasu</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E0A53C;display:inline-block;"></span><span data-i="rLslow">sporo</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#9b9b93;display:inline-block;"></span><span data-i="rLflat">stagnacija</span></span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block;"></span><span data-i="rLregain">vraćanje</span></span>
 </div>
 <p class="wlab" id="rFoot" style="font-size:11px;margin:0 0 1.25rem;"></p>
 
@@ -126,18 +126,18 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
 
 <div class="planner">
   <div class="wcard">
-    <div data-i="plH" style="font-size:14px;font-weight:500;margin-bottom:8px;">🎯 TARGET PLANNER</div>
-    <label><span data-i="plT">Target weight</span><b id="o-tgt" style="color:#a64ce8;"></b></label>
-    <input type="range" id="in-tgt" min="70" max="110" step="0.5">
+    <div data-i="plH" style="font-size:14px;font-weight:500;margin-bottom:8px;">🎯 PLANER CILJA</div>
+    <label><span data-i="plT">Ciljna težina</span><b id="o-tgt" style="color:#a64ce8;"></b></label>
+    <input type="range" id="in-tgt" data-a="aTgt" aria-label="Ciljna težina" min="70" max="110" step="0.5">
     <div class="wlab" style="font-size:11px;margin:2px 0 6px;" id="pl-tgt-note"></div>
-    <label style="margin-top:8px;"><span data-i="plR">Weight loss per month</span><b id="o-rate" style="color:#E0A53C;"></b></label>
-    <input type="range" id="in-rate" min="0.2" max="4" step="0.1">
+    <label style="margin-top:8px;"><span data-i="plR">Gubitak po mjesecu</span><b id="o-rate" style="color:#E0A53C;"></b></label>
+    <input type="range" id="in-rate" data-a="aRate" aria-label="Gubitak po mjesecu" min="0.2" max="4" step="0.1">
     <div class="bigout" id="o-eta">—</div>
     <div class="wlab" style="font-size:12px;" id="o-eta2"></div>
   </div>
   <div class="wcard">
-    <div data-i="smH" style="font-size:14px;font-weight:500;margin-bottom:8px;">🔮 CRYSTAL BALL — weight on a date</div>
-    <input type="date" id="in-date">
+    <div data-i="smH" style="font-size:14px;font-weight:500;margin-bottom:8px;">🔮 KRISTALNA KUGLA — težina na datum</div>
+    <input type="date" id="in-date" data-a="aDate" aria-label="Datum simulacije">
     <div class="bigout" id="o-sim">—</div>
     <div class="wlab" style="font-size:12px;line-height:1.5;" id="o-sim2"></div>
   </div>
@@ -145,29 +145,29 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
 
 <div class="expert" data-role="md" id="x-plan"></div>
 
-<div data-i="mH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">MILESTONES</div>
+<div data-i="mH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">PREKRETNICE</div>
 <div class="chips" id="mchips"></div>
 
 <div class="expert" data-role="md" id="x-miles"></div>
 
-<div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">WAIST (VISCERAL FAT CHECK)</div>
+<div data-i="wsH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">STRUK (PROVJERA VISCERALNE MASTI)</div>
 <div class="wcard" id="card-waist" style="margin:0 0 1.25rem;">
   <div id="waist-empty" class="wlab" style="font-style:italic;"></div>
   <div id="waist-data" hidden>
     <div class="wsub"><div style="font-size:20px;font-weight:500;" id="v-waist">—</div><div class="wlab" style="font-size:12px;" id="d-waist"></div></div>
-    <div style="position:relative;width:100%;height:90px;margin:8px 0 4px;"><canvas id="wcv" role="img" aria-label="Waist circumference over time"></canvas></div>
+    <div style="position:relative;width:100%;height:90px;margin:8px 0 4px;"><canvas id="wcv" role="img" data-a="aWcv" aria-label="Opseg struka tijekom vremena"></canvas></div>
     <div class="wlab" style="font-size:11px;" id="waist-note"></div>
   </div>
 </div>
 
 <div class="expert" data-role="md" id="x-waist"></div>
 
-<div data-i="eH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">WHAT YOU'VE DROPPED SO FAR</div>
+<div data-i="eH" style="font-size:14px;font-weight:500;letter-spacing:0.06em;margin:0 0 0.5rem;">ŠTO SI SVE SKINUO</div>
 <div class="equiv" id="equiv"></div>
 
 <div class="expert" data-role="md" id="x-equiv"></div>
 
-<p class="wlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · <span data-i="foot2">Weekly averages, updated manually — paste a new week or tell Claude.</span> · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+<p class="wlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · <span data-i="foot2">Tjedni prosjeci, ručno ažurirano — zalijepi novi tjedan ili reci Claudeu.</span> · <span data-i="footBy">autor</span> <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -176,14 +176,15 @@ button:focus-visible,input:focus-visible,#card-lost:focus-visible{outline:2px so
 <script>
 if(window.ChartZoom){try{Chart.register(window.ChartZoom);}catch(e){}}
 let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-let lang='en',layout='',fontbig=false,viewSel=9,eqIdx=0;
+const readLang=()=>{try{const v=localStorage.getItem('dash-lang');return v==='en'||v==='hr'?v:'hr';}catch(e){return 'hr';}};
+let lang=readLang(),layout='',fontbig=false,viewSel=9,eqIdx=0;
 let BG,txt,strong,halo,grid;
 function calc(){const D=theme==='dark';BG=D?'#262624':'#ffffff';txt=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';strong=D?'#fff':'#1a1a18';halo=D?'rgba(38,38,36,0.85)':'rgba(255,255,255,0.85)';grid=D?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.08)';}
 calc();
 const bgPlug={id:'bg',beforeDraw(c){const x=c.ctx;x.save();x.globalCompositeOperation='destination-over';x.fillStyle=BG;x.fillRect(0,0,c.width,c.height);x.restore();}};
 
 const T={
- en:{title:"WEIGHT MISSION — THE SHRINKING OF PATRIK",c1:"Current weight",c2:"Last weigh-in",c3:"Total lost 🎉",c5:"Target",c6:"Measured rate",
+ en:{title:"WEIGHT MISSION — THE SHRINKING OF PATRIK",docTitle:"Patrik's weight mission",aFs:"Large font",aWg:"Weight journey: weekly averages, BMI zones, projection to target",aRg:"Rate of weight loss between weigh-ins, kg per week, with 0.5 to 1.0 safety band",aWcv:"Waist circumference over time",aTgt:"Target weight",aRate:"Weight loss per month",aDate:"Simulation date",r3:"3M",r6:"6M",rSim:"Projection view",footBy:"by",eta:"ETA",etaHeat:"ETA: heat death of the universe 🌌",errLoad:"Could not load weight-data.json ({m}).",c1:"Current weight",c2:"Last weigh-in",c3:"Total lost 🎉",c5:"Target",c6:"Measured rate",
   pT:"Journey to target",gH:"THE JOURNEY",gW:"Weekly avg (kg)",gP:"Projection",gT:"Target",gZ:"bands = BMI zones",gM:"= milestones",rAll:"ALL",
   gHint:"🖱️ scroll = zoom · drag = pan · double-click = reset",
   rH:"RATE OF LOSS (kg/week)",wsH:"WAIST (visceral fat check)",
@@ -200,7 +201,7 @@ const T={
   xJourZone:"Current BMI zone {z}. The next band starts at {nw} kg — {gap} kg from today's {cw} kg.",
   xJourZoneEnd:"BMI is already under 25 at {cw} kg — the job now is holding it, not losing more.",
   xJourEta:"At the planner's {r} kg/month the line reaches {t} kg around {e}. That is a plan, not a promise: about {n} weigh-ins have to happen first.",
-  xJourRate:"Whole-journey rate {j} kg/week across {w} weeks — a sustainable long-run number. Judge progress on the last 4 weeks, not on this average.",
+  xJourRate:"Whole-journey rate {j} kg/week across {w} {wu} — a sustainable long-run number. Judge progress on the last 4 weeks, not on this average.",
   xRateFast:"Latest measured rate {r} kg/week is above 1.0. Slow it down — fast loss at {cw} kg raises gallstone risk and costs lean mass; add roughly {kc} kcal/day back until it settles between 0.5 and 1.0.",
   xRateSlow:"Latest measured rate {r} kg/week is under 0.25. Before cutting food, fix the intake log — the Intake tab's reconciliation shows how much of the gap is unlogged eating.",
   xRateLow:"Latest measured rate {r} kg/week is below the 0.5–1.0 target band but above the 0.25 review line. It is averaged over {n} days between weigh-ins, so it describes that whole span, not this week.",
@@ -221,10 +222,10 @@ const T={
   xWaistData:"Waist {v} cm ({d} vs the previous measurement). Keep the monthly rhythm — under 102 cm is the first target, under 94 cm the second.",
   xEquivKcal:"{k} kg is roughly {c} kcal of stored energy. Not all of it was fat — glycogen and water go first; protein at 1.6–2.2 g/kg plus the lifting is what keeps the rest muscle.",
   xEquivNext:"{r} kg left to {t} kg. At the measured {rr} kg/week that is about {m} months — long enough that the bloods and the blood-pressure log belong in the calendar now, not at the finish."},
- hr:{title:"MISIJA KILAŽA — PATRIK U NESTAJANJU",c1:"Trenutna težina",c2:"Zadnje vaganje",c3:"Ukupno manje 🎉",c5:"Cilj",c6:"Izmjerena stopa",
+ hr:{title:"MISIJA KILAŽA — PATRIK U NESTAJANJU",docTitle:"Patrikova misija kilaže",aFs:"Veliki font",aWg:"Putovanje težine: tjedni prosjeci, BMI zone, projekcija do cilja",aRg:"Stopa gubitka težine između vaganja, kg tjedno, sa sigurnosnim pojasom od 0,5 do 1,0",aWcv:"Opseg struka tijekom vremena",aTgt:"Ciljna težina",aRate:"Gubitak po mjesecu",aDate:"Datum simulacije",r3:"3 mj",r6:"6 mj",rSim:"Prikaz projekcije",footBy:"autor",eta:"Procjena",etaHeat:"Procjena: toplinska smrt svemira 🌌",errLoad:"Nije moguće učitati weight-data.json ({m}).",c1:"Trenutna težina",c2:"Zadnje vaganje",c3:"Ukupno manje 🎉",c5:"Cilj",c6:"Izmjerena stopa",
   pT:"Put do cilja",gH:"PUTOVANJE",gW:"Tjedni prosjek (kg)",gP:"Projekcija",gT:"Cilj",gZ:"pojasevi = BMI zone",gM:"= prekretnice",rAll:"SVE",
   gHint:"🖱️ kotačić = zoom · povuci = pomak · dvoklik = reset",
-  rH:"STOPA GUBITKA (kg/tjedan)",wsH:"STRUK (provjera visceralne masti)",
+  rH:"STOPA GUBITKA (kg/tjedan)",wsH:"STRUK (PROVJERA VISCERALNE MASTI)",
   rLtoofast:"prebrzo",rLfast:"brzo",rLband:"u pojasu",rLslow:"sporo",rLflat:"stagnacija",rLregain:"vraćanje",
   plH:"🎯 PLANER CILJA",plT:"Ciljna težina",plR:"Gubitak po mjesecu",smH:"🔮 KRISTALNA KUGLA — težina na datum",
   mH:"PREKRETNICE",eH:"ŠTO SI SVE SKINUO",foot2:"Tjedni prosjeci, ručno ažurirano — zalijepi novi tjedan ili reci Claudeu.",c3tip:"Klikni za drugu usporedbu",
@@ -238,7 +239,7 @@ const T={
   xJourZone:"Trenutna BMI zona {z}. Sljedeći pojas počinje na {nw} kg — {gap} kg od današnjih {cw} kg.",
   xJourZoneEnd:"BMI je već ispod 25 pri {cw} kg — sada je posao zadržati, a ne skidati dalje.",
   xJourEta:"Uz {r} kg/mjesec iz planera linija dolazi na {t} kg oko {e} To je plan, ne obećanje: prije toga mora se dogoditi otprilike {n} vaganja.",
-  xJourRate:"Stopa kroz cijelo putovanje {j} kg/tjedan kroz {w} tjedana — održiv dugoročni broj. Napredak se ocjenjuje po zadnja 4 tjedna, ne po ovom prosjeku.",
+  xJourRate:"Stopa kroz cijelo putovanje {j} kg/tjedan kroz {w} {wu} — održiv dugoročni broj. Napredak se ocjenjuje po zadnja 4 tjedna, ne po ovom prosjeku.",
   xRateFast:"Zadnja izmjerena stopa {r} kg/tjedan iznad je 1,0. Uspori — brz gubitak pri {cw} kg diže rizik od žučnih kamenaca i skida mišić; vrati oko {kc} kcal/dan dok se ne smiri između 0,5 i 1,0.",
   xRateSlow:"Zadnja izmjerena stopa {r} kg/tjedan ispod je 0,25. Prije rezanja hrane popravi dnevnik unosa — usporedba s vagom na kartici Unos pokazuje koliki je dio razlike nezabilježeno jelo.",
   xRateLow:"Zadnja izmjerena stopa {r} kg/tjedan ispod je ciljnog pojasa 0,5–1,0, ali iznad crte od 0,25. Prosječena je kroz {n} dana između vaganja, pa opisuje cijelo to razdoblje, a ne ovaj tjedan.",
@@ -260,7 +261,7 @@ const T={
   xEquivKcal:"{k} kg je otprilike {c} kcal pohranjene energije. Nije sve bila mast — glikogen i voda odlaze prvi; proteini 1,6–2,2 g/kg uz dizanje su ono što ostatak drži mišićem.",
   xEquivNext:"Do {t} kg ostalo je {r} kg. Uz izmjerenih {rr} kg/tjedan to je oko {m} mjeseci — dovoljno dugo da pretrage i dnevnik tlaka idu u kalendar sada, a ne na kraju."}
 };
-let LBL=T.en;
+let LBL=T[lang];
 const ZONES=[
  {bmi:40,en:"BMI 40+ · final boss 💀",hr:"BMI 40+ · glavni boss 💀",col:'rgba(226,75,74,0.10)',lab:'#E24B4A'},
  {bmi:35,en:"35–40 · mini-boss 👾",hr:"35–40 · mini-boss 👾",col:'rgba(216,90,48,0.09)',lab:'#D85A30'},
@@ -282,13 +283,18 @@ const DAY=86400000;
 const d2n=s=>Math.round((Date.parse(s)-START)/DAY);
 const n2d=n=>new Date(START+n*DAY);
 const loc=()=>lang==='hr'?'hr-HR':'en-GB';
-const fd=n=>n2d(n).toLocaleDateString(loc(),{day:'numeric',month:'short',year:'numeric'});
-const fdS=n=>n2d(n).toLocaleDateString(loc(),{day:'numeric',month:'short'});
+const nloc=()=>lang==='hr'?'hr-HR':'en-US';
+const MON_HR=['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro'];
+const fd=n=>{const d=n2d(n);return lang==='hr'?d.getUTCDate()+'. '+MON_HR[d.getUTCMonth()]+' '+d.getUTCFullYear()+'.':d.toLocaleDateString(loc(),{day:'numeric',month:'short',year:'numeric'});};
+const fdS=n=>{const d=n2d(n);return lang==='hr'?d.getUTCDate()+'. '+MON_HR[d.getUTCMonth()]:d.toLocaleDateString(loc(),{day:'numeric',month:'short'});};
+const yy=n=>String(n2d(n).getUTCFullYear()).slice(2);
 const bmi=w=>w/H2;
 const w4bmi=b=>b*H2;
-const f1=v=>v.toLocaleString(loc(),{minimumFractionDigits:1,maximumFractionDigits:1});
+const f1=v=>v.toLocaleString(nloc(),{minimumFractionDigits:1,maximumFractionDigits:1});
+const nfv=v=>v.toLocaleString(nloc(),{maximumFractionDigits:2});
 function zoneOf(w){const b=bmi(w);return b>=40?0:b>=35?1:b>=30?2:b>=25?3:4;}
 function bmiClassLabel(b){if(b>=40)return{en:'class III',hr:'klasa III'};if(b>=35)return{en:'class II',hr:'klasa II'};if(b>=30)return{en:'class I',hr:'klasa I'};if(b>=25)return{en:'overweight',hr:'prekomjerna težina'};return{en:'normal',hr:'normalna težina'};}
+function weekWordHr(n){const a=n%10,b=n%100;return (a===1&&b!==11)?'tjedan':(a>=2&&a<=4&&(b<12||b>14))?'tjedna':'tjedana';}
 function dayWordHr(n){return (n%10===1&&n%100!==11)?'dan':'dana';}
 function waypointNote(targetKg){
  const b=bmi(targetKg);if(b<30)return'';
@@ -370,8 +376,8 @@ function fillWaist(){
   wc=new Chart(document.getElementById('wcv'),{type:'line',
    data:{datasets:[{data:pts,borderColor:'#a64ce8',backgroundColor:'#a64ce8',borderWidth:2,pointRadius:3,tension:0.25}]},
    options:{responsive:true,maintainAspectRatio:false,animation:{duration:250},plugins:{legend:{display:false}},
-    scales:{x:{type:'linear',ticks:{color:txt,callback:v=>n2d(v).toLocaleDateString(loc(),{day:'numeric',month:'short'})}},
-     y:{ticks:{color:txt,callback:v=>v+' cm'},grid:{color:grid}}}},
+    scales:{x:{type:'linear',ticks:{color:txt,callback:v=>fdS(v)}},
+     y:{ticks:{color:txt,callback:v=>nfv(v)+' cm'},grid:{color:grid}}}},
    plugins:[bgPlug]});
  }else{wc.data.datasets[0].data=pts;wc.update('none');}
 }
@@ -401,7 +407,7 @@ function init(){
  makeRateChart();
  recompute();
  applyTheme(theme);
- setLang('en');
+ setLang(lang);
  applyResponsive();
  loadSide();
 }
@@ -503,8 +509,8 @@ function makeRateChart(){
       return f1(p.lr)+' '+wku+' · '+(lang==='hr'?st.hr:st.en)+(p.days>14?(lang==='hr'?' · razmak '+p.days+' d':' · gap '+p.days+'d'):'');}
     }}},
    scales:{
-    x:{type:'linear',min:-5,max:LAST.day+15,grid:{display:false},ticks:{color:txt,maxTicksLimit:9,callback:v=>n2d(v).toLocaleDateString(loc(),{day:'numeric',month:'short'})}},
-    y:{grid:{color:grid},ticks:{color:txt,callback:v=>v+(lang==='hr'?' kg/tj':' kg/wk')}}
+    x:{type:'linear',min:-5,max:LAST.day+15,grid:{display:false},ticks:{color:txt,maxTicksLimit:9,callback:v=>fdS(v)}},
+    y:{grid:{color:grid},ticks:{color:txt,callback:v=>nfv(v)+(lang==='hr'?' kg/tj':' kg/wk')}}
    }},
   plugins:[bgPlug,bandPlug,gapPlug]
  });
@@ -533,8 +539,8 @@ function makeChart(){
      label:c=>{const v=c.parsed.y;const tag=c.dataset.label==='w'?'':(c.dataset.label==='sim'?(lang==='hr'?' · simulacija':' · simulated'):(lang==='hr'?' · projekcija':' · projection'));
       return f1(v)+' kg · BMI '+f1(bmi(v))+tag;}}}},
    scales:{
-    x:{type:'linear',min:-5,max:xmax,grid:{display:false},ticks:{color:txt,maxTicksLimit:9,callback:v=>n2d(v).toLocaleDateString(loc(),{day:'numeric',month:'short'})+" '"+String(n2d(v).getFullYear()).slice(2)}},
-    y:{min:Math.floor(Math.min(cfg.target,LAST.w)-4),max:Math.ceil(WEEKS[0].w+2),title:{display:false},grid:{color:grid},ticks:{color:txt,callback:v=>v+' kg'}}}},
+    x:{type:'linear',min:-5,max:xmax,grid:{display:false},ticks:{color:txt,maxTicksLimit:9,callback:v=>fdS(v)+" '"+yy(v)}},
+    y:{min:Math.floor(Math.min(cfg.target,LAST.w)-4),max:Math.ceil(WEEKS[0].w+2),title:{display:false},grid:{color:grid},ticks:{color:txt,callback:v=>nfv(v)+' kg'}}}},
   plugins:[bgPlug,zonesPlug,marksPlug]
  });
  document.getElementById('wg').addEventListener('dblclick',()=>setView(9));
@@ -572,7 +578,7 @@ function fillCards(){
  set('d-bmi',(lang==='hr'?curCls.hr:curCls.en)+' · '+(nextB?(lang==='hr'?`sljedeća zona: <${nextB} na ${f1(w4bmi(nextB))} kg`:`next zone: <${nextB} at ${f1(w4bmi(nextB))} kg`):(lang==='hr'?'ninja zona 🥷':'ninja zone 🥷')));
  set('v-tgt',f1(cfg.target)+' kg');
  const p=projection();
- set('d-tgt',LAST.w<=cfg.target?(lang==='hr'?'CILJ DOSTIGNUT 🏆':'TARGET REACHED 🏆'):('ETA '+fd(p.eta)+' · BMI '+f1(bmi(cfg.target))));
+ set('d-tgt',LAST.w<=cfg.target?(lang==='hr'?'CILJ DOSTIGNUT 🏆':'TARGET REACHED 🏆'):(LBL.eta+' '+fd(p.eta)+' · BMI '+f1(bmi(cfg.target))));
  set('d-tgt-note',waypointNote(cfg.target));
  const pct=Math.max(0,Math.min(100,(WEEKS[0].w-LAST.w)/(WEEKS[0].w-cfg.target)*100));
  document.getElementById('p-fill').style.width=pct+'%';
@@ -594,7 +600,7 @@ function fillPlanner(){
  }else{
   const months=toGo/cfg.rate;
   if(months>60){
-   document.getElementById('o-eta').textContent=lang==='hr'?'ETA: toplinska smrt svemira 🌌':'ETA: heat death of the universe 🌌';
+   document.getElementById('o-eta').textContent=LBL.etaHeat;
    document.getElementById('o-eta2').textContent=lang==='hr'?'Povuci klizač malo udesno…':'Try nudging the rate slider up…';
   }else{
    document.getElementById('o-eta').textContent=(lang==='hr'?'Cilj oko ':'Target around ')+fd(p.eta)+' 🏁';
@@ -625,7 +631,7 @@ function fillPlanner(){
 
 function fillChips(){
  const c=document.getElementById('mchips');c.innerHTML='';
- MILES.forEach(m=>{const s=document.createElement('span');s.className='chip';s.innerHTML=m.e+' <b>'+m[lang]+'</b> · '+fdS(m.day)+" '"+String(n2d(m.day).getFullYear()).slice(2);c.appendChild(s);});
+ MILES.forEach(m=>{const s=document.createElement('span');s.className='chip';s.innerHTML=m.e+' <b>'+m[lang]+'</b> · '+fdS(m.day)+" '"+yy(m.day);c.appendChild(s);});
  const lost=WEEKS[0].w-LAST.w;
  const nk=Math.floor(lost/5)*5+5;const nth=WEEKS[0].w-nk;
  const s1=document.createElement('span');s1.className='chip';
@@ -661,7 +667,7 @@ function recompute(){
  fillRateKPI();updateStale();fillWaist();
  const rf=document.getElementById('rFoot');
  if(rf){const early=(typeof computeRates==='function'?computeRates():[]).slice(0,3).map(p=>p.lr).filter(v=>v!=null&&v>1.0);
-  const fmtR=v=>lang==='hr'?v.toFixed(1).replace('.',','):v.toFixed(1);
+  const fmtR=f1;
   const lst=early.map(fmtR).join(', ');
   rf.textContent=!early.length?''
    :(lang==='hr'?`Prva vaganja (${lst} kg/tj) uglavnom su glikogen i voda, ne mast.`
@@ -674,7 +680,7 @@ function recompute(){
    language switch, refresh), so the advice can never go stale silently. */
 const xesc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const xt=(s,o)=>String(s==null?'':s).replace(/\{(\w+)\}/g,(m,k)=>(o&&o[k]!==undefined&&o[k]!==null)?String(o[k]):m);
-const xi=v=>(v==null||!isFinite(v))?'—':Math.round(v).toLocaleString(loc());
+const xi=v=>(v==null||!isFinite(v))?'—':Math.round(v).toLocaleString(nloc());
 /* read-only side load: the hack-squat top set comes from training-data.json, never from a
    literal. If the file is missing, the bullets simply drop the "{v} kg" clause. */
 let TDAT=null;
@@ -719,7 +725,7 @@ function renderExperts(){
   nextB?xt(t.xJourZone,{z:ZONES[zoneOf(cw)][lang],nw:f1(w4bmi(nextB)),gap:f1(cw-w4bmi(nextB)),cw:f1(cw)})
        :xt(t.xJourZoneEnd,{cw:f1(cw)}),
   cw>cfg.target?xt(t.xJourEta,{r:f1(cfg.rate),t:f1(cfg.target),e:fd(p.eta),n:Math.ceil((cw-cfg.target)/cfg.rate*4.35)}):null,
-  rj!=null?xt(t.xJourRate,{j:f1(rj),w:Math.round((LAST.day-WEEKS[0].day)/7)}):null
+  rj!=null?xt(t.xJourRate,{j:f1(rj),w:Math.round((LAST.day-WEEKS[0].day)/7),wu:(()=>{const n=Math.round((LAST.day-WEEKS[0].day)/7);return lang==='hr'?weekWordHr(n):(n===1?'week':'weeks');})()}):null
  ]);
 
  /* --- rate of loss --- */
@@ -780,12 +786,19 @@ function applyTheme(t){theme=t;calc();document.getElementById('wwrap').classList
  if(wc){wc.options.scales.x.ticks.color=txt;wc.options.scales.y.ticks.color=txt;wc.options.scales.y.grid.color=grid;wc.update();}
  updateStale();
  markBtns();}
-function setLang(l){lang=l;LBL=T[l];
+function setLang(l){
+ if(l!=='en'&&l!=='hr')l='hr';
+ lang=l;LBL=T[l];
+ try{localStorage.setItem('dash-lang',l);}catch(e){}
+ document.documentElement.lang=l;
+ document.title=LBL.docTitle;
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
- const cl=document.getElementById('card-lost');if(cl)cl.title=LBL.c3tip;
- if(wg){recompute();wg.update();}
- if(rg)rg.update();
- if(wc)wc.update();
+ document.querySelectorAll('[data-a]').forEach(el=>{const k=el.getAttribute('data-a');if(LBL[k]!==undefined)el.setAttribute('aria-label',LBL[k]);});
+ document.querySelectorAll('[data-t]').forEach(el=>{const k=el.getAttribute('data-t');if(LBL[k]!==undefined)el.title=LBL[k];});
+ if(DAT&&WEEKS.length){buildMilestones();}
+ if(wg){recompute();}
+ if(rg)rg.update('none');
+ if(wc)wc.update('none');
  markBtns();}
 function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';if(layout===want){markBtns();return;}layout=want;const M=want==='mobile';
  document.getElementById('wwrap').classList.toggle('mobile',M);
@@ -805,13 +818,14 @@ function markBtns(){
  Object.entries(states).forEach(([id,on])=>style(document.getElementById(id),on));
  document.querySelectorAll('#rangerow button').forEach(b=>style(b,Number(b.getAttribute('data-r'))===viewSel));
 }
+(function(){let emb=false;try{emb=window.top!==window;}catch(e){emb=true;}if(emb){['btn-en','btn-hr'].forEach(id=>{const b=document.getElementById(id);if(b)b.style.display='none';});}})();
 markBtns();
 let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
 
 fetch('weight-data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
  .then(j=>{DAT=j;init();})
- .catch(err=>{const e=document.getElementById('foot');if(e)e.textContent='Could not load weight-data.json ('+err.message+').';});
+ .catch(err=>{const e=document.getElementById('foot');if(e)e.textContent=xt(LBL.errLoad,{m:err.message});});
 </script>
 </body>
 </html>

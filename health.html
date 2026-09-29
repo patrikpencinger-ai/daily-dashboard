@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik's health record</title>
+<title>Patrikov zdravstveni zapis</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><path%20d='M16%209v14M9%2016h14'%20fill='none'%20stroke='%23e0524c'%20stroke-width='4'%20stroke-linecap='round'/></svg>">
 <style>
 html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -97,85 +97,85 @@ tr.nsaid td{background:var(--amberBg)}
 <div id="hwrap">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 0.9rem;flex-wrap:wrap;">
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-    <a id="backlink" class="backlink" href="./" hidden><span data-i="back">← Dashboard</span></a>
-    <div class="ttl" data-i="title">HEALTH — CLINICAL RECORD</div>
+    <a id="backlink" class="backlink" href="./" hidden><span data-i="back">← Nadzorna ploča</span></a>
+    <div class="ttl" data-i="title">ZDRAVLJE — KLINIČKI ZAPIS</div>
   </div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
     <button id="btn-en" onclick="setLang('en')">EN</button>
     <button id="btn-hr" onclick="setLang('hr')">HR</button>
-    <button id="btn-fs" onclick="toggleFont()" aria-label="Large font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
+    <button id="btn-fs" onclick="toggleFont()" data-a="fontBtn" aria-label="Veliki font" title="Veliki font"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px" aria-hidden="true"><circle cx="9" cy="10" r="4.5"/><path d="M12.2 13.2L16 17"/><path d="M7 10h4M9 8v4"/></svg></button>
   </div>
 </div>
 
-<div class="disclaimer"><b data-i="dTag">Not medical advice.</b> <span data-i="dBody">Educational decision support built from your own records and self-tracked data — not a diagnosis. Discuss every marker below with a physician before acting on it. Private record: served only behind an authenticated login.</span></div>
+<div class="disclaimer"><b data-i="dTag">Ovo nije medicinski savjet.</b> <span data-i="dBody">Edukativna potpora za odlučivanje izgrađena iz tvoje medicinske dokumentacije i samostalno praćenih podataka — nije dijagnoza. O svakom pokazatelju ispod razgovaraj s liječnikom prije nego što na temelju njega nešto poduzmeš. Privatni zapis: dostupan samo iza prijave.</span></div>
 
-<div class="sectionH firstsec" data-i="hCond">Conditions &amp; care</div>
+<div class="sectionH firstsec" data-i="hCond">Bolesti i skrb</div>
 <div class="groups" id="condwrap"></div>
 <div class="wins" id="winswrap"></div>
 <div class="hcard" id="docwrap" style="margin-top:12px"></div>
 <div class="expert" id="expCond"></div>
 
-<div class="sectionH" data-i="hMark">Clinical markers</div>
+<div class="sectionH" data-i="hMark">Klinički pokazatelji</div>
 <div class="tblwrap">
 <table id="mtbl">
  <thead><tr>
-  <th data-i="th1">Marker</th><th data-i="th2">Latest value</th><th data-i="th3">Date</th><th data-i="th4">Days since</th><th class="wrap" data-i="th5">Reference range</th>
+  <th data-i="th1">Pokazatelj</th><th data-i="th2">Zadnja vrijednost</th><th data-i="th3">Datum</th><th data-i="th4">Dana od zadnjeg</th><th class="wrap" data-i="th5">Referentni raspon</th>
  </tr></thead>
  <tbody id="mtbody"></tbody>
 </table>
 </div>
-<p class="tblcaption" data-i="mCaption">Flags compare the latest value with the laboratory reference range — display only, not interpreted. The review cadence under each row is the interval used to decide whether a marker is overdue; it is derived from your current therapy, not from a guideline lookup.</p>
+<p class="tblcaption" data-i="mCaption">Oznake uspoređuju zadnju vrijednost s laboratorijskim referentnim rasponom — samo prikaz, bez tumačenja. Razmak kontrole ispod svakog retka je interval po kojem se ocjenjuje kasni li pokazatelj; izveden je iz tvoje trenutne terapije, a ne iz smjernica.</p>
 <div class="expert" id="expMark"></div>
 
-<div class="sectionH" data-i="hTrend">Trends</div>
+<div class="sectionH" data-i="hTrend">Trendovi</div>
 <div class="charts" id="charts"></div>
-<p class="tblcaption" data-i="tCaption">Shaded band = laboratory reference range for the marker named in each subtitle. Dashed vertical lines are medication starts and stops taken from the medication table.</p>
+<p class="tblcaption" data-i="tCaption">Osjenčani pojas = laboratorijski referentni raspon za pokazatelj naveden u podnaslovu. Iscrtkane okomite linije su početci i prekidi lijekova iz tablice lijekova.</p>
 <div class="expert" id="expTrend"></div>
 
-<div class="sectionH" data-i="hBp">Blood pressure</div>
+<div class="sectionH" data-i="hBp">Krvni tlak</div>
 <div class="hcard">
   <div class="bpgrid" id="bpgrid"></div>
   <div class="bands" id="bpbands"></div>
 </div>
 <div class="expert" id="expBp"></div>
 
-<div class="sectionH" data-i="hMeds">Medications &amp; supplements</div>
+<div class="sectionH" data-i="hMeds">Lijekovi i dodaci prehrani</div>
 <div class="hlab" style="margin:0 2px 6px" id="medcount">—</div>
 <div class="tblwrap">
 <table id="medtbl">
- <thead><tr><th data-i="mth1">Started</th><th data-i="mth2">Name</th><th data-i="mth3">Dose</th><th data-i="mth4">Kind</th><th class="wrap" data-i="mth5">Purpose</th></tr></thead>
+ <thead><tr><th data-i="mth1">Početak</th><th data-i="mth2">Naziv</th><th data-i="mth3">Doza</th><th data-i="mth4">Vrsta</th><th class="wrap" data-i="mth5">Svrha</th></tr></thead>
  <tbody id="medtbody"></tbody>
 </table>
 </div>
-<button class="toggle" id="histbtn" onclick="toggleHist()" aria-expanded="false" aria-controls="histwrap">History</button>
+<button class="toggle" id="histbtn" onclick="toggleHist()" aria-expanded="false" aria-controls="histwrap" data-i="histShow">Prikaži prekinute lijekove</button>
 <div id="histwrap" hidden>
 <div class="tblwrap" style="margin-top:8px">
 <table id="hmedtbl">
- <thead><tr><th data-i="hth1">Started</th><th data-i="hth2">Stopped</th><th data-i="hth3">Name</th><th data-i="hth4">Kind</th><th class="wrap" data-i="hth5">Purpose</th></tr></thead>
+ <thead><tr><th data-i="hth1">Početak</th><th data-i="hth2">Prekid</th><th data-i="hth3">Naziv</th><th data-i="hth4">Vrsta</th><th class="wrap" data-i="hth5">Svrha</th></tr></thead>
  <tbody id="hmedtbody"></tbody>
 </table>
 </div>
 </div>
-<p class="tblcaption" data-i="nsaidNote">NSAIDs (ibuprofen, naproxen, diclofenac…) taken alongside high protein intake and open-water swimming can add extra load on the kidneys, especially if you're dehydrated — flagged rows are highlighted.</p>
+<p class="tblcaption" data-i="nsaidNote">NSAID lijekovi (ibuprofen, naproksen, diklofenak…) uz visok unos proteina i plivanje u otvorenim vodama mogu dodatno opteretiti bubrege, pogotovo uz dehidraciju — označeni retci su istaknuti.</p>
 <div class="expert" id="expMeds"></div>
 
-<div class="sectionH" data-i="hSym">Symptom log</div>
+<div class="sectionH" data-i="hSym">Dnevnik simptoma</div>
 <div class="tblwrap">
 <table id="symtbl">
- <thead><tr><th data-i="sth1">Date</th><th data-i="sth2">Type</th><th class="wrap" data-i="sth3">Note</th></tr></thead>
+ <thead><tr><th data-i="sth1">Datum</th><th data-i="sth2">Vrsta</th><th class="wrap" data-i="sth3">Bilješka</th></tr></thead>
  <tbody id="symtbody"></tbody>
 </table>
 </div>
 <div class="expert" id="expSym"></div>
 
-<div class="sectionH" data-i="hPlan">What the physician's review flagged to act on</div>
+<div class="sectionH" data-i="hPlan">Što je liječnički pregled preporučio poduzeti</div>
 <div class="actionlist"><ol id="actions"></ol></div>
 
-<div class="sectionH" data-i="hHow">How to update this record</div>
+<div class="sectionH" data-i="hHow">Kako ažurirati ovaj zapis</div>
 <div class="howto">
- <p data-i="howto1">This file is a manual record. The automated dashboard refresh never touches it. To add an entry, tell Claude something like:</p>
- <p><em data-i="howto2">"add clinical: BP 118/76, pulse 61 on 2026-09-06"</em> <span data-i="howto2b">or</span> <em data-i="howto3">"add clinical: started ibuprofen 400mg for a strained shoulder"</em></p>
- <p><span data-i="howto4">Claude reads your message and writes the corresponding row(s) into</span> <code>clinical-data.json</code>. <span data-i="howto4b">The shapes (any field may be omitted) are:</span></p>
+ <p data-i="howto1">Ova datoteka je ručni zapis. Automatsko osvježavanje nadzorne ploče je nikad ne dira. Za novi unos reci Claudeu nešto poput:</p>
+ <p><em data-i="howto2">“add clinical: BP 118/76, pulse 61 on 2026-09-06”</em> <span data-i="howto2b">ili</span> <em data-i="howto3">“add clinical: started ibuprofen 400mg for a strained shoulder”</em></p>
+ <p><span data-i="howto4">Claude pročita tvoju poruku i upiše odgovarajuće retke u</span> <code>clinical-data.json</code>. <span data-i="howto4b">Oblici (bilo koje polje može biti izostavljeno) su:</span></p>
 <pre>{
   "markers": [{"d":"YYYY-MM-DD","source":"lab|home",
                "bp_sys":n,"bp_dia":n,"pulse":n,
@@ -189,18 +189,19 @@ tr.nsaid td{background:var(--amberBg)}
   "symptoms": [{"d":"YYYY-MM-DD","type":"chest_pressure|dyspnoea|palpitations|near_syncope|ruq_pain|dark_urine|other","note":""}]
 }
 
-<span class="ex">EXAMPLE ROW (not stored — illustration only):</span>
+<span class="ex" data-i="howEx">PRIMJER REDA (nije pohranjen — samo ilustracija):</span>
 {"d":"2026-09-06","bp_sys":118,"bp_dia":76,"pulse":61,"source":"home","note":"morning"}</pre>
 </div>
 <div class="expert" id="expHow"></div>
 
-<p class="hlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · by <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+<p class="hlab" style="font-size:11px;margin:10px 2px 0;"><span id="foot">—</span> · <span data-i="footBy">autor</span> <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-let lang='en',layout='',fontbig=false,histOpen=false;
+let lang=(()=>{try{const v=localStorage.getItem('dash-lang');if(v==='hr'||v==='en')return v;}catch(e){}return 'hr';})();
+let layout='',fontbig=false,histOpen=false,chartsBuilt=false,loadErr=null;
 let DAT=null;
 const CHARTS={};
 
@@ -245,7 +246,12 @@ const T={
   noRef:"no reference range",
   medication:"medication",supplement:"supplement",nsaid:"NSAID",
   chest_pressure:"chest pressure",dyspnoea:"breathlessness",palpitations:"palpitations",near_syncope:"near-fainting",ruq_pain:"right-upper-abdo pain",dark_urine:"dark urine",other:"other",
-  foot:"Record through"
+  foot:"Record through",
+  docTitle:"Patrik's health record",fontBtn:"Large font",footBy:"by",
+  loadErr:"Could not load clinical-data.json ({e}).",noChart:"Chart library unavailable — tables above still show every value.",
+  howEx:"EXAMPLE ROW (not stored — illustration only):",chartAria:"Chart: {t}",
+  prHigh:"high",prMed:"medium",prLow:"low",
+  bpBand:"Latest reading band"
  },
  hr:{title:"ZDRAVLJE — KLINIČKI ZAPIS",
   back:"← Nadzorna ploča",
@@ -287,10 +293,15 @@ const T={
   noRef:"nema referentnog raspona",
   medication:"lijek",supplement:"dodatak prehrani",nsaid:"NSAID",
   chest_pressure:"pritisak u prsima",dyspnoea:"otežano disanje",palpitations:"palpitacije",near_syncope:"skoro nesvjestica",ruq_pain:"bol desno gore u trbuhu",dark_urine:"taman urin",other:"ostalo",
-  foot:"Zapis do"
+  foot:"Zapis do",
+  docTitle:"Patrikov zdravstveni zapis",fontBtn:"Veliki font",footBy:"autor",
+  loadErr:"Nije moguće učitati clinical-data.json ({e}).",noChart:"Biblioteka za grafikone nije dostupna — tablice iznad i dalje prikazuju sve vrijednosti.",
+  howEx:"PRIMJER REDA (nije pohranjen — samo ilustracija):",chartAria:"Grafikon: {t}",
+  prHigh:"visok",prMed:"srednji",prLow:"nizak",
+  bpBand:"Razred zadnjeg mjerenja"
  }
 };
-let LBL=T.en;
+let LBL=T[lang];
 
 /* field -> label + review cadence (days) + why that cadence */
 const MARKERS=[
@@ -388,8 +399,107 @@ const DAY=86400000;
 function todayN(){ return Date.now(); }
 function daysSince(d){ const t=Date.parse(d); return isFinite(t)?Math.floor((todayN()-t)/DAY):null; }
 function num(v){ return (typeof v==='number'&&isFinite(v))?v:null; }
-function fmt(v){ if(v==null)return '—'; return (Math.round(v*100)/100).toString(); }
-function fmt1(v){ if(v==null)return '—'; return (Math.round(v*10)/10).toString(); }
+/* locale-aware numbers: HR "1.234,5", EN "1,234.5" (HR 4-digit grouping forced) */
+const _nfc={};
+function nfx(mx){ const key=lang+mx; return _nfc[key]||(_nfc[key]=new Intl.NumberFormat(lang==='hr'?'hr-HR':'en-US',{minimumFractionDigits:0,maximumFractionDigits:mx,useGrouping:true})); }
+function nfm(v,mx){ if(v==null||v===''||!isFinite(+v)) return '—'; let r=nfx(mx).format(+v); if(lang==='hr') r=r.replace(/^(-?)(\d{4})(?=,|$)/,function(m,sg,d){return sg+d[0]+'.'+d.slice(1);}); return r; }
+function nf(v){ return nfm(v,2); }
+function fmt(v){ if(v==null)return '—'; return nfm(Math.round(v*100)/100,2); }
+function fmt1(v){ if(v==null)return '—'; return nfm(Math.round(v*10)/10,1); }
+/* dates: EN keeps ISO; HR "5. ruj 2026." */
+const MO_HR=['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro'];
+function fd(d){
+ if(d==null||d==='') return d;
+ if(lang!=='hr') return d;
+ const m=String(d).match(/^(\d{4})-(\d{2})-(\d{2})/);
+ if(!m) return d;
+ const mo=+m[2]; if(mo<1||mo>12) return d;
+ return (+m[3])+'. '+MO_HR[mo-1]+' '+m[1]+'.';
+}
+function isoInText(t){ return String(t).replace(/\b(\d{4}-\d{2}-\d{2})\b/g,function(x){return fd(x);}); }
+/* free English strings that data JSON carries without an Hr twin — exact-match dictionary; unknown strings stay as recorded */
+const HRX={
+ /* condition: since */
+ "documented by 2014 (155 kg peak reported ~2020-2021 era)":"dokumentirano do 2014. (vrhunac od 155 kg zabilježen oko 2020.–2021.)",
+ "documented since at least 2017 (post-STEMI)":"dokumentirano barem od 2017. (nakon STEMI-ja)",
+ "documented since at least 2020":"dokumentirano barem od 2020.",
+ "2018":"2018.","2018/2019":"2018./2019.","2022":"2022.","2022 (post-rituximab)":"2022. (nakon rituksimaba)","2024":"2024.",
+ /* condition: status */
+ "at target as of 2026-02-17 (LDL 1.1, non-HDL 1.3 mmol/L)":"na cilju od 2026-02-17 (LDL 1,1, non-HDL 1,3 mmol/L)",
+ "controlled, regimen simplified 2026":"kontrolirano, terapija pojednostavljena 2026.",
+ "controlled; regimen simplified 2026 (beta-blocker & diuretics stopped)":"kontrolirano; terapija pojednostavljena 2026. (prekinuti beta-blokator i diuretici)",
+ "elevated but MRI normal (no adenoma)":"povišen, ali MR uredan (bez adenoma)",
+ "excellent, no ischemia":"izvrsna, bez ishemije",
+ "improved - HbA1c 6.2% -> 5.5%; prediabetes resolved per dossier wins":"poboljšano — HbA1c 6,2% → 5,5%; predijabetes riješen prema dosjeu",
+ "improving - down 44 kg from 155kg peak to 111.4kg (2026-06-25); BMI 51.8 -> 37.2":"poboljšava se — 44 kg manje, s vrhunca od 155 kg na 111,4 kg (2026-06-25); BMI 51,8 → 37,2",
+ "low IgG/IgM, not rechecked since 2022":"nizak IgG/IgM, nije ponovno provjeren od 2022.",
+ "mild erythrocytosis, sleep-apnea screen recommended":"blaga eritrocitoza, preporučen probir na apneju u snu",
+ "mild, non-obstructive plaque":"blagi, neopstruktivni plak",
+ "normal / no adenoma":"uredno / bez adenoma",
+ "normal; ED largely resolved":"uredan; erektilna disfunkcija uglavnom riješena",
+ "preserved":"očuvana",
+ "remission (since rituximab Sept 2022)":"remisija (od rituksimaba u 9/2022.)",
+ "stable / treated":"stabilno / liječeno",
+ /* condition: doctor + doctors[].specialty */
+ "Dr. Mandac Rogulj (hematologist)":"dr. Mandac Rogulj (hematolog)",
+ "cardiologist (unnamed in records)":"kardiolog (ime nije u zapisima)",
+ "diabetologist/endocrinologist Dr. Majić-Milotić":"dijabetolog/endokrinolog dr. Majić-Milotić",
+ "endocrinologist":"endokrinolog",
+ "endocrinologist / cardiologist":"endokrinolog / kardiolog",
+ "hematologist":"hematolog",
+ "diabetologist/endocrinologist":"dijabetolog/endokrinolog",
+ "cardiologist (named in README, name not given in records)":"kardiolog (ime navedeno u README-u, ne i u zapisima)",
+ /* condition: detail where detailHr is null */
+ "Peak weight ~155 kg (BMI 51.8); current 111.4 kg (BMI 37.2) after tirzepatide + lifestyle change.":"Vrhunac težine ~155 kg (BMI 51,8); trenutno 111,4 kg (BMI 37,2) nakon tirzepatida i promjene životnih navika.",
+ "HOMA-IR historically elevated (up to 5.9), fasting insulin elevated (up to 275.6 pmol/L); HbA1c trended from 6.2% down to 5.5% (last measured 2026-02-17: 5.5%). On metformin (Siofor + Synjardy) and tirzepatide (Mounjaro).":"HOMA-IR povijesno povišen (do 5,9), inzulin natašte povišen (do 275,6 pmol/L); HbA1c pao s 6,2% na 5,5% (zadnje mjereno 2026-02-17: 5,5%). Na metforminu (Siofor + Synjardy) i tirzepatidu (Mounjaro).",
+ "Office BP ~115/80; home log (Feb-May 2026) averages ~114/71. Current regimen: Triplixam (perindopril/indapamide/amlodipine) + moxonidine (Physiotens). Beta-blocker (bisoprolol) and diuretics (furosemide, Kalinor) stopped in 2026.":"Tlak u ordinaciji ~115/80; kućni dnevnik (velj.–svi. 2026.) u prosjeku ~114/71. Trenutna terapija: Triplixam (perindopril/indapamid/amlodipin) + moksonidin (Physiotens). Beta-blokator (bisoprolol) i diuretici (furosemid, Kalinor) prekinuti 2026.",
+ "Secondary-prevention lipid management post-STEMI; on rosuvastatin 40mg + ezetimibe 10mg (Co-Rowera 40/10). LDL target <1.4, non-HDL target <2.2 mmol/L, both met at latest panel.":"Sekundarna prevencija lipida nakon STEMI-ja; na rozuvastatinu 40 mg + ezetimibu 10 mg (Co-Rowera 40/10). Cilj LDL <1,4, cilj non-HDL <2,2 mmol/L; oba ispunjena na zadnjem panelu.",
+ /* meds: generic */
+ "prednisone":"prednizon","human immunoglobulin":"humani imunoglobulin","mycophenolate mofetil":"mikofenolat mofetil",
+ "acetylsalicylic acid":"acetilsalicilna kiselina","ticagrelor":"tikagrelor","atorvastatin":"atorvastatin","furosemide":"furosemid",
+ "dexamethasone 40 mg":"deksametazon 40 mg","rosuvastatin + ezetimibe":"rozuvastatin + ezetimib",
+ "potassium citrate/bicarbonate":"kalijev citrat/bikarbonat","perindopril + amlodipine":"perindopril + amlodipin","moxonidine":"moksonidin",
+ "empagliflozin + metformin":"empagliflozin + metformin","cholecalciferol 25000 IU":"kolekalciferol 25000 IU",
+ "liraglutide (GLP-1)":"liraglutid (GLP-1)","rituximab (anti-CD20)":"rituksimab (anti-CD20)","lercanidipine":"lerkanidipin",
+ "omega-3 fatty acids":"omega-3 masne kiseline","perindopril + indapamide + amlodipine":"perindopril + indapamid + amlodipin",
+ "cholecalciferol 2000 IU":"kolekalciferol 2000 IU","tirzepatide (GIP/GLP-1)":"tirzepatid (GIP/GLP-1)",
+ /* meds: dose */
+ "Not specified in brand name (commonly 1/5/20/50 mg tablets)":"nije navedeno u nazivu preparata (uobičajeno tablete od 1/5/20/50 mg)",
+ "Not specified in brand name (commonly 250 mg caps / 500 mg tablets)":"nije navedeno u nazivu preparata (uobičajeno kapsule od 250 mg / tablete od 500 mg)",
+ "0.4 mg (400 micrograms)":"0,4 mg (400 mikrograma)","2.5 mg":"2,5 mg","12.5 mg / 1000 mg":"12,5 mg / 1000 mg","25,000 IU":"25.000 IU",
+ "15 mg / 0.5 mL (highest maintenance dose)":"15 mg / 0,5 mL (najviša doza održavanja)",
+ /* meds: purpose / note */
+ "Anti-inflammatory and immunosuppressive: inflammatory, autoimmune, and allergic conditions; transplant immunosuppression":"Protuupalno i imunosupresivno: upalna, autoimuna i alergijska stanja; imunosupresija nakon transplantacije",
+ "Prevention of organ transplant rejection; also used off-label in autoimmune disease (e.g., lupus nephritis)":"Prevencija odbacivanja presatka organa; koristi se i izvan indikacije kod autoimunih bolesti (npr. lupus nefritis)",
+ "Secondary prevention of myocardial infarction and stroke / cardiovascular thromboprophylaxis (low-dose, enteric-coated)":"Sekundarna prevencija infarkta miokarda i moždanog udara / kardiovaskularna tromboprofilaksa (niska doza, želučanootporna)",
+ "Chronic heart failure (the 'cor' line is specifically titration/maintenance dosing for HFrEF); also hypertension/angina. 2.5 mg is a low titration-step dose.":"Kronično zatajenje srca (linija „cor” namijenjena je titraciji/održavanju kod HFrEF-a); također hipertenzija/angina. 2,5 mg je niska doza u koraku titracije.",
+ "Edema (heart failure, renal or hepatic origin) and fluid overload; sometimes hypertension":"Edemi (zatajenje srca, bubrežnog ili jetrenog podrijetla) i preopterećenje tekućinom; ponekad hipertenzija",
+ "Hypercholesterolemia / dyslipidemia; LDL lowering and cardiovascular risk reduction. ('Rowera' is the rosuvastatin monotherapy brand; the 'Co-' prefix adds ezetimibe.)":"Hiperkolesterolemija / dislipidemija; snižavanje LDL-a i smanjenje kardiovaskularnog rizika. („Rowera” je marka monoterapije rozuvastatinom; prefiks „Co-” dodaje ezetimib.)",
+ "Hypertension; stable coronary artery disease / cardiovascular protection":"Hipertenzija; stabilna koronarna bolest / kardiovaskularna zaštita",
+ "Mild-to-moderate essential hypertension (0.4 mg is the higher single-tablet strength)":"Blaga do umjerena esencijalna hipertenzija (0,4 mg je viša jačina jedne tablete)",
+ "Type 2 diabetes mellitus (first-line glucose-lowering agent)":"Dijabetes tipa 2 (lijek prvog izbora za snižavanje glukoze)",
+ "Type 2 diabetes mellitus glycemic control; empagliflozin also confers cardiovascular/renal benefit":"Regulacija glikemije kod dijabetesa tipa 2; empagliflozin dodatno štiti srce i bubrege",
+ "Vitamin D deficiency correction/prevention; bone health (high-dose weekly/intermittent regimen)":"Ispravljanje/prevencija manjka vitamina D; zdravlje kostiju (visoka doza, tjedni/intermitentni režim)",
+ "Mild-to-moderate essential hypertension. Note: same dihydropyridine CCB class as amlodipine, consistent with it replacing the amlodipine component of the Articel-AM combo.":"Blaga do umjerena esencijalna hipertenzija. Napomena: ista skupina dihidropiridinskih blokatora kalcijskih kanala kao amlodipin, u skladu s time da zamjenjuje amlodipin u kombinaciji Articel-AM.",
+ "Type 2 diabetes mellitus glycemic control (and weight management); 15 mg is the top maintenance dose":"Regulacija glikemije kod dijabetesa tipa 2 (i kontrola težine); 15 mg je najviša doza održavanja",
+ "pulse therapy, not continuous":"pulsna terapija, ne kontinuirano",
+ /* actionPlan.category */
+ "Cardiology":"Kardiologija","Endocrine / Cardiology":"Endokrinologija / kardiologija","Endocrine safety":"Endokrinološka sigurnost",
+ "Exercise":"Vježbanje","Exercise safety":"Sigurnost vježbanja","Hematology":"Hematologija","Labs":"Laboratorij",
+ "Metabolic":"Metabolizam","Nutrition":"Prehrana","Screening":"Probir"
+};
+/* translate a data-derived free string (HR only); ISO dates inside get HR format */
+function hx(v){
+ if(v==null||v==='') return v;
+ if(lang!=='hr') return v;
+ const k=String(v);
+ return isoInText(HRX[k]!==undefined?HRX[k]:k);
+}
+/* marker label: HR prefers labelHr from clinical-data.json, falls back to the inline Croatian label */
+function mlabelHr(m){ const r=DAT&&DAT.ref&&DAT.ref[m.f]; return (r&&r.labelHr)||m.label.hr; }
+function mlabel(m){ return lang==='hr'?mlabelHr(m):m.label.en; }
+function mlabelByField(f){ const m=MARKERS.find(x=>x.f===f); return m?mlabel(m):f; }
+function prioTxt(p){ return p==='high'?LBL.prHigh:(p==='medium'?LBL.prMed:(p==='low'?LBL.prLow:(p||''))); }
 
 function markerRows(){ return ((DAT&&DAT.markers)||[]).filter(r=>r&&r.d).slice().sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0); }
 
@@ -408,10 +518,10 @@ function refOf(f){ return (DAT&&DAT.ref&&DAT.ref[f])||{lo:null,hi:null}; }
 function unitOf(f){ return (DAT&&DAT.units&&DAT.units[f])||''; }
 function refText(f){
  const r=refOf(f);
- if(r.lo!=null&&r.hi!=null) return r.lo+'–'+r.hi+' '+unitOf(f);
+ if(r.lo!=null&&r.hi!=null) return nf(r.lo)+'–'+nf(r.hi)+' '+unitOf(f);
  const g=(r.note&&/display only/i.test(r.note))?(lang==='hr'?' (smjernica)':' (guideline)'):'';
- if(r.hi!=null) return '< '+r.hi+' '+unitOf(f)+g;
- if(r.lo!=null) return '> '+r.lo+' '+unitOf(f)+g;
+ if(r.hi!=null) return '< '+nf(r.hi)+' '+unitOf(f)+g;
+ if(r.lo!=null) return '> '+nf(r.lo)+' '+unitOf(f)+g;
  return LBL.noRef;
 }
 function flagOf(f,v){
@@ -438,14 +548,14 @@ function renderConditions(){
  const w=document.getElementById('condwrap'); w.innerHTML='';
  ((DAT&&DAT.conditions)||[]).forEach(c=>{
   const nm=(lang==='hr'&&c.nameHr)?c.nameHr:c.name;
-  const dt=(lang==='hr'&&c.detailHr)?c.detailHr:c.detail;
+  const dt=(lang==='hr'&&c.detailHr)?isoInText(c.detailHr):hx(c.detail);
   const d=document.createElement('div'); d.className='gcard';
   let meta='';
-  if(c.since) meta+='<b>'+LBL.since+':</b> '+esc(c.since)+' · ';
-  if(c.status) meta+='<b>'+LBL.status+':</b> '+esc(c.status);
+  if(c.since) meta+='<b>'+LBL.since+':</b> '+esc(hx(c.since))+' · ';
+  if(c.status) meta+='<b>'+LBL.status+':</b> '+esc(hx(c.status));
   d.innerHTML='<div class="gt">'+esc(nm)+'</div>'+
    '<div class="gd">'+esc(dt||'')+'</div>'+
-   '<div class="gm">'+meta+(c.doctor?('<br><b>'+LBL.treating+':</b> '+esc(c.doctor)):'')+'</div>';
+   '<div class="gm">'+meta+(c.doctor?('<br><b>'+LBL.treating+':</b> '+esc(hx(c.doctor))):'')+'</div>';
   w.appendChild(d);
  });
  const ww=document.getElementById('winswrap'); ww.innerHTML='';
@@ -456,7 +566,7 @@ function renderConditions(){
   ww.appendChild(s);
  });
  const dw=document.getElementById('docwrap');
- const docs=((DAT&&DAT.doctors)||[]).map(x=>'<li>'+esc(x.name||LBL.unnamedDoc)+' — '+esc(x.specialty||'')+'</li>').join('');
+ const docs=((DAT&&DAT.doctors)||[]).map(x=>'<li>'+esc(x.name||LBL.unnamedDoc)+' — '+esc(hx(x.specialty)||'')+'</li>').join('');
  dw.innerHTML='<div class="gt" style="font-size:12.5px;font-weight:600;margin-bottom:4px">'+LBL.docsH+'</div>'+
   '<ul style="margin:0;padding-left:1.1rem;font-size:12.5px;line-height:1.6;color:var(--ts)">'+(docs||'<li>—</li>')+'</ul>';
 }
@@ -470,7 +580,7 @@ function renderMarkers(){
   const cad='<span class="cad">'+LBL.cadence+': '+esc(m.cadN[lang])+'</span>';
   if(val==null){
    tr.className='nodata';
-   tr.innerHTML='<td class="wrap">'+esc(m.label[lang])+cad+'</td>'+
+   tr.innerHTML='<td class="wrap">'+esc(mlabel(m))+cad+'</td>'+
     '<td class="valcol">'+LBL.notMeasured+'</td><td>—</td><td>—</td>'+
     '<td class="wrap">'+esc(refText(m.f))+'</td>';
   }else{
@@ -480,10 +590,10 @@ function renderMarkers(){
    const fl=flagOf(m.f,val);
    const flChip=fl?' <span class="chip '+fl+'">'+LBL[fl]+'</span>':'';
    const odChip=overdue?' <span class="chip od">⚠ '+LBL.overdue+'</span>':'';
-   tr.innerHTML='<td class="wrap">'+esc(m.label[lang])+cad+'</td>'+
+   tr.innerHTML='<td class="wrap">'+esc(mlabel(m))+cad+'</td>'+
     '<td class="valcol">'+fmt(val)+' '+esc(unitOf(m.f))+flChip+'</td>'+
-    '<td class="datecol">'+esc(date)+'</td>'+
-    '<td class="datecol">'+(days==null?'—':days+' '+LBL.daysUnit)+odChip+'</td>'+
+    '<td class="datecol">'+esc(fd(date))+'</td>'+
+    '<td class="datecol">'+(days==null?'—':nf(days)+' '+LBL.daysUnit)+odChip+'</td>'+
     '<td class="wrap">'+esc(refText(m.f))+'</td>';
   }
   tb.appendChild(tr);
@@ -534,7 +644,8 @@ function medLinesFor(spec){
 
 function buildCharts(){
  const wrap=document.getElementById('charts');
- if(!window.Chart){ wrap.innerHTML='<div class="chcard"><div class="chs">Chart library unavailable — tables above still show every value.</div></div>'; return; }
+ if(!window.Chart){ wrap.innerHTML='<div class="chcard"><div class="chs" data-k="noChart">'+esc(LBL.noChart)+'</div></div>'; return; }
+ chartsBuilt=true;
  Object.keys(CHARTS).forEach(k=>{ try{CHARTS[k].destroy();}catch(e){} delete CHARTS[k]; });
  wrap.innerHTML='';
  const D=theme==='dark';
@@ -547,36 +658,56 @@ function buildCharts(){
   spec.series.forEach(s=>{
    const pts=seriesFor(s.f); if(!pts.length) return;
    const mk=MARKERS.find(x=>x.f===s.f);
-   ds.push({label:(mk?mk.label[lang]:s.f)+(unitOf(s.f)?' ('+unitOf(s.f)+')':''),
+   ds.push({fld:s.f,label:(mk?mlabel(mk):s.f)+(unitOf(s.f)?' ('+unitOf(s.f)+')':''),
      data:pts,borderColor:s.c,backgroundColor:s.c,borderWidth:1.6,pointRadius:1.8,pointHoverRadius:4,
      tension:0.25,spanGaps:true,yAxisID:s.axis||'y'});
   });
   const card=document.createElement('div'); card.className='chcard';
+  card.id='card_'+spec.id;
   card.innerHTML='<div class="cht">'+esc(spec.t[lang])+'</div><div class="chs">'+esc(spec.sub[lang])+'</div>'+
-   '<div class="chbox"><canvas id="'+spec.id+'"></canvas></div>';
+   '<div class="chbox"><canvas id="'+spec.id+'" role="img" aria-label="'+esc(fill(LBL.chartAria,{t:spec.t[lang]}))+'"></canvas></div>';
   wrap.appendChild(card);
   if(!ds.length){ card.querySelector('.chbox').innerHTML='<div class="emptystate">'+LBL.none+'</div>'; return; }
   const r=refOf(spec.band);
   const hasY1=ds.some(x=>x.yAxisID==='y1');
   const scales={
    x:{type:'linear',grid:{color:grid},ticks:{color:tick,font:{size:9},maxTicksLimit:6,
-      callback:function(v){ const dt=new Date(v); return isFinite(dt.getTime())?dt.toISOString().slice(0,7):''; }}},
+      callback:function(v){ const dt=new Date(v); if(!isFinite(dt.getTime())) return ''; return lang==='hr'?(MO_HR[dt.getUTCMonth()]+' '+dt.getUTCFullYear()+'.'):dt.toISOString().slice(0,7); }}},
    y:{position:'left',grid:{color:grid},ticks:{color:tick,font:{size:9}}}
   };
   if(hasY1) scales.y1={position:'right',grid:{drawOnChartArea:false},ticks:{color:tick,font:{size:9}}};
   CHARTS[spec.id]=new Chart(document.getElementById(spec.id),{
    type:'line',
    data:{datasets:ds},
-   options:{responsive:true,maintainAspectRatio:false,animation:false,
+   options:{responsive:true,maintainAspectRatio:false,animation:false,locale:lang==='hr'?'hr-HR':'en-US',
     interaction:{mode:'nearest',intersect:false},
     plugins:{
      legend:{labels:{color:tick,boxWidth:10,boxHeight:10,font:{size:10}}},
-     tooltip:{callbacks:{title:function(items){ const dt=new Date(items[0].parsed.x); return isFinite(dt.getTime())?dt.toISOString().slice(0,10):''; }}},
+     tooltip:{callbacks:{title:function(items){ const dt=new Date(items[0].parsed.x); return isFinite(dt.getTime())?fd(dt.toISOString().slice(0,10)):''; }}},
      refBand:{active:(r.lo!=null||r.hi!=null),lo:r.lo,hi:r.hi,axis:'y',color:bandCol},
      medLines:{lines:medLinesFor(spec),color:lineCol}
     },
     scales:scales}
   });
+ });
+}
+
+function fill(s,o){ let r=String(s); Object.keys(o).forEach(function(k){ r=r.split('{'+k+'}').join(o[k]); }); return r; }
+/* language switch on already-built charts: relabel in place, update('none') — no destroy/rebuild */
+function relangCharts(){
+ const wrap=document.getElementById('charts');
+ if(!chartsBuilt||!window.Chart){ buildCharts(); return; }
+ const nz=wrap.querySelector('[data-k="noChart"]'); if(nz) nz.textContent=LBL.noChart;
+ CHARTSPEC.forEach(spec=>{
+  const card=document.getElementById('card_'+spec.id); if(!card) return;
+  const t=card.querySelector('.cht'); if(t) t.textContent=spec.t[lang];
+  const sb=card.querySelector('.chs'); if(sb) sb.textContent=spec.sub[lang];
+  const cv=document.getElementById(spec.id); if(cv) cv.setAttribute('aria-label',fill(LBL.chartAria,{t:spec.t[lang]}));
+  const em=card.querySelector('.emptystate'); if(em) em.textContent=LBL.none;
+  const ch=CHARTS[spec.id]; if(!ch) return;
+  ch.data.datasets.forEach(d=>{ d.label=mlabelByField(d.fld)+(unitOf(d.fld)?' ('+unitOf(d.fld)+')':''); });
+  ch.options.locale=lang==='hr'?'hr-HR':'en-US';
+  ch.update('none');
  });
 }
 
@@ -605,13 +736,13 @@ function renderBp(){
  const cl=bpClass(st.last.bp_sys,st.last.bp_dia);
  const tile=(l,v,u)=>'<div class="bpstat"><div class="bl">'+l+'</div><div class="bv">'+v+' <span class="bu">'+u+'</span></div></div>';
  g.innerHTML=
-  tile(LBL.bpLatest+' · '+esc(st.last.d),st.last.bp_sys+'/'+st.last.bp_dia,'mmHg')+
+  tile(LBL.bpLatest+' · '+esc(fd(st.last.d)),st.last.bp_sys+'/'+st.last.bp_dia,'mmHg')+
   tile(LBL.bpPulse,(num(st.last.pulse)!=null?st.last.pulse:'—'),'bpm')+
   tile(LBL.bpMean+' ('+st.n+' '+LBL.bpN+')',fmt1(st.sysMean)+'/'+fmt1(st.diaMean),'mmHg')+
   tile(LBL.bpMin+' · '+LBL.bpMax,st.sysMin+'/'+(st.diaMin==null?'—':st.diaMin)+' · '+st.sysMax+'/'+(st.diaMax==null?'—':st.diaMax),'mmHg');
  const onTx=currentMeds().filter(m=>/Triplixam|Physiotens/i.test(m.name||'')).map(m=>m.name).join(', ');
  b.innerHTML=
-  (cl?('<b>'+(lang==='hr'?'Razred zadnjeg mjerenja':'Latest reading band')+':</b> <span class="chip '+cl.k+'">'+esc(cl[lang])+'</span><br>'):'')+
+  (cl?('<b>'+LBL.bpBand+':</b> <span class="chip '+cl.k+'">'+esc(cl[lang])+'</span><br>'):'')+
   (lang==='hr'
     ? 'Prikaz razreda je informativan: ACC/AHA <120/80 optimalno, 120–129 povišeno, ≥130/80 1. stupanj; ESC <130/85 optimalno. Ovo su vrijednosti <b>na terapiji</b>'+(onTx?(' ('+esc(onTx)+')'):'')+' — dakle „kontrolirano uz terapiju“, ne „normalan tlak bez lijekova“. Liječnički pregled ovog dashboarda (ne tvoj nalaz) traži: izmjeri tlak prije teškog dizanja — tvoj nalaz upozorava da čučnjevi i trap-bar dizanja mogu podići sistolički iznad 200.'
     : 'Band display is informational: ACC/AHA <120/80 optimal, 120–129 elevated, ≥130/80 stage 1; ESC <130/85 optimal. These readings are <b>on therapy</b>'+(onTx?(' ('+esc(onTx)+')'):'')+' — so “controlled on treatment”, not “normal blood pressure without drugs”. The physician\'s review (this dashboard, not your file) asks: measure before a heavy lift — your file warns squats and trap-bar deadlifts can push systolic above 200.');
@@ -628,11 +759,11 @@ function renderMeds(){
  cur.forEach(m=>{
   const tr=document.createElement('tr');
   if(m.kind==='nsaid') tr.className='nsaid';
-  tr.innerHTML='<td>'+esc(m.d||'—')+'</td>'+
-   '<td class="wrap">'+esc(m.name||'—')+(m.generic?'<span class="cad">'+esc(m.generic)+'</span>':'')+'</td>'+
-   '<td class="wrap">'+esc(m.dose||'—')+'</td>'+
+  tr.innerHTML='<td>'+esc(fd(m.d)||'—')+'</td>'+
+   '<td class="wrap">'+esc(m.name||'—')+(m.generic?'<span class="cad">'+esc(hx(m.generic))+'</span>':'')+'</td>'+
+   '<td class="wrap">'+esc(hx(m.dose)||'—')+'</td>'+
    '<td>'+kindTxt(m.kind)+(m.kind==='nsaid'?' ⚠':'')+' <span class="chip cur">'+LBL.medCur+'</span></td>'+
-   '<td class="wrap">'+esc(m.purpose||m.note||'—')+'</td>';
+   '<td class="wrap">'+esc(hx(m.purpose||m.note)||'—')+'</td>';
   tb.appendChild(tr);
  });
  const hb=document.getElementById('hmedtbody'); hb.innerHTML='';
@@ -640,10 +771,10 @@ function renderMeds(){
  hist.forEach(m=>{
   const tr=document.createElement('tr');
   if(m.kind==='nsaid') tr.className='nsaid';
-  tr.innerHTML='<td>'+esc(m.d||'—')+'</td><td>'+esc(m.stop||'—')+'</td>'+
-   '<td class="wrap">'+esc(m.name||'—')+(m.generic?'<span class="cad">'+esc(m.generic)+'</span>':'')+'</td>'+
+  tr.innerHTML='<td>'+esc(fd(m.d)||'—')+'</td><td>'+esc(fd(m.stop)||'—')+'</td>'+
+   '<td class="wrap">'+esc(m.name||'—')+(m.generic?'<span class="cad">'+esc(hx(m.generic))+'</span>':'')+'</td>'+
    '<td>'+kindTxt(m.kind)+(m.kind==='nsaid'?' ⚠':'')+'</td>'+
-   '<td class="wrap">'+esc(m.purpose||m.note||'—')+'</td>';
+   '<td class="wrap">'+esc(hx(m.purpose||m.note)||'—')+'</td>';
   hb.appendChild(tr);
  });
  const btn=document.getElementById('histbtn');
@@ -661,7 +792,7 @@ function renderSymptoms(){
  syms.slice().sort((a,b)=>a.d<b.d?1:-1).forEach(s=>{
   const tr=document.createElement('tr');
   const typeTxt=LBL[s.type]!==undefined?LBL[s.type]:esc(s.type||'—');
-  tr.innerHTML='<td>'+esc(s.d||'—')+'</td><td>'+typeTxt+'</td><td class="wrap">'+esc(s.note)+'</td>';
+  tr.innerHTML='<td>'+esc(fd(s.d)||'—')+'</td><td>'+typeTxt+'</td><td class="wrap">'+esc(s.note)+'</td>';
   tb.appendChild(tr);
  });
 }
@@ -674,8 +805,8 @@ function renderActions(){
   const txt=(lang==='hr'&&a.textHr)?a.textHr:a.text;
   const why=(lang==='hr'&&a.whyHr)?a.whyHr:a.why;
   const sev=a.priorityLabel==='high'?'high':a.priorityLabel==='low'?'normal':'od';
-  li.innerHTML='<b>'+esc(a.category||'')+'</b> <span class="chip '+sev+'">'+esc(a.priorityLabel||'')+'</span><br>'+esc(txt||'')+
-   (why?'<span class="why">'+esc(why)+'</span>':'');
+  li.innerHTML='<b>'+esc(hx(a.category)||'')+'</b> <span class="chip '+sev+'">'+esc(prioTxt(a.priorityLabel))+'</span><br>'+esc(isoInText(txt||''))+
+   (why?'<span class="why">'+esc(isoInText(why))+'</span>':'');
   ol.appendChild(li);
  });
 }
@@ -694,7 +825,7 @@ function box(id,items){
  }).join('');
  el.innerHTML='<div class="eh">'+LBL.expH+'</div><ul>'+(li||'<li>—</li>')+'</ul><p class="ef">'+LBL.expFoot+'</p>';
 }
-function tx(en,hr){ return esc(lang==='hr'?hr:en); }
+function tx(en,hr){ return esc(lang==='hr'?String(hr).replace(/(\d{4})\.\.(?!\.)/g,'$1.'):en); }
 
 function expertConditions(){
  const it=[];
@@ -706,18 +837,18 @@ function expertConditions(){
  if(igg){
   const dd=daysSince(igg.d);
   it.push({sev:'caution',html:tx(
-   'Immunoglobulins (IgG) were last measured on '+igg.d+' — '+dd+' days ago, value '+fmt(igg.v)+' g/L. That is the one open hematology item; a recheck belongs on the next hematology visit.',
-   'Imunoglobulini (IgG) zadnji put su mjereni '+igg.d+' — prije '+dd+' dana, vrijednost '+fmt(igg.v)+' g/L. To je jedina otvorena hematološka stavka; ponovnu provjeru stavi na sljedeći hematološki pregled.')});
+   'Immunoglobulins (IgG) were last measured on '+fd(igg.d)+' — '+nf(dd)+' days ago, value '+fmt(igg.v)+' g/L. That is the one open hematology item; a recheck belongs on the next hematology visit.',
+   'Imunoglobulini (IgG) zadnji put su mjereni '+fd(igg.d)+' — prije '+nf(dd)+' dana, vrijednost '+fmt(igg.v)+' g/L. To je jedina otvorena hematološka stavka; ponovnu provjeru stavi na sljedeći hematološki pregled.')});
  }
  const asa=medBy('Andol 100'), bb=medBy('Byol-cor');
  if(asa&&asa.stop&&bb&&bb.stop){
   it.push({sev:'danger',html:tx(
-   'Aspirin (stopped '+asa.stop+') and the beta-blocker (stopped '+bb.stop+') are both off — two standard post-STEMI drugs. Whether that was a deliberate cardiology decision should be confirmed and written down.',
-   'Aspirin (prekinut '+asa.stop+') i beta-blokator (prekinut '+bb.stop+') su oba prekinuta — dva standardna lijeka nakon STEMI-ja. Treba potvrditi i zapisati je li to bila namjerna odluka kardiologa.')});
+   'Aspirin (stopped '+fd(asa.stop)+') and the beta-blocker (stopped '+fd(bb.stop)+') are both off — two standard post-STEMI drugs. Whether that was a deliberate cardiology decision should be confirmed and written down.',
+   'Aspirin (prekinut '+fd(asa.stop)+') i beta-blokator (prekinut '+fd(bb.stop)+') su oba prekinuta — dva standardna lijeka nakon STEMI-ja. Treba potvrditi i zapisati je li to bila namjerna odluka kardiologa.')});
  }
  findPlan(/Cardiology/i).slice(0,1).forEach(a=>{
   it.push({sev:a.priorityLabel==='high'?'danger':'caution',
-   html:'<b>'+tx('Action plan','Plan')+' #'+a.priority+':</b> '+esc((lang==='hr'&&a.textHr)?a.textHr:a.text)});
+   html:'<b>'+tx('Action plan','Plan')+' #'+a.priority+':</b> '+esc(isoInText((lang==='hr'&&a.textHr)?a.textHr:a.text))});
  });
  box('expCond',it);
 }
@@ -734,30 +865,30 @@ function expertMarkers(){
  if(a1c.val!=null){
   const dd=daysSince(a1c.date);
   it.push({sev:dd>90?'caution':null,html:tx(
-   'HbA1c '+fmt(a1c.val)+' % on '+a1c.date+' — '+dd+' days ago against the 90-day cadence used here (tirzepatide + metformin, endocrinology follow-up at 3 months). '+(dd>90?'It is due.':'Still inside the interval.'),
-   'HbA1c '+fmt(a1c.val)+' % na dan '+a1c.date+' — prije '+dd+' dana, uz razmak od 90 dana koji se ovdje koristi (tirzepatid + metformin, endokrinološka kontrola za 3 mjeseca). '+(dd>90?'Kontrola je dospjela.':'Još je unutar intervala.'))});
+   'HbA1c '+fmt(a1c.val)+' % on '+fd(a1c.date)+' — '+nf(dd)+' days ago against the 90-day cadence used here (tirzepatide + metformin, endocrinology follow-up at 3 months). '+(dd>90?'It is due.':'Still inside the interval.'),
+   'HbA1c '+fmt(a1c.val)+' % na dan '+fd(a1c.date)+' — prije '+nf(dd)+' dana, uz razmak od 90 dana koji se ovdje koristi (tirzepatid + metformin, endokrinološka kontrola za 3 mjeseca). '+(dd>90?'Kontrola je dospjela.':'Još je unutar intervala.'))});
  }
  const ldl=latestFor('ldl');
  if(ldl.val!=null){
   const dd=daysSince(ldl.date);
   const atTarget=ldl.val<=1.4;
   it.push({sev:atTarget?null:'caution',html:tx(
-   'LDL '+fmt(ldl.val)+' mmol/L on '+ldl.date+' ('+dd+' d) on rosuvastatin 40 + ezetimibe. '+(atTarget?'That is at or below the post-MI target of <1.4 recorded in your file — the job now is holding it.':'That is above the post-MI target of <1.4 recorded in your file — worth raising at the next cardiology visit.'),
-   'LDL '+fmt(ldl.val)+' mmol/L na dan '+ldl.date+' ('+dd+' d) uz rozuvastatin 40 + ezetimib. '+(atTarget?'To je na ili ispod cilja <1,4 nakon infarkta zabilježenog u tvom nalazu — sada ga treba samo zadržati.':'To je iznad cilja <1,4 nakon infarkta zabilježenog u tvom nalazu — vrijedi pokrenuti na sljedećem kardiološkom pregledu.'))});
+   'LDL '+fmt(ldl.val)+' mmol/L on '+fd(ldl.date)+' ('+nf(dd)+' d) on rosuvastatin 40 + ezetimibe. '+(atTarget?'That is at or below the post-MI target of <1.4 recorded in your file — the job now is holding it.':'That is above the post-MI target of <1.4 recorded in your file — worth raising at the next cardiology visit.'),
+   'LDL '+fmt(ldl.val)+' mmol/L na dan '+fd(ldl.date)+' ('+nf(dd)+' d) uz rozuvastatin 40 + ezetimib. '+(atTarget?'To je na ili ispod cilja <1,4 nakon infarkta zabilježenog u tvom nalazu — sada ga treba samo zadržati.':'To je iznad cilja <1,4 nakon infarkta zabilježenog u tvom nalazu — vrijedi pokrenuti na sljedećem kardiološkom pregledu.'))});
  }
  const plt=latestFor('plt');
  if(plt.val!=null){
   const dd=daysSince(plt.date);
   const r=refOf('plt');
   it.push({sev:dd>180?'caution':null,html:tx(
-   'Platelets '+fmt(plt.val)+' ×10⁹/L on '+plt.date+' ('+dd+' d), inside the '+r.lo+'–'+r.hi+' reference range. Cadence used: 90–180 days for ITP in remission post-rituximab. '+(dd>180?'A CBC is now due.':'No repeat needed yet.'),
-   'Trombociti '+fmt(plt.val)+' ×10⁹/L na dan '+plt.date+' ('+dd+' d), unutar referentnog raspona '+r.lo+'–'+r.hi+'. Korišteni razmak: 90–180 dana za ITP u remisiji nakon rituksimaba. '+(dd>180?'KKS je dospjela.':'Ponavljanje još nije potrebno.'))});
+   'Platelets '+fmt(plt.val)+' ×10⁹/L on '+fd(plt.date)+' ('+nf(dd)+' d), inside the '+nf(r.lo)+'–'+nf(r.hi)+' reference range. Cadence used: 90–180 days for ITP in remission post-rituximab. '+(dd>180?'A CBC is now due.':'No repeat needed yet.'),
+   'Trombociti '+fmt(plt.val)+' ×10⁹/L na dan '+fd(plt.date)+' ('+nf(dd)+' d), unutar referentnog raspona '+nf(r.lo)+'–'+nf(r.hi)+'. Korišteni razmak: 90–180 dana za ITP u remisiji nakon rituksimaba. '+(dd>180?'KKS je dospjela.':'Ponavljanje još nije potrebno.'))});
  }
  const ins=latestFor('insulin');
  if(ins.val!=null){
   it.push({sev:'caution',html:tx(
-   'Fasting insulin and HOMA-IR are the stalest numbers in the table (last '+ins.date+'). Ask for both to be added to the next metabolic panel — the file already lists that as an action.',
-   'Inzulin natašte i HOMA-IR najstariji su brojevi u tablici (zadnje '+ins.date+'). Zamoli da se oboje doda na sljedeći metabolički panel — nalaz to već navodi kao zadatak.')});
+   'Fasting insulin and HOMA-IR are the stalest numbers in the table (last '+fd(ins.date)+'). Ask for both to be added to the next metabolic panel — the file already lists that as an action.',
+   'Inzulin natašte i HOMA-IR najstariji su brojevi u tablici (zadnje '+fd(ins.date)+'). Zamoli da se oboje doda na sljedeći metabolički panel — nalaz to već navodi kao zadatak.')});
  }
  const waist=latestFor('waist');
  if(waist.val==null){
@@ -767,8 +898,8 @@ function expertMarkers(){
  }
  if(od.length){
   it.push({sev:'caution',html:tx(
-   'Past the cadence used here: '+od.map(o=>o.m.label.en+' ('+o.dd+' d)').join(', ')+'. One blood draw covers all of them.',
-   'Iznad korištenog razmaka kontrole: '+od.map(o=>o.m.label.hr+' ('+o.dd+' d)').join(', ')+'. Jedno vađenje krvi pokriva sve.')});
+   'Past the cadence used here: '+od.map(o=>o.m.label.en+' ('+nf(o.dd)+' d)').join(', ')+'. One blood draw covers all of them.',
+   'Iznad korištenog razmaka kontrole: '+od.map(o=>mlabelHr(o.m)+' ('+nf(o.dd)+' d)').join(', ')+'. Jedno vađenje krvi pokriva sve.')});
  }
  box('expMark',it);
 }
@@ -780,29 +911,29 @@ function expertTrends(){
   const last=pl[pl.length-1],prev=pl[pl.length-2];
   const lo=Math.min.apply(null,pl.map(r=>r.plt));
   it.push({html:tx(
-   'Platelet trend: '+fmt(prev.plt)+' ('+prev.d+') → '+fmt(last.plt)+' ('+last.d+'), against a recorded nadir of '+fmt(lo)+'. The rituximab line on the blood-count chart is where that turn begins.',
-   'Trend trombocita: '+fmt(prev.plt)+' ('+prev.d+') → '+fmt(last.plt)+' ('+last.d+'), uz zabilježeni minimum od '+fmt(lo)+'. Linija rituksimaba na grafu krvne slike označava gdje taj obrat počinje.')});
+   'Platelet trend: '+fmt(prev.plt)+' ('+fd(prev.d)+') → '+fmt(last.plt)+' ('+fd(last.d)+'), against a recorded nadir of '+fmt(lo)+'. The rituximab line on the blood-count chart is where that turn begins.',
+   'Trend trombocita: '+fmt(prev.plt)+' ('+fd(prev.d)+') → '+fmt(last.plt)+' ('+fd(last.d)+'), uz zabilježeni minimum od '+fmt(lo)+'. Linija rituksimaba na grafu krvne slike označava gdje taj obrat počinje.')});
  }
  const a1c=markerRows().filter(r=>num(r.hba1c)!=null);
  if(a1c.length>=2){
   const hi=Math.max.apply(null,a1c.map(r=>r.hba1c)),last=a1c[a1c.length-1];
   it.push({html:tx(
-   'HbA1c peaked at '+fmt(hi)+' % and now reads '+fmt(last.hba1c)+' % ('+last.d+'). The metabolic chart shows this against the metformin, GLP-1 and tirzepatide start lines.',
-   'HbA1c je vrhunac imao na '+fmt(hi)+' %, a sada je '+fmt(last.hba1c)+' % ('+last.d+'). Metabolički graf to prikazuje uz linije početka metformina, GLP-1 i tirzepatida.')});
+   'HbA1c peaked at '+fmt(hi)+' % and now reads '+fmt(last.hba1c)+' % ('+fd(last.d)+'). The metabolic chart shows this against the metformin, GLP-1 and tirzepatide start lines.',
+   'HbA1c je vrhunac imao na '+fmt(hi)+' %, a sada je '+fmt(last.hba1c)+' % ('+fd(last.d)+'). Metabolički graf to prikazuje uz linije početka metformina, GLP-1 i tirzepatida.')});
  }
  const wj=(DAT&&DAT.weightJourney)||[];
  if(wj.length>=2){
   const kg=wj.map(x=>x.kg).filter(v=>num(v)!=null);
   const peak=Math.max.apply(null,kg),last=wj[wj.length-1];
   it.push({html:tx(
-   'Weight journey on file: peak '+fmt(peak)+' kg → '+fmt(last.kg)+' kg ('+last.d+'), '+wj.length+' recorded points. Read the lab trends against that line rather than in isolation.',
-   'Zabilježeni put težine: vrhunac '+fmt(peak)+' kg → '+fmt(last.kg)+' kg ('+last.d+'), '+wj.length+' zabilježenih točaka. Laboratorijske trendove čitaj uz tu liniju, a ne izolirano.')});
+   'Weight journey on file: peak '+fmt(peak)+' kg → '+fmt(last.kg)+' kg ('+fd(last.d)+'), '+wj.length+' recorded points. Read the lab trends against that line rather than in isolation.',
+   'Zabilježeni put težine: vrhunac '+fmt(peak)+' kg → '+fmt(last.kg)+' kg ('+fd(last.d)+'), '+wj.length+' zabilježenih točaka. Laboratorijske trendove čitaj uz tu liniju, a ne izolirano.')});
  }
  const ast=latestFor('ast');
  if(ast.val!=null&&flagOf('ast',ast.val)==='high'){
   it.push({sev:'caution',html:tx(
-   'AST '+fmt(ast.val)+' U/L ('+ast.date+') sits just above the laboratory range while ALT and GGT are inside it — a pattern that also follows hard training. Not interpreted here; mention the training load when it is reviewed.',
-   'AST '+fmt(ast.val)+' U/L ('+ast.date+') je tik iznad laboratorijskog raspona dok su ALT i GGT unutar njega — obrazac koji prati i jak trening. Ovdje se ne tumači; kod kontrole spomeni opterećenje treningom.')});
+   'AST '+fmt(ast.val)+' U/L ('+fd(ast.date)+') sits just above the laboratory range while ALT and GGT are inside it — a pattern that also follows hard training. Not interpreted here; mention the training load when it is reviewed.',
+   'AST '+fmt(ast.val)+' U/L ('+fd(ast.date)+') je tik iznad laboratorijskog raspona dok su ALT i GGT unutar njega — obrazac koji prati i jak trening. Ovdje se ne tumači; kod kontrole spomeni opterećenje treningom.')});
  }
  box('expTrend',it);
 }
@@ -813,8 +944,8 @@ function expertBp(){
  if(st){
   const over=st.sysMean>=130||st.diaMean>=80;
   it.push({sev:over?'caution':null,html:tx(
-   'Home log mean '+fmt1(st.sysMean)+'/'+fmt1(st.diaMean)+' mmHg across '+st.n+' readings — '+(over?'at or above the 130/80 threshold used here.':'below the 130/80 threshold used here.')+' Latest '+st.last.bp_sys+'/'+st.last.bp_dia+' on '+st.last.d+'.',
-   'Prosjek kućnog dnevnika '+fmt1(st.sysMean)+'/'+fmt1(st.diaMean)+' mmHg kroz '+st.n+' mjerenja — '+(over?'na ili iznad praga 130/80 koji se ovdje koristi.':'ispod praga 130/80 koji se ovdje koristi.')+' Zadnje '+st.last.bp_sys+'/'+st.last.bp_dia+' na dan '+st.last.d+'.')});
+   'Home log mean '+fmt1(st.sysMean)+'/'+fmt1(st.diaMean)+' mmHg across '+st.n+' readings — '+(over?'at or above the 130/80 threshold used here.':'below the 130/80 threshold used here.')+' Latest '+st.last.bp_sys+'/'+st.last.bp_dia+' on '+fd(st.last.d)+'.',
+   'Prosjek kućnog dnevnika '+fmt1(st.sysMean)+'/'+fmt1(st.diaMean)+' mmHg kroz '+st.n+' mjerenja — '+(over?'na ili iznad praga 130/80 koji se ovdje koristi.':'ispod praga 130/80 koji se ovdje koristi.')+' Zadnje '+st.last.bp_sys+'/'+st.last.bp_dia+' na dan '+fd(st.last.d)+'.')});
   it.push({html:tx(
    'These are numbers on treatment ('+currentMeds().filter(m=>/Triplixam|Physiotens/i.test(m.name||'')).map(m=>m.name).join(' + ')+'). Read them as “controlled on therapy”; never take them as a reason to change or drop a dose on your own.',
    'Ovo su vrijednosti na terapiji ('+currentMeds().filter(m=>/Triplixam|Physiotens/i.test(m.name||'')).map(m=>m.name).join(' + ')+'). Čitaj ih kao „kontrolirano uz terapiju“; nikad kao razlog da sam mijenjaš ili prekineš dozu.')});
@@ -842,14 +973,14 @@ function expertMeds(){
  const tz=medBy('Mounjaro');
  if(tz&&!tz.stop){
   it.push({sev:'caution',html:tx(
-   'Tirzepatide (started '+tz.d+') with fast weight loss: two topics for your doctor — gallstone risk during rapid loss (flagged by this dashboard nutrition review, not by your file), and lean-mass protection. The Intake tab runs 1.6–2.3 g protein/kg, which is at or above the 1.6 g/kg floor named in your file.',
-   'Tirzepatid (početak '+tz.d+') uz brz gubitak težine: dvije teme za liječnika — rizik žučnih kamenaca pri brzom mršavljenju (označio nutricionistički pregled ovog dashboarda, ne tvoj nalaz) i očuvanje mišićne mase. Kartica Unos drži 1,6–2,3 g proteina/kg, što je na ili iznad donje granice od 1,6 g/kg navedene u tvom nalazu.')});
+   'Tirzepatide (started '+fd(tz.d)+') with fast weight loss: two topics for your doctor — gallstone risk during rapid loss (flagged by this dashboard nutrition review, not by your file), and lean-mass protection. The Intake tab runs 1.6–2.3 g protein/kg, which is at or above the 1.6 g/kg floor named in your file.',
+   'Tirzepatid (početak '+fd(tz.d)+') uz brz gubitak težine: dvije teme za liječnika — rizik žučnih kamenaca pri brzom mršavljenju (označio nutricionistički pregled ovog dashboarda, ne tvoj nalaz) i očuvanje mišićne mase. Kartica Unos drži 1,6–2,3 g proteina/kg, što je na ili iznad donje granice od 1,6 g/kg navedene u tvom nalazu.')});
  }
  const sg=medBy('Synjardy 12.5/1000');
  if(sg&&!sg.stop){
   it.push({sev:'danger',html:tx(
-   'Empagliflozin (SGLT2, in Synjardy since '+sg.d+') plus outdoor swimming in heat (the Training tab logs swims at ≥35 °C air temperature) plus tirzepatide-blunted thirst is the dehydration setup your file warns about. Agree a hydration plan — and any peri-exercise hold — with your doctor in advance; never decide it yourself on the day.',
-   'Empagliflozin (SGLT2, u Synjardyju od '+sg.d+') uz plivanje na otvorenom po vrućini (kartica Trening bilježi plivanja pri ≥35 °C temperature zraka) i smanjenu žeđ zbog tirzepatida upravo je scenarij dehidracije na koji tvoj nalaz upozorava. Plan hidratacije — i eventualni prekid oko treninga — dogovori s liječnikom unaprijed; nikad ne odlučuj sam na dan treninga.')});
+   'Empagliflozin (SGLT2, in Synjardy since '+fd(sg.d)+') plus outdoor swimming in heat (the Training tab logs swims at ≥35 °C air temperature) plus tirzepatide-blunted thirst is the dehydration setup your file warns about. Agree a hydration plan — and any peri-exercise hold — with your doctor in advance; never decide it yourself on the day.',
+   'Empagliflozin (SGLT2, u Synjardyju od '+fd(sg.d)+') uz plivanje na otvorenom po vrućini (kartica Trening bilježi plivanja pri ≥35 °C temperature zraka) i smanjenu žeđ zbog tirzepatida upravo je scenarij dehidracije na koji tvoj nalaz upozorava. Plan hidratacije — i eventualni prekid oko treninga — dogovori s liječnikom unaprijed; nikad ne odlučuj sam na dan treninga.')});
  }
  const nsaids=cur.filter(m=>m.kind==='nsaid');
  if(nsaids.length){
@@ -890,8 +1021,8 @@ function expertHow(){
   'Unosi koje sam možeš dodati s najviše koristi: kućno mjerenje tlaka prije i nakon teške sesije te opseg struka jednom mjesečno. Sve ostalo traži laboratorij.')});
  if(st){
   it.push({html:tx(
-   'Home readings on file: '+st.n+', latest '+st.last.d+'. Keep the cadence — a home log is the one dataset here that no clinic visit can reconstruct afterwards.',
-   'Kućnih mjerenja u zapisu: '+st.n+', zadnje '+st.last.d+'. Zadrži ritam — kućni dnevnik je jedini skup podataka koji se poslije ne može rekonstruirati u ordinaciji.')});
+   'Home readings on file: '+st.n+', latest '+fd(st.last.d)+'. Keep the cadence — a home log is the one dataset here that no clinic visit can reconstruct afterwards.',
+   'Kućnih mjerenja u zapisu: '+st.n+', zadnje '+fd(st.last.d)+'. Zadrži ritam — kućni dnevnik je jedini skup podataka koji se poslije ne može rekonstruirati u ordinaciji.')});
  }
  it.push({html:tx(
   'Print or open this page at your next appointment: conditions, current medicines with start dates, every marker with its date, and the action list are already in the order a doctor asks for them.',
@@ -901,7 +1032,7 @@ function expertHow(){
 
 function renderAll(){
  renderConditions(); renderMarkers(); renderBp(); renderMeds(); renderSymptoms(); renderActions();
- buildCharts();
+ relangCharts();
  expertConditions(); expertMarkers(); expertTrends(); expertBp(); expertMeds(); expertSymptoms(); expertHow();
 }
 
@@ -919,12 +1050,28 @@ function applyTheme(t){
  markBtns();
  if(DAT) buildCharts();
 }
-function setLang(l){
- lang=l; LBL=T[l];
+function applyStatic(){
+ document.documentElement.lang=lang;
+ document.title=LBL.docTitle;
  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(LBL[k]!==undefined)el.textContent=LBL[k];});
+ document.querySelectorAll('[data-a]').forEach(el=>{const v=LBL[el.getAttribute('data-a')];if(v!==undefined){el.setAttribute('aria-label',v);el.title=v;}});
+ /* the shell (index.html) owns the language switch: hide the internal EN/HR buttons when embedded;
+    opened top-level (after the Access login) they stay visible */
+ let emb=true; try{ emb=window.top!==window; }catch(e){ emb=true; }
+ ['btn-en','btn-hr'].forEach(id=>{const b=document.getElementById(id); if(b) b.style.display=emb?'none':'';});
+}
+function paintFoot(){
+ const f=document.getElementById('foot'); if(!f) return;
+ if(loadErr!==null){ f.textContent=fill(LBL.loadErr,{e:loadErr}); return; }
+ f.textContent=LBL.foot+' '+((DAT&&DAT.meta&&DAT.meta.refreshedAt)?fd(String(DAT.meta.refreshedAt).slice(0,10)):'—');
+}
+function setLang(l){
+ if(l!=='hr'&&l!=='en') l='hr';
+ lang=l; LBL=T[l];
+ try{ localStorage.setItem('dash-lang',l); }catch(e){}
+ applyStatic();
  if(DAT) renderAll();
- const f=document.getElementById('foot');
- if(f) f.textContent=LBL.foot+' '+((DAT&&DAT.meta&&DAT.meta.refreshedAt)?String(DAT.meta.refreshedAt).slice(0,10):'—');
+ paintFoot();
  markBtns();
 }
 function applyResponsive(){
@@ -945,6 +1092,7 @@ function markBtns(){
  const states={'btn-en':lang==='en','btn-hr':lang==='hr','btn-fs':fontbig};
  Object.entries(states).forEach(([id,on])=>style(document.getElementById(id),on));
 }
+applyStatic();
 markBtns();
 let _rt; window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
 
@@ -953,8 +1101,9 @@ fetch('clinical-data.json',{cache:'no-store'})
  .then(j=>{DAT=j;init();})
  .catch(err=>{
   DAT={meta:{},conditions:[],doctors:[],meds:[],markers:[],symptoms:[],actionPlan:[],redFlags:[],safetyFlags:[],units:{},ref:{},labsOther:{},wins:{en:[],hr:[]}};
+  loadErr=String(err&&err.message!=null?err.message:err);
   init();
-  const e=document.getElementById('foot'); if(e)e.textContent='Could not load clinical-data.json ('+err.message+').';
+  paintFoot();
  });
 </script>
 </body>

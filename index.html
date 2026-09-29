@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrik · Daily Dashboard</title>
+<title>Patrik · Dnevni pregled</title>
 <link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><circle%20cx='16'%20cy='16'%20r='9.5'%20fill='none'%20stroke='%232caaf0'%20stroke-width='5'%20stroke-dasharray='44%2016'/></svg>">
 <style>
 /* ---- Theme tokens -------------------------------------------------- */
@@ -55,7 +55,9 @@ header{display:flex;align-items:flex-start;justify-content:space-between;gap:10p
 .btn{font:inherit;font-size:13px;font-weight:500;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 13px;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
 .btn:hover{background:var(--panel-2)}
 .btn:active{transform:translateY(1px)}
-#themeBtn{padding:8px 11px;font-size:15px;line-height:1}
+.head-actions .btn{min-height:40px}
+#themeBtn{padding:8px 11px;font-size:15px;line-height:1;min-width:40px}
+#langBtn{padding:8px 11px;font-size:13px;font-weight:600;letter-spacing:.04em;line-height:1;min-width:40px}
 #refreshBtn.spin{opacity:.55;pointer-events:none}
 
 /* Status strip: last-refresh times */
@@ -104,65 +106,175 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
 <div class="shell">
   <header>
     <div>
-      <div class="brand">PATRIK · DAILY DASHBOARD</div>
-      <div class="asof">Garmin fenix 8 + Hevy + Intervals.icu · via Freddy</div>
+      <div class="brand" data-i18n="brand">PATRIK · DNEVNI PREGLED</div>
+      <div class="asof" data-i18n="asof">Garmin fenix 8 + Hevy + Intervals.icu · putem Freddyja</div>
     </div>
     <div class="head-actions">
-      <button id="themeBtn" class="btn" title="Toggle light / dark" aria-label="Toggle light or dark theme">🌙</button>
+      <button id="langBtn" class="btn" title="Jezik: hrvatski — klikni za English" aria-label="Jezik: hrvatski — klikni za English">HR</button>
+      <button id="themeBtn" class="btn" title="Prebaci na svijetlu temu" aria-label="Prebaci na svijetlu temu">🌙</button>
       <div class="refresh-wrap">
-        <button id="refreshBtn" class="btn">↻ Refresh</button>
+        <button id="refreshBtn" class="btn">↻ Osvježi</button>
         <div class="refresh-tip" role="tooltip">
-          <strong>Refresh</strong> reloads each tab so it re-reads the latest published data files (it does not pull new numbers from the wearables).
+          <span data-i18n-html="tipIntro"><strong>Osvježi</strong> ponovno učitava svaku karticu da bi pročitala najnovije objavljene datoteke s podacima (ne dohvaća nove brojke s nosivih uređaja).</span>
           <ul class="src">
-            <li><span class="dot sleep"></span><span><span class="nm">Sleep &amp; recovery</span> — <code>sleep-data.json</code><br>Garmin fenix 8 via Freddy</span></li>
-            <li><span class="dot train"></span><span><span class="nm">Training</span> — <code>training-data.json</code><br>Hevy + Intervals.icu</span></li>
-            <li><span class="dot str"></span><span><span class="nm">Strength</span> — <code>strength-data.json</code><br>Hevy sets + HR stream (Strava/Garmin, HRM600)</span></li>
-            <li><span class="dot food"></span><span><span class="nm">Intake</span> — <code>data.json</code><br>manual food log</span></li>
-            <li><span class="dot wt"></span><span><span class="nm">Weight</span> — <code>weight-data.json</code><br>weekly scale averages, manual</span></li>
-            <li><span class="dot health"></span><span><span class="nm">Health</span> — <code>clinical-data.json</code><br>manual clinical entries — never auto-refreshed (private, Cloudflare Access)</span></li>
+            <li><span class="dot sleep"></span><span><span class="nm" data-i18n="navSleep">San i oporavak</span> — <code>sleep-data.json</code><br><span data-i18n="srcSleep">Garmin fenix 8 putem Freddyja</span></span></li>
+            <li><span class="dot train"></span><span><span class="nm" data-i18n="navTraining">Trening</span> — <code>training-data.json</code><br><span data-i18n="srcTrain">Hevy + Intervals.icu</span></span></li>
+            <li><span class="dot str"></span><span><span class="nm" data-i18n="navStrength">Snaga</span> — <code>strength-data.json</code><br><span data-i18n="srcStr">Hevy serije + HR zapis (Strava/Garmin, HRM600)</span></span></li>
+            <li><span class="dot food"></span><span><span class="nm" data-i18n="navIntake">Prehrana</span> — <code>data.json</code><br><span data-i18n="srcFood">ručni dnevnik prehrane</span></span></li>
+            <li><span class="dot wt"></span><span><span class="nm" data-i18n="navWeight">Težina</span> — <code>weight-data.json</code><br><span data-i18n="srcWt">tjedni prosjeci vage, ručno</span></span></li>
+            <li><span class="dot health"></span><span><span class="nm" data-i18n="navHealth">Zdravlje</span> — <code>clinical-data.json</code><br><span data-i18n="srcHealth">ručni klinički unosi — nikad se ne osvježavaju automatski (privatno, Cloudflare Access)</span></span></li>
           </ul>
-          <div class="note">To fetch fresh numbers, ask Claude to <em>“refresh the dashboard”</em> — that rewrites these files, then this button re-pulls them.</div>
+          <div class="note" data-i18n-html="tipNote">Za svježe brojke zamoli Claudea da <em>„osvježi nadzornu ploču“</em> — to prepisuje ove datoteke, a zatim ih ovaj gumb ponovno povlači.</div>
         </div>
       </div>
     </div>
   </header>
 
   <div class="status">
-    <span class="lbl">Last refresh</span>
-    <span class="stat"><span class="dot sleep"></span>Sleep <b id="ts-sleep">—</b></span>
-    <span class="stat"><span class="dot train"></span>Training <b id="ts-train">—</b></span>
-    <span class="stat"><span class="dot str"></span>Strength <b id="ts-str">—</b></span>
-    <span class="stat"><span class="dot food"></span>Food <b id="ts-food">—</b></span>
-    <span class="stat"><span class="dot wt"></span>Weight <b id="ts-wt">—</b></span>
-    <span class="stat"><span class="dot health"></span>Health <b id="ts-health">—</b></span>
+    <span class="lbl" data-i18n="stLbl">Zadnje osvježenje</span>
+    <span class="stat"><span class="dot sleep"></span><span data-i18n="stSleep">San</span> <b id="ts-sleep">—</b></span>
+    <span class="stat"><span class="dot train"></span><span data-i18n="stTrain">Trening</span> <b id="ts-train">—</b></span>
+    <span class="stat"><span class="dot str"></span><span data-i18n="stStr">Snaga</span> <b id="ts-str">—</b></span>
+    <span class="stat"><span class="dot food"></span><span data-i18n="stFood">Hrana</span> <b id="ts-food">—</b></span>
+    <span class="stat"><span class="dot wt"></span><span data-i18n="stWt">Težina</span> <b id="ts-wt">—</b></span>
+    <span class="stat"><span class="dot health"></span><span data-i18n="stHealth">Zdravlje</span> <b id="ts-health">—</b></span>
   </div>
 
   <nav>
-    <button data-tab="sleep" class="active">Sleep &amp; recovery</button>
-    <button data-tab="training">Training</button>
-    <button data-tab="strength">Strength</button>
-    <button data-tab="intake">Intake</button>
-    <button data-tab="weight">Weight</button>
-    <button data-tab="health">Health</button>
+    <button data-tab="sleep" class="active" data-i18n="navSleep">San i oporavak</button>
+    <button data-tab="training" data-i18n="navTraining">Trening</button>
+    <button data-tab="strength" data-i18n="navStrength">Snaga</button>
+    <button data-tab="intake" data-i18n="navIntake">Prehrana</button>
+    <button data-tab="weight" data-i18n="navWeight">Težina</button>
+    <button data-tab="health" data-i18n="navHealth">Zdravlje</button>
   </nav>
 
-  <iframe class="frame active" data-tab="sleep"    src="sleep.html"    title="Sleep & recovery" scrolling="no"></iframe>
-  <iframe class="frame"        data-tab="training" src="training.html" title="Training"          scrolling="no"></iframe>
-  <iframe class="frame"        data-tab="strength" src="strength.html" title="Strength"          scrolling="no"></iframe>
-  <iframe class="frame"        data-tab="intake"   src="intake.html"   title="Intake"            scrolling="no"></iframe>
-  <iframe class="frame"        data-tab="weight"   src="weight.html"   title="Weight"            scrolling="no"></iframe>
-  <iframe class="frame" id="healthFrame" data-tab="health" title="Health" scrolling="no"></iframe>
+  <iframe class="frame active" data-tab="sleep"    src="sleep.html"    title="San i oporavak" data-i18n-title="navSleep"    scrolling="no"></iframe>
+  <iframe class="frame"        data-tab="training" src="training.html" title="Trening"        data-i18n-title="navTraining" scrolling="no"></iframe>
+  <iframe class="frame"        data-tab="strength" src="strength.html" title="Snaga"          data-i18n-title="navStrength" scrolling="no"></iframe>
+  <iframe class="frame"        data-tab="intake"   src="intake.html"   title="Prehrana"       data-i18n-title="navIntake"   scrolling="no"></iframe>
+  <iframe class="frame"        data-tab="weight"   src="weight.html"   title="Težina"         data-i18n-title="navWeight"   scrolling="no"></iframe>
+  <iframe class="frame" id="healthFrame" data-tab="health" title="Zdravlje" data-i18n-title="navHealth" scrolling="no"></iframe>
   <div class="health-lock" id="healthLock" data-tab="health">
     <div class="lock-ic">🔒</div>
-    <h3 id="healthLockTitle">Health record is private</h3>
-    <p id="healthLockMsg">Sign in with your e-mail (one-time code) to open it.</p>
-    <button id="healthLockBtn" class="btn">Sign in</button>
+    <h3 id="healthLockTitle" data-i18n="hlTitle">Zdravstveni karton je privatan</h3>
+    <p id="healthLockMsg" data-i18n="hlMsg">Prijavi se e-mailom (jednokratni kod) da ga otvoriš.</p>
+    <button id="healthLockBtn" class="btn" data-i18n="hlBtn">Prijava</button>
   </div>
 
-  <div class="tip">Use 🌙 / ☀ to theme the shell. · Each tab has its own EN/HR, light/dark and font-size controls. · Hover <code>↻ Refresh</code> to see what each tab loads.</div>
+  <div class="tip" data-i18n-html="foot">Koristi 🌙 / ☀ za temu, a HR / EN za jezik (vrijedi za sve kartice). · Zadrži pokazivač iznad <code>↻ Osvježi</code> da vidiš što svaka kartica učitava.</div>
 </div>
 
 <script>
+/* ---- Language (HR / EN) --------------------------------------------- */
+/* Global key localStorage['dash-lang'] = 'hr'|'en', default 'hr'. The shell owns the switch,
+   translates its own strings from T and pushes the language into every tab via setLang(). */
+const T={
+ en:{
+  title:'Patrik · Daily Dashboard', brand:'PATRIK · DAILY DASHBOARD',
+  asof:'Garmin fenix 8 + Hevy + Intervals.icu · via Freddy',
+  toLight:'Switch to light theme', toDark:'Switch to dark theme',
+  langTitle:'Language: English — click for hrvatski',
+  refresh:'↻ Refresh', refreshing:'↻ Refreshing…',
+  tipIntro:'<strong>Refresh</strong> reloads each tab so it re-reads the latest published data files (it does not pull new numbers from the wearables).',
+  tipNote:'To fetch fresh numbers, ask Claude to <em>“refresh the dashboard”</em> — that rewrites these files, then this button re-pulls them.',
+  navSleep:'Sleep & recovery', navTraining:'Training', navStrength:'Strength', navIntake:'Intake', navWeight:'Weight', navHealth:'Health',
+  srcSleep:'Garmin fenix 8 via Freddy', srcTrain:'Hevy + Intervals.icu', srcStr:'Hevy sets + HR stream (Strava/Garmin, HRM600)',
+  srcFood:'manual food log', srcWt:'weekly scale averages, manual',
+  srcHealth:'manual clinical entries — never auto-refreshed (private, Cloudflare Access)',
+  stLbl:'Last refresh', stSleep:'Sleep', stTrain:'Training', stStr:'Strength', stFood:'Food', stWt:'Weight', stHealth:'Health',
+  lastRef:'Last refreshed: ', snapDate:'Snapshot date: ', noExact:' (exact time unavailable)',
+  noEntries:'no entries', noEntriesTip:'no entries recorded yet',
+  hlTitle:'Health record is private', hlMsg:'Sign in with your e-mail (one-time code) to open it.', hlBtn:'Sign in',
+  chip:'🔒 sign in', tip:'Health record is behind Cloudflare Access — sign in with a one-time e-mail code to view it.',
+  foot:'Use 🌙 / ☀ for the theme and HR / EN for the language (applies to all tabs). · Hover <code>↻ Refresh</code> to see what each tab loads.',
+  mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  wd:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+ },
+ hr:{
+  title:'Patrik · Dnevni pregled', brand:'PATRIK · DNEVNI PREGLED',
+  asof:'Garmin fenix 8 + Hevy + Intervals.icu · putem Freddyja',
+  toLight:'Prebaci na svijetlu temu', toDark:'Prebaci na tamnu temu',
+  langTitle:'Jezik: hrvatski — klikni za English',
+  refresh:'↻ Osvježi', refreshing:'↻ Osvježavam…',
+  tipIntro:'<strong>Osvježi</strong> ponovno učitava svaku karticu da bi pročitala najnovije objavljene datoteke s podacima (ne dohvaća nove brojke s nosivih uređaja).',
+  tipNote:'Za svježe brojke zamoli Claudea da <em>„osvježi nadzornu ploču“</em> — to prepisuje ove datoteke, a zatim ih ovaj gumb ponovno povlači.',
+  navSleep:'San i oporavak', navTraining:'Trening', navStrength:'Snaga', navIntake:'Prehrana', navWeight:'Težina', navHealth:'Zdravlje',
+  srcSleep:'Garmin fenix 8 putem Freddyja', srcTrain:'Hevy + Intervals.icu', srcStr:'Hevy serije + HR zapis (Strava/Garmin, HRM600)',
+  srcFood:'ručni dnevnik prehrane', srcWt:'tjedni prosjeci vage, ručno',
+  srcHealth:'ručni klinički unosi — nikad se ne osvježavaju automatski (privatno, Cloudflare Access)',
+  stLbl:'Zadnje osvježenje', stSleep:'San', stTrain:'Trening', stStr:'Snaga', stFood:'Hrana', stWt:'Težina', stHealth:'Zdravlje',
+  lastRef:'Zadnje osvježeno: ', snapDate:'Datum snimke: ', noExact:' (točno vrijeme nije dostupno)',
+  noEntries:'nema unosa', noEntriesTip:'još nema zabilježenih unosa',
+  hlTitle:'Zdravstveni karton je privatan', hlMsg:'Prijavi se e-mailom (jednokratni kod) da ga otvoriš.', hlBtn:'Prijava',
+  chip:'🔒 prijava', tip:'Zdravstveni karton štiti Cloudflare Access — prijavi se jednokratnim kodom poslanim na e-mail da ga otvoriš.',
+  foot:'Koristi 🌙 / ☀ za temu, a HR / EN za jezik (vrijedi za sve kartice). · Zadrži pokazivač iznad <code>↻ Osvježi</code> da vidiš što svaka kartica učitava.',
+  mon:['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro'],
+  wd:['ned','pon','uto','sri','čet','pet','sub']
+ }
+};
+let _lang='hr';
+try{ if(localStorage.getItem('dash-lang')==='en') _lang='en'; }catch(e){}
+function currentLang(){ return _lang; }
+function tr(k){ return T[_lang][k]; }
+function langFrame(frame){
+  try{ const w=frame.contentWindow; if(w&&typeof w.setLang==='function') w.setLang(currentLang()); }catch(e){}
+}
+function langAllFrames(){ document.querySelectorAll('.frame').forEach(langFrame); }
+
+/* Status-strip state (re-rendered on language change without refetching) */
+const ST={};                         // element id -> {kind,iso,ra,lm,empty}
+const fmtDate=iso=>{ const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||'');
+  if(!m) return iso||'—';
+  const mon=tr('mon')[+m[2]-1];
+  return _lang==='hr'?`${+m[3]}. ${mon} ${m[1]}.`:`${+m[3]} ${mon} ${m[1]}`; };
+const fmtExact=v=>{ if(!v) return null; const d=new Date(v); if(isNaN(d)) return null;
+  const p2=n=>String(n).padStart(2,'0'), wd=tr('wd')[d.getDay()], mon=tr('mon')[d.getMonth()];
+  return _lang==='hr'
+    ? `${wd}, ${d.getDate()}. ${mon} ${d.getFullYear()}., ${p2(d.getHours())}:${p2(d.getMinutes())}`
+    : `${wd}, ${d.getDate()} ${mon} ${d.getFullYear()}, ${p2(d.getHours())}:${p2(d.getMinutes())}`; };
+function renderStatus(){
+  Object.keys(ST).forEach(id=>{
+    const node=document.getElementById(id); if(!node) return;
+    const s=ST[id], chip=node.closest('.stat');
+    if(s.kind==='locked'){ node.textContent=tr('chip'); if(chip) chip.title=tr('tip'); return; }
+    const exact=fmtExact(s.ra)||fmtExact(s.lm);
+    if(s.kind==='health'){
+      node.textContent=s.empty?tr('noEntries'):fmtDate(s.iso);
+      if(chip) chip.title=exact?(tr('lastRef')+exact):tr('noEntriesTip');
+      return;
+    }
+    node.textContent=fmtDate(s.iso);
+    if(chip) chip.title=exact?(tr('lastRef')+exact):(tr('snapDate')+(fmtDate(s.iso)||'—')+tr('noExact'));
+  });
+}
+let refreshing=false;
+function themeBtnTitle(){
+  const b=document.getElementById('themeBtn'); if(!b) return;
+  const s=currentTheme()==='dark'?tr('toLight'):tr('toDark');
+  b.title=s; b.setAttribute('aria-label',s);
+}
+function applyShellLang(){
+  const d=T[_lang], q=s=>document.querySelectorAll(s);
+  document.documentElement.lang=_lang;
+  document.title=d.title;
+  q('[data-i18n]').forEach(el=>{ const v=d[el.dataset.i18n]; if(v!=null) el.textContent=v; });
+  q('[data-i18n-html]').forEach(el=>{ const v=d[el.dataset.i18nHtml]; if(v!=null) el.innerHTML=v; });
+  q('[data-i18n-title]').forEach(el=>{ const v=d[el.dataset.i18nTitle]; if(v!=null) el.title=v; });
+  const lb=document.getElementById('langBtn');
+  if(lb){ lb.textContent=_lang.toUpperCase(); lb.title=d.langTitle; lb.setAttribute('aria-label',d.langTitle); }
+  const rb=document.getElementById('refreshBtn'); if(rb) rb.textContent=refreshing?d.refreshing:d.refresh;
+  themeBtnTitle();
+  window.__healthI18n={title:d.hlTitle,msg:d.hlMsg,btn:d.hlBtn,chip:d.chip,tip:d.tip};
+  renderStatus();
+}
+document.getElementById('langBtn').onclick=()=>{
+  _lang=_lang==='hr'?'en':'hr';
+  try{ localStorage.setItem('dash-lang',_lang); }catch(e){}
+  applyShellLang();
+  langAllFrames();
+};
+
 /* ---- Theme (light / dark) ----------------------------------------- */
 /* Default = dark. Shell theme is also pushed into each embedded tab so
    the whole view (panels included) follows one theme. */
@@ -179,7 +291,7 @@ function themeAllFrames(){ document.querySelectorAll('.frame').forEach(themeFram
   function apply(t){
     root.setAttribute('data-theme',t);
     const b=document.getElementById('themeBtn');
-    if(b){ b.textContent = t==='dark' ? '☀' : '🌙'; b.title = t==='dark' ? 'Switch to light' : 'Switch to dark'; }
+    if(b){ b.textContent = t==='dark' ? '☀' : '🌙'; themeBtnTitle(); }
     themeAllFrames();
   }
   document.getElementById('themeBtn').onclick=()=>{
@@ -188,35 +300,12 @@ function themeAllFrames(){ document.querySelectorAll('.frame').forEach(themeFram
   };
 })();
 
-/* ---- Health lock (Cloudflare Access) — i18n + pane state ----------- */
+/* ---- Health lock (Cloudflare Access) — strings come from T / applyShellLang ---- */
 (function(){
-  const hr=(navigator.language||'').toLowerCase().startsWith('hr');
-  const t=hr?{
-    title:'Zdravstveni karton je privatan',
-    msg:'Prijavi se e-mailom (jednokratni kod) da ga otvoriš.',
-    btn:'Prijava',
-    chip:'🔒 prijava',
-    tip:'Zdravstveni karton štiti Cloudflare Access — prijavi se jednokratnim kodom poslanim na e-mail da ga otvoriš.'
-  }:{
-    title:'Health record is private',
-    msg:'Sign in with your e-mail (one-time code) to open it.',
-    btn:'Sign in',
-    chip:'🔒 sign in',
-    tip:'Health record is behind Cloudflare Access — sign in with a one-time e-mail code to view it.'
-  };
-  window.__healthI18n=t;
-  const setText=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
-  setText('healthLockTitle',t.title);
-  setText('healthLockMsg',t.msg);
-  setText('healthLockBtn',t.btn);
   const btn=document.getElementById('healthLockBtn');
   if(btn) btn.onclick=()=>{ window.top.location.href='health.html'; };
 })();
-/* Strength tab label follows the browser language like the health lock (EN "Strength" / HR "Snaga") */
-(function(){
-  if(!(navigator.language||'').toLowerCase().startsWith('hr')) return;
-  const b=document.querySelector('nav button[data-tab="strength"]'); if(b) b.textContent='Snaga';
-})();
+applyShellLang();                   // paint all shell strings in the current language (default HR)
 let currentTab='sleep';
 let healthLocked=true;              // safe default until the probe resolves
 function refreshHealthPaneVisibility(){
@@ -229,18 +318,13 @@ refreshHealthPaneVisibility();
 
 /* ---- Last-refresh status: read meta dates from the JSON files ------ */
 (function(){
-  const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const fmt=iso=>{ const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||''); return m?`${+m[3]} ${MON[+m[2]-1]} ${m[1]}`:(iso||'—'); };
-  const fmtExact=v=>{ if(!v) return null; const d=new Date(v); return isNaN(d)?null:d.toLocaleString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); };
   const pull=(file,pick,el)=>fetch(file,{cache:'no-store'}).then(r=>{
     const lm=r.headers.get('last-modified');
     return r.json().then(j=>({j,lm}));
   }).then(({j,lm})=>{
-    const node=document.getElementById(el); if(!node) return;
-    node.textContent=fmt(pick(j));
-    const chip=node.closest('.stat');
-    if(chip){ const exact=fmtExact(j.meta&&j.meta.refreshedAt)||fmtExact(lm);
-      chip.title=exact?('Last refreshed: '+exact):('Snapshot date: '+(fmt(pick(j))||'—')+' (exact time unavailable)'); }
+    if(!document.getElementById(el)) return;
+    ST[el]={kind:'date',iso:pick(j),ra:j.meta&&j.meta.refreshedAt,lm};
+    renderStatus();
   }).catch(()=>{});
   /* Probe clinical-data.json rather than loading health.html eagerly.
      UNLOCKED only if the response is ok AND the body is JSON with a
@@ -259,26 +343,16 @@ refreshHealthPaneVisibility();
     healthLocked=false;
     const frame=document.getElementById('healthFrame');
     if(frame && !frame.getAttribute('src')) frame.src='health.html';
-    const node=document.getElementById('ts-health');
-    if(node){
-      const empty=(!j.markers||!j.markers.length)&&(!j.meds||!j.meds.length)&&(!j.symptoms||!j.symptoms.length);
-      node.textContent=empty?'no entries':fmt(j.meta&&j.meta.refreshedAt);
-      const chip=node.closest('.stat');
-      if(chip){ const exact=fmtExact(j.meta&&j.meta.refreshedAt)||fmtExact(lm);
-        chip.title=exact?('Last refreshed: '+exact):('no entries recorded yet'); }
-    }
+    const empty=(!j.markers||!j.markers.length)&&(!j.meds||!j.meds.length)&&(!j.symptoms||!j.symptoms.length);
+    ST['ts-health']={kind:'health',iso:j.meta&&j.meta.refreshedAt,ra:j.meta&&j.meta.refreshedAt,lm,empty};
+    renderStatus();
     refreshHealthPaneVisibility();
   }).catch(()=>{
     healthLocked=true;
     const frame=document.getElementById('healthFrame');
     if(frame) frame.removeAttribute('src');
-    const node=document.getElementById('ts-health');
-    if(node){
-      const t=window.__healthI18n||{chip:'🔒 sign in',tip:'Sign in with Cloudflare Access to view health data.'};
-      node.textContent=t.chip;
-      const chip=node.closest('.stat');
-      if(chip) chip.title=t.tip;
-    }
+    ST['ts-health']={kind:'locked'};
+    renderStatus();
     refreshHealthPaneVisibility();
   });
   window.loadStatus=()=>{
@@ -320,6 +394,7 @@ function fit(frame){
 function wire(frame){
   frame.addEventListener('load',()=>{
     themeFrame(frame);          // make the tab follow the shell's theme
+    langFrame(frame);           // ...and the shell's language
     fit(frame);
     try{
       const w=frame.contentWindow, b=w.document.body;
@@ -355,10 +430,10 @@ window.addEventListener('resize',()=>document.querySelectorAll('.frame').forEach
 /* Manual refresh: reload each embedded page so it re-fetches the latest JSON. */
 document.getElementById('refreshBtn').onclick=()=>{
   const b=document.getElementById('refreshBtn');
-  b.classList.add('spin'); b.textContent='↻ Refreshing…';
+  b.classList.add('spin'); refreshing=true; b.textContent=tr('refreshing');
   if(window.loadStatus) window.loadStatus();
   document.querySelectorAll('.frame').forEach(f=>{ try{ f.contentWindow.location.reload(); }catch(e){ f.src=f.src; } });
-  let n=0; const iv=setInterval(()=>{ document.querySelectorAll('.frame').forEach(fit); if(++n>=8){ clearInterval(iv); b.classList.remove('spin'); b.textContent='↻ Refresh'; } },300);
+  let n=0; const iv=setInterval(()=>{ document.querySelectorAll('.frame').forEach(fit); if(++n>=8){ clearInterval(iv); b.classList.remove('spin'); refreshing=false; b.textContent=tr('refresh'); } },300);
 };
 </script>
 </body>
