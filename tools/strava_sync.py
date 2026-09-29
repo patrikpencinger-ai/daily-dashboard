@@ -10,11 +10,20 @@ the clean log.
 Commands
   auth                                   one-time OAuth flow (opens browser)
   sync [--days N] [--dry-run] [--force]  rewrite name/description from Hevy
-       [--hevy-source api|freddy-cache]
-  selftest                               offline unit test of the builder
-  fetch-hr [--days N | --since YYYY-MM-DD] [--force]
+       [--hevy-source api|freddy-cache] [--via-worker | --direct]
+  selftest                               offline unit test of the builder + Worker client
+  fetch-hr [--days N | --since YYYY-MM-DD] [--force] [--dry-run] [--via-worker | --direct]
                                          cache 1 s HR streams of strength activities
                                          (raw/strava_hr/<local date>_<strava id>.json)
+
+Single Strava token owner. Strava may rotate the refresh token on every refresh,
+so only ONE client may refresh it: the hevy-hook Worker (KV strava:tokens).
+`sync` and `fetch-hr` therefore go through the Worker by default (whenever
+secrets/hevy-webhook.txt exists): GET/POST https://hevy.er45.com/live/... with
+the WEBHOOK_AUTH value as the Authorization header. `--direct` talks to the
+Strava API with secrets/strava.json instead - emergencies only: it makes this
+machine a second token owner and can invalidate the Worker's token. After using
+it, run `auth` again and then `tools/set_live_secrets.ps1 -Only STRAVA_REFRESH_TOKEN`.
 
 Python stdlib only. Secrets live OUTSIDE the repo (see SECRETS_DIR); this script
 never prints them and never asks for passwords.
@@ -44,6 +53,7 @@ CACHE_ROOT = Path(os.environ.get("ZG_CACHE") or Path.home() / ".claude" / "cache
 SECRETS_DIR = CACHE_ROOT / "secrets"
 STRAVA_JSON = SECRETS_DIR / "strava.json"
 HEVY_ENV = SECRETS_DIR / "hevy.env"
+WEBHOOK_FILE = SECRETS_DIR / "hevy-webhook.txt"   # WEBHOOK_AUTH of the hevy-hook Worker
 HEVY_CACHE_DIR = CACHE_ROOT / "strength" / "raw" / "hevy"
 STRAVA_HR_DIR = CACHE_ROOT / "strength" / "raw" / "strava_hr"
 
@@ -51,6 +61,7 @@ STRAVA_API = "https://www.strava.com/api/v3"
 STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token"
 STRAVA_AUTH_URL = "https://www.strava.com/oauth/authorize"
 HEVY_API = "https://api.hevyapp.com/v1"
+LIVE_BASE = (os.environ.get("HEVY_LIVE_BASE") or "https://hevy.er45.com").rstrip("/")
 
 CALLBACK_HOST = "127.0.0.1"
 CALLBACK_PORT = 8765
@@ -442,6 +453,183 @@ class Strava:
 
 
 # --------------------------------------------------------------------------- #
+# hevy-hook Worker client (the Worker is the only Strava API client)
+# --------------------------------------------------------------------------- #
+
+DIRECT_WARNING = (
+    "[direct] talking to the Strava API with secrets/strava.json - this makes this machine a SECOND\n"
+    "         owner of the Strava refresh token and can break the hevy-hook Worker. Afterwards run:\n"
+    "           python tools/strava_sync.py auth\n"
+    "           powershell -ExecutionPolicy Bypass -File tools\\set_live_secrets.ps1 -Only STRAVA_REFRESH_TOKEN")
+
+SET_SECRETS_CMD = "powershell -ExecutionPolicy Bypass -File tools\\set_live_secrets.ps1"
+
+
+def load_webhook_auth() -> str:
+    """WEBHOOK_AUTH value (64 hex chars) from secrets/hevy-webhook.txt; never printed."""
+    if not WEBHOOK_FILE.exists():
+        raise SetupNeeded(
+            f"Missing {WEBHOOK_FILE} (the hevy-hook Worker's WEBHOOK_AUTH). See "
+            "workers/hevy-hook/README.md, or use --direct (emergency only: second token owner).")
+    v = WEBHOOK_FILE.read_text(encoding="utf-8").strip()
+    if len(v) != 64 or any(c not in "0123456789abcdef" for c in v):
+        raise SetupNeeded(f"{WEBHOOK_FILE} does not contain 64 hex characters.")
+    return v
+
+
+def _worker_http(method: str, url: str, headers: dict, body: bytes | None = None, timeout: int = 60):
+    """-> (status, parsed JSON or None, Retry-After). Never raises on HTTP errors;
+    status 0 = network error (data = {"error": reason})."""
+    req = urllib.request.Request(url, data=body, method=method)
+    req.add_header("User-Agent", USER_AGENT)
+    req.add_header("Accept", "application/json")
+    for k, v in headers.items():
+        req.add_header(k, v)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            raw = resp.read()
+            return resp.status, (json.loads(raw) if raw else None), resp.headers.get("Retry-After")
+    except urllib.error.HTTPError as e:
+        raw = e.read()
+        try:
+            data = json.loads(raw) if raw else None
+        except ValueError:
+            data = {"error": raw[:200].decode("utf-8", "replace")}
+        return e.code, data, (e.headers.get("Retry-After") if e.headers else None)
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError) as e:
+        return 0, {"error": str(getattr(e, "reason", e))}, None
+
+
+class WorkerClient:
+    """GET /live/hr?since=, GET /live/hr/<id>, POST /live/strava/sync on the hevy-hook Worker.
+    Maps Worker errors onto this script's exit codes: 401 / 503 not-configured / strava-auth
+    -> SetupNeeded (2); 503 rate-limited -> RateLimitExhausted (3); anything else -> ApiError (1).
+    Network errors and 500/502/504 are retried twice (2 s, 4 s)."""
+
+    ATTEMPTS = 3
+
+    def __init__(self, auth: str, base: str = LIVE_BASE, http=None, sleep=None):
+        self.base = base.rstrip("/")
+        self._auth = auth
+        self.http = http or _worker_http
+        self.sleep = sleep or time.sleep
+
+    def call(self, method: str, path: str, ok404: bool = False):
+        url = self.base + path
+        status, data, retry_after = 0, None, None
+        for attempt in range(self.ATTEMPTS):
+            status, data, retry_after = self.http(method, url, {"Authorization": self._auth},
+                                                  b"" if method == "POST" else None)
+            if status in (0, 500, 502, 504) and attempt < self.ATTEMPTS - 1:
+                self.sleep(2 * (attempt + 1))
+                continue
+            break
+        err = data if isinstance(data, dict) else {}
+        msg = str(err.get("error") or "")[:200]
+        code = err.get("code")
+        if 200 <= status < 300:
+            return data
+        if status == 404 and ok404:
+            return None
+        if status == 401:
+            raise SetupNeeded(
+                f"Worker {self.base} rejected the Authorization header (401): WEBHOOK_AUTH is not set on the "
+                f"Worker yet, or differs from {WEBHOOK_FILE}. Run:\n  {SET_SECRETS_CMD}")
+        if status == 503 and code == "rate-limited":
+            raise RateLimitExhausted(f"Strava rate limit (via Worker): {msg} Retry-After {retry_after or '?'} s.")
+        if status == 503 and code in ("not-configured", "strava-auth"):
+            hint = ("  (first `python tools/strava_sync.py auth` if the Strava token was revoked, then "
+                    "`-Only STRAVA_REFRESH_TOKEN`)" if code == "strava-auth" else "")
+            raise SetupNeeded(f"Worker is not ready ({code}): {msg}\nRun:  {SET_SECRETS_CMD}{hint}")
+        if status == 0:
+            raise ApiError(0, f"Worker {self.base} unreachable ({msg}); check {self.base}/live/health "
+                              "(--direct only in an emergency)")
+        raise ApiError(status, f"Worker {method} {path.split('?')[0]}: {msg or 'error'}")
+
+    def hr_list(self, since: date) -> list[dict]:
+        data = self.call("GET", f"/live/hr?since={since.isoformat()}")
+        items = data.get("activities") if isinstance(data, dict) else data
+        if not isinstance(items, list):
+            raise ApiError(502, "Worker /live/hr returned an unexpected shape")
+        return items
+
+    def hr_doc(self, strava_id) -> dict | None:
+        """The raw HR doc, or None when the activity has no heart-rate stream (404)."""
+        return self.call("GET", f"/live/hr/{int(strava_id)}", ok404=True)
+
+    def strava_sync(self, days: int, dry_run: bool, force: bool) -> dict:
+        q = {"days": days}
+        if dry_run:
+            q["dryRun"] = 1
+        if force:
+            q["force"] = 1
+        return self.call("POST", "/live/strava/sync?" + urllib.parse.urlencode(q))
+
+
+def normalize_hr_doc(doc: dict, strava_id) -> dict:
+    """Validate a Worker HR doc and rebuild it in hr_cache_doc's exact key order."""
+    try:
+        vals = doc["streams"]["heart_rate"]["values"]
+        ts = doc["timestamps"]
+        ok = (isinstance(vals, list) and isinstance(ts, list) and 0 < len(vals) == len(ts)
+              and int(doc["sampleCount"]) == len(vals) and str(doc["stravaId"]) == str(strava_id)
+              and doc.get("source") == "strava")
+        parse_ts(doc["startTime"])
+    except (KeyError, TypeError, ValueError):
+        ok = False
+    if not ok:
+        raise ApiError(502, f"Worker returned a malformed HR doc for activity {strava_id}")
+    return {"startTime": doc["startTime"], "sampleCount": len(vals),
+            "streams": {"heart_rate": {"unit": doc["streams"]["heart_rate"].get("unit") or "bpm",
+                                       "values": vals}},
+            "timestamps": ts, "source": "strava", "stravaId": doc["stravaId"], "name": doc.get("name") or ""}
+
+
+def write_hr_file(path: Path, doc: dict) -> None:
+    tmp = path.with_name(path.name + ".tmp")
+    with open(tmp, "w", encoding="utf-8", newline="") as f:
+        f.write(json.dumps(doc, ensure_ascii=False, separators=(",", ":")))
+    os.replace(tmp, path)
+
+
+def fetch_hr_via_worker(client: WorkerClient, since: date, out_dir: Path,
+                        force: bool = False, dry_run: bool = False) -> dict:
+    """List strength activities via the Worker and write raw/strava_hr/<local date>_<id>.json
+    (same naming and bytes as the direct path). Returns counts."""
+    items = client.hr_list(since)
+    if not dry_run:
+        out_dir.mkdir(parents=True, exist_ok=True)
+    c = {"activities": len(items), "written": 0, "skipped_existing": 0, "no_hr_stream": 0, "would_fetch": 0}
+    for it in sorted(items, key=lambda x: str(x.get("startTime") or "")):
+        sid = it["stravaId"]
+        local_day = str(it.get("startDateLocal") or it["startTime"])[:10]
+        path = out_dir / f"{local_day}_{sid}.json"
+        if path.exists() and not force:
+            c["skipped_existing"] += 1
+            continue
+        if dry_run:
+            c["would_fetch"] += 1
+            print(f"  would GET {client.base}/live/hr/{sid} -> {path.name}")
+            continue
+        doc = client.hr_doc(sid)
+        if doc is None:
+            c["no_hr_stream"] += 1
+            continue
+        write_hr_file(path, normalize_hr_doc(doc, sid))
+        c["written"] += 1
+    return c
+
+
+def use_worker(args) -> bool:
+    """--via-worker / --direct; otherwise ON when secrets/hevy-webhook.txt exists."""
+    if getattr(args, "direct", False):
+        return False
+    if getattr(args, "via_worker", False):
+        return True
+    return WEBHOOK_FILE.exists()
+
+
+# --------------------------------------------------------------------------- #
 # Hevy sources
 # --------------------------------------------------------------------------- #
 
@@ -519,6 +707,98 @@ def hevy_from_cache(since: datetime) -> list[dict]:
 # Commands
 # --------------------------------------------------------------------------- #
 
+def _selftest_worker_client() -> list[tuple[str, bool]]:
+    """Worker client against a scripted HTTP function (no network, nothing outside a temp dir)."""
+    import tempfile
+    auth = "ab" * 32
+    base = "https://worker.test"
+    act = {"id": 555, "start_date": "2026-09-26T07:08:00Z", "start_date_local": "2026-09-26T09:08:00Z",
+           "name": "Legs A"}
+    expected = hr_cache_doc(act, {"time": {"data": [0, 1, 2]}, "heartrate": {"data": [90, 95, 99]}})
+    listing = [{"stravaId": 555, "name": "Legs A", "startTime": expected["startTime"],
+                "startDateLocal": act["start_date_local"], "workoutId": "h1", "sampleCount": 3},
+               {"stravaId": 777, "name": "No strap", "startTime": "2026-09-27T07:00:00.000Z",
+                "startDateLocal": "2026-09-27T09:00:00Z", "workoutId": None, "sampleCount": 0}]
+    calls: list[tuple] = []
+
+    def fake(routes):
+        def f(method, url, headers, body=None):
+            calls.append((method, url, headers.get("Authorization")))
+            for m, suffix, resp in routes:
+                if m == method and url.endswith(suffix):
+                    return resp() if callable(resp) else resp
+            return 404, {"ok": False, "code": "not-found"}, None
+        return f
+
+    ok_routes = [("GET", "/live/hr?since=2026-09-20", (200, listing, None)),
+                 ("GET", "/live/hr/555", (200, dict(expected), None)),
+                 ("GET", "/live/hr/777", (404, {"ok": False, "code": "no-hr"}, None)),
+                 ("POST", "/live/strava/sync?days=3&dryRun=1",
+                  (200, {"ok": True, "updated": 1, "skipped": 0, "unchanged": 0, "unmatched": 0,
+                         "activities": 1, "workouts": 1, "items": []}, None))]
+    out: list[tuple[str, bool]] = []
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        cl = WorkerClient(auth, base=base, http=fake(ok_routes), sleep=lambda _s: None)
+        dry = fetch_hr_via_worker(cl, date(2026, 9, 20), d, dry_run=True)
+        out.append(("worker fetch-hr dry-run: lists only, writes nothing",
+                    dry["would_fetch"] == 2 and not any(d.iterdir())
+                    and [c[1] for c in calls] == [f"{base}/live/hr?since=2026-09-20"]))
+        calls.clear()
+        c = fetch_hr_via_worker(cl, date(2026, 9, 20), d)
+        f555 = d / "2026-09-26_555.json"
+        same_bytes = f555.exists() and f555.read_text(encoding="utf-8") == json.dumps(
+            expected, ensure_ascii=False, separators=(",", ":"))
+        out.append(("worker fetch-hr: same file name + bytes as direct mode, 404 -> no_hr",
+                    c["written"] == 1 and c["no_hr_stream"] == 1 and same_bytes
+                    and not (d / "2026-09-27_777.json").exists()))
+        out.append(("worker calls carry the Authorization header",
+                    bool(calls) and all(a == auth for _m, _u, a in calls)))
+        calls.clear()
+        again = fetch_hr_via_worker(cl, date(2026, 9, 20), d)
+        out.append(("worker fetch-hr: existing file skipped (no re-download)",
+                    again["skipped_existing"] == 1 and not any(u.endswith("/555") for _m, u, _a in calls)))
+        bad = WorkerClient(auth, base=base, sleep=lambda _s: None, http=fake([
+            ("GET", "/live/hr?since=2026-09-20", (200, listing[:1], None)),
+            ("GET", "/live/hr/555", (200, {**expected, "sampleCount": 99}, None))]))
+        try:
+            fetch_hr_via_worker(bad, date(2026, 9, 20), d, force=True)
+            malformed = False
+        except ApiError as e:
+            malformed = e.status == 502
+        out.append(("worker fetch-hr: malformed doc rejected", malformed))
+
+    ns = argparse.Namespace(days=3, dry_run=True, force=False)
+    calls.clear()
+    rc = cmd_sync_via_worker(ns, WorkerClient(auth, base=base, http=fake(ok_routes), sleep=lambda _s: None))
+    out.append(("worker sync: POST /live/strava/sync?days=3&dryRun=1",
+                rc == 0 and calls == [("POST", f"{base}/live/strava/sync?days=3&dryRun=1", auth)]))
+
+    def raises(resp, exc):
+        seq = iter(resp)
+        slept: list[int] = []
+        cl = WorkerClient(auth, base=base, http=lambda *_a, **_k: next(seq), sleep=slept.append)
+        try:
+            cl.hr_list(date(2026, 9, 20))
+        except exc:
+            return slept
+        except Exception:  # noqa: BLE001 - wrong type = failed check
+            return None
+        return None
+    out.append(("worker 401 -> SetupNeeded (exit 2)",
+                raises([(401, {"ok": False, "code": "unauthorized"}, None)], SetupNeeded) == []))
+    out.append(("worker 503 not-configured -> SetupNeeded (exit 2)",
+                raises([(503, {"code": "not-configured", "error": "x"}, None)], SetupNeeded) == []))
+    out.append(("worker 503 rate-limited -> RateLimitExhausted (exit 3)",
+                raises([(503, {"code": "rate-limited", "error": "x"}, "60")], RateLimitExhausted) == []))
+    out.append(("worker unreachable -> 2 retries (2 s, 4 s) then ApiError (exit 1)",
+                raises([(0, {"error": "down"}, None)] * 3, ApiError) == [2, 4]))
+    out.append(("route: --direct / --via-worker flags win over the default",
+                use_worker(argparse.Namespace(direct=True, via_worker=False)) is False
+                and use_worker(argparse.Namespace(direct=False, via_worker=True)) is True))
+    return out
+
+
 def cmd_selftest(_args) -> int:
     sample = {
         "title": "Legs A",
@@ -573,6 +853,7 @@ def cmd_selftest(_args) -> int:
     except ApiError as e:
         no_retry_4xx = e.status == 404
     checks.append(("hevy retry on 429/5xx with backoff", got[0] == 200 and slept == [7, 4] and no_retry_4xx))
+    checks.extend(_selftest_worker_client())
 
     print(line)
     print(f"Work tonnage {tonnage:,.0f} kg")
@@ -670,7 +951,28 @@ def cmd_auth(_args) -> int:
     return 0
 
 
+def cmd_sync_via_worker(args, client: WorkerClient | None = None) -> int:
+    client = client or WorkerClient(load_webhook_auth())
+    mode = "DRY-RUN" if args.dry_run else "LIVE"
+    print(f"[{mode}] via Worker {client.base}: POST /live/strava/sync?days={args.days}"
+          + (" (force)" if args.force else "") + "; Hevy source: the Worker's Hevy API key")
+    r = client.strava_sync(args.days, args.dry_run, args.force)
+    for it in r.get("items") or []:
+        label = f"{str(it.get('start') or '')[:16]}Z '{it.get('name')}' (id {it.get('stravaId')})"
+        extra = f" -> '{it['newName']}'" if it.get("newName") else ""
+        print(f"- {str(it.get('action')).upper():<12} {label}{extra}")
+    skipped = int(r.get("skipped") or 0) + int(r.get("unchanged") or 0)
+    print(f"Done: {r.get('updated', 0)} {'planned' if args.dry_run else 'updated'}, {skipped} skipped, "
+          f"{r.get('unmatched', 0)} unmatched"
+          + (f", {r['deferred']} deferred (run again)" if r.get("deferred") else "")
+          + f" (Strava strength activities {r.get('activities', 0)}, Hevy workouts {r.get('workouts', 0)}).")
+    return 0
+
+
 def cmd_sync(args) -> int:
+    if use_worker(args):
+        return cmd_sync_via_worker(args)
+    print(DIRECT_WARNING)
     creds = load_strava()
     strava = Strava(creds)
     strava.ensure_token()
@@ -737,23 +1039,39 @@ def hr_cache_doc(act: dict, streams: dict) -> dict | None:
 
 
 def cmd_fetch_hr(args) -> int:
-    creds = load_strava()
-    strava = Strava(creds)
-    strava.ensure_token()
-
     if args.since:
         since = datetime.combine(date.fromisoformat(args.since), datetime.min.time(), timezone.utc)
     else:
         since = datetime.now(timezone.utc) - timedelta(days=args.days if args.days is not None else 14)
+
+    if use_worker(args):
+        client = WorkerClient(load_webhook_auth())
+        print(f"fetch-hr via Worker: GET {client.base}/live/hr?since={since.date().isoformat()}"
+              + ("  [DRY-RUN: nothing is written]" if args.dry_run else ""))
+        c = fetch_hr_via_worker(client, since.date(), STRAVA_HR_DIR, force=args.force, dry_run=args.dry_run)
+        print(f"fetch-hr: since {since:%Y-%m-%d} activities={c['activities']} "
+              + (f"would_fetch={c['would_fetch']} " if args.dry_run else f"written={c['written']} ")
+              + f"skipped_existing={c['skipped_existing']} no_hr_stream={c['no_hr_stream']} (via worker)")
+        return 0
+
+    print(DIRECT_WARNING)
+    creds = load_strava()
+    strava = Strava(creds)
+    strava.ensure_token()
     acts = [a for a in strava.list_activities(since)
             if (a.get("sport_type") or a.get("type")) in STRENGTH_SPORTS]
-    STRAVA_HR_DIR.mkdir(parents=True, exist_ok=True)
-    written = skipped = no_hr = 0
+    if not args.dry_run:
+        STRAVA_HR_DIR.mkdir(parents=True, exist_ok=True)
+    written = skipped = no_hr = planned = 0
     for act in sorted(acts, key=lambda a: a["start_date"]):
         local_day = (act.get("start_date_local") or act["start_date"])[:10]
         path = STRAVA_HR_DIR / f"{local_day}_{act['id']}.json"
         if path.exists() and not args.force:
             skipped += 1
+            continue
+        if args.dry_run:
+            planned += 1
+            print(f"  would fetch streams of {act['id']} -> {path.name}")
             continue
         try:
             streams = strava.request("GET", f"/activities/{act['id']}/streams",
@@ -767,14 +1085,21 @@ def cmd_fetch_hr(args) -> int:
         if doc is None:
             no_hr += 1
             continue
-        tmp = path.with_name(path.name + ".tmp")
-        with open(tmp, "w", encoding="utf-8", newline="") as f:
-            f.write(json.dumps(doc, ensure_ascii=False, separators=(",", ":")))
-        os.replace(tmp, path)
+        write_hr_file(path, doc)
         written += 1
-    print(f"fetch-hr: since {since:%Y-%m-%d} activities={len(acts)} written={written} "
-          f"skipped_existing={skipped} no_hr_stream={no_hr}")
+    print(f"fetch-hr: since {since:%Y-%m-%d} activities={len(acts)} "
+          + (f"would_fetch={planned} " if args.dry_run else f"written={written} ")
+          + f"skipped_existing={skipped} no_hr_stream={no_hr} (direct)")
     return 0
+
+
+def _route_args(sp) -> None:
+    g = sp.add_mutually_exclusive_group()
+    g.add_argument("--via-worker", action="store_true",
+                   help="go through the hevy-hook Worker (default when secrets/hevy-webhook.txt exists)")
+    g.add_argument("--direct", action="store_true",
+                   help="EMERGENCY: call Strava directly with secrets/strava.json (second token owner; "
+                        "afterwards `auth` + set_live_secrets.ps1 -Only STRAVA_REFRESH_TOKEN)")
 
 
 def main(argv=None) -> int:
@@ -791,12 +1116,16 @@ def main(argv=None) -> int:
     s.add_argument("--days", type=int, default=7)
     s.add_argument("--dry-run", action="store_true", help="print planned changes only")
     s.add_argument("--force", action="store_true", help="also rewrite activities already synced")
-    s.add_argument("--hevy-source", choices=["api", "freddy-cache"], default="api")
+    s.add_argument("--hevy-source", choices=["api", "freddy-cache"], default="api",
+                   help="direct mode only; via the Worker the Worker's Hevy API key is used")
+    _route_args(s)
     sub.add_parser("selftest", help="offline test of the description builder")
     f = sub.add_parser("fetch-hr", help="cache 1 s HR streams of strength activities")
     f.add_argument("--days", type=int, default=None, help="window in days (default 14)")
     f.add_argument("--since", metavar="YYYY-MM-DD", help="window start (overrides --days)")
     f.add_argument("--force", action="store_true", help="re-fetch files that already exist")
+    f.add_argument("--dry-run", action="store_true", help="list what would be fetched; write nothing")
+    _route_args(f)
     args = p.parse_args(argv)
 
     try:

@@ -96,6 +96,15 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 #swrap.mobile button{padding:10px 14px!important;min-height:40px;min-width:40px}
 @media(max-width:560px){#swrap button{padding:10px 14px!important;min-height:40px;min-width:40px}}
 #errBox{display:none;font-size:13px;line-height:1.5;color:var(--ts);margin:0 0 1rem}
+/* live card (Hevy webhook feed, before the morning rebuild) */
+.live{border:1.5px solid var(--acc);border-radius:12px;padding:12px 14px;margin:0 0 1.25rem;box-sizing:border-box;width:100%;max-width:100%;min-width:0;overflow-wrap:anywhere}
+.livetop{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap;margin:0 0 8px}
+.lbadge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.08em;line-height:1.4;background:#A32D2D;color:#fff}
+.ldot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;flex:none;animation:lpulse 1.4s ease-in-out infinite}
+@keyframes lpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.65)}}
+@media(prefers-reduced-motion:reduce){.ldot{animation:none}}
+.live .tcards{margin:0 0 12px}
+#swrap.mobile .live{padding:10px}
 </style>
 </head>
 <body>
@@ -110,6 +119,25 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 </div>
 
 <div id="errBox"></div>
+
+<div id="liveSec" class="live" style="display:none;">
+  <div class="livetop"><span class="lbadge"><span class="ldot" aria-hidden="true"></span><span data-i="liveB">UŽIVO</span></span><span class="tlab" id="liveUpd" style="font-size:12px;"></span></div>
+  <div class="btnrow" id="livePick"></div>
+  <div class="shead" id="liveHead"></div>
+  <div class="chiprow" id="liveBadges"></div>
+  <div class="tcards" id="liveTot"></div>
+  <div class="sh2" data-i="liveMusH">MIŠIĆI U OVOM TRENINGU — TEŠKE SERIJE</div>
+  <div class="chiprow" id="liveMus"></div>
+  <p class="tlab note" data-i="liveMusNote" style="margin:0 0 10px;"></p>
+  <div id="liveHrBlock" style="display:none;">
+    <div id="livewrap" style="position:relative;width:100%;height:200px;margin:0 0 0.4rem;">
+      <canvas id="livec" role="img" data-ia="aLive" aria-label=""></canvas>
+    </div>
+  </div>
+  <p class="tlab note" id="liveHrNote" style="margin:0 0 10px;"></p>
+  <div class="tblwrap" id="liveTbl"></div>
+  <div class="expert" data-role="coach" id="x-live" style="margin:0;"></div>
+</div>
 
 <div id="kpiSec" style="display:none;">
 <div class="tcards">
@@ -199,11 +227,14 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 </div>
 
 <p class="tlab note" id="srcNote" style="margin:10px 2px 4px;"></p>
+<p class="tlab note" id="liveNote" style="margin:0 2px 4px;display:none;"></p>
 <p class="tlab" style="font-size:11px;margin:0 2px 0;"><span data-i="foot">Nadzorna ploča snage</span> · <span data-i="byL">izradio</span> <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+/* live Hevy webhook feed (Worker hevy-hook, see .foreman/live-contract.md) — the LEAD sets the final URL */
+const LIVE_BASE='https://hevy.er45.com';
 let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 let layout='';
 /* language contract: localStorage['dash-lang'] ('hr' | 'en'), default 'hr', read before the first render */
@@ -299,7 +330,26 @@ const T={
   xAcwrLo:"ACWR on sRPE is {a} — under 0.8. There is room to add a set per exercise this week.",
   xAcwrOk:"ACWR on sRPE is {a}, inside 0.8–1.3. Hold the weekly volume and progress the load.",
   xAcwrNa:"ACWR on sRPE needs 28 days of RPE logging; until then use the tonnage ratio ({a}).",
-  xWkAvg:"Last 4 full weeks averaged {t} of work tonnage and {h} hard sets per week."},
+  xWkAvg:"Last 4 full weeks averaged {t} of work tonnage and {h} hard sets per week.",
+  /* ---- live card (Hevy webhook, before the morning rebuild) ---- */
+  liveB:"LIVE",aLive:"Heart rate during the live workout, minutes from the start of the Strava recording",
+  liveUpd:"via the Hevy webhook, before the morning rebuild · checked {t}",
+  liveMeta:"{d} · {s}–{e} · {m} min in Hevy",
+  lsReceived:"received",lsRenamed:"Strava renamed",lsHr:"HR attached",lsPending:"waiting for Strava",lsStravaT:"Strava: {n}",
+  lTon:"Work tonnage",lTonD:"all sets incl. warm-ups {a}",lSets:"Sets",lSetsD:"{w} work sets",lHard:"Hard sets",lHardD:"work sets at RPE ≥ 7",
+  lFail:"To failure",lFailD:"sets",lRpe:"Avg RPE",
+  liveMusH:"MUSCLES IN THIS WORKOUT — HARD SETS",liveWk:"week {w}",
+  liveMusNote:"Bold number = hard sets in this workout (secondary muscles count ½). \"week\" = Monday–Sunday total including this workout; green = 10–20, red = over 20.",
+  liveMusNone:"no hard sets (RPE ≥ 7) logged in this workout",
+  liveHrNote:"HR per set is matched in the morning rebuild",
+  liveNoHr:"HR arrives here once Strava has the activity; HR per set is matched in the morning rebuild.",
+  liveNa:"Live: unavailable",liveOk:"Live: checked {t} · no workouts newer than the morning rebuild",
+  lxNoRpe:"No RPE logged in this workout — hard sets and the failure rule need RPE on every work set.",
+  lxWkOver:"This week, including this workout, above 20 hard sets: {l}. Keep these muscles out of the rest of the week.",
+  lxWkBand:"This week, including this workout, inside the 10–20 band: {l}.",
+  lxWkUnder:"Trained here but still under 10 hard sets this week: {l}. There is room to add sets before Sunday.",
+  lxWkUnderEnd:"Trained here but under 10 hard sets for this week: {l}. Add 2–4 hard sets for each next week.",
+  lxPending:"Strava has no matching activity yet — the rename, description and HR follow on their own (retried every 10 min for 24 h)."},
  hr:{title:"PATRIKOVA SNAGA — SERIJE, OPTEREĆENJE I PULS PO SERIJI",docT:"Patrikova snaga — serije, opterećenje i puls po seriji",byL:"izradio",
   aFs:"Veliki font",aHrc:"Puls kroz trening: zagrijavanje je osjenčano, a svaka zabilježena serija ima oznaku na svom uparenom vrhu pulsa",
   aExc:"Napredak po vježbi: linija najboljeg e1RM-a, točke težine najteže serije, RPE i vrh pulsa na modalnoj radnoj težini",
@@ -378,7 +428,26 @@ const T={
   xAcwrLo:"ACWR na sRPE je {a} — ispod 0,8. Ima prostora za jednu seriju više po vježbi ovaj tjedan.",
   xAcwrOk:"ACWR na sRPE je {a}, unutar 0,8–1,3. Zadrži tjedni volumen i napreduj težinom.",
   xAcwrNa:"ACWR na sRPE treba 28 dana bilježenja RPE-a; do tada koristi omjer na tonaži ({a}).",
-  xWkAvg:"Zadnja 4 puna tjedna u prosjeku {t} radne tonaže i {h:tserija} tjedno."}
+  xWkAvg:"Zadnja 4 puna tjedna u prosjeku {t} radne tonaže i {h:tserija} tjedno.",
+  /* ---- kartica uživo (Hevy webhook, prije jutarnjeg osvježavanja) ---- */
+  liveB:"UŽIVO",aLive:"Puls tijekom treninga uživo, minute od početka Strava zapisa",
+  liveUpd:"preko Hevy webhooka, prije jutarnjeg osvježavanja · provjereno {t}",
+  liveMeta:"{d} · {s}–{e} · {m} min u Hevyju",
+  lsReceived:"primljeno",lsRenamed:"Strava preimenovana",lsHr:"puls dodan",lsPending:"čeka Stravu",lsStravaT:"Strava: {n}",
+  lTon:"Radna tonaža",lTonD:"sve serije uklj. zagrijavanje {a}",lSets:"Serije",lSetsD:"radnih serija: {w}",lHard:"Teške serije",lHardD:"radne serije na RPE ≥ 7",
+  lFail:"Do otkaza",lFailD:"serije",lRpe:"Prosj. RPE",
+  liveMusH:"MIŠIĆI U OVOM TRENINGU — TEŠKE SERIJE",liveWk:"tjedan {w}",
+  liveMusNote:"Podebljani broj = teške serije u ovom treningu (sekundarni mišići broje ½). \"tjedan\" = zbroj od ponedjeljka do nedjelje uključujući ovaj trening; zeleno = 10–20, crveno = iznad 20.",
+  liveMusNone:"u ovom treningu nema teških serija (RPE ≥ 7)",
+  liveHrNote:"Uparivanje pulsa po setovima stiže s jutarnjim osvježavanjem",
+  liveNoHr:"Puls stiže ovdje čim Strava ima aktivnost; uparivanje pulsa po setovima stiže s jutarnjim osvježavanjem.",
+  liveNa:"Uživo: nedostupno",liveOk:"Uživo: provjereno {t} · nema treninga novijih od jutarnjeg osvježavanja",
+  lxNoRpe:"U ovom treningu nije zabilježen RPE — teške serije i pravilo otkaza trebaju RPE na svakoj radnoj seriji.",
+  lxWkOver:"Ovaj tjedan, uključujući ovaj trening, iznad 20 teških serija: {l}. Ostatak tjedna ne opterećuj te mišiće.",
+  lxWkBand:"Ovaj tjedan, uključujući ovaj trening, u rasponu 10–20: {l}.",
+  lxWkUnder:"Trenirano ovdje, ali ovaj tjedan još ispod 10 teških serija: {l}. Ima prostora za dodatne serije do nedjelje.",
+  lxWkUnderEnd:"Trenirano ovdje, ali ovaj tjedan ispod 10 teških serija: {l}. Dodaj 2–4 teške serije za svaki sljedeći tjedan.",
+  lxPending:"Strava još nema pripadajuću aktivnost — preimenovanje, opis i puls slijede sami (ponovni pokušaj svakih 10 min kroz 24 h)."}
 };
 const MUS={
  en:{abdominals:"Abs",adductors:"Adductors",abductors:"Abductors",biceps:"Biceps",calves:"Calves",chest:"Chest",forearms:"Forearms",glutes:"Glutes",hamstrings:"Hamstrings",lats:"Lats",lower_back:"Lower back",quadriceps:"Quads",shoulders:"Shoulders",traps:"Traps",triceps:"Triceps",upper_back:"Upper back",neck:"Neck",cardio:"Cardio",full_body:"Full body",other:"Other"},
@@ -955,13 +1024,149 @@ function renderExperts(){
  }else xBox('x-wk',[]);
 }
 
+/* ================= live card =================
+   GET {LIVE_BASE}/live/recent?days=14 (Hevy webhook preview). Shown only for workouts newer than the newest one in
+   strength-data.json; the morning rebuild stays the source of truth. Any error/timeout/CORS failure = silent fallback. */
+let LIVE=null,LIVE_OK=null,LIVE_T=null,liveSel=null,livec=null,liveTimer=null,liveBusy=false;
+const hhmm=d=>String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+const LSTAT={received:['lsReceived',''],'strava-renamed':['lsRenamed',''],'hr-attached':['lsHr','good'],'strava-pending':['lsPending','warn']};
+function liveFetch(){
+ if(liveBusy)return;liveBusy=true;
+ let ac=null,to=null;try{ac=new AbortController();to=setTimeout(()=>{try{ac.abort();}catch(e){}},4000);}catch(e){ac=null;}
+ let p;
+ try{p=fetch(LIVE_BASE+'/live/recent?days=14',{cache:'no-store',credentials:'omit',signal:ac?ac.signal:undefined});}catch(e){p=Promise.reject(e);}
+ p.then(r=>{if(!r.ok)throw new Error(String(r.status));return r.json();})
+  .then(j=>{if(!j||!Array.isArray(j.workouts))throw new Error('shape');LIVE=j;LIVE_OK=true;})
+  .catch(()=>{LIVE=null;LIVE_OK=false;})
+  .then(()=>{if(to)clearTimeout(to);LIVE_T=new Date();liveBusy=false;safe(renderLive);});
+}
+function liveStart(){if(liveTimer||document.visibilityState==='hidden')return;liveFetch();liveTimer=setInterval(liveFetch,60000);}
+function liveStop(){if(liveTimer){clearInterval(liveTimer);liveTimer=null;}}
+/* live workouts newer than the newest workout in strength-data.json (by start time; ids already built are skipped) */
+function liveNewer(){
+ if(!S||!LIVE)return [];
+ const ids={};let top=-Infinity;
+ (S.workouts||[]).forEach(w=>{if(w.id)ids[w.id]=1;const t=Date.parse(w.start||'');if(isFinite(t)&&t>top)top=t;});
+ return (LIVE.workouts||[]).filter(w=>w&&w.id&&!ids[w.id]&&isFinite(Date.parse(w.start||''))&&Date.parse(w.start)>top)
+  .sort((a,b)=>Date.parse(b.start)-Date.parse(a.start));
+}
+const lvHard=s=>s&&s.type!=='warmup'&&nz(s.rpe)!=null&&s.rpe>=7;
+const lvFail=s=>s&&(s.type==='failure'||(s.type!=='warmup'&&nz(s.rpe)!=null&&s.rpe>=9.5));
+/* hard sets per muscle for the Mon–Sun week of `w`: strength-data muscleWeekly + every newer live workout in that week up to `w` */
+function liveWeekMus(w,list){
+ const st=new Date(w.start),iso=isoD(monOf(st)),end=Date.parse(w.start);
+ const base=((S.muscleWeekly||[]).find(x=>x.week===iso)||{}).m||{};const out={};
+ Object.entries(base).forEach(([k,v])=>{out[k]=(out[k]||0)+(nz(v&&v.hardSets)||0);});
+ list.forEach(x=>{const t=Date.parse(x.start);if(t>end||isoD(monOf(new Date(t)))!==iso)return;
+  Object.entries(x.muscles||{}).forEach(([k,v])=>{out[k]=(out[k]||0)+(nz(v&&v.hardSets)||0);});});
+ return out;
+}
+function makeLiveChart(){
+ if(livec)return;
+ livec=new Chart(document.getElementById('livec'),{type:'line',
+  data:{datasets:[{label:'hr',data:[],borderColor:hrLine,borderWidth:1.4,pointRadius:0,pointHoverRadius:3,pointHitRadius:6,tension:0.15}]},
+  options:{locale:LOC(),responsive:true,maintainAspectRatio:false,animation:false,parsing:true,layout:{padding:{top:6}},
+   interaction:{mode:'nearest',axis:'x',intersect:false},
+   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c.length?f1(c[0].parsed.x)+' min':'',label:c=>f0(c.parsed.y)+' bpm'}}},
+   scales:{x:{type:'linear',min:0,title:{display:true,text:'min',color:txt},grid:{color:grid},ticks:{color:txt,stepSize:10,font:{size:layout==='mobile'?9:11}}},
+    y:{min:60,max:180,title:{display:true,text:'bpm',color:txt},grid:{color:grid},ticks:{color:txt,stepSize:20,font:{size:layout==='mobile'?9:11}}}}},
+  plugins:[bgPlug,hrRefPlug]});
+}
+function setLive(id){liveSel=id;safe(renderLive);}
+function renderLive(){
+ const L=LBL,list=liveNewer();
+ const note=document.getElementById('liveNote');
+ if(note){let t='';
+  if(LIVE_OK===false)t=L.liveNa;
+  else if(LIVE_OK&&S&&!list.length)t=tpl(L.liveOk,{t:hhmm(LIVE_T||new Date())});
+  note.textContent=t;note.style.display=t?'':'none';}
+ if(!list.length){show('liveSec',false);return;}
+ let w=list.find(x=>x.id===liveSel);if(!w){w=list[0];liveSel=w.id;}
+ show('liveSec',true);
+ setTxt('liveUpd',tpl(L.liveUpd,{t:hhmm(LIVE_T||new Date())}));
+ /* several workouts since the rebuild: one button each */
+ const pick=document.getElementById('livePick');
+ if(list.length>1){pick.innerHTML='';list.forEach(x=>{const d=new Date(x.start);const b=document.createElement('button');
+   b.textContent=fmtD(isoD(d))+' '+hhmm(d);b.title=x.title||'';b.setAttribute('data-l',x.id);b.onclick=()=>setLive(x.id);pick.appendChild(b);});
+  pick.style.display='';}
+ else{pick.innerHTML='';pick.style.display='none';}
+ const st=new Date(w.start),en=w.end?new Date(w.end):null,day=isoD(st);
+ const mins=en&&!isNaN(en)?(en-st)/60000:null;
+ document.getElementById('liveHead').innerHTML='<b>'+esc(w.title||'—')+'</b><br><span class="tlab">'
+  +esc(tpl(L.liveMeta,{d:fmtDY(day),s:hhmm(st),e:en&&!isNaN(en)?hhmm(en):'—',m:f0(mins)}))+'</span>';
+ const sm=LSTAT[w.status]||LSTAT.received;
+ let bh=chipEl(sm[1],'<b>'+esc(L[sm[0]])+'</b>');
+ if(w.strava&&w.strava.name)bh+=chipEl('',esc(tpl(L.lsStravaT,{n:w.strava.name})));
+ document.getElementById('liveBadges').innerHTML=bh;
+ /* totals */
+ const t=w.totals||{},hasRpe=nz(t.avgRPE)!=null;
+ const card=(lab,v,d)=>'<div class="tcard"><div class="tlab">'+esc(lab)+'</div><div class="kv">'+esc(v)+'</div><div class="tlab kd">'+esc(d||'')+'</div></div>';
+ document.getElementById('liveTot').innerHTML=
+  card(L.lTon,fmtT(t.tonnageWork),tpl(L.lTonD,{a:fmtT(t.tonnageAll)}))
+  +card(L.lSets,f0(t.sets),tpl(L.lSetsD,{w:f0(t.workSets)}))
+  +card(L.lHard,hasRpe?fH(t.hardSets):'—',hasRpe?L.lHardD:L.kRpeNo)
+  +card(L.lFail,f0(t.failureSets),L.lFailD)
+  +card(L.lRpe,hasRpe?f1(t.avgRPE):'—',hasRpe?L.kRpeD:L.kRpeNo);
+ /* muscles: this workout + the Mon–Sun week including it */
+ const wk=liveWeekMus(w,list);
+ const mus=Object.entries(w.muscles||{}).map(([k,v])=>({k,h:nz(v&&v.hardSets)||0})).filter(x=>x.h>0).sort((a,b)=>b.h-a.h);
+ document.getElementById('liveMus').innerHTML=mus.length?mus.map(x=>{const tw=wk[x.k]||x.h;
+   return chipEl(tw>20?'bad':(tw>=10?'good':''),'<b>'+fH(x.h)+'</b> '+esc(mName(x.k))+' · '+esc(tpl(L.liveWk,{w:fH(tw)})));}).join('')
+  :chipEl('',esc(L.liveMusNone));
+ /* HR */
+ const hr=w.hr,ok=hr&&Array.isArray(hr.t)&&Array.isArray(hr.v)&&hr.t.length>1;
+ if(ok){
+  show('liveHrBlock',true);makeLiveChart();
+  const pts=[];for(let i=0;i<hr.t.length;i++){const x=nz(hr.t[i]),y=nz(hr.v[i]);if(x!=null&&y!=null)pts.push({x:x/60,y});}
+  const ds=livec.data.datasets[0];ds.data=pts;ds.borderColor=hrLine;
+  const tmax=pts.length?pts[pts.length-1].x:10;livec.options.scales.x.max=Math.max(10,Math.ceil(tmax/5)*5);
+  livec.options.scales.x.ticks.stepSize=tmax>90?20:10;
+  const lo=pts.length?Math.min.apply(null,pts.map(p=>p.y)):60;livec.options.scales.y.min=lo<60?40:60;
+  livec.options.locale=LOC();
+  livec.update('none');
+  setTxt('liveHrNote',L.liveHrNote);
+ }else{show('liveHrBlock',false);setTxt('liveHrNote',L.liveNoHr);}
+ /* exercises + sets */
+ let h='<table class="st"><thead><tr><th>#</th><th class="ld">'+esc(L.thLoad)+'</th></tr></thead>';
+ (w.exercises||[]).forEach((e,i)=>{const col=EXC[i%EXC.length],sets=e.sets||[];
+  h+='<tbody><tr class="exh"><td colspan="2"><span class="swc" style="background:'+col+';display:inline-block;margin-right:6px;vertical-align:0;"></span><b>'+esc(e.title)+'</b> <span class="tlab" style="font-size:11px;">· '
+   +esc(tpl(L.exMeta,{m:mName(e.primary),q:eqName(e.equipment),h:fH(sets.filter(lvHard).length)}))+'</span></td></tr>';
+  let n=0,wu=0;
+  sets.forEach(s=>{const isW=s.type==='warmup';const lab=isW?L.abW+(++wu):String(++n);
+   h+='<tr class="'+(isW?'wu':'')+'" title="'+esc(typeLbl(s))+'"><td>'+esc(lab)+'</td><td class="ld">'+esc(loadStr(s))
+    +(lvFail(s)?'<span class="fl" title="'+esc(L.tFail)+'">'+esc(L.abF)+'</span>':'')+'</td></tr>';});
+  if(e.notes)h+='<tr class="exn"><td colspan="2">'+esc(L.noteL)+': '+esc(e.notes)+'</td></tr>';
+  h+='</tbody>';});
+ h+='</table>';
+ document.getElementById('liveTbl').innerHTML=h;
+ /* coach */
+ const b=[];
+ if(!hasRpe)b.push(L.lxNoRpe);
+ else{
+  const nf_=nz(t.failureSets)||0;
+  b.push(nf_>=4?tpl(L.xFail,{n:nf_,d:fmtD(day)}):tpl(L.xFailOk,{n:nf_}));
+  const here=mus.map(x=>x.k),prim={};(w.exercises||[]).forEach(e=>{if(e.primary)prim[e.primary]=1;});
+  const v=k=>wk[k]||0,lst=a=>a.map(k=>mName(k)+' '+fH(v(k))).join(', ');
+  const over=Object.keys(wk).filter(k=>v(k)>20).sort((a,c)=>v(c)-v(a));
+  const band=here.filter(k=>v(k)>=10&&v(k)<=20);
+  const under=here.filter(k=>prim[k]&&v(k)<10);
+  if(over.length)b.push(tpl(L.lxWkOver,{l:lst(over)}));
+  if(band.length)b.push(tpl(L.lxWkBand,{l:lst(band)}));
+  if(under.length)b.push(tpl(st.getDay()===0?L.lxWkUnderEnd:L.lxWkUnder,{l:lst(under)}));
+ }
+ if(w.status==='strava-pending')b.push(L.lxPending);
+ xBox('x-live',b);
+ markBtns();
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')liveStop();else liveStart();});
+
 /* ================= shell contract ================= */
 function renderAll(){
  if(!S)return;
  WL=wkList();
  safe(renderKpi);safe(buildSesUI);safe(renderSes);safe(renderMus);
  safe(()=>{if(EXT){fillExSelect();renderEx();}});
- safe(renderWk);safe(renderSrc);safe(renderExperts);
+ safe(renderWk);safe(renderSrc);safe(renderExperts);safe(renderLive);
  markBtns();
 }
 function init(){
@@ -973,7 +1178,7 @@ function init(){
  applyLang(lang);
  applyResponsive();
 }
-function allCharts(){return [hrc,exc,wkc,acc].filter(Boolean);}
+function allCharts(){return [hrc,exc,wkc,acc,livec].filter(Boolean);}
 function applyTheme(t){theme=t;calc();document.getElementById('swrap').classList.toggle('dark',t==='dark');document.body.style.background=BG;
  allCharts().forEach(c=>{const q=c.options.scales;Object.keys(q).forEach(k=>{const s=q[k];
   const keep=(c===exc&&(k==='y1'||k==='y2'));   /* series-coloured RPE / HR axes keep their colour */
@@ -981,6 +1186,7 @@ function applyTheme(t){theme=t;calc();document.getElementById('swrap').classList
  if(hrc&&hrc.data.datasets[0])hrc.data.datasets[0].borderColor=hrLine;
  markBtns();
  if(S&&CUR)safe(()=>{renderSes();});
+ if(LIVE)safe(renderLive);
  allCharts().forEach(c=>c.update('none'));}
 /* errBox text lives in T (EN/HR) and follows the language toggle */
 let ERR=null;
@@ -1005,6 +1211,7 @@ function applyResponsive(){const want=window.innerWidth<560?'mobile':'desktop';i
  document.getElementById('exwrap').style.height=M?'300px':'320px';
  document.getElementById('wkwrap').style.height=M?'280px':'280px';
  document.getElementById('acwrap').style.height=M?'200px':'210px';
+ document.getElementById('livewrap').style.height=M?'180px':'200px';
  allCharts().forEach(c=>{Object.values(c.options.scales).forEach(s=>{if(s.ticks)s.ticks.font={size:M?9:11};});});
  markBtns();
  if(S)safe(()=>{renderSes();renderMus();});
@@ -1019,6 +1226,7 @@ function markBtns(){
  document.querySelectorAll('#sesChips button').forEach(b=>style(b,Number(b.getAttribute('data-w'))===sesIdx));
  document.querySelectorAll('#musMode button').forEach(b=>style(b,b.getAttribute('data-m')===musMode));
  document.querySelectorAll('#gymRow button').forEach(b=>style(b,b.getAttribute('data-g')===gymSel));
+ document.querySelectorAll('#livePick button').forEach(b=>style(b,b.getAttribute('data-l')===liveSel));
 }
 /* internal EN/HR buttons only when opened top-level; embedded, the dashboard's language button drives setLang */
 if(EMBED)['btn-en','btn-hr'].forEach(id=>{const b=document.getElementById(id);if(b)b.style.display='none';});
@@ -1029,6 +1237,7 @@ fetch('strength-data.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
  .then(j=>{S=j;init();})
  .catch(err=>showErr('errLoad',{e:err.message}));
+liveStart();   /* live Hevy feed: polls every 60 s while the tab is visible */
 </script>
 </body>
 </html>

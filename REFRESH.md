@@ -239,6 +239,7 @@ python tools/strava_sync.py sync --days 3
 2. `strava_sync.py fetch-hr --days 3` — 1 Hz heart-rate stream of every Strava
    WeightTraining/Workout activity → `…\strength\raw\strava_hr\<local date>_<strava id>.json`.
    Existing files are skipped (no `--force`). The chest-strap stream is the HR input.
+   It now goes **via the hevy-hook Worker** (`GET https://hevy.er45.com/live/hr…`, see below).
 3. `build_strength.py` — no flags in the routine. Reads the raw cache, matches HR peaks to
    sets, writes `strength-data.json` in the repo root **and** `volWork` into
    `training-data.json` (below). Run it after §1–§3 have written `training-data.json` and
@@ -248,6 +249,21 @@ python tools/strava_sync.py sync --days 3
 4. `strava_sync.py sync --days 3` — renames each Strava weight-training activity to the
    Hevy title and writes the clean set log into its description (footer `— synced from
    Hevy`; already-synced activities are skipped). The routine runs it **without `--dry-run`**.
+   It now goes **via the Worker** (`POST https://hevy.er45.com/live/strava/sync?days=3`).
+
+**Single Strava token owner.** The hevy-hook Worker is the only Strava API client (Strava can
+rotate the refresh token, and two refreshers break each other). Steps 2 and 4 are the same
+commands as before. Because `secrets\hevy-webhook.txt` exists, they call the Worker with that
+value as the `Authorization` header instead of using `secrets\strava.json`. The routine never
+passes `--direct`. `--direct` is a manual emergency switch that makes the local machine a
+second token owner again; afterwards run `python tools/strava_sync.py auth`, then
+`tools\set_live_secrets.ps1 -Only STRAVA_REFRESH_TOKEN`.
+
+**If the Worker is down or not ready**, steps 2 and 4 exit non-zero: 1 = unreachable (retried
+twice) or 5xx, 2 = 401 or secrets missing on the Worker, 3 = Strava rate limit. The routine
+logs the exit code and message in the refresh report and **continues**. Step 3 still builds
+from the HR files already cached, and a missed day is fetched the next morning (existing files
+are skipped, missing ones are fetched). Health check: `https://hevy.er45.com/live/health`.
 
 Exit codes of `strava_sync.py`: 0 ok, **2 = not configured** (missing keys/tokens; message says
 what to do — the routine logs it and continues), 3 = Strava daily rate limit, 1 = other API
@@ -262,7 +278,8 @@ C:\Users\patri\.claude\cache\daily-dashboard\strength\raw\strava_hr\   HR stream
 C:\Users\patri\.claude\cache\daily-dashboard\strength\raw\garmin_hr\   older hand-filled HR streams
 C:\Users\patri\.claude\cache\daily-dashboard\strength\templates.json   Hevy exercise templates
 C:\Users\patri\.claude\cache\daily-dashboard\secrets\hevy.env          HEVY_API_KEY=...
-C:\Users\patri\.claude\cache\daily-dashboard\secrets\strava.json       client id/secret + tokens
+C:\Users\patri\.claude\cache\daily-dashboard\secrets\strava.json       client id/secret + seed token (--direct / auth only)
+C:\Users\patri\.claude\cache\daily-dashboard\secrets\hevy-webhook.txt  WEBHOOK_AUTH for the Worker (steps 2 and 4)
 ```
 
 `ZG_CACHE` overrides the cache root. Secrets are never printed and never committed; `tools/`

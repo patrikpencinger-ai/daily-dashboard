@@ -1,0 +1,19 @@
+name = "hevy-hook"
+main = "src/index.js"
+compatibility_date = "2026-09-29"
+workers_dev = true
+
+# Live Hevy webhook receiver (see README.md). Separate from the static site
+# Worker in the repo root; the site deploy ignores workers/ via .assetsignore.
+
+routes = [{ pattern = "hevy.er45.com", custom_domain = true }]
+
+[[kv_namespaces]]
+binding = "LIVE"
+id = "9d6384fc162e47879e7530297ecebc5c"   # title "LIVE", created 2026-09-29
+
+[triggers]
+crons = ["*/10 * * * *"]
+
+[observability]
+enabled = true

@@ -21,11 +21,17 @@ Oznake: `(wu)` zagrijavanje (ne ulazi u tonažu), `(f)` do otkaza, `(d)` dropset
 
 ```
 python tools/strava_sync.py auth
-python tools/strava_sync.py sync --days 7 [--dry-run] [--force] [--hevy-source api|freddy-cache]
+python tools/strava_sync.py sync --days 7 [--dry-run] [--force] [--hevy-source api|freddy-cache] [--via-worker | --direct]
 python tools/strava_sync.py selftest
-python tools/strava_sync.py fetch-hr [--days N | --since YYYY-MM-DD] [--force]
+python tools/strava_sync.py fetch-hr [--days N | --since YYYY-MM-DD] [--force] [--dry-run] [--via-worker | --direct]
 python tools/hevy_fetch.py [--days N | --all] [--since YYYY-MM-DD]
 ```
+
+**Jedan vlasnik Strava tokena (Worker).** Strava može rotirati refresh token pri svakom osvježavanju. Kad token osvježavaju dva klijenta (Worker `hevy-hook` u KV `strava:tokens` i lokalni `secrets\strava.json`), jedan može poništiti drugoga, a jutarnja rutina tada tiho puca. Zato je **Worker jedini Strava API klijent**. `fetch-hr` i `sync` zadano idu preko Workera kad god postoji `secrets\hevy-webhook.txt`. Tada se pozivaju `GET https://hevy.er45.com/live/hr?since=…`, `GET /live/hr/<id>` i `POST /live/strava/sync?days=N`, a zaglavlje `Authorization` nosi vrijednost iz te datoteke (nikad se ne ispisuje). Datoteke u `raw\strava_hr` imaju isto ime i isti sadržaj kao prije. `--via-worker` forsira taj put.
+- `--direct` = **samo za hitne slučajeve** (Worker ne radi): skripta tada zove Stravu izravno sa `strava.json`, pa opet postoje dva vlasnika tokena. Nakon toga pokreni `python tools/strava_sync.py auth`, pa `powershell -ExecutionPolicy Bypass -File tools\set_live_secrets.ps1 -Only STRAVA_REFRESH_TOKEN`.
+- `auth` ostaje lokalan; služi samo za novi početni token koji se zatim preda Workeru.
+- Preko Workera `sync` koristi Hevy ključ Workera (`--hevy-source` vrijedi samo uz `--direct`) i toleranciju uparivanja od ±90 min (lokalno 30 min). Jedan poziv obradi najviše 25 aktivnosti; ostatak ispiše kao `deferred`.
+- Izlazni kodovi preko Workera: 0 ok; 2 = Worker odbija ključ (401), nedostaju tajne ili Strava token (503) ili nema `hevy-webhook.txt`; 3 = Strava limit; 1 = Worker nedostupan ili druga greška (mrežne greške i 5xx se ponove dvaput).
 
 - Već sinkronizirane aktivnosti (opis sadrži `— synced from Hevy`) se preskaču osim uz `--force`.
 - Postojeći opis bez našeg podnožja bit će **zamijenjen** (dry-run to naznači).
@@ -39,7 +45,7 @@ python tools/hevy_fetch.py [--days N | --all] [--since YYYY-MM-DD]
 - `strava_sync.py fetch-hr` za svaku WeightTraining/Workout aktivnost u prozoru (zadano 14 dana) povlači `time,heartrate` stream i piše `strength\raw\strava_hr\<lokalni datum>_<strava id>.json` u Garmin shemi (`startTime`, `sampleCount`, `streams.heart_rate.values`, `timestamps`) plus `source:"strava"`, `stravaId`, `name`. Postojeće datoteke se preskaču osim uz `--force`; 429 i `X-RateLimit-Usage` se poštuju. Ispisuje samo brojače.
 - `build_strength.py` preferira `raw\strava_hr` pred `raw\garmin_hr` kad oba imaju istu aktivnost (start unutar 2 min); Strava-only datoteka se koristi kakva jest. Izvor je u izlazu kao `hr.source` (`strava` | `garmin`).
 
-**Jutarnja rutina (kasnije):** nakon osvježavanja podataka pozvati `python tools/strava_sync.py sync --days 3` (po potrebi `--hevy-source freddy-cache` kad je cache svjež). Ako vrati kod 2, samo preskočiti korak i javiti da treba postavljanje.
+**Jutarnja rutina:** naredbe su iste kao prije (`fetch-hr --days 3`, `sync --days 3`, REFRESH.md §1f), ali sada idu preko Workera. Ako Worker ne radi, korak završi s kodom različitim od 0; rutina to zapiše u izvještaj i nastavi. `--direct` se ne koristi rutinski.
 
 ## EN
 
@@ -60,6 +66,12 @@ Markers: `(wu)` warm-up (excluded from tonnage), `(f)` failure, `(d)` dropset, `
 - `strava_sync.py fetch-hr` fetches the `time,heartrate` stream of every WeightTraining/Workout activity in the window (default 14 days) and writes `strength\raw\strava_hr\<local date>_<strava id>.json` in the Garmin schema (`startTime`, `sampleCount`, `streams.heart_rate.values`, `timestamps`) plus `source:"strava"`, `stravaId`, `name`. Existing files are skipped unless `--force`; 429 and `X-RateLimit-Usage` are honoured. Prints counts only.
 - `build_strength.py` prefers `raw\strava_hr` over `raw\garmin_hr` when both hold the same activity (start within 2 min); a Strava-only file is used as is. The choice is recorded as `hr.source` (`strava` | `garmin`).
 
+**Single Strava token owner (the Worker).** Strava may rotate the refresh token on any refresh. With two refreshers (the `hevy-hook` Worker's KV `strava:tokens` and the local `secrets\strava.json`), one can invalidate the other, and the morning pipeline then breaks silently. So the **Worker is the only Strava API client**. `fetch-hr` and `sync` go through it by default whenever `secrets\hevy-webhook.txt` exists. They call `GET https://hevy.er45.com/live/hr?since=…`, `GET /live/hr/<id>` and `POST /live/strava/sync?days=N`, with that file's value as the `Authorization` header (never printed). The `raw\strava_hr` files keep the same names and the same bytes as before. `--via-worker` forces this route.
+- `--direct` is for **emergencies only** (the Worker is down). It calls Strava with `strava.json` and so re-establishes a second token owner. Afterwards run `python tools/strava_sync.py auth`, then `powershell -ExecutionPolicy Bypass -File tools\set_live_secrets.ps1 -Only STRAVA_REFRESH_TOKEN`.
+- `auth` stays local; it only produces a fresh seed token for the Worker.
+- Via the Worker, `sync` uses the Worker's Hevy key (`--hevy-source` applies to `--direct` only) and a ±90 min match tolerance (30 min locally). One call handles at most 25 activities; the rest are reported as `deferred`.
+- Exit codes via the Worker: 0 ok; 2 = the Worker rejects the key (401), secrets or the Strava token are missing (503), or there is no `hevy-webhook.txt`; 3 = Strava rate limit; 1 = the Worker is unreachable or another error (network errors and 5xx are retried twice). `fetch-hr --dry-run` lists what would be fetched and writes nothing.
+
 Activities already carrying the footer are left alone unless `--force`. An existing description without our footer is replaced (dry-run flags it). Exit codes: 0 ok, 2 setup needed, 3 daily rate limit, 1 other errors. Rate limits: `X-RateLimit-*` headers are read; the script waits for the next 15-minute window when nearly spent, and stops on the daily limit.
 
-**Morning routine (later):** after the data refresh, call `python tools/strava_sync.py sync --days 3`; on exit code 2 skip the step and report that setup is pending.
+**Morning routine:** the commands are unchanged (`fetch-hr --days 3`, `sync --days 3`, REFRESH.md §1f), but they now go via the Worker. If the Worker is down, the step exits non-zero; the routine logs it in the report and continues. `--direct` is never used in the routine.

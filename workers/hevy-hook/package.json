@@ -1,0 +1,11 @@
+{
+  "name": "hevy-hook",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker: Hevy webhook -> live strength preview + Strava rename/HR. No npm dependencies.",
+  "scripts": {
+    "test": "node --test test/",
+    "deploy": "npx wrangler deploy",
+    "templates": "node scripts/gen-templates.mjs"
+  }
+}
