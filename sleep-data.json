@@ -1,135 +1,135 @@
 {
   "meta": {
-    "version": "v2.06-auto",
-    "snapshot": "2026-10-04",
-    "refreshedAt": "2026-10-04T06:40:00+02:00",
-    "footEn": "Data snapshot: 2026-10-04 · Garmin fenix 8 via Freddy · the last-night panel shows the Sat→Sun night (wake date 2026-10-04); the 7-day charts show the seven most recent recorded nights, labelled by the evening they began, Sat 26 through Sat 3 — the Sun 27 evening has no record and is skipped.",
-    "footHr": "Podaci: 4.10.2026. · Garmin fenix 8 putem Freddyja · panel sinoćnje noći prikazuje noć sub→ned (datum buđenja 4.10.2026.); grafovi od 7 dana prikazuju sedam najnovijih zabilježenih noći, označenih večeri u kojoj su počele, sub 26. do sub 3. — večer ned 27. nema zapis i preskočena je."
+    "version": "v2.07-auto",
+    "snapshot": "2026-10-05",
+    "refreshedAt": "2026-10-05T21:15:00+02:00",
+    "footEn": "Data snapshot: 2026-10-05 · Garmin fenix 8 via Freddy · the last-night panel shows the Sun→Mon night (wake date 2026-10-05); the 7-day charts show the seven most recent recorded nights, labelled by the evening they began, Mon 28 through Sun 4.",
+    "footHr": "Podaci: 5.10.2026. · Garmin fenix 8 putem Freddyja · panel sinoćnje noći prikazuje noć ned→pon (datum buđenja 5.10.2026.); grafovi od 7 dana prikazuju sedam najnovijih zabilježenih noći, označenih večeri u kojoj su počele, pon 28. do ned 4."
   },
   "num": {
     "lastNight": {
-      "score": 70,
-      "durationLabel": "7h 59m",
-      "bedWake": "21:48 → 06:07",
-      "rhr": 57,
-      "hrv": 33,
-      "readiness": 69,
-      "deepMin": 72,
-      "lightMin": 316,
-      "remMin": 91,
-      "awakeMin": 20
+      "score": 77,
+      "durationLabel": "6h 48m",
+      "bedWake": "23:51 → 06:46",
+      "rhr": 55,
+      "hrv": 43,
+      "readiness": 78,
+      "deepMin": 35,
+      "lightMin": 299,
+      "remMin": 74,
+      "awakeMin": 7
     },
     "week": {
       "deep": [
-        2.2,
         1.37,
         1.03,
         1.85,
         1.55,
         1.05,
-        1.2
+        1.2,
+        0.58
       ],
       "light": [
-        2.18,
         4.47,
         4.25,
         3.68,
         4.03,
         5.13,
-        5.27
+        5.27,
+        4.98
       ],
       "rem": [
-        1.45,
         2.17,
         1.47,
         0.33,
         1.78,
         1.68,
-        1.52
+        1.52,
+        1.23
       ],
       "awake": [
-        0.15,
         0.12,
         0.0,
         0.25,
         0.18,
         0.12,
-        0.33
+        0.33,
+        0.12
       ],
       "scores": [
-        77,
         88,
         76,
         64,
         84,
         87,
-        70
+        70,
+        77
       ],
       "hrv": [
-        44,
         44,
         33,
         37,
         33,
         50,
-        33
+        33,
+        43
       ],
       "rhr": [
-        53,
         53,
         57,
         57,
         55,
         52,
-        57
+        57,
+        55
       ],
       "hrvAvg": 39
     },
     "sleepWake": {
       "bed": [
-        -0.25,
         -1.62,
         -0.77,
         -0.5,
         -1.42,
         -1.98,
-        -2.2
+        -2.2,
+        -0.15
       ],
       "wake": [
-        5.73,
         6.5,
         5.98,
         5.62,
         6.13,
         6.0,
-        6.12
+        6.12,
+        6.77
       ],
       "bedL": [
-        "23:45",
         "22:23",
         "23:14",
         "23:30",
         "22:35",
         "22:01",
-        "21:48"
+        "21:48",
+        "23:51"
       ],
       "wakeL": [
-        "05:44",
         "06:30",
         "05:59",
         "05:37",
         "06:08",
         "06:00",
-        "06:07"
+        "06:07",
+        "06:46"
       ],
       "dur": [
-        "5h50",
         "8h00",
         "6h45",
         "5h52",
         "7h22",
         "7h52",
-        "7h59"
+        "7h59",
+        "6h48"
       ]
     },
     "trend": [
@@ -1212,71 +1212,80 @@
         "durH": 7.98,
         "deepH": 1.2,
         "awakeMin": 20
+      },
+      {
+        "d": "2026-10-05",
+        "rhr": 55,
+        "hrv": 43,
+        "score": 77,
+        "durH": 6.8,
+        "deepH": 0.58,
+        "awakeMin": 7
       }
     ]
   },
   "text": {
     "en": {
       "daysFull": [
-        "Sat 26",
         "Mon 28",
         "Tue 29",
         "Wed 30",
         "Thu 1",
         "Fri 2",
-        "Sat 3"
+        "Sat 3",
+        "Sun 4"
       ],
       "daysShort": [
-        "S26",
         "M28",
         "T29",
         "W30",
         "T1",
         "F2",
-        "S3"
+        "S3",
+        "S4"
       ],
-      "scoreWord": "score 70",
-      "c1d": "−17 vs the last recorded night (87) · fair",
-      "c2d": "+53m vs 7-night avg (7h 06m)",
-      "c3d": "+5 vs the last recorded night (52) · +2 vs the 7-night avg (55)",
-      "c4d": "−17 vs the last recorded night (50) · −6 vs the 7-night avg (39)",
+      "scoreWord": "score 77",
+      "c1d": "+7 vs the last recorded night (70) · fair",
+      "c2d": "−26m vs 7-night avg (7h 14m)",
+      "c3d": "−2 vs the last recorded night (57) · level with the 7-night avg (55)",
+      "c4d": "+10 vs the last recorded night (33) · +4 vs the 7-night avg (39)",
       "c5l": "Fair",
       "c5d": "computed from sleep, HRV, RHR, stress & recent load",
       "havg": "HRV 7d avg 39",
-      "today": "Sat→Sun night: 7h 59m, 20 min awake",
-      "badge": "Score 70 on 7h 59m · HRV 33 · RHR 57",
-      "rec": "Last night scored 70 on 7h 59m against a 28-day baseline of 80.0 and 7.0 h, with RHR at 57 against 53.2 and HRV at 33 against 41.4. The flag is the front-squat top set: 80 kg × 10 on Sep 26 became 90 kg × 6 on Oct 3, a 12.5% load jump in one week. Next session: hack squat, 3 × 10 at 180 kg — one step under the 190 kg × 10 of Sep 29. Duration is fixed — lights-out at 22:01 and 21:48 returned 7h 52m and 7h 59m — so the lever is the evening: Saturday’s average stress of 40 was the week’s highest and preceded 20 minutes awake and RHR 57; keep the last two hours before a 22:00 lights-out work-free tonight."
+      "today": "Sun→Mon night: 6h 48m, 7 min awake",
+      "badge": "Score 77 on 6h 48m · HRV 43 · RHR 55",
+      "rec": "Last night scored 77 on 6h 48m against a 28-day baseline of 79.5 and 7.0 h, with RHR at 55 against 53.3 and HRV at 43 against 41.1. The flag is the front-squat top set: 80 kg × 10 on Sep 26 became 90 kg × 6 on Oct 3, a 12.5% load jump in one week. Next session: hack squat, 3 × 10 at 180 kg — one step under the 190 kg × 10 of Sep 29. Bedtime is the lever: lights-out at 23:51 gave 6h 48m, against 7h 59m from a 21:48 lights-out the night before — lights out by 22:00 tonight."
     },
     "hr": {
       "daysFull": [
-        "Sub 26",
         "Pon 28",
         "Uto 29",
         "Sri 30",
         "Čet 1",
         "Pet 2",
-        "Sub 3"
+        "Sub 3",
+        "Ned 4"
       ],
       "daysShort": [
-        "S26",
         "P28",
         "U29",
         "S30",
         "Č1",
         "P2",
-        "S3"
+        "S3",
+        "N4"
       ],
-      "scoreWord": "ocjena 70",
-      "c1d": "−17 vs zadnja zabilježena noć (87) · osrednja",
-      "c2d": "+53m vs prosjek 7 noći (7h 06m)",
-      "c3d": "+5 vs zadnja zabilježena noć (52) · +2 vs prosjek 7 noći (55)",
-      "c4d": "−17 vs zadnja zabilježena noć (50) · −6 vs prosjek 7 noći (39)",
+      "scoreWord": "ocjena 77",
+      "c1d": "+7 vs zadnja zabilježena noć (70) · osrednja",
+      "c2d": "−26m vs prosjek 7 noći (7h 14m)",
+      "c3d": "−2 vs zadnja zabilježena noć (57) · jednako prosjeku 7 noći (55)",
+      "c4d": "+10 vs zadnja zabilježena noć (33) · +4 vs prosjek 7 noći (39)",
       "c5l": "Osrednja",
       "c5d": "izračunato iz sna, HRV-a, RHR-a, stresa i opterećenja",
       "havg": "HRV 7d prosjek 39",
-      "today": "Noć sub→ned: 7h 59m, 20 min budan",
-      "badge": "Ocjena 70 uz 7h 59m · HRV 33 · RHR 57",
-      "rec": "Sinoć je ocjena bila 70 uz 7h 59m naspram 28-dnevne osnove od 80,0 i 7,0 h, uz RHR 57 naspram 53,2 i HRV 33 naspram 41,4. Upozorenje je najteža serija prednjeg čučnja: 80 kg × 10 dana 26.9. postalo je 90 kg × 6 dana 3.10., skok opterećenja od 12,5% u tjedan dana. Sljedeći trening: hack čučanj, 3 × 10 sa 180 kg — korak ispod 190 kg × 10 od 29.9. Trajanje je riješeno — gašenje svjetla u 22:01 i 21:48 dalo je 7h 52m i 7h 59m — pa je poluga večer: subotnji prosječni stres od 40 bio je najviši u tjednu i prethodio je 20 minuta budnosti i RHR-u 57; zadnja dva sata prije gašenja svjetla u 22:00 večeras neka budu bez posla."
+      "today": "Noć ned→pon: 6h 48m, 7 min budan",
+      "badge": "Ocjena 77 uz 6h 48m · HRV 43 · RHR 55",
+      "rec": "Sinoć je ocjena bila 77 uz 6h 48m naspram 28-dnevne osnove od 79,5 i 7,0 h, uz RHR 55 naspram 53,3 i HRV 43 naspram 41,1. Upozorenje je najteža serija prednjeg čučnja: 80 kg × 10 dana 26.9. postalo je 90 kg × 6 dana 3.10., skok opterećenja od 12,5% u tjedan dana. Sljedeći trening: hack čučanj, 3 × 10 sa 180 kg — korak ispod 190 kg × 10 od 29.9. Poluga je vrijeme odlaska na spavanje: gašenje svjetla u 23:51 dalo je 6h 48m, naspram 7h 59m nakon gašenja u 21:48 noć prije — večeras svjetla ugasi do 22:00."
     }
   }
 }
