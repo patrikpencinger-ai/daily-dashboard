@@ -16,18 +16,18 @@ It does when the change touches any of these:
 - metric names, windows, night attribution, narrative slots or the ban list;
 - the list of files the routine may stage or must never touch.
 
-If yes, update **all three places** in the same piece of work:
+If yes, update these in the same piece of work:
 
 | Where | What | Machine |
 |---|---|---|
-| `REFRESH.md` (this repo) | The authoritative spec. Most changes belong only here, because both task files tell the agent to follow it. | both, via git |
-| `C:\Users\patri\.claude\scheduled-tasks\dashboard-morning-refresh\SKILL.md` | PC task prompt. FALLBACK role, one try at ~08:45. | PC (strix-5080) |
-| `~/.claude/scheduled-tasks/dashboard-morning-refresh/SKILL.md` | Mac task prompt. PRIMARY role, four tries 06:00–07:30, clone `/Users/patrikpen/daily-dashboard`. | Mac mini, `ssh patriks-mac-mini` |
+| `REFRESH.md` (this repo) | The authoritative spec. Most changes belong only here, because the task file tells the agent to follow it. | both, via git |
+| `~/.claude/scheduled-tasks/dashboard-morning-refresh/SKILL.md` | The live task prompt. SOLE owner, four tries 06:00–07:30, clone `/Users/patrikpen/daily-dashboard`. | Mac mini, `ssh patriks-mac-mini` |
+| `C:\Users\patri\.claude\scheduled-tasks\dashboard-morning-refresh\SKILL.md` | PC task, **disabled since 2026-10-09**. Cold spare only; do not re-enable while the Mac runs the routine. | PC (strix-5080) |
 
-Rules for the two task files:
+Rules for the task files:
 
-- Change a task file only when the prompt itself must change (new step, new gate, new command). Otherwise change `REFRESH.md` only.
-- Keep the two task files in step. They may differ only in role (primary vs fallback), paths, the Python binary and environment notes. Check with a diff after editing.
+- Change the Mac task file only when the prompt itself must change (new step, new gate, new command). Otherwise change `REFRESH.md` only.
+- When you change the Mac file, mirror the change into the disabled PC file so the spare stays usable. They may differ only in role, paths, the Python binary and environment notes.
 - Back up the Mac file before editing it (`SKILL.md.bak-<date>`). The task file is re-read on each run, so no app restart is needed. Editing the Mac scheduler registry (`scheduled-tasks.json`) does need the app quit first.
 - Push repo changes to `origin/main`. The Mac clone only sees them after its step-0 pull.
 - If no update is needed, say so in your final report in one line, so the owner can see it was checked.
