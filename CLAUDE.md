@@ -21,7 +21,7 @@ If yes, update these in the same piece of work:
 | Where | What | Machine |
 |---|---|---|
 | `REFRESH.md` (this repo) | The authoritative spec. Most changes belong only here, because the task file tells the agent to follow it. | both, via git |
-| `~/.claude/scheduled-tasks/dashboard-morning-refresh/SKILL.md` | The live task prompt. SOLE owner, four tries 06:00–07:30, clone `/Users/patrikpen/daily-dashboard`. | Mac mini, `ssh patriks-mac-mini` |
+| `~/.claude/scheduled-tasks/dashboard-morning-refresh/SKILL.md` | The live task prompt. SOLE owner, four tries 06:00–07:30, clone `/Users/patrikpen/daily-dashboard`. A second task, `dashboard-morning-refresh-late` (08:30), only points at this file, so edit this one. | Mac mini, `ssh patriks-mac-mini` |
 | `C:\Users\patri\.claude\scheduled-tasks\dashboard-morning-refresh\SKILL.md` | PC task, **disabled since 2026-10-09**. Cold spare only; do not re-enable while the Mac runs the routine. | PC (strix-5080) |
 
 Rules for the task files:

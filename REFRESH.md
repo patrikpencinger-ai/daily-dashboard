@@ -15,8 +15,9 @@ Each refresh rewrites only `sleep-data.json`, `training-data.json` and `strength
 manual data files (§1e) — then commits and pushes. **Cloudflare Workers
 static assets** redeploy from `main` automatically (~1 min) to **dash.er45.com**.
 
-**Where the routine lives.** Only on the Mac mini's Claude app task (four tries 06:00–07:30).
-The Windows PC task was disabled on 2026-10-09; if all four tries miss, say "refresh the
+**Where the routine lives.** Only on the Mac mini: task `dashboard-morning-refresh` (06:00,
+06:30, 07:00, 07:30) plus `dashboard-morning-refresh-late` (08:30), which runs the same file.
+The Windows PC task was disabled on 2026-10-09; if all five tries miss, say "refresh the
 dashboard" manually. Any project change that affects the refresh must update this file and,
 when the prompt itself changes, the Mac task file — see [`CLAUDE.md`](CLAUDE.md).
 
