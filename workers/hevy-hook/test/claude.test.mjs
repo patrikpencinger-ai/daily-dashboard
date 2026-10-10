@@ -3,13 +3,16 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { buildRequest, callClaude, FALLBACK_BETA, pingClaude } from "../src/claude.js";
-import { approxTokens, buildContext, CONTEXT_MAX_TOKENS, topSet } from "../src/context.js";
+import {
+  approxTokens, buildContext, compactWeekly, CONTEXT_MAX_TOKENS, extractWeekly, STRENGTH_CACHE_KEY, STRENGTH_URL, topSet,
+} from "../src/context.js";
 import { handle, makeRuntime, runScheduled } from "../src/index.js";
 import {
-  afterWebhook, DAILY_CRON, LOAD_DEFS, NARRATIVE_SCHEMA, parseNarrative, processNarrativeQueue,
+  afterWebhook, DAILY_CRONS, LOAD_DEFS, NARRATIVE_SCHEMA, parseNarrative, processNarrativeQueue,
   REFRESH_3A, runCoach, runNarrative, STATIC_RULES,
 } from "../src/narrative.js";
 import { putWorkout } from "../src/store.js";
+import { dayEntries } from "../src/usage.js";
 import { fakeCtx, jsonResponse, MemoryKV } from "./helpers.mjs";
 
 const NOW = Date.parse("2026-10-10T08:00:00Z");
@@ -38,10 +41,12 @@ const message = (over = {}) => ({
   stop_reason: "end_turn", stop_details: null, usage: USAGE, ...over,
 });
 
-/** Scripted Anthropic API: each call takes the next response (object -> 200 JSON, function -> its result). */
+/** Scripted Anthropic API: each call takes the next response (object -> 200 JSON, function -> its result).
+ *  Any other URL (e.g. strength-data.json for the context) answers 404 and is not recorded. */
 function claudeApi(queue) {
   const calls = [];
   const f = async (url, init = {}) => {
+    if (!String(url).startsWith("https://api.anthropic.com/")) return jsonResponse({ error: "no route" }, 404);
     calls.push({ url: String(url), init, body: init.body ? JSON.parse(init.body) : null });
     const next = queue.length > 1 ? queue.shift() : queue[0];
     if (typeof next === "function") return next(url, init);
@@ -102,7 +107,7 @@ test("200: JSON parsed, usage + USD logged to usage:<day> and usage:recent", asy
   assert.equal(f.calls[0].init.method, "POST");
   assert.equal(f.calls[0].init.headers["x-api-key"], KEY);
   assert.ok(f.calls[0].init.signal); // timeout wired
-  const day = await env.LIVE.get("usage:2026-10-10", "json");
+  const day = await dayEntries(env.LIVE, "2026-10-10");
   assert.equal(day.length, 1);
   assert.deepEqual(
     { fn: day[0].fn, model: day[0].model, effort: day[0].effort, in: day[0].in, cacheRead: day[0].cacheRead, cacheWrite: day[0].cacheWrite, out: day[0].out, usd: day[0].usd, ok: day[0].ok, err: day[0].err },
@@ -122,7 +127,7 @@ test("refusal: ok=false, err refusal:<category>, usage still logged", async () =
   assert.equal(r.ok, false);
   assert.equal(r.err, "refusal:cyber");
   assert.equal(r.data, null);
-  const day = await env.LIVE.get("usage:2026-10-10", "json");
+  const day = await dayEntries(env.LIVE, "2026-10-10");
   assert.equal(day[0].err, "refusal:cyber");
   assert.equal(day[0].stop, "refusal");
   assert.equal(day[0].usd, 0.0048);
@@ -154,7 +159,7 @@ test("429 then 200: one retry after Retry-After seconds", async () => {
   assert.equal(r.ok, true);
   assert.equal(f.calls.length, 2);
   assert.deepEqual(sleeps, [3000]);
-  assert.equal((await env.LIVE.get("usage:2026-10-10", "json")).length, 1); // one logical call
+  assert.equal((await dayEntries(env.LIVE, "2026-10-10")).length, 1); // one logical call
 });
 
 test("5xx: at most 2 retries (backoff 2 s, 4 s), then error logged", async () => {
@@ -166,7 +171,7 @@ test("5xx: at most 2 retries (backoff 2 s, 4 s), then error logged", async () =>
   assert.equal(r.err, "http 529 overloaded_error");
   assert.equal(f.calls.length, 3);
   assert.deepEqual(sleeps, [2000, 4000]);
-  const day = await env.LIVE.get("usage:2026-10-10", "json");
+  const day = await dayEntries(env.LIVE, "2026-10-10");
   assert.deepEqual([day[0].ok, day[0].usd, day[0].err], [false, 0, "http 529 overloaded_error"]);
 });
 
@@ -224,8 +229,10 @@ test("daily cap: at/over MAX_USD_PER_DAY the call is skipped and logged {skipped
   const r3 = await callClaude(rt(env, f), callOpts());
   assert.deepEqual([r3.ok, r3.skipped, r3.err, r3.spent, r3.cap], [false, true, "cap", 0.0536, 0.05]);
   assert.equal(f.calls.length, 2);
-  const day = await env.LIVE.get("usage:2026-10-10", "json");
-  assert.deepEqual([day[2].skipped, day[2].reason, day[2].usd], [true, "cap", 0]);
+  const day = await dayEntries(env.LIVE, "2026-10-10");
+  assert.equal(day.length, 3);
+  const skipped = day.find((e) => e.skipped); // same ms: per-call keys order by their random suffix
+  assert.deepEqual([skipped.reason, skipped.usd], ["cap", 0]);
   // next Zagreb day starts at 0
   const r4 = await callClaude(rt(env, f, Date.parse("2026-10-10T22:30:00Z")), callOpts());
   assert.equal(r4.ok, true);
@@ -375,7 +382,7 @@ test("mode 'current' (default): no API call anywhere", async () => {
   assert.deepEqual(await runNarrative(r, { kind: "workout", workoutId: recs[0].id, manual: true }), { ok: false, err: "mode-current" });
   assert.equal(await afterWebhook(r, recs[0]), null);
   assert.deepEqual(await runCoach(r, { question: "How is my squat?", lang: "en" }), { ok: false, err: "mode-current" });
-  assert.equal((await runScheduled({ cron: DAILY_CRON }, env, r)).daily.err, "mode-current");
+  assert.equal((await runScheduled({ cron: DAILY_CRONS[0], scheduledTime: Date.parse("2026-10-10T05:40:00Z") }, env, r)).daily.err, "mode-current");
   assert.equal(f.calls.length, 0);
 });
 
@@ -447,7 +454,7 @@ test("queue: inline failure (network) is finished by the cron after the grace pe
   const r = rt(env, f);
   const first = await afterWebhook(r, recs[0]);
   assert.deepEqual([first.ok, first.err], [false, "network"]);
-  assert.equal(f.calls.length, 3); // 1 + 2 retries
+  assert.equal(f.calls.length, 1); // webhook path: no inline retry (waitUntil budget); the cron retries
   assert.equal((await env.LIVE.get("narr:queue", "json")).length, 1);
 
   fail = false;
@@ -476,12 +483,12 @@ test("daily cron: one narrative per Zagreb date, stored as narr:daily:<date>", a
   await seed(env.LIVE, 3);
   const f = claudeApi([message()]);
   const r = rt(env, f, Date.parse("2026-10-10T05:40:00Z"));
-  const a = await runScheduled({ cron: DAILY_CRON }, env, r);
+  const a = await runScheduled({ cron: DAILY_CRONS[0] }, env, r);
   assert.equal(a.daily.ok, true);
   assert.match(f.calls[0].body.messages[0].content, /TASK: NARRATIVE, kind "daily", for 2026-10-10/);
   const stored = await env.LIVE.get("narr:daily:2026-10-10", "json");
   assert.deepEqual([stored.kind, stored.workoutId], ["daily", null]);
-  const b = await runScheduled({ cron: DAILY_CRON }, env, r);
+  const b = await runScheduled({ cron: DAILY_CRONS[0] }, env, r);
   assert.deepEqual(b.daily, { ok: true, skipped: "already-done" });
   assert.equal(f.calls.length, 1);
   assert.deepEqual((await env.LIVE.get("meta:narrDaily", "json")).ok, true);
@@ -530,4 +537,180 @@ test("webhook end-to-end in mode 'api': Hevy fetch -> stored -> narrative in wai
   const stored = await env.LIVE.get(`narr:${raw.id}`, "json");
   assert.equal(stored.kind, "workout");
   assert.equal(stored.workoutUpdatedAt, raw.updated_at);
+});
+
+// ---- DST: two daily triggers, only the 07:xx Zagreb one runs -----------------------------------
+
+test("daily cron DST: 05:40 UTC runs in summer time, 06:40 UTC in winter time; the twin is a no-op", async () => {
+  assert.deepEqual(DAILY_CRONS, ["40 5 * * *", "40 6 * * *"]);
+  const toml = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
+  assert.match(toml, /crons = \["\*\/10 \* \* \* \*", "40 5 \* \* \*", "40 6 \* \* \*"\]/);
+  const cases = [
+    // [cron, scheduledTime, runs?]  summer (CEST, UTC+2) then winter (CET, UTC+1)
+    ["40 5 * * *", "2026-10-10T05:40:00Z", true],
+    ["40 6 * * *", "2026-10-10T06:40:00Z", false],
+    ["40 5 * * *", "2026-12-10T05:40:00Z", false],
+    ["40 6 * * *", "2026-12-10T06:40:00Z", true],
+    // DST switch day (Oct 25, 2026: 03:00 CEST -> 02:00 CET): 06:40 UTC = 07:40 CET
+    ["40 5 * * *", "2026-10-25T05:40:00Z", false],
+    ["40 6 * * *", "2026-10-25T06:40:00Z", true],
+    // spring forward (Mar 29, 2026): 05:40 UTC = 07:40 CEST
+    ["40 5 * * *", "2026-03-29T05:40:00Z", true],
+    ["40 6 * * *", "2026-03-29T06:40:00Z", false],
+  ];
+  for (const [cron, at, runs] of cases) {
+    const env = baseEnv();
+    await env.LIVE.put("cfg:mode", JSON.stringify("api"));
+    const t = Date.parse(at);
+    await putWorkout(env.LIVE, synthRecord(0, t - 12 * 3600 * 1000), t);
+    const f = claudeApi([message()]);
+    const out = await runScheduled({ cron, scheduledTime: t }, env, rt(env, f, t));
+    if (runs) {
+      assert.equal(out.daily.ok, true, `${cron} @ ${at}`);
+      assert.equal(f.calls.length, 1, `${cron} @ ${at}`);
+    } else {
+      assert.deepEqual(out, { daily: null, skipped: "dst-twin" }, `${cron} @ ${at}`);
+      assert.equal(f.calls.length, 0, `${cron} @ ${at}`);
+      assert.equal(await env.LIVE.get("meta:narrDaily"), null);
+    }
+  }
+});
+
+// ---- webhook narrative timeout -------------------------------------------------------------------
+
+test("webhook narrative: timeout (25 s default, no retry) keeps the item queued; the cron finishes it", async () => {
+  const { WEBHOOK_TIMEOUT_MS } = await import("../src/narrative.js");
+  assert.equal(WEBHOOK_TIMEOUT_MS, 25000);
+  const env = baseEnv();
+  await env.LIVE.put("cfg:mode", JSON.stringify("api"));
+  const recs = await seed(env.LIVE, 1);
+  let hang = true;
+  const f = claudeApi([(url, init) => {
+    if (!hang) return jsonResponse(message());
+    return new Promise((_, reject) => {
+      init.signal.addEventListener("abort", () => reject(Object.assign(new Error("aborted"), { name: "AbortError" })));
+    });
+  }]);
+  const r = rt(env, f);
+  const first = await afterWebhook(r, recs[0], { timeoutMs: 30 });
+  assert.deepEqual([first.ok, first.err], [false, "timeout"]);
+  assert.equal(f.calls.length, 1); // a timeout is never retried inline
+  const q = await env.LIVE.get("narr:queue", "json");
+  assert.deepEqual(q.map((e) => [e.id, e.attempts]), [[recs[0].id, 1]]);
+  assert.equal((await dayEntries(env.LIVE, "2026-10-10"))[0].err, "timeout");
+
+  hang = false;
+  r.clock.t = NOW + 6 * 60 * 1000;
+  const second = await runScheduled({ cron: "*/10 * * * *", scheduledTime: r.clock.t }, env, r);
+  assert.equal(second.narrative.ok, true);
+  assert.deepEqual(await env.LIVE.get("narr:queue", "json"), []);
+});
+
+test("webhook narrative: a 429 is not retried inline (budget) and stays queued", async () => {
+  const env = baseEnv();
+  await env.LIVE.put("cfg:mode", JSON.stringify("api"));
+  const recs = await seed(env.LIVE, 1);
+  const f = claudeApi([() => jsonResponse({ type: "error", error: { type: "rate_limit_error" } }, 429)]);
+  const out = await afterWebhook(rt(env, f), recs[0]);
+  assert.match(out.err, /^http 429/);
+  assert.equal(f.calls.length, 1);
+  assert.equal((await env.LIVE.get("narr:queue", "json")).length, 1);
+});
+
+// ---- context: weekly load from strength-data.json --------------------------------------------------
+
+function strengthDoc() {
+  const weeks = ["2026-09-07", "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05"];
+  return {
+    meta: { version: "st-1.1", refreshedAt: "2026-10-10T07:38:32+02:00" },
+    config: {}, muscles: {}, workouts: [{ date: "2026-10-09", weekly: "decoy" }], exercises: {},
+    weekly: weeks.map((week, i) => ({
+      week, sessions: 3, tonnageWork: 30000.4 + i, hardSets: 30 + i, failureSets: 2, sRPE: 700.6, hrLoad: i === 0 ? null : 240.2,
+      hrSessions: 3, acwrTonnage: 0.9 + i / 100, acwrSRPE: 0.8,
+    })),
+    muscleWeekly: weeks.map((week) => ({ week, m: { quadriceps: { hardSets: 9, tonnageWork: 9000 }, chest: { hardSets: 0, tonnageWork: 0 }, biceps: { hardSets: 6.5, tonnageWork: 4000 } } })),
+  };
+}
+
+test("extractWeekly: tail fast path and full-parse fallback agree; compactWeekly keeps 4 weeks newest first", () => {
+  const doc = strengthDoc();
+  const minified = JSON.stringify(doc);
+  const reordered = JSON.stringify({ weekly: doc.weekly, muscleWeekly: doc.muscleWeekly, meta: doc.meta });
+  for (const text of [minified, reordered, JSON.stringify(doc, null, 2)]) {
+    const x = extractWeekly(text);
+    assert.equal(x.refreshedAt, "2026-10-10T07:38:32+02:00");
+    assert.equal(x.weekly.length, 5);
+    assert.equal(x.muscleWeekly.length, 5);
+  }
+  const c = compactWeekly(extractWeekly(minified));
+  assert.deepEqual(c.weekly.map((w) => w.week), ["2026-10-05", "2026-09-28", "2026-09-21", "2026-09-14"]);
+  assert.deepEqual(c.weekly[0], {
+    week: "2026-10-05", sessions: 3, tonnageWork: 30004, hardSets: 34, failureSets: 2, sRPE: 701, hrLoad: 240,
+    acwrTonnage: 0.94, acwrSRPE: 0.8,
+  });
+  assert.deepEqual(c.muscleWeekly.map((w) => w.week), ["2026-10-05", "2026-09-28", "2026-09-21", "2026-09-14"]);
+  assert.deepEqual(c.muscleWeekly[0].hardSets, { quadriceps: 9, biceps: 6.5 }); // zero dropped, sorted desc
+});
+
+test("context: weekly + muscleWeekly + ACWR from strength-data.json, cached 10 min in KV", async () => {
+  const kv = new MemoryKV();
+  const recs = await seed(kv, 14);
+  let hits = 0;
+  const f = async (url) => {
+    assert.equal(String(url), STRENGTH_URL);
+    hits += 1;
+    return new Response(JSON.stringify(strengthDoc()), { status: 200, headers: { "Content-Type": "application/json" } });
+  };
+  const { ctx, tokens } = await buildContext(kv, NOW, { focusId: recs[0].id, fetchImpl: f });
+  assert.equal(ctx.weeklySource, "strength-data");
+  assert.equal(ctx.weeklyAsOf, "2026-10-10T07:38:32+02:00");
+  assert.equal(ctx.weekly.length, 4);
+  assert.equal(ctx.weekly[0].week, "2026-10-05");
+  assert.equal(ctx.acwr, 0.94);
+  assert.equal(ctx.acwrSRPE, 0.8);
+  assert.equal(ctx.acuteTonnage, Array.from({ length: 7 }, (_, i) => 10000 + i).reduce((a, b) => a + b)); // KV, last 7 d
+  assert.equal(ctx.chronicWeeklyTonnage, null);
+  assert.ok(Array.isArray(ctx.muscleWeekly));
+  assert.ok(tokens <= CONTEXT_MAX_TOKENS, `context ~${tokens} tokens`);
+  const cached = await kv.get(STRENGTH_CACHE_KEY, "json");
+  assert.equal(cached.weekly.length, 4);
+  assert.equal(kv.m.get(STRENGTH_CACHE_KEY).opts.expirationTtl, 600);
+  // within 10 min: cache, no fetch; after 10 min: fetched again
+  await buildContext(kv, NOW + 9 * 60 * 1000, { fetchImpl: f });
+  assert.equal(hits, 1);
+  await buildContext(kv, NOW + 11 * 60 * 1000, { fetchImpl: f });
+  assert.equal(hits, 2);
+});
+
+test("context: strength-data fetch fails -> KV-derived rolling windows (ACWR n/a)", async () => {
+  const kv = new MemoryKV();
+  await seed(kv, 14);
+  for (const f of [
+    async () => new Response("nope", { status: 503 }),
+    async () => { throw new TypeError("fetch failed"); },
+    async () => new Response("{not json", { status: 200 }),
+  ]) {
+    const { ctx } = await buildContext(kv, NOW, { fetchImpl: f });
+    assert.equal(ctx.weeklySource, "live-20d");
+    assert.equal(ctx.weekly[2].tonnageWork, null);
+    assert.equal(ctx.acwr, "n/a");
+    assert.equal(ctx.muscleWeekly, null);
+  }
+  assert.equal(await kv.get(STRENGTH_CACHE_KEY), null);
+});
+
+test("narrative run sends the strength-data weekly load to the model", async () => {
+  const env = baseEnv();
+  await env.LIVE.put("cfg:mode", JSON.stringify("api"));
+  const recs = await seed(env.LIVE, 3);
+  const claude = claudeApi([message()]);
+  const f = async (url, init) => (String(url) === STRENGTH_URL
+    ? new Response(JSON.stringify(strengthDoc()), { status: 200 })
+    : claude(url, init));
+  const out = await runNarrative(rt(env, f), { kind: "workout", workoutId: recs[0].id });
+  assert.equal(out.ok, true);
+  const ctxJson = JSON.parse(claude.calls[0].body.messages[0].content.split("\n\nTASK:")[0].replace("CONTEXT (JSON):\n", ""));
+  assert.equal(ctxJson.weeklySource, "strength-data");
+  assert.equal(ctxJson.acwr, 0.94);
+  assert.match(STATIC_RULES, /muscleWeekly\[\]/);
 });

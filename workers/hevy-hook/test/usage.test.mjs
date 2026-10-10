@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
-  addDays, aggregate, checkCap, costOf, daysBetween, isoWeek, logUsage, maxUsdPerDay, PRICES,
+  addDays, aggregate, checkCap, costOf, dayEntries, daysBetween, isoWeek, logUsage, maxUsdPerDay, PRICES,
   priceFor, recentEntries, spendToday, usageRange, USAGE_TTL_S, usdFor, validDate, zgDate,
 } from "../src/usage.js";
 import { MemoryKV } from "./helpers.mjs";
@@ -67,16 +67,40 @@ test("zgDate uses Europe/Zagreb (CEST evening -> next day)", () => {
   assert.equal(zgDate(Date.parse("2026-12-31T23:00:00Z")), "2027-01-01");
 });
 
-test("logUsage appends to usage:<day> (TTL 400 d) and keeps the last 50 in usage:recent", async () => {
+test("logUsage writes one key per call usage:<day>:<ts>-<rand> (TTL 400 d, entry in metadata) and keeps the last 50 in usage:recent", async () => {
   const kv = new MemoryKV();
   for (let i = 0; i < 55; i++) await logUsage(kv, { fn: "coach_chat", usd: 0.001, ok: true }, NOW + i);
-  const day = await kv.get("usage:2026-10-10", "json");
+  const day = await dayEntries(kv, "2026-10-10");
   assert.equal(day.length, 55);
-  assert.equal(kv.m.get("usage:2026-10-10").opts.expirationTtl, USAGE_TTL_S);
+  assert.deepEqual(day.map((e) => e.ts), Array.from({ length: 55 }, (_, i) => new Date(NOW + i).toISOString())); // key order = time order
+  const keys = [...kv.m.keys()].filter((k) => k.startsWith("usage:2026-10-10:"));
+  assert.equal(keys.length, 55);
+  assert.match(keys[0], new RegExp(`^usage:2026-10-10:${NOW}-[0-9a-f]{8}$`));
+  assert.equal(kv.m.get(keys[0]).opts.expirationTtl, USAGE_TTL_S);
+  assert.equal(kv.m.get(keys[0]).metadata.fn, "coach_chat");
+  assert.equal(await kv.get("usage:2026-10-10"), null); // no shared per-day array any more
   assert.equal(USAGE_TTL_S, 400 * 86400);
   const recent = await recentEntries(kv);
   assert.equal(recent.length, 50);
   assert.equal(recent[0].ts, new Date(NOW + 54).toISOString()); // newest first
+});
+
+test("ledger: concurrent calls never overwrite each other (per-call keys); oversized entry read back via get()", async () => {
+  const kv = new MemoryKV();
+  // a read-then-write day array would lose entries here: every logUsage reads before any writes
+  await Promise.all(Array.from({ length: 20 }, () => logUsage(kv, { fn: "coach_chat", usd: 0.01, ok: true }, NOW)));
+  assert.equal((await dayEntries(kv, "2026-10-10")).length, 20);
+  assert.equal(await spendToday(kv, NOW), 0.2);
+  // an entry too big for KV metadata (1024 B) is stored without it and read with get()
+  await logUsage(kv, { fn: "narrative_daily", usd: 0.05, ok: false, err: "x".repeat(1500) }, NOW + 1);
+  const big = [...kv.m.entries()].find(([k, v]) => k.startsWith("usage:2026-10-10:") && v.metadata === null);
+  assert.ok(big);
+  assert.equal(await spendToday(kv, NOW), 0.25);
+  // a range across a year boundary lists over the common prefix and keeps usage:recent out
+  await logUsage(kv, { fn: "coach_chat", usd: 0.5, ok: true }, Date.parse("2026-12-31T12:00:00Z"));
+  await logUsage(kv, { fn: "coach_chat", usd: 0.25, ok: true }, Date.parse("2027-01-01T12:00:00Z"));
+  const r = await usageRange(kv, "2026-12-30", "2027-01-02");
+  assert.deepEqual(r.map(([d, es]) => [d, es.length]), [["2026-12-30", 0], ["2026-12-31", 1], ["2027-01-01", 1], ["2027-01-02", 0]]);
 });
 
 test("daily cap: spend summed per Zagreb day; >= cap blocks; default $1.00", async () => {

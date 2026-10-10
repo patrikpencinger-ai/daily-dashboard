@@ -7,17 +7,23 @@
 //   GET  /admin/usage/recent      last 50 logged calls
 //   POST /admin/narrative/run     {workoutId: "<id>"|"latest"|"daily"}   (needs mode "api")
 //   POST /admin/coach             {question, lang:"en"|"hr"}            (needs mode "api")
-//   GET  /admin/status            mode, cron, pending, last errors, pipeline heartbeat, KV counts
+//   GET  /admin/status            mode, cron, pending, last errors, pipeline heartbeat, KV counts,
+//                                 hrMatchMsLast + plan hint (free plan: 10 ms CPU per invocation)
 //   GET  /admin/ping              free key check (GET /v1/models; no tokens)
+//   GET  /admin/login             top-level visit through Access: tiny HTML "signed in" page linking
+//                                 back to https://dash.er45.com/#admin (Access sets its cookie for
+//                                 hevy.er45.com on the way); a fetch() gets {ok:true}
 //
+// Request bodies are parsed from the raw text whatever the Content-Type (the dashboard sends
+// text/plain so the request stays CORS-simple); > 64 KB -> 413, invalid JSON -> 400.
 // ACCESS_AUD empty -> every /admin/* answers 503 "admin not configured" (never open).
 // CORS: the public allow-list; Access-Control-Allow-Credentials only for https://dash.er45.com.
 
 import { checkAccess } from "./access.js";
 import { pingClaude } from "./claude.js";
-import { ALLOWED_ORIGINS, json } from "./http.js";
+import { ALLOWED_ORIGINS, BodyError, json, readJsonBody } from "./http.js";
 import {
-  ALLOWED_MODELS, CRON_EVERY_10, DAILY_CRON, EFFORTS, FUNCTION_IDS, getFunctions, getMode,
+  ALLOWED_MODELS, CRON_EVERY_10, DAILY_CRONS, EFFORTS, FUNCTION_IDS, getFunctions, getMode,
   MAX_TOKENS_RANGE, MODES, runCoach, runDailyNarrative, runNarrative, validateConfig,
 } from "./narrative.js";
 import { getIndex, getJSON, hrSampleCounts, listPending, putJSON } from "./store.js";
@@ -27,7 +33,9 @@ import {
 } from "./usage.js";
 
 export const CREDENTIALS_ORIGIN = "https://dash.er45.com";
-const BODY_MAX = 8 * 1024;
+export const DASHBOARD_ADMIN_URL = "https://dash.er45.com/#admin";
+export const FREE_PLAN_CPU_MS = 10;
+const DAILY_NOTE = "UTC; both fire, only the one at 07:xx Europe/Zagreb runs, so the daily narrative is at 07:40 Zagreb all year";
 const QUESTION_MAX = 1000;
 const ID_RE = /^[A-Za-z0-9-]{6,64}$/;
 
@@ -37,24 +45,16 @@ export function adminCors(request) {
   if (origin && ALLOWED_ORIGINS.has(origin)) {
     h["Access-Control-Allow-Origin"] = origin;
     h["Access-Control-Allow-Methods"] = "GET, PUT, POST, OPTIONS";
-    h["Access-Control-Allow-Headers"] = "Content-Type";
+    h["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
     h["Access-Control-Max-Age"] = "600";
     if (origin === CREDENTIALS_ORIGIN) h["Access-Control-Allow-Credentials"] = "true";
   }
   return h;
 }
 
-class BadRequest extends Error {}
-
+/** JSON body from the raw text, any Content-Type; empty -> {}. Throws BodyError (413 / 400). */
 async function readBody(request) {
-  const text = await request.text();
-  if (text.length > BODY_MAX) throw new BadRequest("body too large");
-  if (!text.trim()) return {};
-  try {
-    return JSON.parse(text);
-  } catch {
-    throw new BadRequest("body must be JSON");
-  }
+  return readJsonBody(request, { empty: {} });
 }
 
 /** HTTP status for a failed run (body always carries {ok:false, err}). */
@@ -80,7 +80,7 @@ async function configView(rt) {
     prices: PRICES,
     pricesNote: PRICES_NOTE,
     maxUsdPerDay: maxUsdPerDay(rt.env),
-    crons: { every10: CRON_EVERY_10, daily: DAILY_CRON, dailyNote: "UTC; 07:40 Europe/Zagreb in summer time, 06:40 in winter time" },
+    crons: { every10: CRON_EVERY_10, daily: DAILY_CRONS.join(", "), dailyNote: DAILY_NOTE },
   };
 }
 
@@ -149,12 +149,13 @@ async function coach(request, rt) {
 export async function adminStatus(rt) {
   const kv = rt.env.LIVE;
   const now = rt.now();
-  const [mode, functions, cron, lastWebhookAt, lastError, pipeline, narrDaily, queue, narrIdx, idx, recent, spent, pending, hr] = await Promise.all([
+  const [mode, functions, cron, lastWebhookAt, lastError, pipeline, narrDaily, queue, narrIdx, idx, recent, spent, pending, hr, hrm] = await Promise.all([
     getMode(kv), getFunctions(kv), getJSON(kv, "meta:cron"), getJSON(kv, "meta:lastWebhookAt"),
     getJSON(kv, "meta:lastError"), getJSON(kv, "pipeline:last"), getJSON(kv, "meta:narrDaily"),
     getJSON(kv, "narr:queue"), getJSON(kv, "narr:index"), getIndex(kv), recentEntries(kv),
-    spendToday(kv, now), listPending(kv), hrSampleCounts(kv),
+    spendToday(kv, now), listPending(kv), hrSampleCounts(kv), getJSON(kv, "meta:hrMatchLast"),
   ]);
+  const hrMatchMsLast = hrm && Number.isFinite(hrm.ms) ? hrm.ms : null;
   return {
     ok: true,
     now: new Date(now).toISOString(),
@@ -165,7 +166,7 @@ export async function adminStatus(rt) {
     maxUsdPerDay: maxUsdPerDay(rt.env),
     capReached: spent >= maxUsdPerDay(rt.env),
     cron: {
-      every10: CRON_EVERY_10, daily: DAILY_CRON,
+      every10: CRON_EVERY_10, daily: DAILY_CRONS.join(", "), dailyNote: DAILY_NOTE,
       lastAt: (cron && cron.at) || null, pending: (cron && cron.pending) || 0,
     },
     lastWebhookAt: lastWebhookAt || null,
@@ -174,6 +175,15 @@ export async function adminStatus(rt) {
     narrativeQueue: Array.isArray(queue) ? queue : [],
     pipeline: pipeline || null,
     lastErrors: recent.filter((e) => !e.ok).slice(0, 5),
+    hrMatchMsLast,
+    plan: {
+      freePlanCpuMsPerInvocation: FREE_PLAN_CPU_MS,
+      hrMatchLast: hrm || null,
+      hint: "CPU time cannot be measured inside a Worker. hrMatchMsLast is the wall time of the last HR-set match "
+        + "(the heaviest CPU step); the runtime advances its clock only at I/O, so it can under-read. "
+        + "If it is regularly above 10 ms, or Observability shows CPU-limit errors, move to Workers Paid.",
+      overFreeLimit: hrMatchMsLast !== null && hrMatchMsLast > FREE_PLAN_CPU_MS,
+    },
     kv: {
       workouts: idx.length,
       pending: pending.length,
@@ -193,7 +203,34 @@ const ROUTES = {
   "/admin/coach": ["POST"],
   "/admin/status": ["GET"],
   "/admin/ping": ["GET"],
+  "/admin/login": ["GET"],
 };
+
+const LOGIN_HTML = `<!doctype html>
+<html lang="hr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prijava uspješna</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;margin:0;padding:48px 16px;background:#f6f6f4;color:#1d1d1b}
+@media (prefers-color-scheme:dark){body{background:#161615;color:#ecece8}a{color:#8ab4f8}}
+main{max-width:420px;margin:0 auto}h1{font-size:20px;margin:0 0 8px}</style></head>
+<body><main><h1>Prijava uspješna — vrati se na dashboard</h1>
+<p>Sign-in done. <a href="${DASHBOARD_ADMIN_URL}">Natrag na dashboard (Admin)</a></p></main></body></html>`;
+
+/** GET /admin/login after Access let the request through: HTML for a top-level visit, JSON for fetch(). */
+function loginResponse(request, cors) {
+  const accept = request.headers.get("Accept") || "";
+  const navigate = request.headers.get("Sec-Fetch-Mode") === "navigate" || accept.includes("text/html");
+  if (!navigate) return json({ ok: true }, 200, { ...cors, "Cache-Control": "no-store" });
+  return new Response(LOGIN_HTML, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store",
+      "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+      "Referrer-Policy": "no-referrer",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+}
 
 export async function handleAdmin(request, rt, path, url) {
   const cors = adminCors(request);
@@ -210,6 +247,7 @@ export async function handleAdmin(request, rt, path, url) {
 
   const auth = await checkAccess(request, rt.env, rt);
   if (!auth.ok) return reply({ ok: false, error: auth.error }, auth.status);
+  if (path === "/admin/login") return loginResponse(request, cors);
 
   try {
     let r;
@@ -222,7 +260,7 @@ export async function handleAdmin(request, rt, path, url) {
     else r = { status: 200, body: await pingClaude(rt) };
     return reply(r.body, r.status);
   } catch (e) {
-    if (e instanceof BadRequest) return reply({ ok: false, error: e.message }, 400);
+    if (e instanceof BodyError) return reply({ ok: false, error: e.message }, e.status);
     console.error("admin failed", String(e && e.message ? e.message : e));
     return reply({ ok: false, error: "internal error" }, 500);
   }

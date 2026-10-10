@@ -1,7 +1,8 @@
 // hevy-hook — Cloudflare Worker that receives Hevy webhooks and serves a live
 // preview of recent workouts to the dashboard. Contract: .foreman/live-contract.md
 //
-//   POST /hook/hevy     Hevy webhook (Authorization == WEBHOOK_AUTH), 200 fast, work in waitUntil
+//   POST /hook/hevy     Hevy webhook (Authorization == WEBHOOK_AUTH), 200 fast, work in waitUntil;
+//                       body parsed from its raw text whatever the Content-Type (<= 64 KB)
 //   GET  /live/recent   ?days=1..14, public JSON, CORS for the dashboard origins
 //   GET  /live/health   {ok, status, lastWebhookAt, lastCronAt, pending, ...} (no secrets)
 //   GET  /live/hr?since=YYYY-MM-DD, GET /live/hr/<stravaId>, POST /live/strava/sync?days=N
@@ -9,7 +10,8 @@
 //                       (the Worker is the single owner of the Strava refresh token), see api.js
 //   cron */10           pending retries (<= 24 h) + hourly /v1/workouts/events safety net
 //                       + (mode "api") one queued webhook narrative
-//   cron 40 5 * * *     (mode "api") daily coach narrative — 07:40 Zagreb in summer time (CEST), 06:40 in winter
+//   cron 40 5 / 40 6    (mode "api") daily coach narrative at 07:40 Europe/Zagreb all year: both
+//                       triggers fire, only the one whose Zagreb local hour is 7 runs (DST-proof)
 //   GET  /live/narrative ?days=1..30, public JSON {mode, items}, CORS like /live/recent
 //   POST /live/pipeline Authorization == WEBHOOK_AUTH; Mac strength-cron heartbeat -> KV pipeline:last
 //   /admin/*            Cloudflare Access JWT (src/access.js); config, usage, coach, status (src/admin.js)
@@ -17,15 +19,19 @@
 
 import { handleAdmin } from "./admin.js";
 import { errorResponse, hrList, hrOne, stravaSync } from "./api.js";
-import { checkWebhookAuth, corsHeaders, json, sleepMs } from "./http.js";
+import { BodyError, checkWebhookAuth, corsHeaders, json, readJsonBody, sleepMs } from "./http.js";
 import { processWebhook, runCron } from "./process.js";
 import { getIndex, getJSON, getWorkout, KEEP_DAYS, putJSON } from "./store.js";
 import {
-  afterWebhook, DAILY_CRON, getMode, listNarratives, processNarrativeQueue, runDailyNarrative,
+  afterWebhook, DAILY_LOCAL_HOUR, getMode, isDailyCron, listNarratives, processNarrativeQueue,
+  runDailyNarrative, WEBHOOK_TIMEOUT_MS, zagrebHour,
 } from "./narrative.js";
 import { maxUsdPerDay, spendToday } from "./usage.js";
 
 const ID_RE = /^[A-Za-z0-9-]{6,64}$/;
+// waitUntil after the response lasts ~30 s; the inline Claude call must end before that.
+const WAITUNTIL_BUDGET_MS = 28 * 1000;
+const MIN_CLAUDE_TIMEOUT_MS = 5 * 1000;
 const SECRET_NAMES = ["HEVY_API_KEY", "STRAVA_CLIENT_ID", "STRAVA_CLIENT_SECRET", "STRAVA_REFRESH_TOKEN", "WEBHOOK_AUTH"];
 
 export function makeRuntime(env, overrides = {}) {
@@ -41,13 +47,15 @@ async function handleHook(request, env, ctx, rt) {
   if (!(await checkWebhookAuth(request, env.WEBHOOK_AUTH))) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
+  const t0 = rt.now();
   let body = null;
   try {
-    body = await request.json();
-  } catch {
-    body = null;
+    body = await readJsonBody(request);
+  } catch (e) {
+    if (e instanceof BodyError) return json({ ok: false, error: e.message }, e.status);
+    throw e;
   }
-  const id = body && (body.workoutId || body.workout_id || body.id);
+  const id = body && typeof body === "object" && (body.workoutId || body.workout_id || body.id);
   if (typeof id !== "string" || !ID_RE.test(id)) {
     return json({ ok: false, error: "body must be {\"workoutId\": \"...\"}" }, 400);
   }
@@ -56,8 +64,10 @@ async function handleHook(request, env, ctx, rt) {
     try {
       await putJSON(kv, "meta:lastWebhookAt", new Date(rt.now()).toISOString());
       const rec = await processWebhook(rt, id);
-      // API mode (A1): coach narrative for this workout; no-op in mode "current"
-      try { await afterWebhook(rt, rec); } catch (e) { console.error("narrative failed", String(e && e.message ? e.message : e)); }
+      // API mode (A1): coach narrative for this workout; no-op in mode "current". The call gets
+      // what is left of the waitUntil budget (<= 25 s); on timeout it stays queued for the cron.
+      const timeoutMs = Math.min(WEBHOOK_TIMEOUT_MS, Math.max(MIN_CLAUDE_TIMEOUT_MS, WAITUNTIL_BUDGET_MS - (rt.now() - t0)));
+      try { await afterWebhook(rt, rec, { timeoutMs }); } catch (e) { console.error("narrative failed", String(e && e.message ? e.message : e)); }
     } catch (e) {
       console.error("webhook processing failed", String(e && e.message ? e.message : e));
     }
@@ -205,11 +215,15 @@ export async function handle(request, env, ctx, rt = makeRuntime(env)) {
   return json({ ok: false, error: "not found" }, 404);
 }
 
-/** Cron dispatch: the daily trigger runs only the coach narrative; every other trigger runs
- *  the existing every-10-min work, then (mode "api") at most one queued webhook narrative. */
+/** Cron dispatch: the two daily triggers (05:40 / 06:40 UTC) run only the coach narrative, and
+ *  only the one that falls at 07:xx Europe/Zagreb does it (the other is a no-op), so it runs at
+ *  07:40 local time in summer and in winter time. Every other trigger runs the every-10-min
+ *  work, then (mode "api") at most one queued webhook narrative. */
 export async function runScheduled(controller, env, rt = makeRuntime(env)) {
   const msg = (e) => String(e && e.message ? e.message : e);
-  if (controller && controller.cron === DAILY_CRON) {
+  if (controller && isDailyCron(controller.cron)) {
+    const at = Number.isFinite(controller.scheduledTime) ? controller.scheduledTime : rt.now();
+    if (zagrebHour(at) !== DAILY_LOCAL_HOUR) return { daily: null, skipped: "dst-twin" };
     try { return { daily: await runDailyNarrative(rt) }; } catch (e) { console.error("daily narrative failed", msg(e)); return null; }
   }
   let cron = null;

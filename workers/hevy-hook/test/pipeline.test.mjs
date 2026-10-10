@@ -62,6 +62,12 @@ test("webhook -> Hevy fetch -> Strava rename + HR attached", async () => {
   assert.equal(await e.LIVE.get(`p:${raw.id}`), null);
   const hevyCall = f.calls.find((c) => c.url.includes("hevyapp"));
   assert.equal(hevyCall.init.headers["api-key"], "test-hevy");
+  // HR-set matcher run time for /admin/status hrMatchMsLast
+  const hm = JSON.parse(await e.LIVE.get("meta:hrMatchLast"));
+  assert.equal(hm.workoutId, raw.id);
+  assert.ok(Number.isFinite(hm.ms) && hm.ms >= 0);
+  assert.equal(typeof hm.samples, "number");
+  assert.equal(hm.at, new Date(NOW).toISOString());
 
   const res = await handle(new Request("https://x/live/recent?days=14"), e, fakeCtx(), rt);
   const j = await res.json();

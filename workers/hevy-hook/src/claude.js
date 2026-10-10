@@ -7,7 +7,8 @@
 // - The static coach rules are ONE system block with cache_control ephemeral; the volatile
 //   context + task go in the user message after it, so the prefix stays byte-identical.
 // - Retries 429 / 5xx / network errors at most twice (Retry-After honoured, else 2 s, 4 s);
-//   60 s timeout per attempt (a timeout is not retried).
+//   60 s timeout per attempt (a timeout is not retried). Callers may lower both: the webhook
+//   narrative uses 25 s and no retry (waitUntil budget ~30 s; the cron queue retries it).
 // - Every call (and every call skipped by the daily cap) is logged by usage.js.
 
 import { retryAfterSeconds } from "./http.js";
@@ -105,13 +106,15 @@ function apiErrorType(text) {
 
 /**
  * Call Claude once (with retries) and log usage.
- * @param opts {fn, model, effort, maxTokens, system, user, schema?, timeoutMs?}
+ * @param opts {fn, model, effort, maxTokens, system, user, schema?, timeoutMs?, maxRetries?}
  *   schema set  -> structured JSON output, result.data = parsed object
  *   schema null -> plain text, result.text
  * @returns {ok, err, skipped?, text, data, usage:{in,cacheRead,cacheWrite,out}, usd, model, stopReason, truncated, ms}
  */
 export async function callClaude(rt, opts) {
-  const { fn, model, effort, maxTokens, system, user, schema = null, timeoutMs = TIMEOUT_MS } = opts;
+  const { fn, model, effort, maxTokens, system, user, schema = null } = opts;
+  const timeoutMs = Number.isFinite(opts.timeoutMs) && opts.timeoutMs > 0 ? opts.timeoutMs : TIMEOUT_MS;
+  const maxRetries = Number.isInteger(opts.maxRetries) && opts.maxRetries >= 0 ? opts.maxRetries : MAX_RETRIES;
   const kv = rt.env.LIVE;
   const t0 = rt.now();
   const base = { fn, model, effort };
@@ -134,7 +137,7 @@ export async function callClaude(rt, opts) {
       method: "POST",
       headers: { ...headers, "x-api-key": rt.env.ANTHROPIC_API_KEY },
       body: JSON.stringify(body),
-    }, { timeoutMs });
+    }, { timeoutMs, maxRetries });
   } catch (e) {
     const ms = rt.now() - t0;
     const err = e.code || "network";

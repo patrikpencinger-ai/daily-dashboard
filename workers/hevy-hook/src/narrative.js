@@ -21,10 +21,18 @@ import { zgDate } from "./usage.js";
 // ---- config -------------------------------------------------------------------------
 
 export const MODES = ["current", "api"];
-// Cron expressions (UTC) — must match wrangler.toml [triggers]. 05:40 UTC = 07:40 Zagreb in
-// summer time (CEST) and 06:40 in winter time (CET).
+// Cron expressions (UTC) — must match wrangler.toml [triggers]. Cron has no time zones, so the
+// daily narrative has two triggers: 05:40 UTC (= 07:40 Zagreb in summer time, CEST) and 06:40 UTC
+// (= 07:40 in winter time, CET). Each run checks the Zagreb local hour and only the one that lands
+// at 07:xx does the work; the other is a no-op. Result: 07:40 Europe/Zagreb all year.
 export const CRON_EVERY_10 = "*/10 * * * *";
-export const DAILY_CRON = "40 5 * * *";
+export const DAILY_CRONS = ["40 5 * * *", "40 6 * * *"];
+export const DAILY_LOCAL_HOUR = 7;
+export const isDailyCron = (cron) => DAILY_CRONS.includes(cron);
+
+const ZG_HOUR = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Zagreb", hour: "2-digit", hourCycle: "h23" });
+/** Europe/Zagreb local hour (0-23) of an epoch-ms instant. */
+export const zagrebHour = (ms) => Number.parseInt(ZG_HOUR.format(new Date(ms)), 10);
 export const FUNCTION_IDS = ["narrative_workout", "narrative_daily", "coach_chat"];
 export const ALLOWED_MODELS = ["claude-opus-5-5", "claude-sonnet-5-5", "claude-haiku-5-5"];
 export const EFFORTS = ["low", "medium", "high"];
@@ -192,10 +200,13 @@ Each request ends with a TASK line. There are three kinds.
 
 ## How the CONTEXT JSON maps onto section 3a
 
-The context is computed from the live workout log (the last 20 days) and replaces the dashboard files that section 3a names:
+The context is computed from the live workout log (the last 20 days) plus the dashboard's weekly strength summary, and replaces the dashboard files that section 3a names:
 
-- weekly[] = rolling 7-day windows ending today, newest first (weekly[0] = the last 7 days). tonnageWork is work-set tonnage in kg (warm-ups excluded). It stands in for num.gym[].vol in slot 1 and flag 1. A window with tonnageWork null is outside the log's reach: do not compare against it and do not mention it.
-- acwr, acuteTonnage, chronicWeeklyTonnage = the ACWR of the load definitions on tonnageWork. When acwr is "n/a", flag 1 cannot be evaluated: skip it silently and go on to flag 2.
+- weekly[] = four weeks of load, newest first. It stands in for num.gym[].vol in slot 1 and flag 1. tonnageWork is work-set tonnage in kg (warm-ups excluded). weeklySource says what a row is:
+  - "strength-data": calendar weeks; week = the Monday date. weekly[0] is the current week and may be partial, so compare it with weekly[1] as "so far this week". Each row also has sessions, hardSets, failureSets, sRPE, hrLoad (heart-rate load in zone-minutes, null without heart rate), and acwrTonnage / acwrSRPE = the ACWR of the load definitions as of that week's last logged day. weeklyAsOf is when the summary was built; sessions[] may hold a newer session that it does not count yet.
+  - "live-20d" (or "extras"): rolling 7-day windows ending today (weekly[0] = the last 7 days). A window with tonnageWork null is outside the log's reach: do not compare against it and do not mention it.
+- muscleWeekly[] = hard sets per muscle group for the same calendar weeks (newest first), or null.
+- acwr = the ACWR on tonnage (weekly[0].acwrTonnage for "strength-data"); acwrSRPE = the same on sRPE; acuteTonnage = work tonnage over the last 7 days ending asOf; chronicWeeklyTonnage = the 28-day tonnage divided by 4 when known, else null. Flag 1 uses acwr. When acwr is "n/a" or null, flag 1 cannot be evaluated: skip it silently and go on to flag 2.
 - topSets[] = per lift, the newest top set (last) and the previous session's top set (prev), with jumpPct = the load change in percent. This is flag 2 and the anchor for the slot 3 load. It stands in for num.gym[].top.
 - lifts20d[] = every lift logged in the last 20 days. These are all inside the 4-week window of the prescription rule, so any of them may be prescribed; a lift that is not in this list must not be prescribed.
 - sessions[] = up to five newest sessions: date, title, durMin, tonnageWork, hardSets, failureSets, avgRPE, and top = the top work set per exercise (kg, reps, rpe).
@@ -333,7 +344,7 @@ export const isRetryable = (err) => RETRYABLE.test(String(err || ""));
  * Automatic runs also require the function to be enabled.
  * @returns {ok, err?, item?, usage?, usd?, skipped?}
  */
-export async function runNarrative(rt, { kind, workoutId = null, manual = false }) {
+export async function runNarrative(rt, { kind, workoutId = null, manual = false, timeoutMs, maxRetries }) {
   const kv = rt.env.LIVE;
   if ((await getMode(kv)) !== "api") return { ok: false, err: "mode-current" };
   const fnId = kind === "daily" ? "narrative_daily" : "narrative_workout";
@@ -347,11 +358,11 @@ export async function runNarrative(rt, { kind, workoutId = null, manual = false 
     if (!rec) return { ok: false, err: "unknown-workout" };
   }
   const date = zgDate(now);
-  const { json, tokens } = await buildContext(kv, now, { focusId: workoutId });
+  const { json, tokens } = await buildContext(kv, now, { focusId: workoutId, fetchImpl: rt.fetch });
   const task = kind === "daily" ? dailyTask(date) : workoutTask(rec);
   const r = await callClaude(rt, {
     fn: fnId, model: fn.model, effort: fn.effort, maxTokens: fn.maxTokens,
-    system: STATIC_RULES, user: userMessage(json, task), schema: NARRATIVE_SCHEMA,
+    system: STATIC_RULES, user: userMessage(json, task), schema: NARRATIVE_SCHEMA, timeoutMs, maxRetries,
   });
   if (!r.ok) return { ok: false, err: r.err, skipped: !!r.skipped, usage: r.usage, usd: r.usd };
   const p = parseNarrative(r.data);
@@ -381,7 +392,7 @@ export async function runCoach(rt, { question, lang }) {
   if ((await getMode(kv)) !== "api") return { ok: false, err: "mode-current" };
   const fn = (await getFunctions(kv)).coach_chat;
   if (!fn.enabled) return { ok: false, err: "disabled" };
-  const { json } = await buildContext(kv, rt.now());
+  const { json } = await buildContext(kv, rt.now(), { fetchImpl: rt.fetch });
   const r = await callClaude(rt, {
     fn: "coach_chat", model: fn.model, effort: fn.effort, maxTokens: fn.maxTokens,
     system: STATIC_RULES, user: userMessage(json, coachTask(question, lang)), schema: null,
@@ -397,6 +408,10 @@ export async function runCoach(rt, { question, lang }) {
 export const QUEUE_GRACE_MS = 5 * 60 * 1000; // an inline attempt may still be running
 export const QUEUE_MAX_AGE_MS = 6 * 3600 * 1000;
 export const QUEUE_MAX_ATTEMPTS = 2;
+// waitUntil after the webhook response lasts ~30 s, and the Hevy/Strava work before the call has
+// used part of it: the inline call gets at most 25 s and no retry. A timeout, a network error, a
+// 429 or a 5xx is retryable, so the item stays on narr:queue for the 10-minute cron (which retries).
+export const WEBHOOK_TIMEOUT_MS = 25 * 1000;
 
 async function getQueue(kv) {
   const q = await getJSON(kv, "narr:queue");
@@ -413,7 +428,7 @@ async function queueRemove(kv, id) {
  * The queue entry survives a waitUntil that is cut short; the 10-minute cron finishes it.
  * One call per webhook at most; a re-sent webhook for an unchanged workout costs nothing.
  */
-export async function afterWebhook(rt, rec) {
+export async function afterWebhook(rt, rec, { timeoutMs = WEBHOOK_TIMEOUT_MS } = {}) {
   if (!rec || !rec.id) return null;
   const kv = rt.env.LIVE;
   if ((await getMode(kv)) !== "api") return null;
@@ -425,7 +440,7 @@ export async function afterWebhook(rt, rec) {
   const q = (await getQueue(kv)).filter((e) => e.id !== rec.id);
   q.push({ id: rec.id, at: rt.now(), attempts: 1 });
   await putJSON(kv, "narr:queue", q.slice(-20));
-  const r = await runNarrative(rt, { kind: "workout", workoutId: rec.id });
+  const r = await runNarrative(rt, { kind: "workout", workoutId: rec.id, timeoutMs, maxRetries: 0 });
   if (r.ok || !isRetryable(r.err)) await queueRemove(kv, rec.id);
   return r;
 }
@@ -460,7 +475,7 @@ export async function processNarrativeQueue(rt) {
   return r;
 }
 
-/** Daily cron (07:40 Zagreb in summer time): one narrative per Zagreb date in mode "api". */
+/** Daily cron (07:40 Europe/Zagreb, see DAILY_CRONS): one narrative per Zagreb date in mode "api". */
 export async function runDailyNarrative(rt, { manual = false } = {}) {
   const kv = rt.env.LIVE;
   if ((await getMode(kv)) !== "api") return { ok: false, err: "mode-current" };

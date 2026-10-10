@@ -1568,7 +1568,7 @@ function askCoach(){
  if(!q){ASK={k:'err',e:'empty'};renderAsk();return;}
  askBusy=true;ASK={k:'busy'};renderAsk();
  const b=document.getElementById('askBtn');if(b)b.disabled=true;
- fetch(LIVE_BASE+'/admin/coach',{method:'POST',cache:'no-store',credentials:'include',redirect:'manual',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,lang})})
+ fetch(LIVE_BASE+'/admin/coach',{method:'POST',cache:'no-store',credentials:'include',redirect:'manual',headers:{'Content-Type':'text/plain'},body:JSON.stringify({question:q,lang})})
   .then(r=>{if(r.type==='opaqueredirect'||r.status===401||r.status===403)throw {lock:true};
    if(!r.ok)throw {e:String(r.status)};return r.json().catch(()=>{throw {e:'json'};});})
   .then(j=>{if(!j||typeof j.answer!=='string')throw {e:'shape'};ASK={k:'ok',answer:j.answer,usage:j.usage,usd:j.usd!=null?j.usd:(j.usage&&j.usage.usd)};})

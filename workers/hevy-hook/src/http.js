@@ -39,10 +39,42 @@ export function corsHeaders(request) {
   if (origin && ALLOWED_ORIGINS.has(origin)) {
     h["Access-Control-Allow-Origin"] = origin;
     h["Access-Control-Allow-Methods"] = "GET, OPTIONS";
-    h["Access-Control-Allow-Headers"] = "Content-Type";
+    h["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
     h["Access-Control-Max-Age"] = "86400";
   }
   return h;
+}
+
+// ---- JSON request bodies ----------------------------------------------------------------
+
+export const BODY_MAX_BYTES = 64 * 1024;
+
+/** Request body problem: status 413 (too large) or 400 (not JSON). */
+export class BodyError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+  }
+}
+
+/**
+ * Parse a JSON request body from its raw text, whatever the Content-Type says: the dashboard
+ * sends admin bodies as text/plain (a CORS-simple request, because the Access CORS settings
+ * cannot keep Content-Type in their allow-list). Over `max` bytes -> BodyError 413, invalid
+ * JSON -> BodyError 400, empty body -> `empty`.
+ */
+export async function readJsonBody(request, { max = BODY_MAX_BYTES, empty = null } = {}) {
+  const declared = Number(request.headers.get("Content-Length"));
+  if (Number.isFinite(declared) && declared > max) throw new BodyError(413, "body too large");
+  const buf = await request.arrayBuffer();
+  if (buf.byteLength > max) throw new BodyError(413, "body too large");
+  const text = new TextDecoder().decode(buf);
+  if (!text.trim()) return empty;
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new BodyError(400, "body must be JSON");
+  }
 }
 
 export function json(body, status = 200, headers = {}) {

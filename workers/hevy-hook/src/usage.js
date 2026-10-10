@@ -1,8 +1,16 @@
 // Claude API usage / cost ledger (contract: .foreman/api-contract.md).
 //
 // KV (binding LIVE)
-//   usage:<YYYY-MM-DD>  [entry...] appended per call, TTL 400 d. The day is the Europe/Zagreb date.
-//   usage:recent        last 50 entries, newest first, TTL 400 d
+//   usage:<YYYY-MM-DD>:<epochMs>-<rand>  one key per call (value = entry, metadata = the same entry),
+//                       TTL 400 d. The day is the Europe/Zagreb date. One key per call means two
+//                       concurrent calls can never overwrite each other (the old usage:<day> array
+//                       was read-then-write). Totals are built with list({prefix}), which returns
+//                       the metadata, so no per-entry get is needed.
+//                       KV list() is eventually consistent: a call logged in the last ~60 s may be
+//                       missing from a listing (and so from the daily cap check and /admin/usage);
+//                       it shows up on the next read.
+//   usage:recent        last 50 entries, newest first, TTL 400 d (convenience view; still
+//                       read-then-write, so a concurrent call may drop out of it, never out of the ledger)
 // entry = {ts, fn, model, effort, in, cacheRead, cacheWrite, out, usd, ms, ok, err,
 //          skipped?, reason?, stop?, servedBy?}
 //
@@ -20,6 +28,7 @@ export const USAGE_TTL_S = 400 * 86400;
 export const RECENT_MAX = 50;
 export const DEFAULT_MAX_USD_PER_DAY = 1.0;
 export const MAX_RANGE_DAYS = 366;
+const META_MAX_BYTES = 1000; // KV metadata limit is 1024 bytes
 
 const ZG_DATE = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Europe/Zagreb", year: "numeric", month: "2-digit", day: "2-digit",
@@ -85,14 +94,28 @@ async function readArr(kv, key) {
   return Array.isArray(v) ? v : [];
 }
 
-/** Append one entry to usage:<day> and usage:recent. Never throws (logging must not break a call). */
+const dayPrefix = (day) => `usage:${day}:`;
+
+function randSuffix() {
+  const b = new Uint8Array(4);
+  crypto.getRandomValues(b);
+  return [...b].map((x) => x.toString(16).padStart(2, "0")).join("");
+}
+
+/** Per-call ledger key: usage:<Zagreb date>:<13-digit epoch ms>-<8 hex>. */
+export function usageKey(now) {
+  return `${dayPrefix(zgDate(now))}${String(Math.max(0, Math.floor(now))).padStart(13, "0")}-${randSuffix()}`;
+}
+
+/** Write one entry under its own key and prepend it to usage:recent. Never throws (logging must not break a call). */
 export async function logUsage(kv, entry, now = Date.now()) {
   const e = { ts: new Date(now).toISOString(), ...entry };
   try {
-    const key = `usage:${zgDate(now)}`;
-    const day = await readArr(kv, key);
-    day.push(e);
-    await kv.put(key, JSON.stringify(day), { expirationTtl: USAGE_TTL_S });
+    const raw = JSON.stringify(e);
+    // metadata lets list() return the entry; an oversized entry is read back with get()
+    const opts = { expirationTtl: USAGE_TTL_S };
+    if (new TextEncoder().encode(raw).length <= META_MAX_BYTES) opts.metadata = e;
+    await kv.put(usageKey(now), raw, opts);
     const recent = [e, ...(await readArr(kv, "usage:recent"))].slice(0, RECENT_MAX);
     await kv.put("usage:recent", JSON.stringify(recent), { expirationTtl: USAGE_TTL_S });
   } catch (err) {
@@ -101,15 +124,35 @@ export async function logUsage(kv, entry, now = Date.now()) {
   return e;
 }
 
+/** Every ledger key under `prefix` ({name, metadata}), following list() cursors. */
+async function listAll(kv, prefix) {
+  const out = [];
+  let cursor;
+  for (let page = 0; page < 1000; page++) {
+    const r = await kv.list(cursor ? { prefix, cursor } : { prefix });
+    out.push(...(r.keys || []));
+    if (r.list_complete || !r.cursor) break;
+    cursor = r.cursor;
+  }
+  return out;
+}
+
+async function entryOf(kv, k) {
+  if (k.metadata && typeof k.metadata === "object") return k.metadata;
+  return kv.get(k.name, "json");
+}
+
+/** Ledger entries of one Zagreb day, oldest first. */
 export async function dayEntries(kv, day) {
-  return readArr(kv, `usage:${day}`);
+  const keys = await listAll(kv, dayPrefix(day));
+  return (await Promise.all(keys.map((k) => entryOf(kv, k)))).filter(Boolean);
 }
 
 export async function recentEntries(kv) {
   return readArr(kv, "usage:recent");
 }
 
-/** USD spent today (Europe/Zagreb date). */
+/** USD spent today (Europe/Zagreb date). Eventually consistent (see the KV note above). */
 export async function spendToday(kv, now = Date.now()) {
   let s = 0;
   for (const e of await dayEntries(kv, zgDate(now))) s += n(e.usd);
@@ -205,9 +248,21 @@ export function aggregate(byDay, group) {
   return { rows: list, totals: total };
 }
 
-/** Read usage:<day> for every day in [from, to] (the caller bounds the range). */
+/** Longest common prefix of two strings. */
+function commonPrefix(a, b) {
+  let i = 0;
+  while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  return a.slice(0, i);
+}
+
+/** [[day, entries[]]] for every day in [from, to] (the caller bounds the range). One paginated
+ *  list() over the dates' common prefix (e.g. "usage:2026-") instead of one per day. */
 export async function usageRange(kv, from, to) {
   const days = daysBetween(from, to);
-  const vals = await Promise.all(days.map((d) => dayEntries(kv, d)));
-  return days.map((d, i) => [d, vals[i]]);
+  const byDay = new Map(days.map((d) => [d, []]));
+  const keys = (await listAll(kv, `usage:${commonPrefix(from, to)}`))
+    .filter((k) => byDay.has(k.name.slice(6, 16)) && k.name[16] === ":");
+  const vals = await Promise.all(keys.map((k) => entryOf(kv, k)));
+  keys.forEach((k, i) => { if (vals[i]) byDay.get(k.name.slice(6, 16)).push(vals[i]); });
+  return days.map((d) => [d, byDay.get(d)]);
 }

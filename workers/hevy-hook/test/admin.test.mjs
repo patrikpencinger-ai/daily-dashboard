@@ -125,7 +125,7 @@ test("GET /admin/config: defaults (mode current, Opus 5.5 low, 700 / chat 900), 
   assert.deepEqual(r.json.allowed.efforts, ["low", "medium", "high"]);
   assert.equal(r.json.prices["claude-opus-5-5"].input, 4);
   assert.equal(r.json.maxUsdPerDay, 1);
-  assert.equal(r.json.crons.daily, "40 5 * * *");
+  assert.equal(r.json.crons.daily, "40 5 * * *, 40 6 * * *");
 });
 
 test("PUT /admin/config: validation errors -> 400, nothing stored", async () => {
@@ -278,9 +278,68 @@ test("POST /live/pipeline (auth) -> KV pipeline:last; GET /admin/status shows it
   assert.equal(s.json.mode, "current");
   assert.equal(s.json.apiKeyConfigured, true);
   assert.equal(s.json.spendTodayUsd, 0.01);
-  assert.deepEqual(s.json.cron, { every10: "*/10 * * * *", daily: "40 5 * * *", lastAt: null, pending: 0 });
+  assert.deepEqual({ ...s.json.cron, dailyNote: undefined }, { every10: "*/10 * * * *", daily: "40 5 * * *, 40 6 * * *", dailyNote: undefined, lastAt: null, pending: 0 });
+  assert.match(s.json.cron.dailyNote, /07:40 Zagreb all year/);
   assert.equal(s.json.lastErrors[0].err, "http 500");
   assert.deepEqual(s.json.kv, { workouts: 0, pending: 0, hr: 0, narratives: 0 });
+  // hrMatch timing + plan hint
+  assert.equal(s.json.hrMatchMsLast, null);
+  assert.equal(s.json.plan.freePlanCpuMsPerInvocation, 10);
+  assert.equal(s.json.plan.overFreeLimit, false);
+  assert.match(s.json.plan.hint, /Workers Paid/);
+  await env.LIVE.put("meta:hrMatchLast", JSON.stringify({ ms: 12.5, at: new Date(NOW).toISOString(), workoutId: "wk-1", samples: 4000, sets: 40 }));
+  const s2 = await call("GET", "/admin/status");
+  assert.equal(s2.json.hrMatchMsLast, 12.5);
+  assert.equal(s2.json.plan.overFreeLimit, true);
+  assert.equal(s2.json.plan.hrMatchLast.samples, 4000);
+});
+
+// ---- bodies as text/plain, preflight headers, /admin/login ------------------------------
+
+test("admin bodies: parsed from raw text whatever the Content-Type; > 64 KB -> 413; bad JSON -> 400", async () => {
+  const { env, rt } = setup();
+  const send = async (body, ct) => {
+    const h = { "Cf-Access-Jwt-Assertion": TOKEN, Origin: "https://dash.er45.com" };
+    if (ct) h["Content-Type"] = ct;
+    const res = await handle(new Request(`${BASE}/admin/config`, { method: "PUT", headers: h, body }), env, fakeCtx(), rt);
+    return { status: res.status, json: await res.json() };
+  };
+  const plain = await send(JSON.stringify({ mode: "api" }), "text/plain;charset=UTF-8");
+  assert.deepEqual([plain.status, plain.json.mode], [200, "api"]);
+  assert.equal(await env.LIVE.get("cfg:mode", "json"), "api");
+  const none = await send(JSON.stringify({ mode: "current" }), null);
+  assert.deepEqual([none.status, none.json.mode], [200, "current"]);
+  const bad = await send("{mode: api", "text/plain");
+  assert.deepEqual([bad.status, bad.json.error], [400, "body must be JSON"]);
+  const big = await send(JSON.stringify({ mode: "api", pad: "x".repeat(64 * 1024) }), "text/plain");
+  assert.deepEqual([big.status, big.json.error], [413, "body too large"]);
+  assert.equal(await env.LIVE.get("cfg:mode", "json"), "current");
+});
+
+test("OPTIONS preflight: Access-Control-Allow-Headers carries Content-Type and Authorization", async () => {
+  const { env, rt } = setup();
+  for (const path of ["/admin/config", "/live/health"]) {
+    const res = await handle(new Request(BASE + path, { method: "OPTIONS", headers: { Origin: "https://dash.er45.com" } }), env, fakeCtx(), rt);
+    assert.equal(res.status, 204, path);
+    assert.equal(res.headers.get("Access-Control-Allow-Headers"), "Content-Type, Authorization", path);
+  }
+});
+
+test("GET /admin/login: HTML page for a top-level visit, JSON for fetch, 401 without a JWT", async () => {
+  const { env, rt, call } = setup();
+  const res = await handle(new Request(`${BASE}/admin/login`, {
+    headers: { "Cf-Access-Jwt-Assertion": TOKEN, Accept: "text/html,application/xhtml+xml", "Sec-Fetch-Mode": "navigate" },
+  }), env, fakeCtx(), rt);
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get("Content-Type"), /^text\/html/);
+  assert.equal(res.headers.get("Cache-Control"), "no-store");
+  const html = await res.text();
+  assert.match(html, /Prijava uspješna — vrati se na dashboard/);
+  assert.match(html, /href="https:\/\/dash\.er45\.com\/#admin"/);
+  const j = await call("GET", "/admin/login");
+  assert.deepEqual([j.status, j.json], [200, { ok: true }]);
+  assert.equal((await call("GET", "/admin/login", { token: null })).status, 401);
+  assert.equal((await call("POST", "/admin/login")).status, 405);
 });
 
 test("GET /admin/ping: free models check, no usage logged", async () => {

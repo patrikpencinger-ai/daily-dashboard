@@ -1,19 +1,29 @@
-// Compact coach context built from the live KV workouts (contract: .foreman/api-contract.md).
+// Compact coach context (contract: .foreman/api-contract.md).
 // Only precomputed numbers go to the model, never raw series. Target <= ~3K tokens (chars / 4).
 //
-// {asOf, focusWorkoutId, sessions[<=5], weekly[4], acwr, muscles7d, topSets[], lifts20d[],
+// {asOf, focusWorkoutId, sessions[<=5], weeklySource, weeklyAsOf, weekly[4], muscleWeekly[4]|null,
+//  acwr, acwrSRPE, acuteTonnage, chronicWeeklyTonnage, muscles7d, topSets[], lifts20d[],
 //  hrMatch|null, sleep|null, readiness|null}
 //
-// Coverage: KV keeps workouts for WORKOUT_TTL_S (20 d), so a 7-day window that starts before
-// that has tonnageWork null, and ACWR (needs 28 d) is "n/a" until a longer source is wired in
-// through `extras.weekly` / `extras.acwr`. Sleep / readiness are hooks (`extras.sleep`,
-// `extras.readiness`); the Worker has no sleep data in KV yet.
+// Weekly load comes from the dashboard's own https://dash.er45.com/strength-data.json
+// (`weekly[]` + `muscleWeekly[]`: calendar weeks from Monday, written by tools/build_strength.py),
+// compacted to the last 4 weeks and cached in KV `cache:strength-weekly` for 10 min. Only when
+// that fetch fails does the context fall back to rolling 7-day windows from the live KV log,
+// which keeps workouts for WORKOUT_TTL_S (20 d) only, so ACWR (needs 28 d) is "n/a" there.
+// Sessions, top sets, muscles7d and hrMatch always come from KV: they include a workout logged
+// minutes ago, which strength-data.json only picks up on the next pipeline run.
+// Sleep / readiness are hooks (`extras.sleep`, `extras.readiness`); the Worker has no sleep data.
 
 import { getIndex, getWorkout, WORKOUT_TTL_S } from "./store.js";
 import { zgDate } from "./usage.js";
 
 const DAY_MS = 86400 * 1000;
 export const CONTEXT_MAX_TOKENS = 3000;
+export const STRENGTH_URL = "https://dash.er45.com/strength-data.json";
+export const STRENGTH_CACHE_KEY = "cache:strength-weekly";
+export const STRENGTH_CACHE_TTL_S = 600;
+export const STRENGTH_FETCH_TIMEOUT_MS = 8000;
+const WEEKS = 4;
 export const approxTokens = (s) => Math.ceil(String(s).length / 4);
 
 const r1 = (x) => Math.round(x * 10) / 10;
@@ -143,13 +153,104 @@ function topSetChanges(sessions) {
   return out.slice(0, 14);
 }
 
+// ---- weekly load from strength-data.json ------------------------------------------------
+
+const rnd = (v) => (num(v) === null ? null : Math.round(Number(v)));
+
+/** {refreshedAt, weekly, muscleWeekly} from the strength-data.json text. The file is ~1 MB and
+ *  the two arrays are its last keys, so only that tail is parsed (far less CPU than the whole
+ *  document); if the layout changes, one full JSON.parse is the fallback. */
+export function extractWeekly(text) {
+  const m = /"refreshedAt"\s*:\s*"([^"]{1,40})"/.exec(text.slice(0, 4000));
+  const refreshedAt = m ? m[1] : null;
+  const i = text.lastIndexOf('"weekly"');
+  if (i > 0) {
+    try {
+      const tail = JSON.parse(`{${text.slice(i)}`);
+      if (Array.isArray(tail.weekly)) return { refreshedAt, weekly: tail.weekly, muscleWeekly: tail.muscleWeekly };
+    } catch { /* not the last keys: full parse below */ }
+  }
+  const d = JSON.parse(text);
+  return {
+    refreshedAt: (d && d.meta && d.meta.refreshedAt) || refreshedAt,
+    weekly: d && d.weekly,
+    muscleWeekly: d && d.muscleWeekly,
+  };
+}
+
+/** Last WEEKS calendar weeks, newest first, only the fields the coach needs. */
+export function compactWeekly(src) {
+  const weekly = (Array.isArray(src.weekly) ? src.weekly : []).filter((w) => w && typeof w.week === "string")
+    .slice(-WEEKS).reverse().map((w) => ({
+      week: w.week,
+      sessions: num(w.sessions),
+      tonnageWork: rnd(w.tonnageWork),
+      hardSets: num(w.hardSets),
+      failureSets: num(w.failureSets),
+      sRPE: rnd(w.sRPE),
+      hrLoad: rnd(w.hrLoad),
+      acwrTonnage: num(w.acwrTonnage) === null ? null : r2(Number(w.acwrTonnage)),
+      acwrSRPE: num(w.acwrSRPE) === null ? null : r2(Number(w.acwrSRPE)),
+    }));
+  const weeks = new Set(weekly.map((w) => w.week));
+  const muscleWeekly = (Array.isArray(src.muscleWeekly) ? src.muscleWeekly : [])
+    .filter((w) => w && weeks.has(w.week) && w.m && typeof w.m === "object")
+    .reverse().map((w) => ({
+      week: w.week,
+      hardSets: Object.fromEntries(Object.entries(w.m)
+        .map(([g, v]) => [g, r1(Number((v && v.hardSets) || 0))])
+        .filter(([, v]) => v > 0)
+        .sort((a, b) => b[1] - a[1])),
+    }));
+  return { refreshedAt: src.refreshedAt || null, weekly, muscleWeekly };
+}
+
+/**
+ * Compact weekly load from strength-data.json: KV cache (10 min) -> fetch -> null on any failure.
+ * @returns {fetchedAt, refreshedAt, weekly[], muscleWeekly[]} | null
+ */
+export async function loadStrengthWeekly(kv, fetchImpl, now) {
+  try {
+    const c = await kv.get(STRENGTH_CACHE_KEY, "json");
+    if (c && Array.isArray(c.weekly) && c.weekly.length && now - Date.parse(c.fetchedAt) < STRENGTH_CACHE_TTL_S * 1000) return c;
+  } catch { /* cache miss */ }
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), STRENGTH_FETCH_TIMEOUT_MS);
+  try {
+    const resp = await fetchImpl(STRENGTH_URL, { headers: { Accept: "application/json" }, signal: ac.signal });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const out = { fetchedAt: new Date(now).toISOString(), ...compactWeekly(extractWeekly(await resp.text())) };
+    if (!out.weekly.length) throw new Error("no weekly[]");
+    try {
+      await kv.put(STRENGTH_CACHE_KEY, JSON.stringify(out), { expirationTtl: STRENGTH_CACHE_TTL_S });
+    } catch { /* the cache is best effort */ }
+    return out;
+  } catch (e) {
+    console.error("strength-data fetch failed", String(e && e.message ? e.message : e));
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** Work tonnage of the KV workouts in the 7 days ending `now`. */
+function acute7d(recs, now) {
+  let ton = 0;
+  for (const r of recs) {
+    const t = Date.parse(r.start);
+    if (t > now - 7 * DAY_MS && t <= now) ton += Number((r.totals && r.totals.tonnageWork) || 0);
+  }
+  return Math.round(ton);
+}
+
 /**
  * @param kv      LIVE namespace
  * @param now     epoch ms
- * @param opts    {focusId?, extras?: {weekly?, acwr?, sleep?, readiness?}}
+ * @param opts    {focusId?, fetchImpl?, extras?: {weekly?, acwr?, sleep?, readiness?}}
+ *                fetchImpl set -> weekly load from strength-data.json (KV-derived on failure)
  * @returns {ctx, json, tokens}
  */
-export async function buildContext(kv, now, { focusId = null, extras = {} } = {}) {
+export async function buildContext(kv, now, { focusId = null, extras = {}, fetchImpl = null } = {}) {
   const idx = await getIndex(kv);
   const recs = (await Promise.all(idx.map((e) => getWorkout(kv, e.id)))).filter(Boolean);
   recs.sort((a, b) => Date.parse(b.start) - Date.parse(a.start));
@@ -160,16 +261,39 @@ export async function buildContext(kv, now, { focusId = null, extras = {} } = {}
     const f = allSessions.find((s) => s.id === focusId);
     if (f) sessions = [f, ...sessions.slice(0, 4)];
   }
-  const weekly = Array.isArray(extras.weekly) ? extras.weekly : weeklyOf(recs, now);
-  const load = extras.acwr ? extras.acwr : acwrOf(weekly);
+  const sw = !Array.isArray(extras.weekly) && fetchImpl ? await loadStrengthWeekly(kv, fetchImpl, now) : null;
+  let weekly;
+  let muscleWeekly = null;
+  let load;
+  let weeklySource;
+  if (sw) {
+    weeklySource = "strength-data";
+    weekly = sw.weekly;
+    muscleWeekly = sw.muscleWeekly;
+    const w0 = weekly[0];
+    load = {
+      acwr: w0.acwrTonnage === null ? "n/a" : w0.acwrTonnage,
+      acwrSRPE: w0.acwrSRPE === null ? "n/a" : w0.acwrSRPE,
+      acute: acute7d(recs, now),
+      chronicWeekly: null,
+    };
+  } else {
+    weeklySource = Array.isArray(extras.weekly) ? "extras" : "live-20d";
+    weekly = Array.isArray(extras.weekly) ? extras.weekly : weeklyOf(recs, now);
+    load = extras.acwr ? extras.acwr : acwrOf(weekly);
+  }
   const newestHr = recs.find((r) => r.hrMatch) || null;
 
   const ctx = {
     asOf: zgDate(now),
     focusWorkoutId: focusId,
     sessions,
+    weeklySource,
+    weeklyAsOf: sw ? sw.refreshedAt : null,
     weekly,
+    muscleWeekly,
     acwr: load.acwr,
+    acwrSRPE: load.acwrSRPE === undefined ? null : load.acwrSRPE,
     acuteTonnage: load.acute,
     chronicWeeklyTonnage: load.chronicWeekly,
     muscles7d: muscles7d(recs, now),
@@ -184,6 +308,19 @@ export async function buildContext(kv, now, { focusId = null, extras = {} } = {}
   let json = JSON.stringify(ctx);
   for (let i = ctx.sessions.length - 1; i >= 1 && approxTokens(json) > CONTEXT_MAX_TOKENS; i--) {
     ctx.sessions[i] = { ...ctx.sessions[i], top: [] };
+    json = JSON.stringify(ctx);
+  }
+  // then thin the per-week muscle table: top 6 muscles, then the two newest weeks, then none
+  if (ctx.muscleWeekly && approxTokens(json) > CONTEXT_MAX_TOKENS) {
+    ctx.muscleWeekly = ctx.muscleWeekly.map((w) => ({ ...w, hardSets: Object.fromEntries(Object.entries(w.hardSets).slice(0, 6)) }));
+    json = JSON.stringify(ctx);
+  }
+  if (ctx.muscleWeekly && approxTokens(json) > CONTEXT_MAX_TOKENS) {
+    ctx.muscleWeekly = ctx.muscleWeekly.slice(0, 2);
+    json = JSON.stringify(ctx);
+  }
+  if (ctx.muscleWeekly && approxTokens(json) > CONTEXT_MAX_TOKENS) {
+    ctx.muscleWeekly = null;
     json = JSON.stringify(ctx);
   }
   while (ctx.sessions.length > 1 && approxTokens(json) > CONTEXT_MAX_TOKENS) {

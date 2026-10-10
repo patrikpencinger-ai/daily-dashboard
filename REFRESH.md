@@ -370,6 +370,15 @@ included), so the agent's ACWR and the tab's ACWR can differ slightly.
 `strength-data.json` `meta.refreshedAt` is what the shell's "Strength" last-refresh chip
 reads (not `meta.snapshot`).
 
+### 1g. strength-data.json fields read by the hevy-hook Worker
+
+The Worker's API-mode narrative context fetches the public `strength-data.json` and reads
+`meta.refreshedAt`, `weekly[]` (`week`, `tonnageWork`, `sRPE`, `hrLoad`, `acwrTonnage`,
+`acwrSRPE`) and `muscleWeekly[]` (`week`, `m`, hard-set counts). Do not rename these keys —
+the builder (`tools/build_strength.py`) owns them and the Worker caches them for 10 min in KV
+`cache:strength-weekly`. If the fetch fails the Worker falls back to its own KV numbers (ACWR
+"n/a").
+
 ## 2. Transform into the JSON shapes
 
 - Seconds → hours (week stage arrays) or minutes (last-night stages).

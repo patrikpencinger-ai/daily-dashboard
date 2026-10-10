@@ -106,3 +106,30 @@ test("fetchRetry: 429 (Retry-After 7) then 503 then 200 -> waits 7 s, 4 s; 404 n
   }));
   assert.equal(m, 3);
 });
+
+test("/hook/hevy body: parsed from raw text whatever the Content-Type; > 64 KB -> 413; bad JSON -> 400", async () => {
+  const env = { LIVE: new MemoryKV(), WEBHOOK_AUTH: SECRET };
+  const ctx = fakeCtx();
+  const rt = makeRuntime(env, { fetch: async () => jsonResponse({}, 500), sleep: noSleep });
+  const id = "744c0280-bf24-4ad4-9562-69a0cedaae7d";
+  const post = (body, ct) => handle(req("/hook/hevy", {
+    method: "POST", body, headers: ct ? { Authorization: SECRET, "Content-Type": ct } : { Authorization: SECRET },
+  }), env, ctx, rt);
+  for (const ct of ["text/plain;charset=UTF-8", "application/json", "application/x-www-form-urlencoded", null]) {
+    const r = await post(JSON.stringify({ workoutId: id }), ct);
+    assert.equal(r.status, 200, String(ct));
+  }
+  const bad = await post("{workoutId:", "application/json");
+  assert.deepEqual([bad.status, (await bad.json()).error], [400, "body must be JSON"]);
+  const big = await post(JSON.stringify({ workoutId: id, pad: "x".repeat(64 * 1024) }), "text/plain");
+  assert.deepEqual([big.status, (await big.json()).error], [413, "body too large"]);
+  assert.equal((await post("", "text/plain")).status, 400); // empty -> no workoutId
+  assert.equal((await post("[1,2]", "text/plain")).status, 400);
+  assert.equal(ctx.tasks.length, 4);
+  await Promise.all(ctx.tasks);
+});
+
+test("CORS preflight allows Content-Type and Authorization request headers", () => {
+  const h = corsHeaders(req("/live/health", { headers: { Origin: "https://dash.er45.com" } }));
+  assert.equal(h["Access-Control-Allow-Headers"], "Content-Type, Authorization");
+});

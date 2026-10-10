@@ -1,7 +1,8 @@
 // Totals / muscles for one Hevy workout — 1:1 port of the relevant parts of
 // tools/build_strength.py (tonnage, is_hard, is_failure, ordered_sets, and the
-// per-workout block of build()).  The HR-peak <-> set matching is NOT ported:
-// the morning pipeline stays the source of truth for strength-data.json.
+// per-workout block of build()).  The HR-peak <-> set matching is ported separately
+// in src/hrmatch.js (called from process.js); the morning pipeline stays the source
+// of truth for strength-data.json.
 
 import { r1, r2 } from "./pyfmt.js";
 

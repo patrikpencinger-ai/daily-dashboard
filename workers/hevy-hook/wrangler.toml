@@ -22,10 +22,12 @@ MAX_USD_PER_DAY = "1.00"
 
 [triggers]
 # */10: pending retries, hourly events poll, queued webhook narrative (mode "api").
-# 40 5 * * *: daily coach narrative (mode "api"). Cron is UTC: 05:40 UTC = 07:40 Europe/Zagreb in
-# summer time (CEST, UTC+2) but 06:40 in winter time (CET, UTC+1, from the last Sunday of October).
-# Keep in sync with DAILY_CRON in src/narrative.js.
-crons = ["*/10 * * * *", "40 5 * * *"]
+# 40 5 * * * and 40 6 * * *: daily coach narrative (mode "api") at 07:40 Europe/Zagreb all year.
+# Cron is UTC and has no time zones: 05:40 UTC = 07:40 in summer time (CEST, UTC+2) and 06:40 UTC
+# = 07:40 in winter time (CET, UTC+1). Both fire every day; the handler runs the narrative only
+# when the Zagreb local hour is 7, so the other trigger is a no-op.
+# Keep in sync with DAILY_CRONS in src/narrative.js.
+crons = ["*/10 * * * *", "40 5 * * *", "40 6 * * *"]
 
 [observability]
 enabled = true

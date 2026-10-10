@@ -333,7 +333,7 @@ class HttpErr extends Error{constructor(status,msg){super(msg||String(status));t
 function api(path,opt){
  opt=opt||{};
  const init={method:opt.method||'GET',credentials:opt.pub?'omit':'include',cache:'no-store',redirect:'manual',headers:{}};
- if(opt.body!==undefined){init.headers['Content-Type']='application/json';init.body=JSON.stringify(opt.body);}
+ if(opt.body!==undefined){init.headers['Content-Type']='text/plain';/* text/plain keeps the request CORS-simple: Cloudflare Access ahead of the Worker handles the preflight only for methods, so no custom header is sent */init.body=JSON.stringify(opt.body);}
  let ac=null,to=null;try{ac=new AbortController();init.signal=ac.signal;to=setTimeout(()=>{try{ac.abort();}catch(e){}},opt.timeout||20000);}catch(e){}
  return fetch(LIVE_BASE+path,init).then(r=>{
    if(to)clearTimeout(to);

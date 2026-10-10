@@ -85,13 +85,29 @@ export function hrSkeleton(workout) {
  * full-resolution stream -> rec.hrMatch.  `doc` = the raw HR doc just built from
  * Strava, else the cached KV hr:<stravaId>.  Omitted when no set matches; a
  * matcher failure is logged and never blocks the pipeline.
+ *
+ * The run time goes to KV meta:hrMatchLast {ms, at, workoutId, samples, sets} for
+ * /admin/status (hrMatchMsLast): the matcher is the Worker's heaviest CPU step and the
+ * free plan allows 10 ms CPU per invocation.  Caveat: the Workers runtime advances
+ * performance.now() / Date.now() only at I/O, so a pure-CPU run can read ~0 ms there;
+ * Observability's per-invocation CPU time is the authoritative number.
  */
+const clockMs = () => (globalThis.performance && typeof performance.now === "function" ? performance.now() : Date.now());
+
 async function attachHrMatch(rt, rec, skel, stravaId, doc) {
   const kv = rt.env.LIVE;
   try {
     const d = doc || (await getHr(kv, stravaId));
     if (!d || d.none) return;
+    const t0 = clockMs();
     const hm = matchWorkoutHr(skel, d);
+    const ms = Math.round((clockMs() - t0) * 100) / 100;
+    try {
+      await putJSON(kv, "meta:hrMatchLast", {
+        ms, at: new Date(rt.now()).toISOString(), workoutId: rec.id,
+        samples: Array.isArray(d.timestamps) ? d.timestamps.length : null, sets: hm ? hm.expected : null,
+      });
+    } catch { /* diagnostics only */ }
     if (hm && hm.matched > 0) rec.hrMatch = hm;
     else delete rec.hrMatch;
   } catch (e) {
