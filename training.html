@@ -66,6 +66,13 @@ body{padding:20px;transition:background .2s}
 #twrap.dark .expert[data-role=nutri]{--xc:#5FD0AA;--xbg:rgba(29,158,117,0.16)}
 #twrap.dark .expert[data-role=md]{--xc:#E24B4A;--xbg:rgba(226,75,74,0.15)}
 #twrap.mobile .expert{font-size:12px;padding:8px 10px}
+/* "Ask the coach" (API mode only) */
+#askBox{margin:12px 0 0;border-top:0.5px solid var(--bd);padding-top:10px}
+#askQ{font:inherit;font-size:13px;color:var(--tp);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:7px 9px;width:100%;min-height:60px;box-sizing:border-box;resize:vertical;display:block;margin:0 0 8px}
+#askQ:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#askOut{font-size:13px;line-height:1.55;margin:8px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+#askOut .err{color:var(--bad)}
+#twrap.dark #askOut .err{color:#e58a8a}
 button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 #twrap.mobile button{padding:10px 14px!important;min-height:40px;min-width:40px}
@@ -118,6 +125,15 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <div class="chiprow" id="rdChips"></div>
   <p class="tlab note" id="rdInputs" style="margin:0 0 10px;"></p>
   <div class="expert" data-role="coach" id="x-today" style="margin-bottom:0;"></div>
+  <div id="askBox" style="display:none;">
+    <div data-i="askH" style="font-weight:500;font-size:14px;margin:0 0 6px;">Pitaj trenera</div>
+    <textarea id="askQ" maxlength="1000" data-ia="askH" aria-label=""></textarea>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <button id="askBtn" onclick="askCoach()" data-i="askBtn">Pitaj</button>
+      <span class="tlab note" data-i="askNote"></span>
+    </div>
+    <div id="askOut" aria-live="polite"></div>
+  </div>
 </div>
 
 <div style="background:var(--bg);border:0.5px solid var(--bd);border-radius:12px;padding:1rem 1.25rem;margin:0 0 1.5rem;">
@@ -363,6 +379,9 @@ const T={
   heatTip:"heat load — air temp {v} °C",heatTip35:"hydration + electrolytes — air temp {v} °C",
   lRef:"HR max reference 173 (Fox) / 175 (Tanaka)",lHot:"ring = peak ≥165 (95% of 173)",hotTip:"≥95% of max HR",
   swOpt:"Wrist-optical HR is unreliable in water: an isolated spike far above the session average (e.g. 174 bpm against an average of 126) should be treated as suspect data, not a real effort. A chest strap fixes it.",
+  askH:"Ask the coach",askBtn:"Ask",askPh:"e.g. Can I add a set of squats today?",askNote:"Paid Claude API call (API mode).",
+  askBusy:"Asking…",askEmpty:"Type a question first.",askLock:"Asking the coach needs the Admin sign-in (Cloudflare Access) — open the Admin tab and sign in.",
+  askErr:"The coach is unavailable right now ({e}).",askUse:"{i} in · {c} cache · {o} out tokens · ${u}",
   rdH:"TODAY'S SESSION",rdR:"readiness",rdGo:"Proceed as planned; load may go up",rdHold:"Proceed; hold loads, no PR attempts",rdCut:"Cut top sets ~30% or swap to an easy swim",
   rdInT:"Inputs: sleep score {s}, HRV {h} ms (baseline {hb}), RHR {r} bpm (baseline {rb}), ACWR {a}.",rdBaseT:"Baselines: {src}.",
   rdSrc28:"28-day means from the sleep trend ({n} nights)",rdSrc7:"7-night means from the sleep week (28-day trend not available yet)",rdNoAcwr:"not available",
@@ -475,6 +494,9 @@ const T={
   heatTip:"toplinsko opterećenje — temp. zraka {v} °C",heatTip35:"hidracija + elektroliti — temp. zraka {v} °C",
   lRef:"Referentni maks. puls 173 (Fox) / 175 (Tanaka)",lHot:"prsten = vrh ≥165 (95% od 173)",hotTip:"≥95% maks. pulsa",
   swOpt:"Optički senzor pulsa na zapešću nepouzdan je u vodi: izolirani skok znatno iznad prosjeka treninga (npr. 174 bpm uz prosjek 126) treba tretirati kao sumnjiv podatak, a ne stvarni napor. Pojas na prsima to rješava.",
+  askH:"Pitaj trenera",askBtn:"Pitaj",askPh:"npr. Smijem li danas dodati seriju čučnjeva?",askNote:"Plaćeni poziv Claude API-ja (API način).",
+  askBusy:"Pitam…",askEmpty:"Prvo upiši pitanje.",askLock:"Pitanje treneru traži prijavu u Admin (Cloudflare Access) — otvori karticu Admin i prijavi se.",
+  askErr:"Trener trenutačno nije dostupan ({e}).",askUse:"{i} ulaz · {c} cache · {o} izlaz tokena · ${u}",
   rdH:"DANAŠNJI TRENING",rdR:"spremnost",rdGo:"Nastavi po planu; opterećenje smije rasti",rdHold:"Nastavi; zadrži težine, bez pokušaja rekorda",rdCut:"Smanji najteže serije ~30% ili zamijeni laganim plivanjem",
   rdInT:"Ulazi: ocjena sna {s}, HRV {h} ms (osnovica {hb}), puls u mirovanju {r} bpm (osnovica {rb}), ACWR {a}.",rdBaseT:"Osnovice: {src}.",
   rdSrc28:"28-dnevni prosjeci iz trenda sna ({n} noći)",rdSrc7:"prosjeci 7 noći iz tjedna sna (28-dnevni trend još nije dostupan)",rdNoAcwr:"nedostupno",
@@ -1462,6 +1484,7 @@ function setLang(l){if(l!=='en'&&l!=='hr')return;lang=l;LBL=T[l];
  try{localStorage.setItem('dash-lang',l);}catch(e){}
  if(typeof Chart!=='undefined')Chart.defaults.locale=loc();
  applyStatic();
+ if(typeof renderAsk==='function')renderAsk();
  markBtns();
  if(!tr||!DAT)return;
  fillKpis();buildBridgeButtons();
@@ -1512,7 +1535,47 @@ function markBtns(){
  document.querySelectorAll('#liftrow button').forEach(b=>style(b,b.getAttribute('data-l')===liftSel));
  document.querySelectorAll('#rangerow button').forEach(b=>style(b,Number(b.getAttribute('data-r'))===rangeSel));
  document.querySelectorAll('#effrow button').forEach(b=>style(b,b.getAttribute('data-st')===effSel));
+ style(document.getElementById('askBtn'),false);
 }
+/* ================= Ask the coach (API mode) =================
+   Visible only when GET {LIVE_BASE}/live/health reports mode=="api"; POST /admin/coach {question, lang} with the
+   Cloudflare Access cookie -> {answer, usage, usd}. 401/403/Access redirect -> sign-in hint; anything else -> error line. */
+const LIVE_BASE='https://hevy.er45.com';
+let ASK=null,askBusy=false;
+function askModeCheck(){
+ let ac=null,to=null;try{ac=new AbortController();to=setTimeout(()=>{try{ac.abort();}catch(e){}},4000);}catch(e){ac=null;}
+ let p;try{p=fetch(LIVE_BASE+'/live/health',{cache:'no-store',credentials:'omit',signal:ac?ac.signal:undefined});}catch(e){p=Promise.reject(e);}
+ p.then(r=>{if(!r.ok)throw new Error(String(r.status));return r.json();})
+  .then(j=>{const on=!!(j&&j.mode==='api');const b=document.getElementById('askBox');if(b)b.style.display=on?'':'none';})
+  .catch(()=>{const b=document.getElementById('askBox');if(b)b.style.display='none';})
+  .then(()=>{if(to)clearTimeout(to);});
+}
+function renderAsk(){
+ const q=document.getElementById('askQ');if(q)q.placeholder=LBL.askPh;
+ const o=document.getElementById('askOut');if(!o)return;
+ if(!ASK){o.innerHTML='';return;}
+ if(ASK.k==='busy'){o.textContent=LBL.askBusy;return;}
+ if(ASK.k==='lock'){o.innerHTML='<span class="err">'+esc(LBL.askLock)+'</span>';return;}
+ if(ASK.k==='err'){o.innerHTML='<span class="err">'+esc(ASK.e==='empty'?LBL.askEmpty:tpl(LBL.askErr,{e:ASK.e}))+'</span>';return;}
+ const u=ASK.usage||{},n=v=>nf(nz(v),0),cr=(nz(u.cacheRead!=null?u.cacheRead:u.cacheReadTokens)||0)+(nz(u.cacheWrite!=null?u.cacheWrite:u.cacheWriteTokens)||0);
+ const usd=nz(ASK.usd);
+ o.innerHTML='<div>'+esc(ASK.answer)+'</div><div class="tlab note" style="margin-top:4px;">'
+  +esc(tpl(LBL.askUse,{i:n(u.in!=null?u.in:u.inputTokens),c:n(cr),o:n(u.out!=null?u.out:u.outputTokens),u:usd!=null?nf(usd,Math.abs(usd)<1?4:2):'—'}))+'</div>';
+}
+function askCoach(){
+ if(askBusy)return;
+ const q=(document.getElementById('askQ').value||'').trim();
+ if(!q){ASK={k:'err',e:'empty'};renderAsk();return;}
+ askBusy=true;ASK={k:'busy'};renderAsk();
+ const b=document.getElementById('askBtn');if(b)b.disabled=true;
+ fetch(LIVE_BASE+'/admin/coach',{method:'POST',cache:'no-store',credentials:'include',redirect:'manual',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,lang})})
+  .then(r=>{if(r.type==='opaqueredirect'||r.status===401||r.status===403)throw {lock:true};
+   if(!r.ok)throw {e:String(r.status)};return r.json().catch(()=>{throw {e:'json'};});})
+  .then(j=>{if(!j||typeof j.answer!=='string')throw {e:'shape'};ASK={k:'ok',answer:j.answer,usage:j.usage,usd:j.usd!=null?j.usd:(j.usage&&j.usage.usd)};})
+  .catch(x=>{ASK=x&&x.lock?{k:'lock'}:{k:'err',e:(x&&x.e)||'network'};})
+  .then(()=>{askBusy=false;if(b)b.disabled=false;renderAsk();});
+}
+askModeCheck();renderAsk();
 /* first paint already in the stored language (default hr) */
 if(typeof Chart!=='undefined')Chart.defaults.locale=loc();
 applyStatic();

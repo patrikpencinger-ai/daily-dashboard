@@ -26,6 +26,7 @@
   --wt:#a64ce8;
   --health:#c23b3b;
   --str:#D85A30;
+  --admin:#8a93a6;
 }
 [data-theme="dark"]{
   --bg:#0b0f17;          /* stylish near-black, slight navy tint */
@@ -66,7 +67,7 @@ header{display:flex;align-items:flex-start;justify-content:space-between;gap:10p
 .stat{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 11px;box-shadow:var(--shadow)}
 .stat b{color:var(--ink);font-weight:600}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
-.dot.sleep{background:var(--sleep)} .dot.train{background:var(--train)} .dot.food{background:var(--food)} .dot.wt{background:var(--wt)} .dot.health{background:var(--health)} .dot.str{background:var(--str)}
+.dot.sleep{background:var(--sleep)} .dot.train{background:var(--train)} .dot.food{background:var(--food)} .dot.wt{background:var(--wt)} .dot.health{background:var(--health)} .dot.str{background:var(--str)} .dot.admin{background:var(--admin)}
 
 /* Refresh tooltip (custom hover popover) */
 .refresh-wrap{position:relative}
@@ -84,7 +85,7 @@ nav button{flex:1;font:inherit;font-size:14px;font-weight:500;color:var(--ink-so
 nav button.active{background:var(--accent);color:var(--accent-ink)}
 nav button:hover:not(.active){color:var(--ink)}
 nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-/* <=560 px: 6 tabs must fit a 375 px phone; labels may wrap to 2 lines, and if they still
+/* <=560 px: 7 tabs must fit a 375 px phone; labels may wrap to 2 lines, and if they still
    do not fit the nav scrolls sideways inside itself - the page never does */
 @media(max-width:560px){
   nav{gap:2px;padding:4px;min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
@@ -123,6 +124,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
             <li><span class="dot food"></span><span><span class="nm" data-i18n="navIntake">Prehrana</span> — <code>data.json</code><br><span data-i18n="srcFood">ručni dnevnik prehrane</span></span></li>
             <li><span class="dot wt"></span><span><span class="nm" data-i18n="navWeight">Težina</span> — <code>weight-data.json</code><br><span data-i18n="srcWt">tjedni prosjeci vage, ručno</span></span></li>
             <li><span class="dot health"></span><span><span class="nm" data-i18n="navHealth">Zdravlje</span> — <code>clinical-data.json</code><br><span data-i18n="srcHealth">ručni klinički unosi — nikad se ne osvježavaju automatski (privatno, Cloudflare Access)</span></span></li>
+            <li><span class="dot admin"></span><span><span class="nm" data-i18n="navAdmin">Admin</span> — <code>/admin</code><br><span data-i18n="srcAdmin">način rada, modeli i potrošnja Claude API-ja na Workeru (privatno, Cloudflare Access)</span></span></li>
           </ul>
           <div class="note" data-i18n-html="tipNote">Za svježe brojke zamoli Claudea da <em>„osvježi nadzornu ploču“</em> — to prepisuje ove datoteke, a zatim ih ovaj gumb ponovno povlači.</div>
         </div>
@@ -138,6 +140,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
     <span class="stat"><span class="dot food"></span><span data-i18n="stFood">Hrana</span> <b id="ts-food">—</b></span>
     <span class="stat"><span class="dot wt"></span><span data-i18n="stWt">Težina</span> <b id="ts-wt">—</b></span>
     <span class="stat"><span class="dot health"></span><span data-i18n="stHealth">Zdravlje</span> <b id="ts-health">—</b></span>
+    <span class="stat"><span class="dot admin"></span><span data-i18n="stAdmin">Admin</span> <b id="ts-admin">—</b></span>
   </div>
 
   <nav>
@@ -147,6 +150,7 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
     <button data-tab="intake" data-i18n="navIntake">Prehrana</button>
     <button data-tab="weight" data-i18n="navWeight">Težina</button>
     <button data-tab="health" data-i18n="navHealth">Zdravlje</button>
+    <button data-tab="admin" data-i18n="navAdmin">Admin</button>
   </nav>
 
   <iframe class="frame active" data-tab="sleep"    src="sleep.html"    title="San i oporavak" data-i18n-title="navSleep"    scrolling="no"></iframe>
@@ -161,11 +165,23 @@ nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outl
     <p id="healthLockMsg" data-i18n="hlMsg">Prijavi se e-mailom (jednokratni kod) da ga otvoriš.</p>
     <button id="healthLockBtn" class="btn" data-i18n="hlBtn">Prijava</button>
   </div>
+  <iframe class="frame" id="adminFrame" data-tab="admin" title="Admin" data-i18n-title="navAdmin" scrolling="no"></iframe>
+  <div class="health-lock" id="adminLock" data-tab="admin">
+    <div class="lock-ic" id="adminLockIc">🔒</div>
+    <h3 id="adminLockTitle" data-i18n="alTitle">Admin je privatan</h3>
+    <p id="adminLockMsg" data-i18n="alMsg">Prijavi se e-mailom (jednokratni kod). Prijava se otvara u novoj kartici — nakon nje se vrati ovdje.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+      <button id="adminLockBtn" class="btn" data-i18n="alBtn">Prijava</button>
+      <button id="adminRetryBtn" class="btn" data-i18n="alRetry">Pokušaj ponovno</button>
+    </div>
+  </div>
 
   <div class="tip" data-i18n-html="foot">Koristi 🌙 / ☀ za temu, a HR / EN za jezik (vrijedi za sve kartice). · Zadrži pokazivač iznad <code>↻ Osvježi</code> da vidiš što svaka kartica učitava.</div>
 </div>
 
 <script>
+/* Worker hevy-hook (see .foreman/live-contract.md, .foreman/api-contract.md) — the Admin tab is gated on its /admin/config */
+const LIVE_BASE='https://hevy.er45.com';
 /* ---- Language (HR / EN) --------------------------------------------- */
 /* Global key localStorage['dash-lang'] = 'hr'|'en', default 'hr'. The shell owns the switch,
    translates its own strings from T and pushes the language into every tab via setLang(). */
@@ -187,6 +203,13 @@ const T={
   noEntries:'no entries', noEntriesTip:'no entries recorded yet',
   hlTitle:'Health record is private', hlMsg:'Sign in with your e-mail (one-time code) to open it.', hlBtn:'Sign in',
   chip:'🔒 sign in', tip:'Health record is behind Cloudflare Access — sign in with a one-time e-mail code to view it.',
+  navAdmin:'Admin', stAdmin:'Admin', srcAdmin:'mode, models and Claude API spend on the Worker (private, Cloudflare Access)',
+  alTitle:'Admin is private', alMsg:'Sign in with your e-mail (one-time code). The sign-in opens in a new tab — come back here afterwards.',
+  alBtn:'Sign in', alRetry:'Try again',
+  auTitle:'Admin is unavailable right now', auMsg:'The Worker did not answer ({e}). Everything else keeps working from the JSON files.',
+  adChip:'🔒 sign in', adNa:'unavailable', adTip:'Admin (mode, models, Claude API spend) is behind Cloudflare Access on the Worker.',
+  adNaTip:'The Worker /admin endpoint did not answer: {e}', adMode:'{m} · today {u}', adModeCur:'current', adModeApi:'API',
+  adOpenTip:'Mode {m} · Claude API spend today {u}',
   foot:'Use 🌙 / ☀ for the theme and HR / EN for the language (applies to all tabs). · Hover <code>↻ Refresh</code> to see what each tab loads.',
   mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
   wd:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
@@ -208,6 +231,13 @@ const T={
   noEntries:'nema unosa', noEntriesTip:'još nema zabilježenih unosa',
   hlTitle:'Zdravstveni karton je privatan', hlMsg:'Prijavi se e-mailom (jednokratni kod) da ga otvoriš.', hlBtn:'Prijava',
   chip:'🔒 prijava', tip:'Zdravstveni karton štiti Cloudflare Access — prijavi se jednokratnim kodom poslanim na e-mail da ga otvoriš.',
+  navAdmin:'Admin', stAdmin:'Admin', srcAdmin:'način rada, modeli i potrošnja Claude API-ja na Workeru (privatno, Cloudflare Access)',
+  alTitle:'Admin je privatan', alMsg:'Prijavi se e-mailom (jednokratni kod). Prijava se otvara u novoj kartici — nakon nje se vrati ovdje.',
+  alBtn:'Prijava', alRetry:'Pokušaj ponovno',
+  auTitle:'Admin trenutačno nije dostupan', auMsg:'Worker nije odgovorio ({e}). Sve ostalo i dalje radi iz JSON datoteka.',
+  adChip:'🔒 prijava', adNa:'nedostupno', adTip:'Admin (način rada, modeli, potrošnja Claude API-ja) štiti Cloudflare Access na Workeru.',
+  adNaTip:'Workerov /admin nije odgovorio: {e}', adMode:'{m} · danas {u}', adModeCur:'trenutačni', adModeApi:'API',
+  adOpenTip:'Način {m} · potrošnja Claude API-ja danas {u}',
   foot:'Koristi 🌙 / ☀ za temu, a HR / EN za jezik (vrijedi za sve kartice). · Zadrži pokazivač iznad <code>↻ Osvježi</code> da vidiš što svaka kartica učitava.',
   mon:['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro'],
   wd:['ned','pon','uto','sri','čet','pet','sub']
@@ -233,11 +263,34 @@ const fmtExact=v=>{ if(!v) return null; const d=new Date(v); if(isNaN(d)) return
   return _lang==='hr'
     ? `${wd}, ${d.getDate()}. ${mon} ${d.getFullYear()}., ${p2(d.getHours())}:${p2(d.getMinutes())}`
     : `${wd}, ${d.getDate()} ${mon} ${d.getFullYear()}, ${p2(d.getHours())}:${p2(d.getMinutes())}`; };
+/* USD for display: hr-HR / en-US, 4 decimals under $1 */
+const fmtUsd=v=>{ if(typeof v!=='number'||!isFinite(v)) return '—';
+  return '$'+new Intl.NumberFormat(_lang==='hr'?'hr-HR':'en-US',{minimumFractionDigits:Math.abs(v)<1?4:2,maximumFractionDigits:Math.abs(v)<1?4:2}).format(v); };
+/* Admin lock card: 'locked' (401/403/Access redirect) or 'unavail' (503/other/network) */
+let adminState='locked', adminErr='';
+function renderAdminLock(){
+  const t=document.getElementById('adminLockTitle'), m=document.getElementById('adminLockMsg'),
+        ic=document.getElementById('adminLockIc'), b=document.getElementById('adminLockBtn');
+  if(!t||!m) return;
+  const na=adminState==='unavail';
+  t.textContent=na?tr('auTitle'):tr('alTitle');
+  m.textContent=na?tr('auMsg').replace('{e}',adminErr||'—'):tr('alMsg');
+  if(ic) ic.textContent=na?'⚠':'🔒';
+  if(b) b.style.display=na?'none':'';
+}
 function renderStatus(){
   Object.keys(ST).forEach(id=>{
     const node=document.getElementById(id); if(!node) return;
     const s=ST[id], chip=node.closest('.stat');
     if(s.kind==='locked'){ node.textContent=tr('chip'); if(chip) chip.title=tr('tip'); return; }
+    if(s.kind==='adlock'){ node.textContent=tr('adChip'); if(chip) chip.title=tr('adTip'); return; }
+    if(s.kind==='adna'){ node.textContent=tr('adNa'); if(chip) chip.title=tr('adNaTip').replace('{e}',s.err||'—'); return; }
+    if(s.kind==='adopen'){
+      const m=s.mode==='api'?tr('adModeApi'):tr('adModeCur'), u=fmtUsd(s.usd);
+      node.textContent=s.usd==null?m:tr('adMode').replace('{m}',m).replace('{u}',u);
+      if(chip) chip.title=tr('adOpenTip').replace('{m}',m).replace('{u}',u);
+      return;
+    }
     const exact=fmtExact(s.ra)||fmtExact(s.lm);
     if(s.kind==='health'){
       node.textContent=s.empty?tr('noEntries'):fmtDate(s.iso);
@@ -266,6 +319,7 @@ function applyShellLang(){
   const rb=document.getElementById('refreshBtn'); if(rb) rb.textContent=refreshing?d.refreshing:d.refresh;
   themeBtnTitle();
   window.__healthI18n={title:d.hlTitle,msg:d.hlMsg,btn:d.hlBtn,chip:d.chip,tip:d.tip};
+  renderAdminLock();
   renderStatus();
 }
 document.getElementById('langBtn').onclick=()=>{
@@ -315,6 +369,22 @@ function refreshHealthPaneVisibility(){
   if(hl) hl.classList.toggle('active', healthLocked && currentTab==='health');
 }
 refreshHealthPaneVisibility();
+function refreshAdminPaneVisibility(){
+  const al=document.getElementById('adminLock');
+  const af=document.getElementById('adminFrame');
+  const open=adminState==='open';
+  if(af) af.style.display=open?'':'none';
+  if(al) al.classList.toggle('active', !open && currentTab==='admin');
+}
+refreshAdminPaneVisibility();
+(function(){
+  const b=document.getElementById('adminLockBtn');
+  /* the Access login has to happen top-level on the Worker's host (it sets that host's cookie) */
+  if(b) b.onclick=()=>{ try{ window.open(LIVE_BASE+'/admin/config','_blank','noopener'); }catch(e){} };
+  const r=document.getElementById('adminRetryBtn');
+  if(r) r.onclick=()=>{ if(window.pullAdmin) window.pullAdmin(); };
+  window.addEventListener('focus',()=>{ if(adminState==='locked'&&window.pullAdmin) window.pullAdmin(); });
+})();
 
 /* ---- Last-refresh status: read meta dates from the JSON files ------ */
 (function(){
@@ -355,6 +425,45 @@ refreshHealthPaneVisibility();
     renderStatus();
     refreshHealthPaneVisibility();
   });
+  /* Probe the Worker's /admin/config with the Access cookie (credentials:'include', redirect:'manual').
+     OPEN only if the response is ok AND the body is JSON with a `mode` key.
+     401 / 403 / opaqueredirect (Access login redirect) -> LOCKED (sign-in card);
+     503 / any other status / bad JSON / network error or 8 s timeout -> UNAVAILABLE (same card, no sign-in button).
+     admin.html is loaded into its iframe only once the probe says OPEN. */
+  const pullAdmin=()=>{
+    let ac=null,to=null; try{ ac=new AbortController(); to=setTimeout(()=>{ try{ac.abort();}catch(e){} },8000); }catch(e){}
+    return fetch(LIVE_BASE+'/admin/config',{cache:'no-store',credentials:'include',redirect:'manual',signal:ac?ac.signal:undefined}).then(r=>{
+      if(r.type==='opaqueredirect'||r.status===401||r.status===403) throw {lock:true};
+      if(!r.ok) throw {lock:false,e:String(r.status)};
+      return r.json().catch(()=>{ throw {lock:false,e:'json'}; }).then(j=>{
+        if(!j||typeof j!=='object'||!('mode' in j)) throw {lock:false,e:'shape'};
+        return j;
+      });
+    }).then(j=>{
+      if(to) clearTimeout(to);
+      adminState='open'; adminErr='';
+      const frame=document.getElementById('adminFrame');
+      if(frame && !frame.getAttribute('src')) frame.src='admin.html';
+      ST['ts-admin']={kind:'adopen',mode:j.mode,usd:null};
+      renderAdminLock(); renderStatus(); refreshAdminPaneVisibility();
+      /* spend today for the chip: public /live/health (no credentials) */
+      return fetch(LIVE_BASE+'/live/health',{cache:'no-store',credentials:'omit'}).then(r=>r.ok?r.json():null).then(h=>{
+        if(!h) return;
+        const sp=h.spendTodayUsd!=null?h.spendTodayUsd:(h.spend&&typeof h.spend==='object'?(h.spend.todayUsd!=null?h.spend.todayUsd:h.spend.today):null);
+        if(typeof sp==='number'&&isFinite(sp)&&ST['ts-admin']&&ST['ts-admin'].kind==='adopen'){ ST['ts-admin'].usd=sp; renderStatus(); }
+      }).catch(()=>{});
+    }).catch(x=>{
+      if(to) clearTimeout(to);
+      const lock=!!(x&&x.lock);
+      adminState=lock?'locked':'unavail';
+      adminErr=lock?'':((x&&x.e)||(x&&x.name==='AbortError'?'timeout':'network'));
+      const frame=document.getElementById('adminFrame');
+      if(frame) frame.removeAttribute('src');
+      ST['ts-admin']=lock?{kind:'adlock'}:{kind:'adna',err:adminErr};
+      renderAdminLock(); renderStatus(); refreshAdminPaneVisibility();
+    });
+  };
+  window.pullAdmin=pullAdmin;
   window.loadStatus=()=>{
     pull('sleep-data.json',    j=>j.meta&&j.meta.snapshot,    'ts-sleep');
     pull('training-data.json', j=>j.meta&&j.meta.snapshot,    'ts-train');
@@ -362,6 +471,7 @@ refreshHealthPaneVisibility();
     pull('data.json',          j=>j.meta&&j.meta.intake_asof, 'ts-food');
     pull('weight-data.json',   j=>j.meta&&j.meta.asOf,        'ts-wt');
     pullHealth();
+    pullAdmin();
   };
   window.loadStatus();
 })();
@@ -423,6 +533,7 @@ document.querySelectorAll('nav button').forEach(btn=>{
       }
     });
     refreshHealthPaneVisibility();
+    refreshAdminPaneVisibility();
   };
 });
 window.addEventListener('resize',()=>document.querySelectorAll('.frame').forEach(fit));

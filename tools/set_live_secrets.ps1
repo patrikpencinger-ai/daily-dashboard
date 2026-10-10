@@ -11,8 +11,11 @@
                                       refresh_token             -> STRAVA_REFRESH_TOKEN (seed; the Worker
                                                                    keeps the rotated token in KV)
     <cache>\secrets\hevy-webhook.txt  random 32-byte hex        -> WEBHOOK_AUTH
+    <cache>\secrets\anthropic.env     ANTHROPIC_API_KEY=...     -> ANTHROPIC_API_KEY (API mode; on a full
+                                                                   push it is skipped with a note when the
+                                                                   file is absent; required with -Only)
 
-  <cache> = $env:ZG_CACHE or $HOME\.claude\cache\daily-dashboard.
+  <cache> =$env:ZG_CACHE or $HOME\.claude\cache\daily-dashboard.
   Only secret NAMES are printed. Values go through stdin (never the command line).
 
 .PARAMETER Only
@@ -25,6 +28,8 @@
   powershell -ExecutionPolicy Bypass -File tools\set_live_secrets.ps1
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File tools\set_live_secrets.ps1 -Only WEBHOOK_AUTH
+.EXAMPLE
+  powershell -ExecutionPolicy Bypass -File tools\set_live_secrets.ps1 -Only ANTHROPIC_API_KEY
 #>
 [CmdletBinding()]
 param(
@@ -78,6 +83,25 @@ if (Test-Path $hookFile) {
   $h = (Get-Content -LiteralPath $hookFile -Raw -Encoding UTF8).Trim()
   if ($h -notmatch '^[0-9a-f]{64}$') { $problems += "WEBHOOK_AUTH in $hookFile is not 64 hex chars" } else { $values['WEBHOOK_AUTH'] = $h }
 } else { $problems += "missing file $hookFile" }
+
+# --- anthropic.env (API mode) ------------------------------------------------------
+$anthEnv = Join-Path $SecretsDir 'anthropic.env'
+if (Test-Path $anthEnv) {
+  $akey = $null
+  foreach ($line in Get-Content -LiteralPath $anthEnv -Encoding UTF8) {
+    $t = $line.Trim()
+    if ($t -eq '' -or $t.StartsWith('#') -or -not $t.Contains('=')) { continue }
+    $k, $v = $t.Split('=', 2)
+    if ($k.Trim() -eq 'ANTHROPIC_API_KEY') { $akey = $v.Trim().Trim('"').Trim("'") }
+  }
+  if (Test-Placeholder $akey) { $problems += "ANTHROPIC_API_KEY missing in $anthEnv" }
+  elseif (-not $akey.StartsWith('sk-ant-')) { $problems += "ANTHROPIC_API_KEY in $anthEnv does not start with sk-ant-" }
+  else { $values['ANTHROPIC_API_KEY'] = $akey }
+} elseif ($Only -contains 'ANTHROPIC_API_KEY') {
+  $problems += "missing file $anthEnv (ANTHROPIC_API_KEY=sk-ant-...)"
+} elseif ($Only.Count -eq 0) {
+  Write-Host "note: $anthEnv not found - ANTHROPIC_API_KEY skipped (API mode stays unconfigured)"
+}
 
 if ($Only.Count -gt 0) {
   $keep = [ordered]@{}

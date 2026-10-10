@@ -65,6 +65,19 @@ import urllib.request
 from collections import Counter, defaultdict
 from pathlib import Path
 
+# Python 3.12+ sums floats with compensated (Neumaier) summation; 3.9-3.11 do not. That changes the last
+# bit of means/thresholds and shifts a peak by 1 s. Shadow sum() with math.fsum for floats so a 3.9 build
+# (Mac mini cron) equals a 3.12+ build (PC). Ints and other types use the builtin unchanged.
+_builtin_sum = sum
+
+
+def sum(iterable, start=0):  # noqa: A001
+    xs = list(iterable)
+    if isinstance(start, float) or any(isinstance(x, float) for x in xs):
+        return math.fsum([start] + xs)
+    return _builtin_sum(xs, start)
+
+
 VERSION = "st-1.1"
 REPO = Path(__file__).resolve().parent.parent
 CONFIG_PATH = Path(__file__).resolve().parent / "strength-config.json"

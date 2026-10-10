@@ -91,6 +91,9 @@ body{padding:20px;transition:background .2s}
 .expert[data-role=coach]{--xc:#D85A30;--xbg:rgba(216,90,48,0.08)}
 #swrap.dark .expert[data-role=coach]{--xc:#EE8B58;--xbg:rgba(216,90,48,0.16)}
 #swrap.mobile .expert{font-size:12px;padding:8px 10px}
+.expert[data-role=api]{--xc:#1f8fd0;--xbg:rgba(44,170,240,0.08)}
+#swrap.dark .expert[data-role=api]{--xc:#5cc0f5;--xbg:rgba(44,170,240,0.14)}
+.expert .xs{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--xc);margin-right:6px}
 button:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 #swrap.mobile button{padding:10px 14px!important;min-height:40px;min-width:40px}
@@ -130,6 +133,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <div class="chiprow" id="liveMus"></div>
   <p class="tlab note" data-i="liveMusNote" style="margin:0 0 10px;"></p>
   <div id="liveHrBlock" style="display:none;">
+    <div class="legend" id="liveLegend" style="display:none;"></div>
     <div id="livewrap" style="position:relative;width:100%;height:200px;margin:0 0 0.4rem;">
       <canvas id="livec" role="img" data-ia="aLive" aria-label=""></canvas>
     </div>
@@ -138,6 +142,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   <div class="tblwrap" id="liveTbl"></div>
   <div class="expert" data-role="coach" id="x-live" style="margin:0;"></div>
 </div>
+<div class="expert" data-role="api" id="liveNarr" style="display:none;margin:-0.5rem 0 1.25rem;"></div>
 
 <div id="kpiSec" style="display:none;">
 <div class="tcards">
@@ -342,6 +347,10 @@ const T={
   liveMusNote:"Bold number = hard sets in this workout (secondary muscles count ½). \"week\" = Monday–Sunday total including this workout; green = 10–20, red = over 20.",
   liveMusNone:"no hard sets (RPE ≥ 7) logged in this workout",
   liveHrNote:"HR per set is matched in the morning rebuild",
+  liveHrNoteM:"Each marker = the HR peak matched to one logged set (live preview, same anchor method as the morning rebuild, which stays authoritative).",
+  lmMatch:"HR per set: matched {m}/{e}",lmConf:"{p}% of sets confident",
+  narH:"Coach (API)",nar_trend:"Trend",nar_flag:"Flag",nar_prescription:"Prescription",nar_lever:"Lever",
+  narMeta:"{m} · effort {e}{u} · {t}",ef_low:"low",ef_medium:"medium",ef_high:"high",
   liveNoHr:"HR arrives here once Strava has the activity; HR per set is matched in the morning rebuild.",
   liveNa:"Live: unavailable",liveOk:"Live: checked {t} · no workouts newer than the morning rebuild",
   lxNoRpe:"No RPE logged in this workout — hard sets and the failure rule need RPE on every work set.",
@@ -440,6 +449,10 @@ const T={
   liveMusNote:"Podebljani broj = teške serije u ovom treningu (sekundarni mišići broje ½). \"tjedan\" = zbroj od ponedjeljka do nedjelje uključujući ovaj trening; zeleno = 10–20, crveno = iznad 20.",
   liveMusNone:"u ovom treningu nema teških serija (RPE ≥ 7)",
   liveHrNote:"Uparivanje pulsa po setovima stiže s jutarnjim osvježavanjem",
+  liveHrNoteM:"Svaka oznaka = vrh pulsa uparen s jednom zabilježenom serijom (pregled uživo, ista metoda sidra kao jutarnje osvježavanje, koje ostaje mjerodavno).",
+  lmMatch:"Puls po seriji: upareno {m}/{e}",lmConf:"{p} % serija pouzdano",
+  narH:"Trener (API)",nar_trend:"Trend",nar_flag:"Upozorenje",nar_prescription:"Propisano",nar_lever:"Poluga",
+  narMeta:"{m} · napor {e}{u} · {t}",ef_low:"nizak",ef_medium:"srednji",ef_high:"visok",
   liveNoHr:"Puls stiže ovdje čim Strava ima aktivnost; uparivanje pulsa po setovima stiže s jutarnjim osvježavanjem.",
   liveNa:"Uživo: nedostupno",liveOk:"Uživo: provjereno {t} · nema treninga novijih od jutarnjeg osvježavanja",
   lxNoRpe:"U ovom treningu nije zabilježen RPE — teške serije i pravilo otkaza trebaju RPE na svakoj radnoj seriji.",
@@ -1028,9 +1041,23 @@ function renderExperts(){
    GET {LIVE_BASE}/live/recent?days=14 (Hevy webhook preview). Shown only for workouts newer than the newest one in
    strength-data.json; the morning rebuild stays the source of truth. Any error/timeout/CORS failure = silent fallback. */
 let LIVE=null,LIVE_OK=null,LIVE_T=null,liveSel=null,livec=null,liveTimer=null,liveBusy=false;
+/* API-mode narrative: GET {LIVE_BASE}/live/narrative?days=14 → {mode, items:[{workoutId, kind, createdAt, model, effort, en:{trend,flag,prescription,lever}, hr:{…}}]}.
+   Shown under the live card only when an item exists for the selected live workout; any error = hidden. */
+let NARR=null,narrBusy=false;
+function narrFetch(){
+ if(narrBusy)return;narrBusy=true;
+ let ac=null,to=null;try{ac=new AbortController();to=setTimeout(()=>{try{ac.abort();}catch(e){}},4000);}catch(e){ac=null;}
+ let p;
+ try{p=fetch(LIVE_BASE+'/live/narrative?days=14',{cache:'no-store',credentials:'omit',signal:ac?ac.signal:undefined});}catch(e){p=Promise.reject(e);}
+ p.then(r=>{if(!r.ok)throw new Error(String(r.status));return r.json();})
+  .then(j=>{NARR=(j&&Array.isArray(j.items))?j:null;})
+  .catch(()=>{NARR=null;})
+  .then(()=>{if(to)clearTimeout(to);narrBusy=false;if(LIVE)safe(renderLive);});
+}
 const hhmm=d=>String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
 const LSTAT={received:['lsReceived',''],'strava-renamed':['lsRenamed',''],'hr-attached':['lsHr','good'],'strava-pending':['lsPending','warn']};
 function liveFetch(){
+ narrFetch();
  if(liveBusy)return;liveBusy=true;
  let ac=null,to=null;try{ac=new AbortController();to=setTimeout(()=>{try{ac.abort();}catch(e){}},4000);}catch(e){ac=null;}
  let p;
@@ -1067,7 +1094,13 @@ function makeLiveChart(){
   data:{datasets:[{label:'hr',data:[],borderColor:hrLine,borderWidth:1.4,pointRadius:0,pointHoverRadius:3,pointHitRadius:6,tension:0.15}]},
   options:{locale:LOC(),responsive:true,maintainAspectRatio:false,animation:false,parsing:true,layout:{padding:{top:6}},
    interaction:{mode:'nearest',axis:'x',intersect:false},
-   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c.length?f1(c[0].parsed.x)+' min':'',label:c=>f0(c.parsed.y)+' bpm'}}},
+   plugins:{legend:{display:false},tooltip:{callbacks:{
+    title:c=>{if(!c.length)return '';const r=c[0].raw;return r&&r.e?r.e.title:f1(c[0].parsed.x)+' min';},
+    label:c=>{const r=c.raw;if(!r||!r.m)return f0(c.parsed.y)+' bpm';const m=r.m,st=r.st||{};
+     const lines=[tpl(LBL.ttSet,{n:(nz(m.set)!=null?m.set:0)+1})+' · '+loadStr(st),typeLbl(st)+(lvFail(st)&&st.type!=='failure'?' · '+LBL.tFail:'')];
+     lines.push(tpl(LBL.ttPeak,{v:f0(m.peakHR)})+(nz(m.hrStart)!=null&&nz(m.peakHR)!=null?' · '+tpl(LBL.ttDelta,{v:sig(m.peakHR-m.hrStart,0)}):''));
+     lines.push(tpl(LBL.ttRest,{v:fRest(m.restBeforeS)})+' · '+tpl(LBL.ttConf,{v:f2(m.conf)}));
+     return lines;}}}},
    scales:{x:{type:'linear',min:0,title:{display:true,text:'min',color:txt},grid:{color:grid},ticks:{color:txt,stepSize:10,font:{size:layout==='mobile'?9:11}}},
     y:{min:60,max:180,title:{display:true,text:'bpm',color:txt},grid:{color:grid},ticks:{color:txt,stepSize:20,font:{size:layout==='mobile'?9:11}}}}},
   plugins:[bgPlug,hrRefPlug]});
@@ -1080,7 +1113,7 @@ function renderLive(){
   if(LIVE_OK===false)t=L.liveNa;
   else if(LIVE_OK&&S&&!list.length)t=tpl(L.liveOk,{t:hhmm(LIVE_T||new Date())});
   note.textContent=t;note.style.display=t?'':'none';}
- if(!list.length){show('liveSec',false);return;}
+ if(!list.length){show('liveSec',false);show('liveNarr',false);return;}
  let w=list.find(x=>x.id===liveSel);if(!w){w=list[0];liveSel=w.id;}
  show('liveSec',true);
  setTxt('liveUpd',tpl(L.liveUpd,{t:hhmm(LIVE_T||new Date())}));
@@ -1097,6 +1130,10 @@ function renderLive(){
  const sm=LSTAT[w.status]||LSTAT.received;
  let bh=chipEl(sm[1],'<b>'+esc(L[sm[0]])+'</b>');
  if(w.strava&&w.strava.name)bh+=chipEl('',esc(tpl(L.lsStravaT,{n:w.strava.name})));
+ /* per-set HR peaks from the Worker's JS matcher (additive `hrMatch`, see .foreman/api-contract.md) */
+ const hm=liveMatch(w);
+ if(hm){const cp=nz(hm.confSetsPct);
+  bh+=chipEl(cp==null?'':(cp<30?'warn':(cp>=50?'good':'')),'<span><b>'+esc(tpl(L.lmMatch,{m:f0(hm.matched),e:f0(hm.expected)}))+'</b>'+(cp!=null?' · '+esc(tpl(L.lmConf,{p:f0(cp)})):'')+'</span>');}
  document.getElementById('liveBadges').innerHTML=bh;
  /* totals */
  const t=w.totals||{},hasRpe=nz(t.avgRPE)!=null;
@@ -1119,23 +1156,45 @@ function renderLive(){
   show('liveHrBlock',true);makeLiveChart();
   const pts=[];for(let i=0;i<hr.t.length;i++){const x=nz(hr.t[i]),y=nz(hr.v[i]);if(x!=null&&y!=null)pts.push({x:x/60,y});}
   const ds=livec.data.datasets[0];ds.data=pts;ds.borderColor=hrLine;
+  /* set markers: one scatter dataset per exercise, colours/shapes as in the session explorer */
+  const M=layout==='mobile',mk=[ds];let lg='',nMk=0;
+  if(hm){(w.exercises||[]).forEach((e,i)=>{const col=EXC[i%EXC.length];
+    const rows=hm.sets.filter(m=>liveExPos(w,m.ex)===i&&nz(m.tPeak)!=null&&nz(m.peakHR)!=null);
+    if(!rows.length)return;nMk+=rows.length;
+    const data=rows.map(m=>({x:m.tPeak/60,y:m.peakHR,m,e,st:(e.sets||[])[m.set]||{}}));
+    mk.push({type:'scatter',label:e.title,data,borderColor:col,backgroundColor:data.map(d=>d.st.type==='warmup'?'transparent':col),
+     pointStyle:data.map(d=>lvFail(d.st)?'triangle':'circle'),pointRadius:M?4.5:5.5,pointHoverRadius:M?6.5:7.5,borderWidth:2,order:1});
+    lg+='<span><span class="swc" style="background:'+col+';"></span>'+esc(e.title)+'</span>';});}
+  livec.data.datasets=mk;
+  const hasMk=mk.length>1&&!!(Chart.Interaction&&Chart.Interaction.modes&&Chart.Interaction.modes.setpk);
+  livec.options.interaction.mode=hasMk?'setpk':'nearest';
+  livec.options.plugins.tooltip.filter=hasMk?(it=>it.datasetIndex>0):undefined;
+  const lgEl=document.getElementById('liveLegend');
+  if(nMk){lgEl.innerHTML='<span><span class="swl" style="border-top:1.5px solid '+hrLine+';"></span>'+esc(L.lgHr)+'</span>'+lg+'<span>'+esc(L.lgHollow)+'</span><span>'+esc(L.lgTri)+'</span>';lgEl.style.display='';}
+  else{lgEl.innerHTML='';lgEl.style.display='none';}
+  document.getElementById('livewrap').setAttribute('data-markers',String(nMk));
   const tmax=pts.length?pts[pts.length-1].x:10;livec.options.scales.x.max=Math.max(10,Math.ceil(tmax/5)*5);
   livec.options.scales.x.ticks.stepSize=tmax>90?20:10;
   const lo=pts.length?Math.min.apply(null,pts.map(p=>p.y)):60;livec.options.scales.y.min=lo<60?40:60;
   livec.options.locale=LOC();
   livec.update('none');
-  setTxt('liveHrNote',L.liveHrNote);
+  setTxt('liveHrNote',hm?L.liveHrNoteM:L.liveHrNote);
  }else{show('liveHrBlock',false);setTxt('liveHrNote',L.liveNoHr);}
- /* exercises + sets */
- let h='<table class="st"><thead><tr><th>#</th><th class="ld">'+esc(L.thLoad)+'</th></tr></thead>';
+ /* exercises + sets (+ per-set HR peaks when hrMatch is present) */
+ const pk={};if(hm)hm.sets.forEach(m=>{const i=liveExPos(w,m.ex);if(i!=null&&nz(m.set)!=null)pk[i+'|'+m.set]=m;});
+ const nc=hm?5:2;
+ let h='<table class="st"><thead><tr><th>#</th><th class="ld">'+esc(L.thLoad)+'</th>'+(hm?'<th>'+esc(L.thPk)+'</th><th>'+esc(L.thRest)+'</th><th>'+esc(L.thConf)+'</th>':'')+'</tr></thead>';
  (w.exercises||[]).forEach((e,i)=>{const col=EXC[i%EXC.length],sets=e.sets||[];
-  h+='<tbody><tr class="exh"><td colspan="2"><span class="swc" style="background:'+col+';display:inline-block;margin-right:6px;vertical-align:0;"></span><b>'+esc(e.title)+'</b> <span class="tlab" style="font-size:11px;">· '
+  h+='<tbody><tr class="exh"><td colspan="'+nc+'"><span class="swc" style="background:'+col+';display:inline-block;margin-right:6px;vertical-align:0;"></span><b>'+esc(e.title)+'</b> <span class="tlab" style="font-size:11px;">· '
    +esc(tpl(L.exMeta,{m:mName(e.primary),q:eqName(e.equipment),h:fH(sets.filter(lvHard).length)}))+'</span></td></tr>';
   let n=0,wu=0;
-  sets.forEach(s=>{const isW=s.type==='warmup';const lab=isW?L.abW+(++wu):String(++n);
+  sets.forEach((s,si)=>{const isW=s.type==='warmup';const lab=isW?L.abW+(++wu):String(++n);
    h+='<tr class="'+(isW?'wu':'')+'" title="'+esc(typeLbl(s))+'"><td>'+esc(lab)+'</td><td class="ld">'+esc(loadStr(s))
-    +(lvFail(s)?'<span class="fl" title="'+esc(L.tFail)+'">'+esc(L.abF)+'</span>':'')+'</td></tr>';});
-  if(e.notes)h+='<tr class="exn"><td colspan="2">'+esc(L.noteL)+': '+esc(e.notes)+'</td></tr>';
+    +(lvFail(s)?'<span class="fl" title="'+esc(L.tFail)+'">'+esc(L.abF)+'</span>':'')+'</td>';
+   if(hm){const m=pk[i+'|'+si];const lc=m&&nz(m.conf)!=null&&m.conf<0.3;
+    h+=m?'<td>'+f0(m.peakHR)+'</td><td>'+fRest(m.restBeforeS)+'</td><td class="'+(lc?'lowc':'')+'">'+f2(m.conf)+'</td>':'<td>—</td><td>—</td><td>—</td>';}
+   h+='</tr>';});
+  if(e.notes)h+='<tr class="exn"><td colspan="'+nc+'">'+esc(L.noteL)+': '+esc(e.notes)+'</td></tr>';
   h+='</tbody>';});
  h+='</table>';
  document.getElementById('liveTbl').innerHTML=h;
@@ -1156,7 +1215,30 @@ function renderLive(){
  }
  if(w.status==='strava-pending')b.push(L.lxPending);
  xBox('x-live',b);
+ renderNarr(w);
  markBtns();
+}
+/* hrMatch is used only when it carries a set list */
+function liveMatch(w){const h=w&&w.hrMatch;return (h&&typeof h==='object'&&Array.isArray(h.sets)&&h.sets.length)?h:null;}
+/* hrMatch.sets[].ex = exercise position in the workout (as setRows[].ex in strength-data.json); a title string is accepted too.
+   hrMatch.sets[].set = index into that exercise's sets, warm-ups included (as setRows[].set). */
+function liveExPos(w,ex){const xs=w.exercises||[];
+ if(typeof ex==='number'&&isFinite(ex))return ex>=0&&ex<xs.length?ex:null;
+ if(typeof ex==='string'){const i=xs.findIndex(e=>e.title===ex);return i>=0?i:null;}
+ return null;}
+function renderNarr(w){
+ const el=document.getElementById('liveNarr');if(!el)return;
+ const items=((NARR&&NARR.items)||[]).filter(x=>x&&x.kind==='workout'&&x.workoutId===w.id)
+  .sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+ const it=items[0],sl=it&&(it[lang]||it.hr||it.en);
+ const keys=['trend','flag','prescription','lever'].filter(k=>sl&&typeof sl[k]==='string'&&sl[k].trim());
+ if(!keys.length){el.innerHTML='';el.style.display='none';return;}
+ const L=LBL,u=nz(it.usd!=null?it.usd:(it.usage&&it.usage.usd));
+ const d=it.createdAt?new Date(it.createdAt):null;
+ const when=d&&!isNaN(d)?fmtD(isoD(d))+' '+hhmm(d):'—';
+ el.innerHTML='<div class="xh">'+esc(L.narH)+'</div><ul>'+keys.map(k=>'<li><span class="xs">'+esc(L['nar_'+k])+'</span>'+esc(sl[k])+'</li>').join('')+'</ul>'
+  +'<p class="xf">'+esc(tpl(L.narMeta,{m:it.model||'—',e:L['ef_'+it.effort]||it.effort||'—',u:u!=null?' · $'+nf(u,Math.abs(u)<1?4:2):'',t:when}))+'</p>';
+ el.style.display='';
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')liveStop();else liveStart();});
 

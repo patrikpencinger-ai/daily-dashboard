@@ -12,8 +12,20 @@ routes = [{ pattern = "hevy.er45.com", custom_domain = true }]
 binding = "LIVE"
 id = "9d6384fc162e47879e7530297ecebc5c"   # title "LIVE", created 2026-09-29
 
+[vars]
+# Cloudflare Access application AUD tag for /admin/* (Zero Trust -> Access -> Applications ->
+# <app> -> Overview -> Application Audience (AUD) Tag). Empty = every /admin/* answers 503
+# "admin not configured" (never open). Not a secret.
+ACCESS_AUD = "60a97e3233834776bb1afb42fcef941b3e7324be2cec864c779ec07eea208111"
+# Daily Claude API spend cap in USD (Europe/Zagreb day). At or above it, calls are skipped and logged.
+MAX_USD_PER_DAY = "1.00"
+
 [triggers]
-crons = ["*/10 * * * *"]
+# */10: pending retries, hourly events poll, queued webhook narrative (mode "api").
+# 40 5 * * *: daily coach narrative (mode "api"). Cron is UTC: 05:40 UTC = 07:40 Europe/Zagreb in
+# summer time (CEST, UTC+2) but 06:40 in winter time (CET, UTC+1, from the last Sunday of October).
+# Keep in sync with DAILY_CRON in src/narrative.js.
+crons = ["*/10 * * * *", "40 5 * * *"]
 
 [observability]
 enabled = true

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — način rada i potrošnja</title>
+<script>/* language before first paint: hide the page until the i18n pass has run (fallback 3 s) */
+(function(){var l='hr';try{var v=localStorage.getItem('dash-lang');if(v==='en'||v==='hr')l=v;}catch(e){}
+ var h=document.documentElement;h.lang=l;h.classList.add('i18n-pending');
+ setTimeout(function(){h.classList.remove('i18n-pending');},3000);})();</script>
+<link rel="icon" href="data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'><rect%20width='32'%20height='32'%20rx='7'%20fill='%2316243a'/><circle%20cx='16'%20cy='16'%20r='5'%20fill='none'%20stroke='%232caaf0'%20stroke-width='3'/><path%20d='M16%205v4M16%2023v4M5%2016h4M23%2016h4M8.2%208.2l2.8%202.8M21%2021l2.8%202.8M8.2%2023.8l2.8-2.8M21%2011l2.8-2.8'%20stroke='%232caaf0'%20stroke-width='2.4'%20stroke-linecap='round'/></svg>">
+<style>
+html.i18n-pending #awrap{visibility:hidden}
+html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{padding:20px;transition:background .2s;background:#262624}
+#awrap{--bg:#ffffff;--surf:#f1efe8;--tp:#1a1a18;--ts:rgba(0,0,0,0.62);--bd:rgba(0,0,0,0.28);--bd2:rgba(0,0,0,0.08);--acc:#2caaf0;--accInk:#08121f;--good:#1D9E75;--warn:#BA7517;--bad:#A32D2D;
+ background:var(--bg);color:var(--tp);padding:16px;border-radius:12px;width:100%;max-width:900px;margin:0 auto;box-sizing:border-box;min-width:0}
+#awrap.dark{--bg:#262624;--surf:#33322f;--tp:#ffffff;--ts:rgba(255,255,255,0.72);--bd:rgba(255,255,255,0.22);--bd2:rgba(255,255,255,0.08);--warn:#E0A53C;--bad:#e58a8a;--good:#5fd0aa}
+#awrap.mobile{padding:14px}
+#awrap *{box-sizing:border-box}
+.ttl{font-size:20px;font-weight:500;letter-spacing:0.04em}
+#awrap.mobile .ttl{font-size:16px}
+.tlab{font-size:13px;color:var(--ts)}
+.note{font-size:11px;line-height:1.55;color:var(--ts)}
+.sh{font-size:14px;font-weight:600;letter-spacing:0.06em;margin:1.5rem 0 0.6rem;color:var(--ts);text-transform:uppercase}
+.sh.first{margin-top:0}
+a.backlink{font-size:12px;color:var(--tp);text-decoration:none;border:1px solid var(--bd);border-radius:8px;padding:7px 10px;min-height:40px;display:inline-flex;align-items:center}
+a.backlink:hover{background:var(--surf)}
+.access{border-left:3px solid var(--acc);background:rgba(44,170,240,0.09);border-radius:0 8px 8px 0;padding:8px 12px;font-size:12.5px;line-height:1.5;margin:0 0 1rem;overflow-wrap:anywhere}
+.btn{font:inherit;font-size:13px;font-weight:500;color:var(--tp);background:transparent;border:1px solid var(--bd);border-radius:8px;padding:8px 13px;min-height:40px;cursor:pointer;white-space:nowrap;max-width:100%}
+.btn:hover{background:var(--surf)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:var(--accInk)}
+.btn.paid::after{content:" $";font-weight:700;opacity:.7}
+.btn[disabled]{opacity:.5;cursor:default}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+/* lock card */
+.lock{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:32px 16px;background:var(--surf);border-radius:12px;min-height:220px}
+.lock.on{display:flex}
+.lock .ic{font-size:34px;line-height:1}
+.lock h3{font-size:16px;font-weight:600;margin:0}
+.lock p{font-size:13px;color:var(--ts);max-width:360px;margin:0;overflow-wrap:anywhere}
+/* mode cards */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 10px}
+#awrap.mobile .modes{grid-template-columns:1fr}
+.mcard{display:flex;gap:10px;align-items:flex-start;background:var(--surf);border:2px solid transparent;border-radius:10px;padding:12px;cursor:pointer;min-width:0}
+.mcard.on{border-color:var(--acc)}
+.mcard input{margin:3px 0 0;flex:none;width:18px;height:18px;accent-color:var(--acc)}
+.mcard b{display:block;font-size:14px;font-weight:600;margin:0 0 3px}
+.mcard span{display:block;font-size:12.5px;line-height:1.5;color:var(--ts)}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12px;line-height:1.4;font-weight:500;border:1px solid var(--bd);background:var(--surf);color:var(--ts);max-width:100%;overflow-wrap:anywhere}
+.chip b{font-weight:600;color:var(--tp)}
+.chip.good{background:rgba(29,158,117,0.13);border-color:rgba(29,158,117,0.45);color:var(--good)}
+.chip.warn{background:rgba(186,117,23,0.15);border-color:rgba(186,117,23,0.5);color:var(--warn)}
+.chip.bad{background:rgba(163,45,45,0.13);border-color:rgba(163,45,45,0.5);color:var(--bad)}
+.chip.good b,.chip.warn b,.chip.bad b{color:inherit}
+.msg{font-size:12px;color:var(--ts);min-height:1.2em;overflow-wrap:anywhere}
+.msg.err{color:var(--bad)}
+.msg.ok{color:var(--good)}
+/* tables */
+.tblwrap{max-width:100%;overflow-x:auto;margin:0 0 10px;background:var(--surf);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{font-weight:600;color:var(--ts);text-align:right;padding:7px 8px;border-bottom:1px solid var(--bd);font-size:11px;white-space:nowrap}
+td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--bd2);white-space:nowrap}
+th.l,td.l{text-align:left}
+tr:last-child td{border-bottom:none}
+tr.tot td{font-weight:600;border-top:1px solid var(--bd)}
+td.e{color:var(--bad);white-space:normal;min-width:140px;overflow-wrap:anywhere;text-align:left}
+#awrap.mobile table{font-size:11.5px}
+#awrap.mobile th,#awrap.mobile td{padding:5px 6px}
+select,input[type=number],textarea{font:inherit;font-size:13px;color:var(--tp);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:6px 8px;min-height:36px;max-width:100%}
+input[type=number]{width:84px}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc)}
+textarea{width:100%;min-height:70px;resize:vertical;display:block;margin:0 0 8px}
+/* usage cards */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 12px}
+#awrap.mobile .cards{grid-template-columns:1fr}
+.card{background:var(--surf);border-radius:8px;padding:0.8rem 0.9rem;min-width:0}
+.card .kv{font-size:22px;font-weight:500;margin:2px 0}
+.card .kd{font-size:12px;color:var(--ts);line-height:1.5;overflow-wrap:anywhere}
+.grp{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.grp button{font:inherit;font-size:12px;font-weight:500;color:var(--tp);background:transparent;border:1px solid var(--bd);border-radius:8px;padding:6px 10px;min-height:36px;cursor:pointer}
+.grp button.on{background:var(--tp);color:var(--bg);border-color:var(--tp)}
+#awrap.mobile .grp button{min-height:40px}
+/* actions */
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:0 0 10px}
+#awrap.mobile .acts{grid-template-columns:1fr}
+.act{background:var(--surf);border-radius:8px;padding:0.8rem 0.9rem;min-width:0;overflow-wrap:anywhere}
+.act .d{font-size:12px;color:var(--ts);line-height:1.5;margin:0 0 8px}
+.out{font-size:13px;line-height:1.55;margin:8px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.slots{margin:6px 0 0;padding:0;list-style:none;font-size:13px;line-height:1.5}
+.slots li{margin:0 0 5px}
+.slots .sl{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--acc);margin-right:6px}
+/* status */
+.kvs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 10px}
+#awrap.mobile .kvs{grid-template-columns:1fr 1fr}
+.kvi{background:var(--surf);border-radius:8px;padding:0.6rem 0.8rem;min-width:0;overflow-wrap:anywhere}
+.kvi .k{font-size:11px;color:var(--ts);letter-spacing:.03em}
+.kvi .v{font-size:14px;font-weight:500;margin-top:2px}
+.pipe{background:var(--surf);border-radius:8px;padding:0.7rem 0.9rem;font-size:12.5px;line-height:1.6;margin:0 0 10px;overflow-wrap:anywhere}
+.pipe code{font-size:11.5px}
+.bar{height:8px;border-radius:4px;background:var(--bd2);overflow:hidden;margin-top:6px}
+.bar>i{display:block;height:100%;background:var(--good)}
+.bar.warn>i{background:var(--warn)}
+.bar.bad>i{background:var(--bad)}
+#chartwrap{position:relative;width:100%;height:220px;margin:0 0 8px}
+#awrap.mobile #chartwrap{height:190px}
+@media(max-width:560px){#awrap .btn{min-height:44px}}
+</style>
+</head>
+<body>
+<div id="awrap" class="dark">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 0.9rem;flex-wrap:wrap;">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0;">
+    <a id="backlink" class="backlink" href="./" hidden><span data-i="back">← Nadzorna ploča</span></a>
+    <div class="ttl" data-i="title">ADMIN — NAČIN RADA, MODELI I POTROŠNJA</div>
+  </div>
+  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+    <button id="btn-en" class="btn" onclick="setLang('en')">EN</button>
+    <button id="btn-hr" class="btn" onclick="setLang('hr')">HR</button>
+    <button id="btn-reload" class="btn" onclick="probe()" data-i="reload">↻ Osvježi</button>
+  </div>
+</div>
+
+<div class="access" data-i="access">Privatno: ova kartica i /admin na Workeru stoje iza Cloudflare Accessa (prijava jednokratnim kodom na e-mail). Plaćeni pozivi Claude API-ja događaju se samo u API načinu.</div>
+
+<div class="lock" id="lock">
+  <div class="ic" id="lockIc">🔒</div>
+  <h3 id="lockT"></h3>
+  <p id="lockM"></p>
+  <div class="btnrow" style="justify-content:center;margin:0;">
+    <button class="btn pri" id="lockBtn" onclick="signIn()" data-i="lockBtn">Prijava</button>
+    <button class="btn" onclick="probe()" data-i="retry">Pokušaj ponovno</button>
+  </div>
+</div>
+<p class="note" id="loadingNote" data-i="loading" style="margin:0 0 10px;">Učitavam…</p>
+
+<div id="adm" style="display:none;">
+  <!-- MODE -->
+  <div class="sh first" data-i="hMode">NAČIN RADA</div>
+  <div class="modes" role="radiogroup" data-ia="hMode" aria-label="">
+    <label class="mcard" id="mc-current"><input type="radio" name="mode" value="current" onchange="pickMode('current')"><div><b data-i="mCur">Trenutačni (rutina + JSON)</b><span data-i="mCurD"></span></div></label>
+    <label class="mcard" id="mc-api"><input type="radio" name="mode" value="api" onchange="pickMode('api')"><div><b data-i="mApi">API (Worker + Claude)</b><span data-i="mApiD"></span></div></label>
+  </div>
+  <p class="note" data-i="mFallback" style="margin:0 0 8px;"></p>
+  <div class="btnrow"><button class="btn pri" id="saveMode" onclick="saveMode()" data-i="saveMode">Spremi način</button><span class="chip" id="modeNow"></span><span class="msg" id="modeMsg"></span></div>
+
+  <!-- FUNCTIONS -->
+  <div class="sh" data-i="hFn">FUNKCIJE</div>
+  <div class="tblwrap"><table id="fnTbl"></table></div>
+  <p class="note" data-i="fnNote" style="margin:0 0 8px;"></p>
+  <div class="btnrow"><button class="btn pri" id="saveFn" onclick="saveFns()" data-i="saveFn">Spremi funkcije</button><span class="msg" id="fnMsg"></span></div>
+
+  <!-- USAGE -->
+  <div class="sh" data-i="hUse">POTROŠNJA</div>
+  <div class="cards" id="useCards"></div>
+  <div class="tlab" data-i="chartT" style="font-size:12px;margin:0 0 4px;"></div>
+  <div id="chartwrap"><canvas id="usdc" role="img" data-ia="aChart" aria-label=""></canvas></div>
+  <div class="grp" id="grpRow"></div>
+  <p class="note" id="grpNote" style="margin:0 0 6px;"></p>
+  <div class="tblwrap"><table id="grpTbl"></table></div>
+  <div class="tlab" data-i="hRecent" style="font-size:12px;font-weight:600;letter-spacing:.05em;margin:12px 0 6px;"></div>
+  <div class="tblwrap"><table id="recTbl"></table></div>
+
+  <!-- RATES -->
+  <div class="sh" data-i="hRates">CIJENE</div>
+  <div class="tblwrap"><table id="rateTbl"></table></div>
+  <p class="note" id="rateNote" style="margin:0 0 8px;"></p>
+
+  <!-- ACTIONS -->
+  <div class="sh" data-i="hAct">AKCIJE</div>
+  <p class="note" id="actModeWarn" style="margin:0 0 8px;display:none;"></p>
+  <div class="acts">
+    <div class="act"><div class="d" data-i="aPingD"></div><button class="btn" id="b-ping" onclick="doPing()" data-i="aPing">Ping</button><div class="out" id="o-ping"></div></div>
+    <div class="act"><div class="d" data-i="aDailyD"></div><button class="btn paid" id="b-daily" onclick="doRun('daily')" data-i="aDaily">Dnevni komentar</button><div class="out" id="o-daily"></div></div>
+    <div class="act"><div class="d" id="aWorkD"></div><button class="btn paid" id="b-work" onclick="doRun('workout')" data-i="aWork">Komentar za zadnji trening</button><div class="out" id="o-work"></div></div>
+  </div>
+  <div class="act" style="margin:0 0 10px;">
+    <div style="font-weight:600;font-size:14px;margin:0 0 6px;" data-i="askH">Pitaj trenera</div>
+    <textarea id="askQ" maxlength="1000" data-ip="askPh" placeholder=""></textarea>
+    <button class="btn pri paid" id="b-ask" onclick="doAsk()" data-i="askBtn">Pitaj</button>
+    <div class="out" id="o-ask"></div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="sh" data-i="hStat">STANJE</div>
+  <div class="kvs" id="stKv"></div>
+  <div class="pipe" id="stPipe"></div>
+  <div class="tlab" data-i="sErrors" style="font-size:12px;font-weight:600;letter-spacing:.05em;margin:4px 0 6px;"></div>
+  <div class="tblwrap"><table id="errTbl"></table></div>
+  <p class="note" id="updNote" style="margin:4px 2px 0;"></p>
+</div>
+
+<p class="tlab" style="font-size:11px;margin:14px 2px 0;"><span data-i="foot">Admin</span> · <span data-i="byL">izradio</span> <a href="mailto:patrik.pencinger@gmail.com" style="color:inherit;">Patrik Pencinger</a></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* Admin tab — Worker hevy-hook /admin/* (see .foreman/api-contract.md). Every /admin call carries the
+   Cloudflare Access cookie (credentials:'include'); 401/403/redirect = locked, 503/other/network = unavailable. */
+const LIVE_BASE='https://hevy.er45.com';
+let theme=(()=>{try{return localStorage.getItem('dash-theme')==='light'?'light':'dark';}catch(e){return 'dark';}})();
+let lang=(()=>{try{const v=localStorage.getItem('dash-lang');return (v==='en'||v==='hr')?v:'hr';}catch(e){return 'hr';}})();
+const EMBED=(()=>{try{return window.top!==window;}catch(e){return true;}})();
+const FNS=['narrative_workout','narrative_daily','coach_chat'];
+const MODELS=['claude-opus-5-5','claude-sonnet-5-5','claude-haiku-5-5'];
+const EFFORTS=['low','medium','high'];
+const FN_DEF={narrative_workout:{model:'claude-opus-5-5',effort:'low',maxTokens:700,enabled:true},
+ narrative_daily:{model:'claude-opus-5-5',effort:'low',maxTokens:700,enabled:true},
+ coach_chat:{model:'claude-opus-5-5',effort:'low',maxTokens:900,enabled:true}};
+/* USD per million tokens — the Worker's PRICES table (contract); /admin/config `prices` overrides when present */
+const PRICES_DEF={'claude-opus-5-5':{in:4,out:20,cacheRead:0.20,cacheWrite:5},
+ 'claude-sonnet-5-5':{in:2,out:10,cacheRead:0.20,cacheWrite:2.5},
+ 'claude-haiku-5-5':{in:0.10,out:0.50,cacheRead:0.01,cacheWrite:0.125}};
+const EST_IN=6000;   /* contract target: ≤ 6K input tokens per call — used for the confirm-dialog upper bound */
+
+const T={
+ en:{docT:'Admin — mode and spend',title:'ADMIN — MODE, MODELS & SPEND',back:'← Dashboard',reload:'↻ Refresh',foot:'Admin',byL:'by',
+  access:'Private: this tab and /admin on the Worker sit behind Cloudflare Access (one-time e-mail code). Paid Claude API calls happen only in API mode.',
+  lockT:'Admin is private',lockM:'Sign in with your e-mail (one-time code). The sign-in opens in a new tab — come back here afterwards and the page re-checks.',
+  unavT:'Admin is unavailable right now',unavM:'The Worker did not answer ({e}). The dashboard keeps working from the JSON files.',
+  lockBtn:'Sign in',retry:'Try again',loading:'Loading…',
+  hMode:'MODE',mCur:'Current (routine + JSON)',mApi:'API (Worker + Claude)',
+  mCurD:'The morning routine writes the JSON files and the Worker never calls the Claude API — $0 spend.',
+  mApiD:'The Worker calls the Claude API right after each workout, every morning at 07:40 and for “Ask the coach” — spends tokens up to the daily cap.',
+  mFallback:'Fallback: the tabs always fall back to the JSON text when /live/narrative fails or is older. Switching back to “Current” breaks nothing.',
+  saveMode:'Save mode',saveFn:'Save functions',saving:'Saving…',saved:'Saved {t}',saveErr:'Save failed ({e})',modeNow:'active: {m}',modeCur:'current',modeApi:'API',
+  hFn:'FUNCTIONS',thFn:'Function',thOn:'On',thModel:'Model',thEffort:'Effort',thMax:'Max tokens',
+  fn_narrative_workout:'Post-workout narrative',fn_narrative_daily:'Daily narrative (07:40)',fn_coach_chat:'Ask the coach',
+  ef_low:'low',ef_medium:'medium',ef_high:'high',aOn:'Enabled: {f}',aModel:'Model: {f}',aEffort:'Effort: {f}',aMax:'Max tokens: {f}',
+  fnNote:'Effort steers the adaptive thinking; low is the cheapest. Max tokens caps the output. Saved together with the current mode.',
+  hUse:'USAGE',cToday:'Today',c7:'7 days',c30:'30 days',calls:'{n:call}',
+  tokLine:'in {i} · cache read {cr} / write {cw} · out {o}',
+  chartT:'USD per day — last 30 days',aChart:'Bar chart of Claude API spend in US dollars per day over the last 30 days',
+  gDay:'Day',gWeek:'Week',gMonth:'Month',gFn:'Function',gModel:'Model',
+  rangeNote:'Range {f} – {t}',thKey:'Key',thCalls:'Calls',thIn:'In',thCR:'Cache rd',thCW:'Cache wr',thOut:'Out',thUsd:'USD',total:'Total',
+  noRows:'No calls in this range.',noData:'Usage could not be loaded ({e}).',
+  hRecent:'RECENT CALLS (LAST 50)',thTime:'Time',thMs:'ms',thOk:'Result',okL:'ok',errL:'error',noRecent:'No calls yet.',
+  hRates:'RATES (USD PER MILLION TOKENS)',thRin:'Input',thRout:'Output',thRcr:'Cache read',thRcw:'Cache write',
+  rateNote:'From the Worker’s PRICES table (prompts ≤ 100K tokens){s}. Verify on anthropic.com/pricing before relying on the amounts.',rateSrv:', as reported by the Worker',
+  hAct:'ACTIONS',aPing:'Ping (free)',aPingD:'Checks the key and the connection without a paid call (count_tokens).',
+  aDaily:'Run daily narrative now',aDailyD:'Same prompt as the 07:40 cron, on the latest live data.',
+  aWork:'Run narrative for latest workout',aWorkD:'Latest workout: {t}',aWorkNone:'No workout in the last 14 days.',
+  cfPaid:'This is a paid Claude API call ({f}: {m}, effort {e}). Upper estimate ${u}. Continue?',
+  running:'Running…',done:'Done · {ms} ms',actErr:'Failed ({e})',pingOk:'OK · {ms} ms{x}',
+  askH:'Ask the coach',askPh:'e.g. Can I add a set of squats today?',askBtn:'Ask',askEmpty:'Type a question first.',
+  usageLine:'{i} in · {c} cache · {o} out tokens · ${u}',
+  curModeWarn:'Current mode is active — the Worker refuses paid calls until you switch to API.',
+  sl_trend:'Trend',sl_flag:'Flag',sl_prescription:'Prescription',sl_lever:'Lever',
+  hStat:'STATUS',sMode:'Mode',sSpend:'Spend today',sSpendV:'${s} of ${c} cap',sWebhook:'Last webhook',sCron:'Last cron',sPending:'Pending',
+  sPipe:'Mac pipeline — last heartbeat',pipeHost:'host',pipeRan:'ran',pipeChanged:'changed',pipeCommit:'commit',pipeErr:'errors',pipeNone:'No heartbeat from the Mac pipeline yet.',
+  yes:'yes',no:'no',none:'none',never:'never',sErrors:'LAST ERRORS',noErr:'No errors.',sKv:'KV {k}',thWhat:'Where',thErr:'Error',
+  updated:'Updated {t}',
+  mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']},
+ hr:{docT:'Admin — način rada i potrošnja',title:'ADMIN — NAČIN RADA, MODELI I POTROŠNJA',back:'← Nadzorna ploča',reload:'↻ Osvježi',foot:'Admin',byL:'izradio',
+  access:'Privatno: ova kartica i /admin na Workeru stoje iza Cloudflare Accessa (prijava jednokratnim kodom na e-mail). Plaćeni pozivi Claude API-ja događaju se samo u API načinu.',
+  lockT:'Admin je privatan',lockM:'Prijavi se e-mailom (jednokratni kod). Prijava se otvara u novoj kartici — nakon nje se vrati ovdje i stranica će ponovno provjeriti.',
+  unavT:'Admin trenutačno nije dostupan',unavM:'Worker nije odgovorio ({e}). Nadzorna ploča i dalje radi iz JSON datoteka.',
+  lockBtn:'Prijava',retry:'Pokušaj ponovno',loading:'Učitavam…',
+  hMode:'NAČIN RADA',mCur:'Trenutačni (rutina + JSON)',mApi:'API (Worker + Claude)',
+  mCurD:'Jutarnja rutina piše JSON datoteke, a Worker nikad ne zove Claude API — 0 $ potrošnje.',
+  mApiD:'Worker zove Claude API odmah nakon svakog treninga, svako jutro u 07:40 i za „Pitaj trenera“ — troši tokene do dnevnog limita.',
+  mFallback:'Zamjenski način: kartice uvijek padaju natrag na tekst iz JSON datoteka kad /live/narrative ne odgovori ili je stariji. Povratak na „Trenutačni“ ništa ne kvari.',
+  saveMode:'Spremi način',saveFn:'Spremi funkcije',saving:'Spremam…',saved:'Spremljeno {t}',saveErr:'Spremanje nije uspjelo ({e})',modeNow:'aktivno: {m}',modeCur:'trenutačni',modeApi:'API',
+  hFn:'FUNKCIJE',thFn:'Funkcija',thOn:'Uklj.',thModel:'Model',thEffort:'Napor',thMax:'Maks. tokena',
+  fn_narrative_workout:'Komentar nakon treninga',fn_narrative_daily:'Dnevni komentar (07:40)',fn_coach_chat:'Pitaj trenera',
+  ef_low:'nizak',ef_medium:'srednji',ef_high:'visok',aOn:'Uključeno: {f}',aModel:'Model: {f}',aEffort:'Napor: {f}',aMax:'Maks. tokena: {f}',
+  fnNote:'Napor upravlja prilagodljivim razmišljanjem; nizak je najjeftiniji. Maks. tokena ograničava izlaz. Sprema se zajedno s trenutačnim načinom.',
+  hUse:'POTROŠNJA',cToday:'Danas',c7:'7 dana',c30:'30 dana',calls:'{n:call}',
+  tokLine:'ulaz {i} · cache čitanje {cr} / pisanje {cw} · izlaz {o}',
+  chartT:'USD po danu — zadnjih 30 dana',aChart:'Stupčasti grafikon potrošnje Claude API-ja u američkim dolarima po danu kroz zadnjih 30 dana',
+  gDay:'Dan',gWeek:'Tjedan',gMonth:'Mjesec',gFn:'Funkcija',gModel:'Model',
+  rangeNote:'Raspon {f} – {t}',thKey:'Ključ',thCalls:'Pozivi',thIn:'Ulaz',thCR:'Cache čit.',thCW:'Cache pis.',thOut:'Izlaz',thUsd:'USD',total:'Ukupno',
+  noRows:'Nema poziva u ovom rasponu.',noData:'Potrošnja se nije mogla učitati ({e}).',
+  hRecent:'ZADNJI POZIVI (ZADNJIH 50)',thTime:'Vrijeme',thMs:'ms',thOk:'Ishod',okL:'u redu',errL:'greška',noRecent:'Još nema poziva.',
+  hRates:'CIJENE (USD PO MILIJUN TOKENA)',thRin:'Ulaz',thRout:'Izlaz',thRcr:'Cache čitanje',thRcw:'Cache pisanje',
+  rateNote:'Iz Workerove tablice PRICES (upiti ≤ 100K tokena){s}. Provjeri ih na anthropic.com/pricing prije nego se osloniš na iznose.',rateSrv:', kako ih javlja Worker',
+  hAct:'AKCIJE',aPing:'Ping (besplatno)',aPingD:'Provjerava ključ i vezu bez plaćenog poziva (count_tokens).',
+  aDaily:'Pokreni dnevni komentar sada',aDailyD:'Isti upit kao cron u 07:40, na najnovijim podacima uživo.',
+  aWork:'Komentar za zadnji trening',aWorkD:'Zadnji trening: {t}',aWorkNone:'Nema treninga u zadnjih 14 dana.',
+  cfPaid:'Ovo je plaćeni poziv Claude API-ja ({f}: {m}, napor {e}). Gornja procjena ${u}. Nastaviti?',
+  running:'Radim…',done:'Gotovo · {ms} ms',actErr:'Nije uspjelo ({e})',pingOk:'U redu · {ms} ms{x}',
+  askH:'Pitaj trenera',askPh:'npr. Smijem li danas dodati seriju čučnjeva?',askBtn:'Pitaj',askEmpty:'Prvo upiši pitanje.',
+  usageLine:'{i} ulaz · {c} cache · {o} izlaz tokena · ${u}',
+  curModeWarn:'Aktivan je trenutačni način — Worker odbija plaćene pozive dok ne prebaciš na API.',
+  sl_trend:'Trend',sl_flag:'Upozorenje',sl_prescription:'Propisano',sl_lever:'Poluga',
+  hStat:'STANJE',sMode:'Način',sSpend:'Potrošnja danas',sSpendV:'${s} od ${c} limita',sWebhook:'Zadnji webhook',sCron:'Zadnji cron',sPending:'Na čekanju',
+  sPipe:'Mac pipeline — zadnji otkucaj',pipeHost:'računalo',pipeRan:'pokrenut',pipeChanged:'promjena',pipeCommit:'commit',pipeErr:'greške',pipeNone:'Mac pipeline još nije javio otkucaj.',
+  yes:'da',no:'ne',none:'nema',never:'nikad',sErrors:'ZADNJE GREŠKE',noErr:'Nema grešaka.',sKv:'KV {k}',thWhat:'Gdje',thErr:'Greška',
+  updated:'Osvježeno {t}',
+  mon:['sij','velj','ožu','tra','svi','lip','srp','kol','ruj','lis','stu','pro']}
+};
+let LBL=T[lang];
+
+/* ---------------- helpers ---------------- */
+const nz=v=>(typeof v==='number'&&isFinite(v))?v:null;
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* {k:noun} = count + noun with plural (hr: 1 poziv, 2–4 poziva, 5+ poziva) */
+const PL={hr:{call:['poziv','poziva','poziva']},en:{call:['call','calls']}};
+function plural(n,w){const f=PL[lang][w];if(!f)return n+' '+w;const a=Math.abs(+n||0);
+ if(lang==='hr'){const i=a%100,j=a%10;return nf(a,0)+' '+(j===1&&i!==11?f[0]:(j>=2&&j<=4&&(i<12||i>14)?f[1]:f[2]));}
+ return nf(a,0)+' '+(a===1?f[0]:f[1]);}
+const tpl=(s,o)=>String(s==null?'':s).replace(/\{(\w+)(?::(\w+))?\}/g,(m,k,w)=>o[k]!==undefined&&o[k]!==null?(w?plural(o[k],w):o[k]):m);
+const LOC=()=>lang==='hr'?'hr-HR':'en-US';
+const NFC={};
+function nf(v,d){v=nz(v);if(v==null)return '—';const k=LOC()+'|'+d;
+ if(!NFC[k])NFC[k]=new Intl.NumberFormat(LOC(),{minimumFractionDigits:d,maximumFractionDigits:d});return NFC[k].format(v);}
+const fTok=v=>nf(v,0);
+/* USD: 4 decimals under $1, 2 above */
+const fUsd=v=>{v=nz(v);if(v==null)return '—';return '$'+nf(v,Math.abs(v)<1?4:2);};
+const p2=n=>String(n).padStart(2,'0');
+const isoD=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+const shiftD=(d,n)=>{const x=new Date(d.getTime());x.setDate(x.getDate()+n);return x;};
+function fD(iso){const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso||''));if(!m)return String(iso||'—');
+ const mon=LBL.mon[+m[2]-1];return lang==='hr'?(+m[3])+'. '+mon:mon+' '+(+m[3]);}
+function fDY(iso){const m=/^(\d{4})/.exec(String(iso||''));if(!m)return '—';return lang==='hr'?fD(iso)+' '+m[1]+'.':fD(iso)+', '+m[1];}
+function fDT(v){if(v==null||v==='')return '—';const d=new Date(typeof v==='number'&&v<1e12?v*1000:v);if(isNaN(d))return '—';
+ return fD(isoD(d))+' '+p2(d.getHours())+':'+p2(d.getMinutes());}
+const hhmm=d=>p2(d.getHours())+':'+p2(d.getMinutes());
+/* first defined value along several property paths ('a.b.c') — tolerant of small schema differences */
+function pick(o){for(let i=1;i<arguments.length;i++){let v=o;const p=String(arguments[i]).split('.');
+ for(let j=0;j<p.length&&v!=null;j++)v=v[p[j]];if(v!==undefined&&v!==null)return v;}return null;}
+function setTxt(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+function show(id,on){const e=document.getElementById(id);if(e)e.style.display=on?'':'none';}
+function safe(fn){try{fn();}catch(e){if(window.console)console.error(e);}}
+const fnName=f=>LBL['fn_'+f]||f;
+const efName=e=>LBL['ef_'+e]||e||'—';
+const modeName=m=>m==='api'?LBL.modeApi:(m==='current'?LBL.modeCur:(m||'—'));
+const asRows=j=>Array.isArray(j)?j:(j&&(j.rows||j.items||j.calls||j.data))||[];
+
+/* ---------------- API ---------------- */
+class HttpErr extends Error{constructor(status,msg){super(msg||String(status));this.status=status;}}
+function api(path,opt){
+ opt=opt||{};
+ const init={method:opt.method||'GET',credentials:opt.pub?'omit':'include',cache:'no-store',redirect:'manual',headers:{}};
+ if(opt.body!==undefined){init.headers['Content-Type']='application/json';init.body=JSON.stringify(opt.body);}
+ let ac=null,to=null;try{ac=new AbortController();init.signal=ac.signal;to=setTimeout(()=>{try{ac.abort();}catch(e){}},opt.timeout||20000);}catch(e){}
+ return fetch(LIVE_BASE+path,init).then(r=>{
+   if(to)clearTimeout(to);
+   if(r.type==='opaqueredirect')throw new HttpErr(401,'access');
+   return r.text().then(t=>{let j=null;try{j=t?JSON.parse(t):null;}catch(e){j=null;}
+    const why=j&&(j.err||j.code||j.error||j.message);
+    if(!r.ok)throw new HttpErr(r.status,why?String(why)+' · '+r.status:String(r.status));
+    if(j&&j.ok===false)throw new HttpErr(r.status,why?String(why):'not ok');
+    if(j===null)throw new HttpErr(0,'shape');
+    return j;});
+  },e=>{if(to)clearTimeout(to);throw new HttpErr(0,e&&e.name==='AbortError'?'timeout':'network');});
+}
+
+/* ---------------- state ---------------- */
+let STATE='loading';          /* loading | locked | unavail | open */
+let ERRTXT='';
+let CFG=null,UI=null,STATUS=null,HEALTH=null,PIPE=null,USE30=null,USE30_ERR=null,GRP=null,GRP_ERR=null,REC=null,REC_ERR=null,LATEST=null,UPD=null;
+let grpSel='day',usdc=null;
+const OUT={};                 /* action outputs, re-rendered on language change */
+
+function lockRender(){
+ const lk=document.getElementById('lock');
+ lk.classList.toggle('on',STATE==='locked'||STATE==='unavail');
+ show('loadingNote',STATE==='loading');
+ show('adm',STATE==='open');
+ if(STATE==='locked'){setTxt('lockIc','🔒');setTxt('lockT',LBL.lockT);setTxt('lockM',LBL.lockM);show('lockBtn',true);}
+ else if(STATE==='unavail'){setTxt('lockIc','⚠');setTxt('lockT',LBL.unavT);setTxt('lockM',tpl(LBL.unavM,{e:ERRTXT||'—'}));show('lockBtn',false);}
+}
+function signIn(){try{window.open(LIVE_BASE+'/admin/config','_blank','noopener');}catch(e){}}
+window.addEventListener('focus',()=>{if(STATE==='locked')probe();});
+
+/* Probe = GET /admin/config. ok + JSON object with `mode` -> open; 401/403/redirect -> locked; anything else -> unavailable */
+function probe(){
+ if(STATE!=='open'){STATE='loading';lockRender();}
+ return api('/admin/config').then(j=>{
+   if(!j||typeof j!=='object'||!('mode' in j))throw new HttpErr(0,'shape');
+   CFG=j;UI=cloneCfg(j);STATE='open';lockRender();renderCfg();loadRest();
+  }).catch(e=>{
+   STATE=(e.status===401||e.status===403)?'locked':'unavail';ERRTXT=e.message;lockRender();
+  });
+}
+function cloneCfg(c){const f={};FNS.forEach(k=>{const s=(c.functions&&c.functions[k])||{};const d=FN_DEF[k];
+  f[k]={model:MODELS.indexOf(s.model)>=0?s.model:d.model,effort:EFFORTS.indexOf(s.effort)>=0?s.effort:d.effort,
+   maxTokens:nz(s.maxTokens)!=null?s.maxTokens:d.maxTokens,enabled:s.enabled!==undefined?!!s.enabled:d.enabled};});
+ return {mode:c.mode==='api'?'api':'current',functions:f};}
+function loadRest(){
+ const today=new Date(),to=isoD(today),f30=isoD(shiftD(today,-29));
+ const jobs=[
+  api('/admin/usage?from='+f30+'&to='+to+'&group=day').then(j=>{USE30=asRows(j);USE30_ERR=null;},e=>{USE30=null;USE30_ERR=e.message;}),
+  loadGroup(),
+  api('/admin/usage/recent').then(j=>{REC=asRows(j);REC_ERR=null;},e=>{REC=null;REC_ERR=e.message;}),
+  api('/admin/status').then(j=>{STATUS=j;},()=>{STATUS=null;}),
+  api('/live/health',{pub:true}).then(j=>{HEALTH=j;},()=>{HEALTH=null;}),
+  api('/live/recent?days=14',{pub:true}).then(j=>{const w=(j&&j.workouts)||[];LATEST=w.length?w[0]:null;},()=>{LATEST=null;})
+ ];
+ return Promise.all(jobs).then(()=>{
+  PIPE=STATUS?pick(STATUS,'pipeline','mac','heartbeat'):null;   /* Mac heartbeat (POST /live/pipeline -> KV pipeline:last) */
+ }).then(()=>{UPD=new Date();renderAll();});
+}
+function groupRange(g){const t=new Date();const back={day:29,week:83,month:364,function:29,model:29}[g]||29;return {from:isoD(shiftD(t,-back)),to:isoD(t)};}
+function loadGroup(){const r=groupRange(grpSel),g=grpSel;
+ return api('/admin/usage?from='+r.from+'&to='+r.to+'&group='+g).then(j=>{if(g!==grpSel)return;GRP=asRows(j);GRP_ERR=null;},e=>{if(g!==grpSel)return;GRP=null;GRP_ERR=e.message;});}
+function setGroup(g){grpSel=g;GRP=null;GRP_ERR=null;safe(renderGroup);loadGroup().then(()=>safe(renderGroup));}
+
+/* ---------------- render ---------------- */
+function renderAll(){if(STATE!=='open')return;safe(renderCfg);safe(renderUsage);safe(renderGroup);safe(renderRecent);safe(renderRates);safe(renderActions);safe(renderStatus);
+ setTxt('updNote',UPD?tpl(LBL.updated,{t:fDT(UPD)}):'');}
+function curMode(){return (CFG&&CFG.mode)==='api'?'api':'current';}
+function renderCfg(){
+ if(!UI)return;
+ document.querySelectorAll('input[name=mode]').forEach(r=>{r.checked=r.value===UI.mode;});
+ ['current','api'].forEach(m=>document.getElementById('mc-'+m).classList.toggle('on',UI.mode===m));
+ const mn=document.getElementById('modeNow');mn.className='chip '+(curMode()==='api'?'warn':'good');mn.innerHTML=esc(tpl(LBL.modeNow,{m:modeName(curMode())}));
+ let h='<thead><tr><th class="l">'+esc(LBL.thFn)+'</th><th class="l">'+esc(LBL.thOn)+'</th><th class="l">'+esc(LBL.thModel)+'</th><th class="l">'+esc(LBL.thEffort)+'</th><th>'+esc(LBL.thMax)+'</th></tr></thead><tbody>';
+ FNS.forEach(k=>{const s=UI.functions[k],nm=fnName(k);
+  h+='<tr><td class="l">'+esc(nm)+'</td>'
+   +'<td class="l"><input type="checkbox" data-fn="'+k+'" data-k="enabled"'+(s.enabled?' checked':'')+' aria-label="'+esc(tpl(LBL.aOn,{f:nm}))+'"></td>'
+   +'<td class="l"><select data-fn="'+k+'" data-k="model" aria-label="'+esc(tpl(LBL.aModel,{f:nm}))+'">'+MODELS.map(m=>'<option value="'+m+'"'+(m===s.model?' selected':'')+'>'+m+'</option>').join('')+'</select></td>'
+   +'<td class="l"><select data-fn="'+k+'" data-k="effort" aria-label="'+esc(tpl(LBL.aEffort,{f:nm}))+'">'+EFFORTS.map(e=>'<option value="'+e+'"'+(e===s.effort?' selected':'')+'>'+esc(efName(e))+'</option>').join('')+'</select></td>'
+   +'<td><input type="number" min="100" max="8000" step="50" data-fn="'+k+'" data-k="maxTokens" value="'+s.maxTokens+'" aria-label="'+esc(tpl(LBL.aMax,{f:nm}))+'"></td></tr>';});
+ document.getElementById('fnTbl').innerHTML=h+'</tbody>';
+ document.querySelectorAll('#fnTbl [data-fn]').forEach(el=>{el.onchange=()=>{const s=UI.functions[el.getAttribute('data-fn')],k=el.getAttribute('data-k');
+  if(k==='enabled')s.enabled=el.checked;else if(k==='maxTokens'){const v=Math.round(+el.value);if(isFinite(v)&&v>0)s.maxTokens=v;}else s[k]=el.value;};});
+}
+function pickMode(m){if(!UI)return;UI.mode=m;renderCfg();}
+function putCfg(body,btnId,msgId){
+ const b=document.getElementById(btnId),m=document.getElementById(msgId);b.disabled=true;m.className='msg';m.textContent=LBL.saving;
+ return api('/admin/config',{method:'PUT',body}).then(j=>{
+   CFG=(j&&typeof j==='object'&&'mode' in j)?j:Object.assign({},CFG,body);UI=cloneCfg(CFG);
+   b.disabled=false;renderCfg();renderActions();m.className='msg ok';m.textContent=tpl(LBL.saved,{t:hhmm(new Date())});loadRest();
+  },e=>{b.disabled=false;m.className='msg err';m.textContent=tpl(LBL.saveErr,{e:e.message});
+   if(e.status===401||e.status===403){STATE='locked';lockRender();}});
+}
+function saveMode(){putCfg({mode:UI.mode,functions:cloneCfg(CFG).functions},'saveMode','modeMsg');}
+function saveFns(){putCfg({mode:curMode(),functions:UI.functions},'saveFn','fnMsg');}
+
+function sumRows(rows){const s={calls:0,inputTokens:0,cacheReadTokens:0,cacheWriteTokens:0,outputTokens:0,usd:0};
+ (rows||[]).forEach(r=>{Object.keys(s).forEach(k=>{s[k]+=nz(r[k])||0;});});return s;}
+function renderUsage(){
+ const wrap=document.getElementById('useCards');
+ if(!USE30){wrap.innerHTML='<div class="card" style="grid-column:1/-1"><div class="kd">'+esc(tpl(LBL.noData,{e:USE30_ERR||'—'}))+'</div></div>';drawChart([]);return;}
+ const t=new Date(),k0=isoD(t),k7=isoD(shiftD(t,-6));
+ const by={};USE30.forEach(r=>{by[String(r.key).slice(0,10)]=r;});
+ const per=[['cToday',USE30.filter(r=>String(r.key).slice(0,10)===k0)],['c7',USE30.filter(r=>String(r.key).slice(0,10)>=k7)],['c30',USE30]];
+ wrap.innerHTML=per.map(([lab,rows])=>{const s=sumRows(rows);
+  return '<div class="card"><div class="tlab">'+esc(LBL[lab])+'</div><div class="kv">'+esc(fUsd(s.usd))+'</div>'
+   +'<div class="kd"><b>'+esc(tpl(LBL.calls,{n:s.calls}))+'</b><br>'+esc(tpl(LBL.tokLine,{i:fTok(s.inputTokens),cr:fTok(s.cacheReadTokens),cw:fTok(s.cacheWriteTokens),o:fTok(s.outputTokens)}))+'</div></div>';}).join('');
+ const days=[];for(let i=29;i>=0;i--){const k=isoD(shiftD(t,-i));days.push({k,usd:nz((by[k]||{}).usd)||0});}
+ drawChart(days);
+}
+let TXT,GRID,BAR;
+function calc(){const D=theme==='dark';TXT=D?'rgba(255,255,255,0.72)':'rgba(0,0,0,0.62)';GRID=D?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.08)';BAR='#2caaf0';}
+calc();
+function drawChart(days){
+ if(typeof Chart==='undefined')return;
+ const el=document.getElementById('usdc');
+ if(!usdc){usdc=new Chart(el,{type:'bar',data:{labels:[],datasets:[{data:[],backgroundColor:BAR,borderRadius:3,maxBarThickness:18}]},
+  options:{responsive:true,maintainAspectRatio:false,animation:false,locale:LOC(),
+   plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c.length?fDY(usdc.$keys[c[0].dataIndex]):'',label:c=>fUsd(c.parsed.y)}}},
+   scales:{x:{grid:{display:false},ticks:{color:TXT,autoSkip:true,maxRotation:0,font:{size:10}}},
+    y:{beginAtZero:true,title:{display:true,text:'USD',color:TXT},grid:{color:GRID},ticks:{color:TXT,font:{size:10},callback:v=>fUsd(v)}}}}});}
+ usdc.$keys=days.map(d=>d.k);
+ usdc.data.labels=days.map(d=>fD(d.k));usdc.data.datasets[0].data=days.map(d=>d.usd);
+ usdc.options.locale=LOC();
+ const q=usdc.options.scales;q.x.ticks.color=TXT;q.y.ticks.color=TXT;q.y.title.color=TXT;q.y.grid.color=GRID;
+ usdc.update('none');
+}
+function grpKey(k){k=String(k==null?'':k);
+ if(grpSel==='function')return fnName(k);
+ if(grpSel==='day')return fD(k);
+ if(grpSel==='month'){const m=/^(\d{4})-(\d{2})/.exec(k);return m?(lang==='hr'?LBL.mon[+m[2]-1]+' '+m[1]+'.':LBL.mon[+m[2]-1]+' '+m[1]):k;}
+ if(grpSel==='week'){const m=/^\d{4}-\d{2}-\d{2}$/.test(k);return m?fD(k):k;}
+ return k;}
+function renderGroup(){
+ const G=[['day','gDay'],['week','gWeek'],['month','gMonth'],['function','gFn'],['model','gModel']];
+ const row=document.getElementById('grpRow');row.innerHTML='';
+ G.forEach(([g,l])=>{const b=document.createElement('button');b.textContent=LBL[l];b.className=g===grpSel?'on':'';b.setAttribute('aria-pressed',g===grpSel?'true':'false');b.onclick=()=>setGroup(g);row.appendChild(b);});
+ const r=groupRange(grpSel);setTxt('grpNote',tpl(LBL.rangeNote,{f:fDY(r.from),t:fDY(r.to)}));
+ const tb=document.getElementById('grpTbl');
+ const lab=(G.find(x=>x[0]===grpSel)||[])[1];
+ let h='<thead><tr><th class="l">'+esc(LBL[lab]||LBL.thKey)+'</th><th>'+esc(LBL.thCalls)+'</th><th>'+esc(LBL.thIn)+'</th><th>'+esc(LBL.thCR)+'</th><th>'+esc(LBL.thCW)+'</th><th>'+esc(LBL.thOut)+'</th><th>'+esc(LBL.thUsd)+'</th></tr></thead><tbody>';
+ if(GRP_ERR){tb.innerHTML=h+'<tr><td class="l" colspan="7">'+esc(tpl(LBL.noData,{e:GRP_ERR}))+'</td></tr></tbody>';return;}
+ if(!GRP){tb.innerHTML=h+'<tr><td class="l" colspan="7">'+esc(LBL.loading)+'</td></tr></tbody>';return;}
+ if(!GRP.length){tb.innerHTML=h+'<tr><td class="l" colspan="7">'+esc(LBL.noRows)+'</td></tr></tbody>';return;}
+ const rows=GRP.slice();
+ if(grpSel==='function'||grpSel==='model')rows.sort((a,b)=>(nz(b.usd)||0)-(nz(a.usd)||0));else rows.sort((a,b)=>String(b.key).localeCompare(String(a.key)));
+ const line=(k,r,cls)=>'<tr'+(cls?' class="'+cls+'"':'')+'><td class="l">'+esc(k)+'</td><td>'+fTok(r.calls)+'</td><td>'+fTok(r.inputTokens)+'</td><td>'+fTok(r.cacheReadTokens)+'</td><td>'+fTok(r.cacheWriteTokens)+'</td><td>'+fTok(r.outputTokens)+'</td><td>'+esc(fUsd(r.usd))+'</td></tr>';
+ rows.forEach(r=>{h+=line(grpKey(r.key),r);});
+ h+=line(LBL.total,sumRows(rows),'tot');
+ tb.innerHTML=h+'</tbody>';
+}
+function renderRecent(){
+ const tb=document.getElementById('recTbl');
+ let h='<thead><tr><th class="l">'+esc(LBL.thTime)+'</th><th class="l">'+esc(LBL.thFn)+'</th><th class="l">'+esc(LBL.thModel)+'</th><th class="l">'+esc(LBL.thEffort)+'</th><th>'+esc(LBL.thIn)+'</th><th>'+esc(LBL.thCR)+'</th><th>'+esc(LBL.thCW)+'</th><th>'+esc(LBL.thOut)+'</th><th>'+esc(LBL.thUsd)+'</th><th>'+esc(LBL.thMs)+'</th><th class="l">'+esc(LBL.thOk)+'</th></tr></thead><tbody>';
+ if(REC_ERR){tb.innerHTML=h+'<tr><td class="l" colspan="11">'+esc(tpl(LBL.noData,{e:REC_ERR}))+'</td></tr></tbody>';return;}
+ const rows=(REC||[]).slice().sort((a,b)=>String(b.ts).localeCompare(String(a.ts))).slice(0,50);
+ if(!rows.length){tb.innerHTML=h+'<tr><td class="l" colspan="11">'+esc(LBL.noRecent)+'</td></tr></tbody>';return;}
+ rows.forEach(r=>{const ok=r.ok!==false&&!r.err;
+  h+='<tr><td class="l">'+esc(fDT(r.ts))+'</td><td class="l">'+esc(fnName(r.fn))+'</td><td class="l">'+esc(r.model||'—')+'</td><td class="l">'+esc(efName(r.effort))+'</td>'
+   +'<td>'+fTok(r.in)+'</td><td>'+fTok(r.cacheRead)+'</td><td>'+fTok(r.cacheWrite)+'</td><td>'+fTok(r.out)+'</td><td>'+esc(fUsd(r.usd))+'</td><td>'+fTok(r.ms)+'</td>'
+   +(ok?'<td class="l"><span class="chip good">'+esc(LBL.okL)+'</span></td>':'<td class="e"><span class="chip bad">'+esc(LBL.errL)+'</span> '+esc(r.err||'')+'</td>')+'</tr>';});
+ tb.innerHTML=h+'</tbody>';
+}
+function prices(){const p=CFG&&CFG.prices;return (p&&typeof p==='object')?p:PRICES_DEF;}
+/* one model's rates as {in,out,cacheRead,cacheWrite}; the Worker names them input/output */
+function rateOf(m){const r=prices()[m]||PRICES_DEF[m]||PRICES_DEF['claude-opus-5-5'];
+ return {in:nz(r.in)!=null?r.in:r.input,out:nz(r.out)!=null?r.out:r.output,cacheRead:r.cacheRead,cacheWrite:r.cacheWrite};}
+function renderRates(){
+ const P=prices(),srv=!!(CFG&&CFG.prices);
+ let h='<thead><tr><th class="l">'+esc(LBL.thModel)+'</th><th>'+esc(LBL.thRin)+'</th><th>'+esc(LBL.thRout)+'</th><th>'+esc(LBL.thRcr)+'</th><th>'+esc(LBL.thRcw)+'</th></tr></thead><tbody>';
+ const rate=v=>nz(v)==null?'—':'$'+new Intl.NumberFormat(LOC(),{minimumFractionDigits:2,maximumFractionDigits:3}).format(v);
+ MODELS.forEach(m=>{const r=rateOf(m);h+='<tr><td class="l">'+esc(m)+'</td><td>'+rate(r.in)+'</td><td>'+rate(r.out)+'</td><td>'+rate(r.cacheRead)+'</td><td>'+rate(r.cacheWrite)+'</td></tr>';});
+ document.getElementById('rateTbl').innerHTML=h+'</tbody>';
+ setTxt('rateNote',tpl(LBL.rateNote,{s:srv?LBL.rateSrv:''}));
+}
+function estUsd(fn){const s=(UI&&UI.functions[fn])||FN_DEF[fn];const r=rateOf(s.model);
+ return (EST_IN*r.in+s.maxTokens*r.out)/1e6;}
+function renderActions(){
+ const cur=curMode()!=='api';
+ const w=document.getElementById('actModeWarn');w.textContent=cur?LBL.curModeWarn:'';w.style.display=cur?'':'none';
+ setTxt('aWorkD',LATEST?tpl(LBL.aWorkD,{t:(LATEST.title||'—')+' · '+fDT(LATEST.start)}):LBL.aWorkNone);
+ document.getElementById('b-work').disabled=!LATEST;
+ const q=document.getElementById('askQ');if(q)q.placeholder=LBL.askPh;
+ Object.keys(OUT).forEach(k=>paintOut(k));
+}
+/* action output: {kind:'run'|'ask'|'ping'|'err'|'busy', ...} kept as data so a language switch re-renders it */
+function paintOut(k){const o=OUT[k],el=document.getElementById('o-'+k);if(!el||!o)return;
+ if(o.kind==='busy'){el.textContent=LBL.running;return;}
+ if(o.kind==='err'){el.innerHTML='<span class="msg err">'+esc(tpl(LBL.actErr,{e:o.e}))+'</span>';return;}
+ if(o.kind==='ping'){el.innerHTML='<span class="msg ok">'+esc(tpl(LBL.pingOk,{ms:fTok(o.ms),x:o.x?' · '+o.x:''}))+'</span>';return;}
+ let h='';
+ if(o.kind==='ask'&&o.answer)h+='<div>'+esc(o.answer)+'</div>';
+ if(o.kind==='run'){const it=o.item,s=it&&(it[lang]||it.hr||it.en);
+  if(s)h+='<ul class="slots">'+['trend','flag','prescription','lever'].filter(k2=>s[k2]).map(k2=>'<li><span class="sl">'+esc(LBL['sl_'+k2])+'</span>'+esc(s[k2])+'</li>').join('')+'</ul>';
+  else h+='<div class="msg ok">'+esc(tpl(LBL.done,{ms:fTok(o.ms)}))+'</div>';}
+ h+='<div class="note" style="margin-top:4px;">'+esc(usageLine(o.usage,o.usd))+' · '+esc(tpl(LBL.done,{ms:fTok(o.ms)}))+'</div>';
+ el.innerHTML=h;}
+function usageLine(u,usd){u=u||{};
+ const i=pick(u,'in','inputTokens','input_tokens'),cr=nz(pick(u,'cacheRead','cacheReadTokens','cache_read_input_tokens'))||0,cw=nz(pick(u,'cacheWrite','cacheWriteTokens','cache_creation_input_tokens'))||0,o=pick(u,'out','outputTokens','output_tokens');
+ return tpl(LBL.usageLine,{i:fTok(i),c:fTok(cr+cw),o:fTok(o),u:nz(usd)!=null?nf(usd,Math.abs(usd)<1?4:2):'—'});}
+function confirmPaid(fn){const s=(UI&&UI.functions[fn])||FN_DEF[fn];const u=estUsd(fn);
+ return window.confirm(tpl(LBL.cfPaid,{f:fnName(fn),m:s.model,e:efName(s.effort),u:nf(u,u<1?4:2)}));}
+function busy(k,btn,on){const b=document.getElementById(btn);if(b)b.disabled=on;}
+function doPing(){const t0=Date.now();OUT.ping={kind:'busy'};paintOut('ping');busy('ping','b-ping',true);
+ api('/admin/ping').then(j=>{OUT.ping={kind:'ping',ms:pick(j,'ms')||Date.now()-t0,x:[pick(j,'model'),nz(pick(j,'inputTokens','input_tokens'))!=null?fTok(pick(j,'inputTokens','input_tokens'))+' tok':null].filter(Boolean).join(' · ')};},
+  e=>{OUT.ping={kind:'err',e:e.message};}).then(()=>{busy('ping','b-ping',false);paintOut('ping');});}
+function doRun(which){
+ const fn=which==='daily'?'narrative_daily':'narrative_workout',k=which==='daily'?'daily':'work',btn=which==='daily'?'b-daily':'b-work';
+ if(which!=='daily'&&!LATEST)return;
+ if(!confirmPaid(fn))return;
+ const t0=Date.now();OUT[k]={kind:'busy'};paintOut(k);busy(k,btn,true);
+ api('/admin/narrative/run',{method:'POST',body:{workoutId:which==='daily'?'daily':LATEST.id},timeout:90000}).then(j=>{
+   OUT[k]={kind:'run',item:pick(j,'item','narrative')||(j&&j.en?j:null),usage:pick(j,'usage'),usd:pick(j,'usd','usage.usd'),ms:pick(j,'ms')||Date.now()-t0};
+   refreshSpend();
+  },e=>{OUT[k]={kind:'err',e:e.message};}).then(()=>{busy(k,btn,false);paintOut(k);});}
+function doAsk(){
+ const q=document.getElementById('askQ').value.trim();
+ if(!q){OUT.ask={kind:'err',e:LBL.askEmpty};paintOut('ask');return;}
+ if(!confirmPaid('coach_chat'))return;
+ const t0=Date.now();OUT.ask={kind:'busy'};paintOut('ask');busy('ask','b-ask',true);
+ api('/admin/coach',{method:'POST',body:{question:q,lang},timeout:90000}).then(j=>{
+   OUT.ask={kind:'ask',answer:String(pick(j,'answer')||''),usage:pick(j,'usage'),usd:pick(j,'usd','usage.usd'),ms:pick(j,'ms')||Date.now()-t0};refreshSpend();
+  },e=>{OUT.ask={kind:'err',e:e.message};}).then(()=>{busy('ask','b-ask',false);paintOut('ask');});}
+/* after a paid call: re-read usage + status (cheap GETs) */
+function refreshSpend(){if(STATE==='open')loadRest();}
+
+function renderStatus(){
+ const S=STATUS||{},H=HEALTH||{};
+ const mode=pick(S,'mode')||pick(H,'mode')||curMode();
+ const spend=nz(pick(S,'spendTodayUsd','spend.todayUsd','spend.today','spendToday','usdToday'))!=null?pick(S,'spendTodayUsd','spend.todayUsd','spend.today','spendToday','usdToday'):pick(H,'spendTodayUsd','spend.todayUsd','spend.today','spendToday','usdToday');
+ const cap=nz(pick(S,'maxUsdPerDay','capUsd','spend.capUsd','spend.cap','cap'));
+ const lw=pick(S,'lastWebhookAt','webhook.lastAt')||pick(H,'lastWebhookAt');
+ const lc=pick(S,'lastCronAt','cron.lastAt','cron.last','cron')||pick(H,'lastCronAt');
+ const pend=nz(pick(S,'pending','kv.pending','cron.pending'))!=null?pick(S,'pending','kv.pending','cron.pending'):pick(H,'pending');
+ const kvi=(k,v,extra)=>'<div class="kvi"><div class="k">'+esc(k)+'</div><div class="v">'+v+'</div>'+(extra||'')+'</div>';
+ let sp=esc(nz(spend)!=null?(cap!=null?tpl(LBL.sSpendV,{s:fUsd(spend).slice(1),c:fUsd(cap).slice(1)}):fUsd(spend)):'—'),bar='';
+ if(nz(spend)!=null&&cap){const pct=Math.min(100,100*spend/cap);bar='<div class="bar'+(pct>=100?' bad':(pct>=75?' warn':''))+'"><i style="width:'+pct.toFixed(1)+'%"></i></div>';}
+ let h=kvi(LBL.sMode,'<span class="chip '+(mode==='api'?'warn':'good')+'">'+esc(modeName(mode))+'</span>')
+  +kvi(LBL.sSpend,sp,bar)
+  +kvi(LBL.sWebhook,esc(lw?fDT(lw):LBL.never))
+  +kvi(LBL.sCron,esc(typeof lc==='object'?LBL.never:(lc?fDT(lc):LBL.never)))
+  +kvi(LBL.sPending,esc(nz(pend)!=null?fTok(pend):'—'));
+ const kv=pick(S,'kv','kvCounts');
+ if(kv&&typeof kv==='object')Object.keys(kv).forEach(k=>{if(nz(kv[k])!=null)h+=kvi(tpl(LBL.sKv,{k:k}),esc(fTok(kv[k])));});
+ document.getElementById('stKv').innerHTML=h;
+ /* Mac pipeline heartbeat */
+ const P=PIPE&&typeof PIPE==='object'?PIPE:null;let ph='<b>'+esc(LBL.sPipe)+'</b><br>';
+ if(!P||!(pick(P,'ranAt','ran','at','ts'))){ph+='<span class="tlab" style="font-size:12px;">'+esc(LBL.pipeNone)+'</span>';}
+ else{const errs=pick(P,'errors');const ne=Array.isArray(errs)?errs.length:(nz(errs)!=null?errs:(errs?1:0));
+  const ch=pick(P,'changed');
+  ph+=esc(LBL.pipeHost)+': <b>'+esc(pick(P,'host')||'—')+'</b> · '+esc(LBL.pipeRan)+': <b>'+esc(fDT(pick(P,'ranAt','ran','at','ts')))+'</b> · '
+   +esc(LBL.pipeChanged)+': <b>'+esc(ch==null?'—':(ch?LBL.yes:LBL.no))+'</b> · '+esc(LBL.pipeCommit)+': <code>'+esc(pick(P,'commit')||LBL.none)+'</code> · '
+   +esc(LBL.pipeErr)+': <span class="chip '+(ne?'bad':'good')+'">'+esc(ne?fTok(ne):LBL.none)+'</span>';
+  if(Array.isArray(errs)&&errs.length)ph+='<div class="note" style="color:var(--bad);margin-top:4px;">'+errs.slice(0,5).map(x=>esc(typeof x==='string'?x:JSON.stringify(x))).join('<br>')+'</div>';}
+ document.getElementById('stPipe').innerHTML=ph;
+ /* last errors */
+ const errs=asRows(pick(S,'lastErrors','errors'));
+ let eh='<thead><tr><th class="l">'+esc(LBL.thTime)+'</th><th class="l">'+esc(LBL.thWhat)+'</th><th class="l">'+esc(LBL.thErr)+'</th></tr></thead><tbody>';
+ if(!errs.length)eh+='<tr><td class="l" colspan="3">'+esc(LBL.noErr)+'</td></tr>';
+ errs.slice(0,20).forEach(x=>{if(typeof x==='string'){eh+='<tr><td class="l">—</td><td class="l">—</td><td class="e">'+esc(x)+'</td></tr>';return;}
+  eh+='<tr><td class="l">'+esc(fDT(pick(x,'ts','at','time')))+'</td><td class="l">'+esc(fnName(pick(x,'fn','where','source')||'—'))+'</td><td class="e">'+esc(pick(x,'err','error','msg','message')||'—')+'</td></tr>';});
+ document.getElementById('errTbl').innerHTML=eh+'</tbody>';
+}
+
+/* ---------------- shell contract: theme + language ---------------- */
+function applyTheme(t){theme=t==='light'?'light':'dark';calc();document.getElementById('awrap').classList.toggle('dark',theme==='dark');
+ document.body.style.background=theme==='dark'?'#262624':'#ffffff';markBtns();if(usdc&&STATE==='open')safe(renderUsage);}
+window.applyTheme=applyTheme;
+function applyStatic(){
+ document.documentElement.lang=lang;document.title=LBL.docT;
+ document.querySelectorAll('[data-i]').forEach(el=>{const v=LBL[el.getAttribute('data-i')];if(typeof v==='string')el.textContent=v;});
+ document.querySelectorAll('[data-ia]').forEach(el=>{const v=LBL[el.getAttribute('data-ia')];if(typeof v==='string')el.setAttribute('aria-label',v);});
+ document.querySelectorAll('[data-ip]').forEach(el=>{const v=LBL[el.getAttribute('data-ip')];if(typeof v==='string')el.placeholder=v;});
+ ['btn-en','btn-hr'].forEach(id=>{const b=document.getElementById(id);if(b)b.style.display=EMBED?'none':'';});
+ document.documentElement.classList.remove('i18n-pending');
+}
+function setLang(l){if(l!=='en'&&l!=='hr')l='hr';lang=l;LBL=T[l];try{localStorage.setItem('dash-lang',l);}catch(e){}
+ applyStatic();lockRender();markBtns();renderAll();if(usdc){usdc.options.locale=LOC();usdc.update('none');}}
+window.setLang=setLang;
+function markBtns(){const on=(id,v)=>{const b=document.getElementById(id);if(b)b.classList.toggle('pri',v);};on('btn-en',lang==='en');on('btn-hr',lang==='hr');}
+function applyResponsive(){document.getElementById('awrap').classList.toggle('mobile',window.innerWidth<560);if(usdc)requestAnimationFrame(()=>{usdc.resize();usdc.update('none');});}
+let _rt;window.addEventListener('resize',()=>{clearTimeout(_rt);_rt=setTimeout(applyResponsive,150);});
+try{if(!EMBED)document.getElementById('backlink').hidden=false;}catch(e){}
+applyTheme(theme);
+applyStatic();
+applyResponsive();
+lockRender();
+probe();
+</script>
+</body>
+</html>

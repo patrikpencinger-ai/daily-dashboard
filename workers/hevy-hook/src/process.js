@@ -4,12 +4,13 @@ import templates from "../templates.json" with { type: "json" };
 import { buildDescription, buildName, FOOTER } from "./format.js";
 import { getWorkoutById, getTemplate, getEvents } from "./hevy.js";
 import { HttpError } from "./http.js";
+import { matchWorkoutHr } from "./hrmatch.js";
 import { activityFor, downsampleHr, hrDoc, isStrengthActivity, MATCH_TOLERANCE_MS } from "./match.js";
 import {
   computeStrength, compactTemplate, unknownTemplateIds,
 } from "./strength.js";
 import {
-  deletePending, deleteWorkout, getIndex, getJSON, getPending, getWorkout, indexRebuild,
+  deletePending, deleteWorkout, getHr, getIndex, getJSON, getPending, getWorkout, indexRebuild,
   KEEP_DAYS, listPending, nextDelayMs, putHr, putHrNone, putJSON, putPending, putWorkout, recordError,
 } from "./store.js";
 import { Strava, StravaThrottled, stravaConfigured } from "./strava.js";
@@ -47,7 +48,7 @@ export async function resolveTemplates(rt, workout) {
 export function buildRecord(workout, tmpl, prev) {
   const { exercises, totals, muscles } = computeStrength(workout, tmpl);
   const sameStart = prev && prev.start === workout.start_time;
-  return {
+  const rec = {
     id: workout.id,
     title: workout.title || "",
     start: workout.start_time,
@@ -60,6 +61,43 @@ export function buildRecord(workout, tmpl, prev) {
     hr: sameStart ? prev.hr || null : null,
     status: sameStart && prev.status ? prev.status : "received",
   };
+  // an unedited re-ingest keeps its HR match; an edit drops it until syncStrava recomputes it
+  if (sameStart && rec.hr && prev.hrMatch && prev.updatedAt === rec.updatedAt) rec.hrMatch = prev.hrMatch;
+  return rec;
+}
+
+/** The parts of a raw Hevy workout the HR matcher reads (kept in the pending item's `sync`). */
+export function hrSkeleton(workout) {
+  return {
+    exercises: (workout.exercises || []).map((e) => ({
+      index: e.index,
+      title: e.title,
+      superset_id: e.superset_id ?? null,
+      sets: (e.sets || []).map((s) => ({
+        index: s.index, type: s.type, weight_kg: s.weight_kg ?? null, reps: s.reps ?? null, rpe: s.rpe ?? null,
+      })),
+    })),
+  };
+}
+
+/**
+ * HR-peak <-> set match (src/hrmatch.js, port of build_strength.py) on the
+ * full-resolution stream -> rec.hrMatch.  `doc` = the raw HR doc just built from
+ * Strava, else the cached KV hr:<stravaId>.  Omitted when no set matches; a
+ * matcher failure is logged and never blocks the pipeline.
+ */
+async function attachHrMatch(rt, rec, skel, stravaId, doc) {
+  const kv = rt.env.LIVE;
+  try {
+    const d = doc || (await getHr(kv, stravaId));
+    if (!d || d.none) return;
+    const hm = matchWorkoutHr(skel, d);
+    if (hm && hm.matched > 0) rec.hrMatch = hm;
+    else delete rec.hrMatch;
+  } catch (e) {
+    delete rec.hrMatch;
+    await recordError(kv, "hrmatch", e, rt.now());
+  }
 }
 
 function statusOf(rec) {
@@ -87,6 +125,7 @@ export async function syncStrava(rt, rec, sync, strava) {
       if (!(e instanceof HttpError && e.status === 404)) throw e;
       rec.strava = null;
       rec.hr = null;
+      delete rec.hrMatch;
     }
   }
   if (!act) {
@@ -118,14 +157,17 @@ export async function syncStrava(rt, rec, sync, strava) {
   }
   rec.strava = { id: act.id, name: sync.name, renamedAt };
 
+  let doc = null;
   if (!rec.hr) {
     const streams = await strava.getStreams(act.id);
     rec.hr = streams ? downsampleHr(streams, act.start_date) : null;
     // full-resolution copy for the morning pipeline (GET /live/hr/<stravaId>)
-    const doc = streams ? hrDoc({ ...act, name: sync.name }, streams) : null;
+    doc = streams ? hrDoc({ ...act, name: sync.name }, streams) : null;
     if (doc) await putHr(kv, doc);
     else await putHrNone(kv, act.id);
   }
+  if (!rec.hr) delete rec.hrMatch;
+  else if (sync.skel) await attachHrMatch(rt, rec, sync.skel, act.id, doc);
   rec.status = statusOf(rec);
   return "done";
 }
@@ -150,7 +192,7 @@ export async function ingestWorkout(rt, workout, { prevPending = null, strava = 
   const prev = await getWorkout(kv, workout.id);
   const tmpl = await resolveTemplates(rt, workout);
   const rec = buildRecord(workout, tmpl, prev);
-  const sync = { name: buildName(workout), description: buildDescription(workout) };
+  const sync = { name: buildName(workout), description: buildDescription(workout), skel: hrSkeleton(workout) };
   await putWorkout(kv, rec, rt.now());
   if (!tryStrava) {
     await enqueue(rt, rec, "strava", sync, prevPending, null);

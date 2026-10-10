@@ -225,7 +225,7 @@ session ends up in a refresh commit.
 
 ## 1f. Strength pipeline (`strength-data.json`)
 
-`strength-data.json` is built by three stdlib-only Python scripts in `tools/` (Python 3.11+),
+`strength-data.json` is built by three stdlib-only Python scripts in `tools/` (Python 3.9+; the Mac mini runs 3.9.6),
 not by the connector. Data goes Hevy API + Strava API → local cache → `build_strength.py` →
 `strength-data.json` (Strength tab), plus a write-back that renames the Strava activity.
 Nothing in this section needs the wearable connector; it needs the local machine.
@@ -275,6 +275,32 @@ Exit codes of `strava_sync.py`: 0 ok, **2 = not configured** (missing keys/token
 what to do — the routine logs it and continues), 3 = Strava daily rate limit, 1 = other API
 error. A non-zero exit of any §1f step goes into the refresh report; it never blocks the
 sleep and training files from being committed.
+
+### Mac cron (every 30 min) and the routine lock
+
+Besides the morning routine, the Mac mini runs the same three steps on its own: launchd agent
+`com.dash.strength-pipeline` -> `tools/strength_cron.sh`, every 1800 s (`tools/launchd/`). Each run is
+`git pull --ff-only` -> `hevy_fetch.py --days 3` -> `strava_sync.py fetch-hr --days 3` ->
+`build_strength.py`, then a commit `strength: YYYY-MM-DD HH:MM` and a push **only if the content
+of `strength-data.json` (ignoring `meta.refreshedAt`) or `training-data.json` (`volWork`) changed**.
+It never runs `strava_sync.py sync` (the rename write-back stays a morning step). It always POSTs a
+heartbeat to `https://hevy.er45.com/live/pipeline` (a non-2xx answer is logged, never fatal) and logs
+to `~/.claude/cache/daily-dashboard/strength/cron.log`. Exit codes: 0 ok or skipped, 1 pipeline step
+failed, 2 pull not fast-forward, 3 commit/push failed, 4 setup problem.
+
+**Routine lock - mandatory for every morning-refresh try (all five).** The cron must not commit or
+push while the routine works in the same clone:
+
+1. **First thing**, before the step-0 `git pull`: `touch ~/.claude/cache/daily-dashboard/routine.lock`
+   (create the directory if needed), then wait until `~/.claude/cache/daily-dashboard/strength/cron.run.lock`
+   no longer exists (a cron run already in flight; give up waiting after 3 min).
+2. **Last thing, on every exit path including failures:** `rm -f ~/.claude/cache/daily-dashboard/routine.lock`.
+
+The cron skips (exit 0, heartbeat says "skipped") while the lock is younger than 90 min and ignores an
+older lock as stale, so a crashed routine can block it for at most 90 min. The cron's commits only touch
+`strength-data.json` and `training-data.json` and are fast-forwards, so the routine's step-0 pull picks
+them up; the routine still rebuilds both files itself (steps above), so nothing depends on the cron.
+Cron or no cron, the routine's own commit rules (stage by name) are unchanged.
 
 ### Where things live (never in the repo)
 
