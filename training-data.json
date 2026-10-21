@@ -1,73 +1,73 @@
 {
   "meta": {
-    "version": "v2.29-auto",
-    "snapshot": "2026-10-20",
-    "refreshedAt": "2026-10-20T07:11:03+02:00"
+    "version": "v2.30-auto",
+    "snapshot": "2026-10-21",
+    "refreshedAt": "2026-10-21T08:44:36+02:00"
   },
   "num": {
     "kpis": {
-      "sessions": "4",
-      "totalTime": "4h 12m",
+      "sessions": "3",
+      "totalTime": "3h 07m",
       "volume": "36,207 kg",
-      "activeCals": "1,967"
+      "activeCals": "1,381"
     },
     "daily": {
       "type": [
-        "pool",
         "str",
         "rest",
         "str",
         "rest",
         "str",
+        "rest",
         "rest"
       ],
       "names": [
-        "Pool swim 2,200 m (500 + 8×200 + 100)",
         "Deadlift day — barbell deadlift + accessories, 9,034 kg",
         "Rest day",
         "Front squat day — front squat + accessories, 11,060 kg",
         "Rest day",
         "Hack squat day — hack squat + accessories, 16,113 kg",
+        "Rest day",
         "Rest day (nothing logged yet)"
       ],
       "effort": [
-        35,
         25,
         null,
         26,
         null,
         34,
+        null,
         null
       ],
       "dur": [
-        65,
         63,
         null,
         55,
         null,
         69,
+        null,
         null
       ],
       "kcal": [
-        586,
         392,
         null,
         445,
         null,
         544,
+        null,
         null
       ],
       "vol": [
-        null,
         9034,
         null,
         11060,
         null,
         16113,
+        null,
         null
       ],
       "dist": [
-        2200,
+        null,
         null,
         null,
         null,
@@ -76,51 +76,51 @@
         null
       ],
       "maxhr": [
-        154,
         132,
         100,
         153,
         107,
         149,
-        97
+        100,
+        88
       ],
       "avghr": [
-        119,
         101,
         62,
         110,
         65,
         112,
-        63
+        67,
+        57
       ],
       "rhr": [
-        50,
         54,
         54,
         53,
         54,
         56,
-        56
+        56,
+        54
       ]
     },
     "energy": {
       "edaily": [
-        519,
         365,
         76,
         426,
         111,
         587,
-        15
+        123,
+        0
       ],
       "eavg": [
-        300,
-        300,
-        300,
-        300,
-        300,
-        300,
-        300
+        241,
+        241,
+        241,
+        241,
+        241,
+        241,
+        241
       ],
       "eint": [
         null,
@@ -136,13 +136,13 @@
     "burn": {
       "bmr": 2414,
       "exnet": [
-        519,
         365,
         76,
         426,
         111,
         587,
-        15
+        123,
+        0
       ],
       "intake": [
         2000,
@@ -2892,81 +2892,81 @@
   },
   "text": {
     "en": {
-      "k1d": "4 sessions · 4/7 days active",
-      "k2d": "avg 63m per session",
-      "k3d": "3 gym sessions · 1 pool swim",
-      "k4d": "~300 kcal/day active · intake logged 0/7 days",
+      "k1d": "3 sessions · 3/7 days active",
+      "k2d": "avg 62m per session",
+      "k3d": "3 gym sessions · no swim",
+      "k4d": "~241 kcal/day active · intake logged 0/7 days",
       "days": [
-        "Wed 14",
         "Thu 15",
         "Fri 16",
         "Sat 17",
         "Sun 18",
         "Mon 19",
-        "Tue 20"
+        "Tue 20",
+        "Wed 21"
       ],
       "daysM": [
-        "W14",
         "T15",
         "F16",
         "S17",
         "S18",
         "M19",
-        "T20"
+        "T20",
+        "W21"
       ],
-      "eNote": "No day on this board carries a food log, so the chart plots the 2,000 kcal reference across all seven. Active burn averaged 300 kcal/day, from 15 kcal on the in-progress Tuesday to 587 kcal on Monday’s hack-squat day.",
+      "eNote": "No day on this board carries a food log, so the chart plots the 2,000 kcal reference across all seven. Active burn averaged 241 kcal/day, from 0 kcal on the in-progress Wednesday to 587 kcal on Monday’s hack-squat day.",
       "bNote": "Net exercise = Garmin active calories; standing BMR 2,414. No day on this board has a measured intake, so every bar uses the 2,000 kcal placeholder and the balance column is a reference, not a reading.",
       "wNote": "The bridge still holds the last measured day, Thursday Sep 3: 1,845 kcal in, 2,414 basal, 688 net exercise, −1,257 kcal balance.",
-      "i1t": "Three lifts and one swim",
-      "i1": "Four sessions, 4h 12m, 1,967 active kcal: a 2,200 m pool swim Wednesday, barbell deadlift Thursday, front squat Saturday and hack squat Monday; Friday and Sunday were rest days and Tuesday is in progress. Work tonnage was 33,527 kg against 31,320 kg in the seven days before, an ACWR of 1.05.",
-      "i2t": "Swim: 2:36 per 100 m",
-      "i2": "Wednesday’s 2,200 m 500 + 8×200 + 100 ran 65 minutes at 2:36 per 100 m, average HR 119, peak 154, for 586 active kcal — 5 s per 100 slower than the 2:31 of Sep 23 on the same set; 15.6 °C air high. The N4×4 set last ran Oct 5 at 2:25 per 100 m, average HR 129.",
+      "i1t": "Three lifts, three rest days",
+      "i1": "Three sessions, 3h 07m, 1,381 active kcal: barbell deadlift Thursday, front squat Saturday and hack squat Monday; Friday, Sunday and Tuesday were rest days and Wednesday is in progress. Work tonnage was 33,527 kg against 31,320 kg in the seven days before, an ACWR of 1.05.",
+      "i2t": "Swim: last at 2:36 per 100 m",
+      "i2": "The last swim was Oct 14’s 2,200 m 500 + 8×200 + 100: 65 minutes at 2:36 per 100 m, average HR 119, peak 154, for 586 active kcal — 5 s per 100 slower than the 2:31 of Sep 23 on the same set; 15.6 °C air high. The N4×4 set last ran Oct 5 at 2:25 per 100 m, average HR 129.",
       "i3t": "Hack squat up to 160 kg × 12",
       "i3": "Latest top sets: hack squat 160 kg × 12 on Oct 19 against 150 kg × 12 on Oct 13 (+6.7%), three work sets at RPE 7–7.5 in 69 minutes at an activity HR of 112 average, 149 peak; front squat 90 kg × 8 on Oct 17, level with Oct 10; barbell deadlift 125 kg × 8 on Oct 15 against 130 kg × 8 on Oct 8 (−3.8%). No lift jumped more than 10%.",
-      "i4t": "Recovery: score 66, 5h 09m",
-      "i4": "Last night ran 5h 09m with 27 minutes awake, 103 minutes of deep and 48 of REM after a 23:24 lights-out and a 05:00 wake, scoring 66, down from 78; HRV 36 against a 43.0 28-day baseline and RHR 56 against 53.9. Four of the last seven nights landed under seven hours, 4.5 h short in total.",
+      "i4t": "Recovery: score 87, 7h 34m",
+      "i4": "Last night ran 7h 34m with 16 minutes awake, 94 minutes of deep and 139 of REM after a 23:42 lights-out and a 07:33 wake, scoring 87, up from 66; HRV 40 against a 42.8 28-day baseline and RHR 54 against 54.0. Three of the last seven nights landed under seven hours, 3.5 h short in total.",
       "today": "Next 72h vs plan",
-      "rec": "Work tonnage over the last seven days is 33,527 kg against 31,320 kg in the seven before, with the 28-day chronic load at 32,067 kg a week — an ACWR of 1.05 — as Monday's hack squat lifted its top set from 150 kg × 12 to 160 kg × 12, +6.7%, on 14,493 kg of work tonnage. The flag is sleep debt: four of the last seven nights ran under seven hours — 5h 58m, 5h 59m, 6h 24m and last night's 5h 09m — 4.5 h short in total. Next session: today's N4×4 swim, 2,200 m at a 2:25 per 100 m target — the Oct 5 best for that set — holding average HR 125–130 as on Sep 4 and Oct 5. Logging is the lever: 0 of 7 days on this board carry a food log, and Monday's 544-kcal hack-squat session plus today's swim make both training days — log today against the 2,200 kcal / 180 g protein training-day target.",
-      "foot": "Data: 2026-10-14 → 2026-10-20 · Garmin fenix 8 + Hevy + Intervals.icu via Freddy",
+      "rec": "Work tonnage over the last seven days is 33,527 kg against 31,320 kg in the seven before, with the 28-day chronic load at 32,067 kg a week — an ACWR of 1.05 — carried by Monday's hack squat at 160 kg × 12, +6.7% on Oct 13's 150 kg × 12. The flag is sleep debt: three of the last seven nights ran under seven hours — Thursday's 5h 59m, Sunday's 6h 24m and Monday's 5h 09m — 3.5 h short in total. Next session: today's N4×4 swim, 2,200 m at a 2:25 per 100 m target — the Oct 5 best for that set — holding average HR 125–130 as on Sep 4 and Oct 5. Logging is the lever: 0 of 7 days on this board carry a food log, and today's swim makes it a training day — log it against the 2,200 kcal / 180 g protein training-day target.",
+      "foot": "Data: 2026-10-15 → 2026-10-21 · Garmin fenix 8 + Hevy + Intervals.icu via Freddy",
       "foot2": "ACWR 1.05 on 33,527 kg acute vs 32,067 kg chronic work tonnage · hack squat top set 160 kg × 12 on Oct 19, up from 150 kg × 12 on Oct 13 · front squat 90 kg × 8 on Oct 17 · barbell deadlift 125 kg × 8 on Oct 15"
     },
     "hr": {
-      "k1d": "4 treninga · 4/7 aktivnih dana",
-      "k2d": "prosj. 63m po treningu",
-      "k3d": "3 teretane · 1 plivanje u bazenu",
-      "k4d": "~300 kcal/dan aktivno · unos zabilježen 0/7 dana",
+      "k1d": "3 treninga · 3/7 aktivnih dana",
+      "k2d": "prosj. 62m po treningu",
+      "k3d": "3 teretane · bez plivanja",
+      "k4d": "~241 kcal/dan aktivno · unos zabilježen 0/7 dana",
       "days": [
-        "Sri 14",
         "Čet 15",
         "Pet 16",
         "Sub 17",
         "Ned 18",
         "Pon 19",
-        "Uto 20"
+        "Uto 20",
+        "Sri 21"
       ],
       "daysM": [
-        "S14",
         "Č15",
         "P16",
         "S17",
         "N18",
         "P19",
-        "U20"
+        "U20",
+        "S21"
       ],
-      "eNote": "Nijedan dan na ovoj ploči nema zapis hrane, pa graf kroz svih sedam crta referentnih 2.000 kcal. Aktivna potrošnja prosječno je 300 kcal/dan, od 15 kcal u utorak, koji je još u tijeku, do 587 kcal u ponedjeljak, na dan hack čučnja.",
+      "eNote": "Nijedan dan na ovoj ploči nema zapis hrane, pa graf kroz svih sedam crta referentnih 2.000 kcal. Aktivna potrošnja prosječno je 241 kcal/dan, od 0 kcal u srijedu, koja je još u tijeku, do 587 kcal u ponedjeljak, na dan hack čučnja.",
       "bNote": "Neto trening = Garmin aktivne kalorije; standardni BMR 2.414. Nijedan dan na ovoj ploči nema izmjeren unos, pa svaki stupac koristi rezervnih 2.000 kcal, a stupac bilance je referenca, a ne očitanje.",
       "wNote": "Most još drži zadnji izmjereni dan, četvrtak 3.9.: 1.845 kcal unosa, 2.414 bazal, 688 neto treninga, −1.257 kcal bilance.",
-      "i1t": "Tri dizanja i jedno plivanje",
-      "i1": "Četiri treninga, 4h 12m, 1.967 aktivnih kcal: plivanje od 2.200 m u srijedu, mrtvo dizanje sa šipkom u četvrtak, prednji čučanj u subotu i hack čučanj u ponedjeljak; petak i nedjelja bili su dani odmora, a utorak je još u tijeku. Radna tonaža bila je 33.527 kg naspram 31.320 kg u sedam dana prije, ACWR 1,05.",
-      "i2t": "Plivanje: 2:36 po 100 m",
-      "i2": "Srijedinih 2.200 m 500 + 8×200 + 100 trajalo je 65 minuta uz 2:36 po 100 m, prosječni puls 119, vrh 154, za 586 aktivnih kcal — 5 s po 100 m sporije od 2:31 od 23.9. na istom setu; najviša temperatura zraka 15,6 °C. Set N4×4 zadnji put je plivan 5.10. uz 2:25 po 100 m i prosječni puls 129.",
+      "i1t": "Tri dizanja, tri dana odmora",
+      "i1": "Tri treninga, 3h 07m, 1.381 aktivnih kcal: mrtvo dizanje sa šipkom u četvrtak, prednji čučanj u subotu i hack čučanj u ponedjeljak; petak, nedjelja i utorak bili su dani odmora, a srijeda je još u tijeku. Radna tonaža bila je 33.527 kg naspram 31.320 kg u sedam dana prije, ACWR 1,05.",
+      "i2t": "Plivanje: zadnje uz 2:36 po 100 m",
+      "i2": "Zadnje plivanje bilo je 14.10., 2.200 m 500 + 8×200 + 100: 65 minuta uz 2:36 po 100 m, prosječni puls 119, vrh 154, za 586 aktivnih kcal — 5 s po 100 m sporije od 2:31 od 23.9. na istom setu; najviša temperatura zraka 15,6 °C. Set N4×4 zadnji put je plivan 5.10. uz 2:25 po 100 m i prosječni puls 129.",
       "i3t": "Hack čučanj do 160 kg × 12",
       "i3": "Zadnje najteže serije: hack čučanj 160 kg × 12 dana 19.10. naspram 150 kg × 12 dana 13.10. (+6,7%), tri radne serije uz RPE 7–7,5 u 69 minuta i puls aktivnosti 112 prosječno, 149 vrh; prednji čučanj 90 kg × 8 dana 17.10., jednako kao 10.10.; mrtvo dizanje sa šipkom 125 kg × 8 dana 15.10. naspram 130 kg × 8 dana 8.10. (−3,8%). Nijedno dizanje nije skočilo više od 10%.",
-      "i4t": "Oporavak: ocjena 66, 5h 09m",
-      "i4": "Sinoćnji san trajao je 5h 09m uz 27 minuta budnosti, 103 minute dubokog i 48 minuta REM-a, nakon gašenja svjetla u 23:24 i buđenja u 05:00, uz ocjenu 66, nižu od 78; HRV 36 naspram 28-dnevne osnove od 43,0 i RHR 56 naspram 53,9. Četiri od zadnjih sedam noći bile su ispod sedam sati, ukupno 4,5 h manjka.",
+      "i4t": "Oporavak: ocjena 87, 7h 34m",
+      "i4": "Sinoćnji san trajao je 7h 34m uz 16 minuta budnosti, 94 minute dubokog i 139 minuta REM-a, nakon gašenja svjetla u 23:42 i buđenja u 07:33, uz ocjenu 87, višu od 66; HRV 40 naspram 28-dnevne osnove od 42,8 i RHR 54 naspram 54,0. Tri od zadnjih sedam noći bile su ispod sedam sati, ukupno 3,5 h manjka.",
       "today": "Sljedeća 72h vs plan",
-      "rec": "Radna tonaža u zadnjih sedam dana iznosi 33.527 kg naspram 31.320 kg u sedam dana prije, a 28-dnevno kronično opterećenje je 32.067 kg tjedno — ACWR 1,05 — jer je ponedjeljkov hack čučanj podigao najtežu seriju sa 150 kg × 12 na 160 kg × 12, +6,7%, uz 14.493 kg radne tonaže. Upozorenje je manjak sna: četiri od zadnjih sedam noći bile su ispod sedam sati — 5h 58m, 5h 59m, 6h 24m i sinoćnjih 5h 09m — ukupno 4,5 h manjka. Sljedeći trening: današnje plivanje N4×4, 2.200 m uz ciljani tempo 2:25 na 100 m — najbolji za taj set, 5.10. — uz prosječni puls 125–130 kao 4.9. i 5.10. Poluga je bilježenje: 0 od 7 dana na ovoj ploči ima zapis hrane, a ponedjeljkov hack čučanj od 544 kcal i današnje plivanje čine oba dana danima treninga — zabilježi današnji dan uz cilj dana treninga od 2.200 kcal / 180 g proteina.",
-      "foot": "Podaci: 14.10. → 20.10.2026. · Garmin fenix 8 + Hevy + Intervals.icu putem Freddyja",
+      "rec": "Radna tonaža u zadnjih sedam dana iznosi 33.527 kg naspram 31.320 kg u sedam dana prije, a 28-dnevno kronično opterećenje je 32.067 kg tjedno — ACWR 1,05 — koje nosi ponedjeljkov hack čučanj sa 160 kg × 12, +6,7% u odnosu na 150 kg × 12 od 13.10. Upozorenje je manjak sna: tri od zadnjih sedam noći bile su ispod sedam sati — četvrtak 5h 59m, nedjelja 6h 24m i ponedjeljak 5h 09m — ukupno 3,5 h manjka. Sljedeći trening: današnje plivanje N4×4, 2.200 m uz ciljani tempo 2:25 na 100 m — najbolji za taj set, 5.10. — uz prosječni puls 125–130 kao 4.9. i 5.10. Poluga je bilježenje: 0 od 7 dana na ovoj ploči ima zapis hrane, a današnje plivanje čini ovaj dan danom treninga — zabilježi ga uz cilj dana treninga od 2.200 kcal / 180 g proteina.",
+      "foot": "Podaci: 15.10. → 21.10.2026. · Garmin fenix 8 + Hevy + Intervals.icu putem Freddyja",
       "foot2": "ACWR 1,05 uz akutnih 33.527 kg naspram kroničnih 32.067 kg radne tonaže · hack čučanj najteža serija 160 kg × 12 dana 19.10., više od 150 kg × 12 dana 13.10. · prednji čučanj 90 kg × 8 dana 17.10. · mrtvo dizanje sa šipkom 125 kg × 8 dana 15.10."
     }
   }
