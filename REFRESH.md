@@ -27,7 +27,42 @@ when the prompt itself changes, the Mac task file — see [`CLAUDE.md`](CLAUDE.m
 
 Trailing window = the most recent 7 calendar days ending today.
 
-**Sleep (Garmin), `days: 8`** (8 so the 7-day deltas have a prior day):
+**Sleep source — `tools/garmin_sync.py` first, the connector as fallback (since 2026-11-03).**
+Run, from the repo root:
+
+```
+python tools/garmin_sync.py --days 8 --json      # Mac: PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.14
+```
+
+It reads the Garmin Personal API directly (3 HTTP calls, no model, no connector cache) and
+prints one row per Garmin `calendarDate` (wake date), using **the connector's metric names**
+below, so the transforms in §1b/§1d/§2 apply unchanged. It also writes the rows to
+`<CACHE>/garmin/wellness.json`. Extra fields per row: `sleep_bedLocal` / `sleep_wakeLocal`
+(`HH:MM` local, so the raw `startTimeInSeconds` call is not needed), `hrv_weeklyAvg`,
+`hrv_status`, `daily_bmrKilocalories`, `daily_activeKilocalories`, `bb_charged`,
+`bb_drained`, `bb_max`, `bb_min` (Body Battery; not read by any page yet).
+
+| Exit | Meaning | Routine does |
+|---|---|---|
+| 0 | ok, today's sleep record present | use the rows for every sleep metric |
+| 3 | ok, no sleep record for today yet | watch not synced → gate says skip; a later try retries |
+| 2 | key missing, expired or rejected | fall back to the connector, and say "Garmin API key expired" in the report |
+| 1 | API / network error | fall back to the connector |
+
+Parity checked on 2026-11-03 against the connector-built `num.trend` for 2026-10-20 → 11-03
+(90 values): identical after two conventions the script already applies — duration counts
+Garmin's *unmeasurable* seconds as sleep, and `hrv_lastNightAvg` is `null` on an untracked
+night. The one remaining kind of difference is expected: a *past* day's RHR can settle 1–2 bpm
+after the morning the routine captured it (10-30: 59 at 06:00, 57 now). `num.trend` is
+append-only (§1d), so never rewrite old rows from a later pull.
+
+The key lives in `<CACHE>/secrets/garmin.env` (`GARMIN_PERSONAL_API_KEY=...`, both machines)
+and expires on the date chosen when it was created in Garmin Connect (≤ 1 year; Garmin emails
+a week before). The script caches its 24 h access token in `<CACHE>/garmin/token.json`.
+Training, Hevy and Intervals data still come from the connector.
+
+**Sleep (Garmin), `days: 8`** (8 so the 7-day deltas have a prior day) — connector names,
+used as-is by `garmin_sync.py`:
 `sleep_overallSleepScore`, `sleep_durationInSeconds`, `sleep_deepSleepDurationInSeconds`,
 `sleep_lightSleepDurationInSeconds`, `sleep_remSleepInSeconds`, `sleep_awakeDurationInSeconds`,
 `hrv_lastNightAvg`, `daily_restingHeartRateInBeatsPerMinute`, `daily_averageStressLevel`.
@@ -312,6 +347,8 @@ C:\Users\patri\.claude\cache\daily-dashboard\strength\templates.json   Hevy exer
 C:\Users\patri\.claude\cache\daily-dashboard\secrets\hevy.env          HEVY_API_KEY=...
 C:\Users\patri\.claude\cache\daily-dashboard\secrets\strava.json       client id/secret + seed token (--direct / auth only)
 C:\Users\patri\.claude\cache\daily-dashboard\secrets\hevy-webhook.txt  WEBHOOK_AUTH for the Worker (steps 2 and 4)
+C:\Users\patri\.claude\cache\daily-dashboard\secrets\garmin.env        GARMIN_PERSONAL_API_KEY=... (garmin_sync.py, §1)
+C:\Users\patri\.claude\cache\daily-dashboard\garmin\                   wellness.json + token.json (garmin_sync.py)
 ```
 
 `ZG_CACHE` overrides the cache root. Secrets are never printed and never committed; `tools/`
