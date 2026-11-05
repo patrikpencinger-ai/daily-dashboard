@@ -3,8 +3,8 @@
     "version": "v2.35-auto",
     "snapshot": "2026-11-05",
     "refreshedAt": "2026-11-05T06:39:36+01:00",
-    "footEn": "Data snapshot: 2026-11-05 · Garmin fenix 8 via Freddy · the last-night panel shows the Wed→Thu night (wake date 2026-11-05); the 7-day charts show the seven most recent recorded nights, labelled by the evening they began, Wed 28 through Wed 4 (Sat 31 untracked).",
-    "footHr": "Podaci: 5.11.2026. · Garmin fenix 8 putem Freddyja · panel sinoćnje noći prikazuje noć sri→čet (datum buđenja 5.11.2026.); grafovi od 7 dana prikazuju sedam najnovijih zabilježenih noći, označenih večeri u kojoj su počele, sri 28. do sri 4. (sub 31. nije zabilježena)."
+    "footEn": "Data snapshot: 2026-11-05 · Garmin fenix 8 via the Garmin Connect API · the last-night panel shows the Wed→Thu night (wake date 2026-11-05); the 7-day charts show the seven most recent recorded nights, labelled by the evening they began, Wed 28 through Wed 4 (Sat 31 untracked).",
+    "footHr": "Podaci: 5.11.2026. · Garmin fenix 8 putem Garmin Connect API-ja · panel sinoćnje noći prikazuje noć sri→čet (datum buđenja 5.11.2026.); grafovi od 7 dana prikazuju sedam najnovijih zabilježenih noći, označenih večeri u kojoj su počele, sri 28. do sri 4. (sub 31. nije zabilježena)."
   },
   "num": {
     "lastNight": {

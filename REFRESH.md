@@ -573,6 +573,11 @@ so docs are versioned but not served.
 - The watch itself has to sync to the phone before Garmin Connect has anything to serve. A
   refresh that finds yesterday's data is a sync-lag symptom, not a connector failure.
 - Attribute Garmin data as "Garmin fenix 8" per the connector's brand requirement.
+- **Footer source (`sleep-data.json` `meta.footEn` / `meta.footHr`) must name the sleep source
+  this run actually used** — do not copy the previous footer's wording:
+  `garmin_sync.py` exit 0 → EN "Garmin fenix 8 via the Garmin Connect API", HR "Garmin fenix 8
+  putem Garmin Connect API-ja"; connector fallback (§1, exit 1/2) → EN "Garmin fenix 8 via
+  Freddy", HR "Garmin fenix 8 putem Freddyja".
 - Two different "BMR" numbers, on purpose. **`num.burn.bmr` = 2,414** is the *Garmin daily
   baseline* (what the watch reports as resting burn) and it drives the training bridge
   (`bal = int − (2414 + exnet)`) and the current-day placeholder when
