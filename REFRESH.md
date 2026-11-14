@@ -401,7 +401,7 @@ C:\Users\patri\.claude\cache\daily-dashboard\secrets\hevy.env          HEVY_API_
 C:\Users\patri\.claude\cache\daily-dashboard\secrets\strava.json       client id/secret + seed token (--direct / auth only)
 C:\Users\patri\.claude\cache\daily-dashboard\secrets\hevy-webhook.txt  WEBHOOK_AUTH for the Worker (steps 2 and 4)
 C:\Users\patri\.claude\cache\daily-dashboard\secrets\garmin.env        GARMIN_PERSONAL_API_KEY=... (garmin_sync.py, §1)
-C:\Users\patri\.claude\cache\daily-dashboard\garmin\                   wellness.json + token.json (garmin_sync.py)
+C:\Users\patri\.claude\cache\daily-dashboard\garmin\                   wellness.json + token.json (garmin_sync.py), facts-<date>.json (build_dashboard.py), replay\ (test recordings)
 ```
 
 `ZG_CACHE` overrides the cache root. Secrets are never printed and never committed; `tools/`
