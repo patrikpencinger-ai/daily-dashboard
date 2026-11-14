@@ -1,11 +1,12 @@
 # Refresh procedure — sleep & training
 
-This is the exact spec a Claude agent follows to refresh the dashboard data. The agent
-must have the **wearable/health connector** (Garmin + Hevy + Intervals.icu, a.k.a. "Freddy")
-and **git push** access to this repo.
+This is the exact spec a Claude agent follows to refresh the dashboard data. Since
+2026-11-14 the numbers come from **deterministic scripts** (§1: Garmin Personal API, Hevy API,
+Open-Meteo); the agent writes only the narrative text (§3) and needs **git push** access to
+this repo. The **wearable/health connector** ("Freddy": Garmin + Hevy + Intervals.icu) is a
+**fallback only, until 2027-06-09** (end of the subscription) — §1-F.
 
-**On-demand:** in a Claude session with the connector + this repo, say *"refresh the
-dashboard"*. The agent runs the steps below and pushes. **Scheduled:** the same steps run
+**On-demand:** in a Claude session with this repo, say *"refresh the dashboard"*. The agent runs the steps below and pushes. **Scheduled:** the same steps run
 from the Claude app routine **`dashboard-morning-refresh`** (attempts at 06:00, 06:30,
 07:00, 07:30 — the first run that finds fresh Garmin data does the work, the rest are
 catch-ups for a late watch sync).
@@ -23,46 +24,95 @@ when the prompt itself changes, the Mac task file — see [`CLAUDE.md`](CLAUDE.m
 
 ---
 
-## 1. Pull the data (connector `query_metrics`)
+## 1. Build the data (scripts — no model in the loop)
 
-Trailing window = the most recent 7 calendar days ending today.
-
-**Sleep source — `tools/garmin_sync.py` first, the connector as fallback (since 2026-11-03).**
-Run, from the repo root:
+Trailing window = the most recent 7 calendar days ending today. From the repo root, in this
+order (Mac: prefix every command with `PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.14`
+instead of `python`):
 
 ```
-python tools/garmin_sync.py --days 8 --json      # Mac: PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.14
+python tools/garmin_sync.py --days 2          # sleep gate: exit 0 = today's sleep is there, 3 = not synced yet
+python tools/hevy_fetch.py --days 10
+python tools/strava_sync.py fetch-hr --days 10
+python tools/build_strength.py                # strength-data.json (§1f)
+python tools/build_dashboard.py               # sleep-data.json + training-data.json numbers
+python tools/build_strength.py                # again: adds volWork to the gym rows just appended
+python tools/strava_sync.py sync --days 3     # Strava rename write-back (§1f)
 ```
 
-It reads the Garmin Personal API directly (3 HTTP calls, no model, no connector cache) and
-prints one row per Garmin `calendarDate` (wake date), using **the connector's metric names**
-below, so the transforms in §1b/§1d/§2 apply unchanged. It also writes the rows to
-`<CACHE>/garmin/wellness.json`. Extra fields per row: `sleep_bedLocal` / `sleep_wakeLocal`
-(`HH:MM` local, so the raw `startTimeInSeconds` call is not needed), `hrv_weeklyAvg`,
-`hrv_status`, `daily_bmrKilocalories`, `daily_activeKilocalories`, `bb_charged`,
-`bb_drained`, `bb_max`, `bb_min` (Body Battery; not read by any page yet).
+**`tools/build_dashboard.py`** writes every number and every formulaic label of
+`sleep-data.json` and `training-data.json`, so the agent never computes them by hand:
+
+- appends `num.trend` (§1d), `num.gym` / `num.swim` (§1c) and `num.mld` rows — and backfills
+  every day missed since the last entry, append-only (dedupe gym/swim on `d, t, dist, dur`);
+- rebuilds the 7-day blocks: `lastNight`, `week`, `sleepWake` (seven most recent *recorded*
+  nights, untracked ones skipped), `daily`, `energy`, `burn`, `kpis`, `bridge` (only from
+  `data.json` logged days), plus `text.<lang>` labels `daysFull/daysShort/days/daysM`;
+- fills the formulaic text in both languages: `scoreWord`, `c1d`–`c5d`, `havg`, `today`,
+  `badge`, `k1d`–`k4d`, sleep `footEn/footHr`, training `foot/foot2`, and `meta` (`version`
+  bump, `snapshot`, `refreshedAt`);
+- writes a **facts file** `<CACHE>/garmin/facts-<date>.json` for the narrative: 28-day and
+  7-night baselines, last-night deltas, sleep-debt nights, ACWR now and 7 days earlier (work
+  tonnage = `volWork` → that date's `strength-data.json` `tonnageWork` → `vol`), latest and
+  previous top set per lift, lifts seen in the last 28 days, the **flag-ladder result** (§3a,
+  thresholds on raw values), last session per lift, last swims per set type, warnings.
+
+It never touches a free-narrative field (§3) and never computes `volWork` itself. Sources:
+Garmin Personal API (sleep, HRV, daily summaries, activities, rest-day daily HR), the Hevy
+cache from `hevy_fetch.py` (sets, tonnage, top sets), `strength-data.json` `setRows` (per-set
+HR peaks for `mld`), Open-Meteo (air temperature), `data.json` (read only).
 
 | Exit | Meaning | Routine does |
 |---|---|---|
-| 0 | ok, today's sleep record present | use the rows for every sleep metric |
-| 3 | ok, no sleep record for today yet | watch not synced → gate says skip; a later try retries |
-| 2 | key missing, expired or rejected | fall back to the connector, and say "Garmin API key expired" in the report |
-| 1 | API / network error | fall back to the connector |
+| 0 | files written | write the narrative (§3), then commit (§4) |
+| 3 | no Garmin sleep record for the date yet | restore files, skip; a later try retries |
+| 4 | `sleep-data.json` `meta.snapshot` already == date | restore files, skip |
+| 5 | local input problem (missing/corrupt `strength-data.json`, Hevy cache, JSON; `--date` earlier than the snapshot) | restore files, report; no connector fallback |
+| 1 | Garmin / network error | restore files, connector fallback §1-F (until 2027-06-09) |
+| 2 | Garmin key missing, expired or rejected | as 1, and say "Garmin API key expired" in the report |
+| 6 | bug in the script (traceback on stderr) | as 1, and report "build_dashboard bug" with the last traceback line |
 
-Parity checked on 2026-11-03 against the connector-built `num.trend` for 2026-10-20 → 11-03
-(90 values): identical after two conventions the script already applies — duration counts
-Garmin's *unmeasurable* seconds as sleep, and `hrv_lastNightAvg` is `null` on an untracked
-night. The one remaining kind of difference is expected: a *past* day's RHR can settle 1–2 bpm
-after the morning the routine captured it (10-30: 59 at 06:00, 57 now). `num.trend` is
-append-only (§1d), so never rewrite old rows from a later pull.
+Nothing is written on any non-zero exit. "Restore files" =
+`git checkout -- sleep-data.json training-data.json strength-data.json`, so the next try's
+`git pull --ff-only` is clean. Options: `--date`, `--dry-run` (facts only), `--repo DIR`,
+`--record DIR` / `--replay DIR` (save or reuse every network response — used by the tests).
 
-The key lives in `<CACHE>/secrets/garmin.env` (`GARMIN_PERSONAL_API_KEY=...`, both machines)
-and expires on the date chosen when it was created in Garmin Connect (≤ 1 year; Garmin emails
-a week before). The script caches its 24 h access token in `<CACHE>/garmin/token.json`.
-Training, Hevy and Intervals data still come from the connector.
+**Conventions the script applies** (decided 2026-11-14; they settle points the older hand
+refreshes left inconsistent): stored `readiness` = the fitted formula (score ± HRV/RHR
+adjustment against the 28-day baselines, trend row appended first); `c5l` bands on it
+≥ 88 Excellent/Izvrsna, 80–87 Good/Dobra, 60–79 Fair/Osrednja, < 60 Poor/Loša; every
+displayed rounding is half-up; bed/wake clock times come from the GMT timestamps in
+Europe/Zagreb time (correct on DST nights); rest-day daily max HR = Garmin
+`usersummary/daily` `maxHeartRate`, daily avg HR = mean of the day's 2-minute HR samples;
+`mld.cf` is always 0; a zero delta reads `±0`; Croatian counts use proper plurals
+(1 trening / 2 treninga / 5 treninga). A gym row appended before Hevy synced (null `vol`) is
+completed — `t`, `lift`, `top`, `vol`, `sets`, `reps` and its `mld` row — by any run within 7
+days once Hevy has it; rows with a non-null `vol` are never rewritten.
 
-**Sleep (Garmin), `days: 8`** (8 so the 7-day deltas have a prior day) — connector names,
-used as-is by `garmin_sync.py`:
+Tests: `python -m unittest tools/test_build_dashboard.py tools/test_garmin_sync.py
+tools/test_build_strength.py`. The script was replayed against the real refreshes of
+2026-11-04, 11-05 and 11-14 with every remaining difference explained (rest-day max HR
+source, the readiness convention, footer source wording, same-day values).
+
+**`tools/garmin_sync.py`** (the sleep gate) reads sleep, HRV and daily summaries (3 calls),
+one row per Garmin `calendarDate` (wake date) under the connector's metric names, into
+`<CACHE>/garmin/wellness.json`. Exit 0 ok / 3 no sleep record for today / 1 API error /
+2 key problem. The key lives in `<CACHE>/secrets/garmin.env` (`GARMIN_PERSONAL_API_KEY=...`,
+both machines) and expires on the date chosen when it was created in Garmin Connect (≤ 1 year;
+Garmin emails a week before). The 24 h access token is cached in `<CACHE>/garmin/token.json`.
+Parity with the connector was checked on 2026-11-03 (sleep, 90 values) and 2026-11-14
+(activities, daily kcal/RHR): identical; a *past* day's RHR can settle 1–2 bpm after the
+morning it was captured, and `num.trend` is append-only, so old rows are never rewritten.
+
+## 1-F. Connector fallback (Freddy) — only until 2027-06-09
+
+Use this only when `garmin_sync.py` or `build_dashboard.py` exits 1, 2 or 6, and only until
+2027-06-09. After that date there is no fallback: restore files, report, skip the day. In a
+fallback run the agent pulls the metrics below through the connector, applies §1b–§1d and §2
+by hand, still runs the strength scripts (everything in §1 except `build_dashboard.py`), and
+says "via Freddy" in both footers (Notes).
+
+**Sleep (Garmin), `days: 8`** (8 so the 7-day deltas have a prior day):
 `sleep_overallSleepScore`, `sleep_durationInSeconds`, `sleep_deepSleepDurationInSeconds`,
 `sleep_lightSleepDurationInSeconds`, `sleep_remSleepInSeconds`, `sleep_awakeDurationInSeconds`,
 `hrv_lastNightAvg`, `daily_restingHeartRateInBeatsPerMinute`, `daily_averageStressLevel`.
@@ -155,7 +205,7 @@ swim: {d, l, t, dist, sec100, pace, mx, av, lengths, spm, tmax, tmin, dur, kcal}
 | Field | On | Source / formula | Null when |
 |---|---|---|---|
 | `dur` | gym, swim | `round(activity_durationInSeconds / 60)`, integer minutes | Garmin activity missing |
-| `kcal` | gym, swim | `activity_activeKilocalories`, integer (active, **not** gross/total) | Garmin activity missing |
+| `kcal` | gym, swim | Garmin activity `calories`, integer — the value the connector calls `activity_activeKilocalories`; it is Garmin's session total (history verified 2026-11-14), not active-only | Garmin activity missing |
 | `lift` | gym | classified from `t` — rule ladder below | never — falls through to `"other"` |
 | `top` | gym | `{w, reps}` of the heaviest set of the session's main compound, from the Hevy **raw sets** | no Hevy workout, or `lift === "other"` |
 
@@ -266,6 +316,9 @@ not by the connector. Data goes Hevy API + Strava API → local cache → `build
 Nothing in this section needs the wearable connector; it needs the local machine.
 
 ### Morning steps — in this order, from the repo root
+
+The full morning order, with `build_dashboard.py` between the two `build_strength.py` runs,
+is in §1. The strength-only steps are:
 
 ```
 python tools/hevy_fetch.py --days 3
@@ -401,8 +454,9 @@ gym**. Add a gym by adding a line there — no code change.
 right after `top`: `round(Σ tonnageWork of that date's Hevy workouts)` in kg, `null` when
 there is no Hevy workout that date. It is recomputed on every run (it is builder-owned, unlike
 `lift`/`top`) and skipped with `--no-training-data`. The Training tab's tonnage/ACWR chart
-reads `volWork ?? vol`. §3a slot 1 and flag 1 still name `num.gym[].vol` (Hevy's total, warm-ups
-included), so the agent's ACWR and the tab's ACWR can differ slightly.
+reads `volWork ?? vol`, and so do §3a slot 1 / flag 1 through the facts file of
+`build_dashboard.py` (which uses that date's `tonnageWork` for rows appended in the same run),
+so the narrative's ACWR and the tab's ACWR agree.
 
 `strength-data.json` `meta.refreshedAt` is what the shell's "Strength" last-refresh chip
 reads (not `meta.snapshot`).
@@ -417,6 +471,9 @@ the builder (`tools/build_strength.py`) owns them and the Worker caches them for
 "n/a").
 
 ## 2. Transform into the JSON shapes
+
+`build_dashboard.py` (§1) applies everything in this section. It stays written down here as
+the reference for the script and for a connector fallback run (§1-F), which does it by hand.
 
 - Seconds → hours (week stage arrays) or minutes (last-night stages).
 - `effort = round(durationMin × (avgHR − 53) / (174 − 53))`.
@@ -439,11 +496,20 @@ Keep the JSON **keys and structure identical** — only values change. See the c
 
 ## 3. Regenerate the analysis text (EN + HR) — fixed-slot spec
 
-Every text field is rewritten in **both languages** from the fresh numbers: the last-night
-deltas (`c1d`–`c5d`), the sleep `today`/`badge`/`rec`, and the training `k1d`–`k4d`,
-findings (`i1t`–`i4`), `today`/`rec`, and the `eNote`/`bNote`/`wNote`. Every sentence must
-be traceable to a number in the file being written (or in `data.json` / `weight-data.json`,
-which may be *read*).
+Every text field is rewritten in **both languages** from the fresh numbers. Since 2026-11-14
+the split is fixed:
+
+- **`build_dashboard.py` writes** the formulaic fields: sleep `scoreWord`, `c1d`–`c5d`, `havg`,
+  `today`, `badge`, `daysFull/daysShort`, footers; training `k1d`–`k4d`, `days/daysM`, `foot`,
+  `foot2`. The agent does not edit them.
+- **The agent writes** only the free narrative: sleep `rec`; training `rec`, `i1t`–`i4t`,
+  `i1`–`i4`, `eNote`, `bNote`, `wNote`. Ground every number in the facts file
+  (`<CACHE>/garmin/facts-<date>.json`) or the freshly written JSON; use `facts.flag` for slot 2
+  as computed.
+
+Every sentence must be traceable to a number in the file being written (or in `data.json` /
+`weight-data.json`, which may be *read*). In a connector fallback run (§1-F) the agent writes
+both groups by hand.
 
 ### 3a. `rec` — four slots, in this order, nothing else
 
@@ -454,7 +520,7 @@ the same numbers; it may run ~10% longer for grammar). **Whole `rec` ≤ 240 wor
 
 | Slot | Name | What it must contain | Reads from |
 |---|---|---|---|
-| 1 | **TREND** | One sentence with numbers: the thing that moved. Training `rec` → this week's tonnage and ACWR vs the previous week, or swim pace vs the previous swim, whichever moved more. Sleep `rec` → duration / score / RHR / HRV against the 28-day baseline (7-night if 28 is short). | `num.gym[].vol`, `num.swim[].sec100`, `num.trend[]` |
+| 1 | **TREND** | One sentence with numbers: the thing that moved. Training `rec` → this week's work tonnage and ACWR vs the previous week, or swim pace vs the previous swim, whichever moved more. Sleep `rec` → duration / score / RHR / HRV against the 28-day baseline (7-night if 28 is short). | facts file (`acwr`, `baselines`), `num.gym[].volWork`, `num.swim[].sec100`, `num.trend[]` |
 | 2 | **FLAG** | The **single** most important risk right now, named with the number that triggered it — or the literal word "none" when nothing trips. Never two flags. | see the flag ladder below |
 | 3 | **PRESCRIPTION** | Exactly one next session. Gym: `lift / sets × reps / load kg`. Swim: `distance / interval / target pace per 100`. Nothing else — no alternatives, no "or". | `num.gym[].lift` + `num.gym[].top` |
 | 4 | **LEVER** | One nutrition or sleep lever, tied to a number from today. Not general advice. | `data.json` targets/log, `num.sleepWake`, `num.trend[]` |
@@ -568,16 +634,18 @@ so docs are versioned but not served.
 
 ## Notes / gotchas
 - Hevy sync lags Garmin by a few hours — a same-day lift may be in Garmin but not Hevy
-  yet. Leave its `vol`/`sets`/`reps`/`top` and the per-set peaks null; the next refresh
-  fills them. This is why the routine has four attempts, half an hour apart.
+  yet. `build_dashboard.py` then appends the row with `t` = the Garmin name, `lift` `other`
+  and null `vol`/`sets`/`reps`/`top`; any run in the next 7 days completes it (§1).
 - The watch itself has to sync to the phone before Garmin Connect has anything to serve. A
   refresh that finds yesterday's data is a sync-lag symptom, not a connector failure.
 - Attribute Garmin data as "Garmin fenix 8" per the connector's brand requirement.
-- **Footer source (`sleep-data.json` `meta.footEn` / `meta.footHr`) must name the sleep source
-  this run actually used** — do not copy the previous footer's wording:
-  `garmin_sync.py` exit 0 → EN "Garmin fenix 8 via the Garmin Connect API", HR "Garmin fenix 8
-  putem Garmin Connect API-ja"; connector fallback (§1, exit 1/2) → EN "Garmin fenix 8 via
-  Freddy", HR "Garmin fenix 8 putem Freddyja".
+- **Footers must name the source this run actually used.** `build_dashboard.py` writes them:
+  sleep `meta.footEn/footHr` "Garmin fenix 8 via the Garmin Connect API" / "Garmin fenix 8
+  putem Garmin Connect API-ja", training `text.<lang>.foot` "Garmin fenix 8 via the Garmin
+  Connect API + Hevy" / "Garmin fenix 8 putem Garmin Connect API-ja + Hevy". In a connector
+  fallback run (§1-F) the agent writes them by hand: "Garmin fenix 8 via Freddy" / "Garmin
+  fenix 8 putem Freddyja" (sleep) and "Garmin fenix 8 + Hevy via Freddy" / "Garmin fenix 8 +
+  Hevy putem Freddyja" (training) — never copy the previous footer's wording.
 - Two different "BMR" numbers, on purpose. **`num.burn.bmr` = 2,414** is the *Garmin daily
   baseline* (what the watch reports as resting burn) and it drives the training bridge
   (`bal = int − (2414 + exnet)`) and the current-day placeholder when
