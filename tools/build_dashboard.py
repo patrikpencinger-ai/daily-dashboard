@@ -17,8 +17,10 @@ the agent writes it from the facts file:
     <CACHE>/garmin/facts-<date>.json   (--facts PATH overrides)
 
 Append-only blocks (trend, gym, swim, mld) get every missing row since the last stored one
-(backfill after a gap); the 7-day blocks are rebuilt. Existing rows are never rewritten
-(gym[].volWork belongs to build_strength.py, which runs again after this script).
+(backfill after a gap); the 7-day blocks are rebuilt. Existing rows are never rewritten, with one
+exception (LEAD D14): a gym row of the last 7 days whose vol is null (appended before Hevy synced) is
+completed (t, lift, vol, sets, reps, top) once the Hevy workout is cached, and its mld row added.
+gym[].volWork belongs to build_strength.py, which runs again after this script.
 
 --record DIR saves every network response (and the Hevy files used) under DIR;
 --replay DIR reads only those files, so a run is reproducible offline.
@@ -29,7 +31,9 @@ Exit codes (nothing is written unless the exit is 0; --dry-run writes the facts 
     2  Garmin key/auth problem
     3  no Garmin sleep record for --date yet (watch not synced)
     4  sleep-data.json meta.snapshot is already --date
-    5  local input problem (missing/invalid repo JSON, strength-data.json, Hevy cache)
+    5  local input problem (missing/invalid repo JSON, strength-data.json, Hevy cache, or --date
+       earlier than sleep-data.json meta.snapshot)
+    6  internal error (a bug in this script; traceback on stderr) -> do NOT treat as a network failure
 Python stdlib only, 3.9+ syntax. The Garmin key and token are never printed.
 """
 from __future__ import annotations
@@ -37,12 +41,14 @@ from __future__ import annotations
 import argparse
 import copy
 import glob
+import http.client
 import json
 import os
 import re
 import shutil
 import sys
 import time
+import traceback
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -67,7 +73,7 @@ METEO_URL = "https://archive-api.open-meteo.com/v1/archive"
 METEO_LAT, METEO_LON = 45.815, 15.982
 USER_AGENT = "daily-dashboard-build/1.0"
 
-EXIT_OK, EXIT_NET, EXIT_AUTH, EXIT_NOSLEEP, EXIT_DONE, EXIT_LOCAL = 0, 1, 2, 3, 4, 5
+EXIT_OK, EXIT_NET, EXIT_AUTH, EXIT_NOSLEEP, EXIT_DONE, EXIT_LOCAL, EXIT_BUG = 0, 1, 2, 3, 4, 5, 6
 
 BMR_DEFAULT = 2414
 INTAKE_PLACEHOLDER = 2000
@@ -280,7 +286,8 @@ class Fetcher:
                         data = json.loads(r.read().decode("utf-8"))
                     err = None
                     break
-                except (urllib.error.URLError, TimeoutError, ValueError, OSError) as e:
+                except (urllib.error.URLError, http.client.HTTPException, TimeoutError, ValueError,
+                        OSError) as e:
                     err = f"Open-Meteo: {type(e).__name__} {getattr(e, 'code', '')}".strip()
                     time.sleep(2 * (attempt + 1))
             self._save("openmeteo", name, data if data is not None else {"__error__": err})
@@ -528,36 +535,33 @@ def new_sessions(train: dict, acts: list, hevy_match: dict, date_to: date):
     return new_g, new_s
 
 
-HEVY_FIELDS = ("vol", "sets", "reps", "top")
-
-
 def fill_hevy_lag(gym: list, acts: list, hevy_match: dict, today: date) -> list:
-    """Fill null vol/sets/reps/top of stored gym rows dated within the last 7 days once the Hevy
-    workout is in the cache (LEAD decision 3). Only null fields are written; t/lift stay as stored,
-    so top is derived with the stored lift (stays null when that lift is 'other')."""
+    """LEAD D14: a gym row dated within the last 7 days whose vol is null was appended before Hevy
+    synced. Once the Hevy cache has that workout, set t (Hevy title), lift (rule ladder on it), vol,
+    sets, reps and top, in place (key order kept). Rows whose vol is non-null are never touched."""
     filled = []
     lo = today - timedelta(days=6)
+    used = set()
     for r in gym:
-        if not lo <= D(r["d"]) <= today or not any(r.get(k) is None for k in HEVY_FIELDS):
+        if r.get("vol") is not None or not lo <= D(r["d"]) <= today:
             continue
         w = None
         for i, a in enumerate(acts):
-            if (a["startTimeLocal"][:10] == r["d"] and kind_of(a) == "str" and i in hevy_match
+            if (i not in used and a["startTimeLocal"][:10] == r["d"] and kind_of(a) == "str" and i in hevy_match
                     and rhu((a.get("duration") or 0) / 60) == r.get("dur")):
                 w = hevy_match[i]
+                used.add(i)
                 break
         if not w:
             continue
-        vals = dict(zip(HEVY_FIELDS, hevy_stats(w, r.get("lift"))))
-        if r.get("lift") == "other":
-            vals["top"] = None
-        done = []
-        for k in HEVY_FIELDS:
-            if r.get(k) is None and vals[k] is not None:
-                r[k] = vals[k]
-                done.append(k)
-        if done:
-            filled.append({"d": r["d"], "t": r.get("t"), "fields": done})
+        title = clean_name(w.get("title"))
+        lift = lift_of(title)
+        vol, sets, reps, top = hevy_stats(w, lift)
+        old = {k: r.get(k) for k in ("t", "lift", "vol", "sets", "reps", "top")}
+        r.update({"t": title, "lift": lift, "vol": vol, "sets": sets, "reps": reps,
+                  "top": top if lift != "other" else None})
+        filled.append({"d": r["d"], "t": title, "lift": lift,
+                       "fields": [k for k in old if old[k] != r[k]], "was": old})
     return filled
 
 
@@ -574,11 +578,13 @@ def strength_workouts(strength: dict) -> dict:
     return out
 
 
-def mld_rows(train: dict, all_gym: list, strength: dict, today: date, warnings: list) -> list:
+def mld_rows(train: dict, all_gym: list, strength: dict, today: date, warnings: list,
+             refilled=()) -> list:
     """New mld rows for lifts already in num.mld, from build_strength setRows (cf = 0, LEAD D9).
 
-    Only gym rows newer than the lift's last mld row AND inside the last 28 days are candidates
-    (a retired lift's old sessions are never back-filled; a deferred row is picked up later)."""
+    Candidates: gym rows inside the last 28 days that are newer than the lift's last mld row, plus
+    rows whose Hevy data was filled in this run (`refilled` dates, LEAD D14) when their date is absent.
+    A retired lift's old sessions are never back-filled; a deferred row is picked up later."""
     mld = train["num"].get("mld") or {}
     sw = strength_workouts(strength)
     new = []
@@ -588,7 +594,8 @@ def mld_rows(train: dict, all_gym: list, strength: dict, today: date, warnings: 
         last = arr[-1]["d"] if arr else "0000-00-00"
         have = {x["d"] for x in arr}
         for g in all_gym:
-            if g.get("lift") != lift or g["d"] <= last or g["d"] in have                     or D(g["d"]) < today - timedelta(days=27) or D(g["d"]) > today:
+            if g.get("lift") != lift or g["d"] in have or (g["d"] <= last and g["d"] not in refilled) \
+                    or D(g["d"]) < today - timedelta(days=27) or D(g["d"]) > today:
                 continue
             if not g.get("top"):
                 warnings.append(f"mld.{lift} {g['d']}: no Hevy top set yet, row deferred")
@@ -632,12 +639,13 @@ def trend_row(d: str, r: dict) -> dict:
 
 
 def readiness(trend: list, score, hrv, rhr):
-    """Stored readiness, fitted formula (LEAD D4; memory readiness-two-conventions)."""
+    """Stored readiness, fitted formula (LEAD D4; memory readiness-two-conventions).
+    No HRV reading (or no HRV baseline) -> hN = 0.5 (neutral); same for RHR."""
     w = trend[-28:]
     hb, rb = mean([x.get("hrv") for x in w]), mean([x.get("rhr") for x in w])
     clamp = lambda v, a, b: max(a, min(b, v))  # noqa: E731
     sN = score / 100
-    hN = (clamp(hrv / hb, 0.7, 1.3) - 0.7) / 0.6 if hrv and hb else 0.5
+    hN = (clamp(hrv / hb, 0.7, 1.3) - 0.7) / 0.6 if hrv is not None and hb else 0.5
     rN = (clamp(rb / rhr, 0.9, 1.1) - 0.9) / 0.2 if rhr and rb else 0.5
     return rhu(100 * (1.0981 * sN + 0.0269 * hN - 0.0181 * rN - 0.0794))
 
@@ -657,6 +665,23 @@ def delta_clause(cur, prev, lang: str, what: str) -> str:
     ref = {("en", "night"): "the last recorded night", ("hr", "night"): "zadnja zabilježena noć",
            ("en", "avg"): "the 7-night avg", ("hr", "avg"): "prosjek 7 noći"}[(lang, what)]
     return f"{sg(cur - prev)} vs {ref} ({prev})"
+
+
+def na(v, lang: str) -> str:
+    return str(v) if v is not None else ("n/a" if lang == "en" else "n/d")
+
+
+def hrv_clause(hv: list, avg, prev_ok: bool, lang: str) -> str:
+    """c4d. A tracked night without an HRV summary -> 'no HRV reading' / 'nema HRV očitanja'."""
+    if hv[-1] is None:
+        return "no HRV reading" if lang == "en" else "nema HRV očitanja"
+    parts = []
+    prev = hv[-2] if prev_ok else hv[-1]
+    if prev is not None:
+        parts.append(delta_clause(hv[-1], prev, lang, "night"))
+    if avg is not None:
+        parts.append(delta_clause(hv[-1], avg, lang, "avg"))
+    return " · ".join(parts)
 
 
 def build_sleep(doc: dict, rows: dict, today: date, now_iso: str, warnings: list):
@@ -691,7 +716,7 @@ def build_sleep(doc: dict, rows: dict, today: date, now_iso: str, warnings: list
         "hrv": [r["hrv_lastNightAvg"] for _, r in nights],
         "rhr": [r["daily_restingHeartRateInBeatsPerMinute"] for _, r in nights],
     })
-    wk["hrvAvg"] = rhu(mean(wk["hrv"]))
+    wk["hrvAvg"] = rhu(mean(wk["hrv"]))             # mean of the non-null values; None if none
     dm = [rhu(r["sleep_durationInSeconds"] / 60) for _, r in nights]
     bedL = [r["sleep_bedLocal"] for _, r in nights]
     wakeL = [r["sleep_wakeLocal"] for _, r in nights]
@@ -702,6 +727,9 @@ def build_sleep(doc: dict, rows: dict, today: date, now_iso: str, warnings: list
     last_date, last = nights[-1]
     score, hrv, rhr = last["sleep_overallSleepScore"], last["hrv_lastNightAvg"], \
         last["daily_restingHeartRateInBeatsPerMinute"]
+    for nd, r in nights:
+        if r.get("hrv_lastNightAvg") is None:
+            warnings.append(f"sleep {nd}: tracked night without an HRV reading (hrv null, readiness hN = 0.5)")
     ready = readiness(trend, score, hrv, rhr)
     mins = lambda k: rhu((last.get(k) or 0) / 60)  # noqa: E731
     update_in_place(n["lastNight"], {
@@ -736,15 +764,15 @@ def build_sleep(doc: dict, rows: dict, today: date, now_iso: str, warnings: list
             "c2d": c2,
             "c3d": f"{delta_clause(rh[-1], rh[-2] if prev_ok else rh[-1], lang, 'night')} · "
                    f"{delta_clause(rh[-1], rb7, lang, 'avg')}",
-            "c4d": f"{delta_clause(hv[-1], hv[-2] if prev_ok else hv[-1], lang, 'night')} · "
-                   f"{delta_clause(hv[-1], wk['hrvAvg'], lang, 'avg')}",
+            "c4d": hrv_clause(hv, wk["hrvAvg"], prev_ok, lang),
             "c5l": c5l(ready, lang),
-            "havg": f"HRV 7d avg {wk['hrvAvg']}" if lang == "en" else f"HRV 7d prosjek {wk['hrvAvg']}",
+            "havg": (f"HRV 7d avg {na(wk['hrvAvg'], lang)}" if lang == "en"
+                     else f"HRV 7d prosjek {na(wk['hrvAvg'], lang)}"),
             "today": (f"{night_l} night: {hm(dm[-1])}, {mins('sleep_awakeDurationInSeconds')} min awake"
                       if lang == "en" else
                       f"Noć {night_l}: {hm(dm[-1])}, {mins('sleep_awakeDurationInSeconds')} min budan"),
-            "badge": (f"Score {score} on {hm(dm[-1])} · HRV {hrv} · RHR {rhr}" if lang == "en"
-                      else f"Ocjena {score} uz {hm(dm[-1])} · HRV {hrv} · RHR {rhr}"),
+            "badge": (f"Score {score} on {hm(dm[-1])} · HRV {na(hrv, lang)} · RHR {rhr}" if lang == "en"
+                      else f"Ocjena {score} uz {hm(dm[-1])} · HRV {na(hrv, lang)} · RHR {rhr}"),
         }
         update_in_place(t, upd)
 
@@ -925,12 +953,12 @@ def top_sets(gym: list, today: date) -> dict:
         rows = [r for r in gym if r.get("lift") == lift and r.get("top") and D(r["d"]) <= today]
         cur = rows[-1]
         prev = rows[-2] if len(rows) > 1 else None
-        pct = None
+        raw = None
         if prev and prev["top"].get("w"):
-            pct = rhu((cur["top"]["w"] / prev["top"]["w"] - 1) * 100, 1)
+            raw = (cur["top"]["w"] / prev["top"]["w"] - 1) * 100
         out[lift] = {"latest": {"d": cur["d"], "w": cur["top"]["w"], "reps": cur["top"]["reps"]},
                      "previous": {"d": prev["d"], "w": prev["top"]["w"], "reps": prev["top"]["reps"]} if prev else None,
-                     "pctChange": pct}
+                     "pctChange": rhu(raw, 1) if raw is not None else None, "_pct_raw": raw}
     return dict(sorted(out.items(), key=lambda kv: kv[1]["latest"]["d"], reverse=True))
 
 
@@ -1003,9 +1031,13 @@ def build_training(doc: dict, strength: dict, data_doc: dict, rows: dict, acts: 
     filled = fill_hevy_lag(n.setdefault("gym", []), acts, hevy_match, today)
     n["gym"].extend(copy.deepcopy(new_g))
     n.setdefault("swim", []).extend(copy.deepcopy(new_s))
-    new_m = mld_rows(t, n["gym"], strength, today, warnings)
-    for lift, row in new_m:
-        n["mld"][lift].append(row)
+    new_m = mld_rows(t, n["gym"], strength, today, warnings, {f["d"] for f in filled})
+    for lift, row in new_m:                        # keep mld ascending (a refilled row may be older)
+        arr = n["mld"][lift]
+        k = len(arr)
+        while k > 0 and arr[k - 1]["d"] > row["d"]:
+            k -= 1
+        arr.insert(k, row)
 
     win = [today - timedelta(days=i) for i in range(6, -1, -1)]
     idx_of = {id(a): i for i, a in enumerate(acts)}
@@ -1101,6 +1133,26 @@ def r1(x):
     return rhu(x, 1) if x is not None else None
 
 
+def flag_ladder(now_t: dict, tops: dict, debt: dict, last: dict, raw28: dict, base28: dict) -> dict:
+    """REFRESH.md §3a, first tripped flag. Thresholds compare RAW values (ACWR > 1.3, jump > 10 %);
+    the numbers reported are the rounded display values."""
+    acwr_raw = now_t.get("_acwr_raw")
+    if acwr_raw is not None and acwr_raw > 1.3:
+        return {"id": "acwr", "acwr": now_t["acwr"], "acute": now_t["acute"], "chronic": now_t["chronic"]}
+    jumps = [(l, v) for l, v in tops.items() if v.get("_pct_raw") is not None and v["_pct_raw"] > 10]
+    if jumps:
+        l, v = max(jumps, key=lambda kv: kv[1]["_pct_raw"])
+        return {"id": "topSetJump", "lift": l, "latest": v["latest"], "previous": v["previous"],
+                "pctChange": v["pctChange"]}
+    if debt["count"] > 0:
+        return {"id": "sleepDebt", "count": debt["count"], "shortfallH": debt["shortfallH"], "nights": debt["nights"]}
+    if (last.get("rhr") is not None and last.get("hrv") is not None and raw28.get("rhr") is not None
+            and raw28.get("hrv") is not None and last["rhr"] > raw28["rhr"] and last["hrv"] < raw28["hrv"]):
+        return {"id": "rhrHrvDivergence", "rhr": last["rhr"], "rhrBase28": base28["rhr"],
+                "hrv": last["hrv"], "hrvBase28": base28["hrv"]}
+    return {"id": "none"}
+
+
 def build_facts(sleep: dict, train: dict, s_info: dict, t_info: dict, rows: dict, today: date,
                 now_iso: str, warnings: list, new_g: list, new_s: list) -> dict:
     trend = sleep["num"]["trend"]
@@ -1128,10 +1180,10 @@ def build_facts(sleep: dict, train: dict, s_info: dict, t_info: dict, rows: dict
                     "rhr": dl(last["rhr"], base28["rhr"]), "hrv": dl(last["hrv"], base28["hrv"])}
     last["vs7"] = {"durMin": dm[-1] - s_info["avgMin"], "score": dl(last["score"], base7["score"]),
                    "rhr": dl(last["rhr"], base7["rhr"]), "hrv": dl(last["hrv"], base7["hrv"])}
-    last["vsPrevNight"] = {"score": wk["scores"][-1] - wk["scores"][-2] if len(wk["scores"]) > 1 else None,
-                           "rhr": wk["rhr"][-1] - wk["rhr"][-2] if len(wk["rhr"]) > 1 else None,
-                           "hrv": wk["hrv"][-1] - wk["hrv"][-2] if len(wk["hrv"]) > 1 else None,
-                           "durMin": dm[-1] - dm[-2] if len(dm) > 1 else None}
+    def prev_d(xs):
+        return xs[-1] - xs[-2] if len(xs) > 1 and None not in (xs[-1], xs[-2]) else None
+    last["vsPrevNight"] = {"score": prev_d(wk["scores"]), "rhr": prev_d(wk["rhr"]), "hrv": prev_d(wk["hrv"]),
+                           "durMin": prev_d(dm)}
     rec7 = [x for x in trend if x.get("durH") is not None][-7:]
     short = [x for x in rec7 if x["durH"] < 7.0]
     debt = {"rows": [x["d"] for x in rec7], "nights": [{"d": x["d"], "durH": x["durH"]} for x in short],
@@ -1142,8 +1194,6 @@ def build_facts(sleep: dict, train: dict, s_info: dict, t_info: dict, rows: dict
     gym = num_["gym"]
     now_t = t_info["acwr"]
     prev_t = tonnage_at(gym, today - timedelta(days=7), t_info["tw"])
-    for x in (now_t, prev_t):
-        x.pop("_acwr_raw", None)
     tops = t_info["tops"]
     seen28 = sorted({r["lift"] for r in gym if r.get("lift") and today - timedelta(days=27) <= D(r["d"]) <= today})
     last_by_lift = {}
@@ -1156,23 +1206,11 @@ def build_facts(sleep: dict, train: dict, s_info: dict, t_info: dict, rows: dict
         swims_by_set[swim_label(r)] = {k: r.get(k) for k in ("d", "t", "dist", "sec100", "pace", "mx", "av",
                                                            "lengths", "spm", "dur", "kcal", "tmax", "tmin")}
 
-    # flag ladder (REFRESH.md §3a)
-    flag = {"id": "none"}
-    if now_t["acwr"] is not None and now_t["acwr"] > 1.3:
-        flag = {"id": "acwr", "acwr": now_t["acwr"], "acute": now_t["acute"], "chronic": now_t["chronic"]}
-    else:
-        jumps = [(l, v) for l, v in tops.items() if v["pctChange"] is not None and v["pctChange"] > 10]
-        if jumps:
-            l, v = max(jumps, key=lambda kv: kv[1]["pctChange"])
-            flag = {"id": "topSetJump", "lift": l, "latest": v["latest"], "previous": v["previous"],
-                    "pctChange": v["pctChange"]}
-        elif debt["count"] > 0:
-            flag = {"id": "sleepDebt", "count": debt["count"], "shortfallH": debt["shortfallH"],
-                    "nights": debt["nights"]}
-        elif (last["rhr"] is not None and base28["rhr"] is not None and last["hrv"] is not None
-              and base28["hrv"] is not None and last["rhr"] > base28["rhr"] and last["hrv"] < base28["hrv"]):
-            flag = {"id": "rhrHrvDivergence", "rhr": last["rhr"], "rhrBase28": base28["rhr"],
-                    "hrv": last["hrv"], "hrvBase28": base28["hrv"]}
+    flag = flag_ladder(now_t, tops, debt, last, {"rhr": mean([x.get("rhr") for x in w28]),
+                                                  "hrv": mean([x.get("hrv") for x in w28])}, base28)
+    for x in (now_t, prev_t):
+        x.pop("_acwr_raw", None)
+    tops = {k: {kk: vv for kk, vv in v.items() if kk != "_pct_raw"} for k, v in tops.items()}
 
     daily = num_["daily"]
     return {
@@ -1218,9 +1256,13 @@ def run(today: date, repo: Path, facts_path: Path, dry_run: bool, fetcher: Fetch
             raise LocalInputError(f"{what}: missing top-level keys")
     if not isinstance(strength, dict) or not isinstance(strength.get("workouts"), list):
         raise LocalInputError("strength-data.json: no workouts[]")
-    if (sleep_doc.get("meta") or {}).get("snapshot") == today.isoformat():
+    snap = (sleep_doc.get("meta") or {}).get("snapshot")
+    if snap == today.isoformat():
         print(f"build_dashboard: sleep-data.json already at snapshot {today}; nothing to do")
         return EXIT_DONE
+    if snap and str(snap) > today.isoformat():
+        raise LocalInputError(f"--date {today} is earlier than sleep-data.json meta.snapshot {snap}; "
+                              f"refusing to move the dashboard back in time")
     if fetcher.replay and (fetcher.replay / "hevy").is_dir():
         hevy_dir = fetcher.replay / "hevy"
     hevy = load_hevy(hevy_dir or HEVY_DIR)
@@ -1318,6 +1360,10 @@ def main(argv=None, now: datetime | None = None, hevy_dir: Path | None = None) -
     except LocalInputError as e:
         print(f"build_dashboard: local input: {e}", file=sys.stderr)
         return EXIT_LOCAL
+    except Exception:                      # a bug here must not look like a network failure (exit 1)
+        print("build_dashboard: internal error (exit 6), nothing written:", file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+        return EXIT_BUG
 
 
 if __name__ == "__main__":

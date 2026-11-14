@@ -324,21 +324,81 @@ class EndToEnd(unittest.TestCase):
         self.assertIn("count", f["sleep"]["sleepDebt"])
         self.assertEqual(f["appended"]["mld"], [["hack", "2026-10-23"]])
 
-    def test_hevy_lag_fill_only_null_fields_last_7_days(self):
+    def set_snapshot(self, snap):
+        p = self.repo / "sleep-data.json"
+        doc = json.loads(p.read_text(encoding="utf-8"))
+        doc["meta"]["snapshot"] = snap
+        p.write_text(B.dump_json(doc), encoding="utf-8")
+
+    def test_hevy_lag_row_completed_once_hevy_syncs(self):
+        """LEAD D14 (verifier repro): gym row appended before Hevy synced -> later run completes it."""
+        lag = self.tmp / "replay-lag"
+        shutil.copytree(REPLAY, lag)
+        (lag / "hevy" / "2026-10-23_w-hack.json").unlink()
+        rc, log = run_cli(self.args("2026-10-28", lag))
+        self.assertEqual(rc, 0, log)
+        t1 = json.loads((self.repo / "training-data.json").read_text(encoding="utf-8"))
+        r1 = [r for r in t1["num"]["gym"] if r["d"] == "2026-10-23"][0]
+        self.assertEqual((r1["t"], r1["lift"], r1["vol"], r1["top"]), ("Strength", "other", None, None))
+        self.assertNotIn("2026-10-23", [x["d"] for x in t1["num"]["mld"]["hack"]])
+        self.set_snapshot("2026-10-27")                        # next run, Hevy file now in the cache
+        _, t, _, f = self.build()
+        rows = [r for r in t["num"]["gym"] if r["d"] == "2026-10-23"]
+        self.assertEqual(len(rows), 1)                         # completed in place, not appended twice
+        r = rows[0]
+        self.assertEqual((r["t"], r["lift"], r["vol"], r["sets"], r["reps"], r["top"]),
+                         ("Hack Squat day", "hack", 7385, 6, 62, {"w": 170, "reps": 12}))
+        self.assertEqual(list(r), list(r1))                    # key order kept
+        self.assertEqual((r["mx"], r["av"], r["dur"], r["kcal"], r["tmax"]), (r1["mx"], r1["av"], r1["dur"],
+                                                                                r1["kcal"], r1["tmax"]))
+        mld = t["num"]["mld"]["hack"]
+        self.assertEqual(mld[-1], {"d": "2026-10-23", "l": "Oct 23", "w": 170, "mx": 155, "av": 129, "dl": 34,
+                                   "pk": [112, 129, 146], "cf": 0})
+        self.assertEqual([x["d"] for x in mld], sorted(x["d"] for x in mld))
+        self.assertEqual([(x["d"], x["t"], x["lift"]) for x in f["filled"]],
+                         [("2026-10-23", "Hack Squat day", "hack")])
+        self.assertEqual(f["appended"]["mld"], [["hack", "2026-10-23"]])
+
+    def test_hevy_lag_never_touches_non_null_vol_or_rows_older_than_7_days(self):
         p = self.repo / "training-data.json"
         t0 = json.loads(p.read_text(encoding="utf-8"))
         old, recent = t0["num"]["gym"]
-        old["sets"] = None                                   # 10-12: outside the 7-day window
-        recent.update({"vol": 9999, "sets": None, "reps": None, "top": None})   # 10-22: Hevy lagged
+        old.update({"vol": None, "t": "Strength"})            # 10-12: outside the 7-day window
+        recent.update({"vol": 9999, "sets": None})            # 10-22: vol known -> never touched
         p.write_text(B.dump_json(t0), encoding="utf-8")
         _, t, _, f = self.build()
         o, r = t["num"]["gym"][0], t["num"]["gym"][1]
-        self.assertIsNone(o["sets"])
-        self.assertEqual((r["vol"], r["sets"], r["reps"], r["top"]), (9999, 4, 22, {"w": 110, "reps": 8}))
-        self.assertEqual(r["volWork"], 1760)
-        self.assertEqual(list(r), list(recent))              # key order kept
-        self.assertEqual(f["filled"], [{"d": "2026-10-22", "t": "Barbell DEAD LIFT",
-                                        "fields": ["sets", "reps", "top"]}])
+        self.assertEqual((o["vol"], o["t"]), (None, "Strength"))
+        self.assertEqual((r["vol"], r["sets"]), (9999, None))
+        self.assertEqual(f["filled"], [])
+
+    def test_tracked_night_without_hrv(self):
+        nohrv = self.tmp / "replay-nohrv"
+        shutil.copytree(REPLAY, nohrv)
+        hp = nohrv / "garmin" / B.slug("/hrv-service/hrv/daily/2026-10-01/2026-10-28", None)
+        h = json.loads(hp.read_text(encoding="utf-8"))
+        h["hrvSummaries"] = [x for x in h["hrvSummaries"] if x["calendarDate"] != "2026-10-28"]
+        hp.write_text(json.dumps(h), encoding="utf-8")
+        rc, log = run_cli(self.args("2026-10-28", nohrv))
+        self.assertEqual(rc, 0, log)
+        s = json.loads((self.repo / "sleep-data.json").read_text(encoding="utf-8"))
+        f = json.loads(self.facts.read_text(encoding="utf-8"))
+        wk, ln = s["num"]["week"], s["num"]["lastNight"]
+        self.assertIsNone(ln["hrv"])
+        self.assertIsNone(wk["hrv"][-1])
+        self.assertIsNone(s["num"]["trend"][-1]["hrv"])
+        self.assertEqual(wk["hrvAvg"], B.rhu(sum(wk["hrv"][:-1]) / 6))
+        self.assertEqual(s["text"]["en"]["c4d"], "no HRV reading")
+        self.assertEqual(s["text"]["hr"]["c4d"], "nema HRV očitanja")
+        self.assertIn("HRV n/a", s["text"]["en"]["badge"])
+        trend = s["num"]["trend"]
+        w = trend[-28:]
+        rb = sum(x["rhr"] for x in w) / len(w)
+        rN = (max(0.9, min(1.1, rb / ln["rhr"])) - 0.9) / 0.2
+        expect = B.rhu(100 * (1.0981 * ln["score"] / 100 + 0.0269 * 0.5 - 0.0181 * rN - 0.0794))
+        self.assertEqual(ln["readiness"], expect)               # hN = 0.5 (neutral)
+        self.assertIsNone(f["sleep"]["lastNight"]["vsPrevNight"]["hrv"])
+        self.assertTrue(any("without an HRV reading" in x for x in f["warnings"]))
 
     # ---- format, idempotence, exit codes ----------------------------------------------- #
 
@@ -370,6 +430,31 @@ class EndToEnd(unittest.TestCase):
         before = self.snapshot()
         rc, _ = run_cli(self.args("2026-10-26"))
         self.assertEqual(rc, 3)
+        self.assertEqual(self.snapshot(), before)
+        self.assertFalse(self.facts.exists())
+
+    def test_exit_5_date_before_snapshot(self):
+        before = self.snapshot()
+        rc, log = run_cli(self.args("2026-10-21"))
+        self.assertEqual(rc, 5, log)
+        self.assertIn("earlier than sleep-data.json meta.snapshot", log)
+        self.assertEqual(self.snapshot(), before)
+        self.assertFalse(self.facts.exists())
+
+    def test_exit_6_internal_error_writes_nothing(self):
+        before = self.snapshot()
+        saved = B.build_sleep
+
+        def boom(*a, **k):
+            raise KeyError("synthetic bug")
+        B.build_sleep = boom
+        try:
+            rc, log = run_cli(self.args())
+        finally:
+            B.build_sleep = saved
+        self.assertEqual(rc, 6)
+        self.assertIn("Traceback", log)
+        self.assertIn("synthetic bug", log)
         self.assertEqual(self.snapshot(), before)
         self.assertFalse(self.facts.exists())
 
@@ -407,6 +492,55 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual({(r["tmax"], r["tmin"]) for r in t["num"]["gym"][-3:]}, {(None, None)})
         f = json.loads(self.facts.read_text(encoding="utf-8"))
         self.assertTrue(any("Open-Meteo" in w for w in f["warnings"]))
+
+
+class FlagLadder(unittest.TestCase):
+    DEBT0 = {"count": 0, "shortfallH": 0, "nights": []}
+    LAST = {"rhr": 50, "hrv": 50}
+    RAW = {"rhr": 55.0, "hrv": 40.0}
+    BASE = {"rhr": 55.0, "hrv": 40.0}
+
+    def tops(self, raw):
+        return {"hack": {"latest": {"d": "2026-11-09", "w": 110.04, "reps": 8},
+                         "previous": {"d": "2026-11-03", "w": 100, "reps": 8},
+                         "pctChange": B.rhu(raw, 1), "_pct_raw": raw}}
+
+    def test_acwr_compares_raw_value(self):
+        t = {"acwr": 1.3, "_acwr_raw": 1.304, "acute": 13040, "chronic": 10000}
+        self.assertEqual(B.flag_ladder(t, {}, self.DEBT0, self.LAST, self.RAW, self.BASE)["id"], "acwr")
+        t = {"acwr": 1.3, "_acwr_raw": 1.2996, "acute": 12996, "chronic": 10000}
+        self.assertEqual(B.flag_ladder(t, {}, self.DEBT0, self.LAST, self.RAW, self.BASE)["id"], "none")
+
+    def test_top_set_jump_compares_raw_percent(self):
+        t = {"acwr": 1.0, "_acwr_raw": 1.0, "acute": 1, "chronic": 1}
+        f = B.flag_ladder(t, self.tops(10.04), self.DEBT0, self.LAST, self.RAW, self.BASE)
+        self.assertEqual((f["id"], f["pctChange"]), ("topSetJump", 10.0))
+        f = B.flag_ladder(t, self.tops(9.996), self.DEBT0, self.LAST, self.RAW, self.BASE)
+        self.assertEqual(f["id"], "none")
+
+    def test_ladder_order_debt_then_divergence(self):
+        t = {"acwr": 1.0, "_acwr_raw": 1.0, "acute": 1, "chronic": 1}
+        debt = {"count": 2, "shortfallH": 1.5, "nights": []}
+        self.assertEqual(B.flag_ladder(t, {}, debt, {"rhr": 60, "hrv": 30}, self.RAW, self.BASE)["id"], "sleepDebt")
+        self.assertEqual(B.flag_ladder(t, {}, self.DEBT0, {"rhr": 60, "hrv": 30}, self.RAW, self.BASE)["id"],
+                         "rhrHrvDivergence")
+
+
+class OpenMeteo(unittest.TestCase):
+    def test_http_exception_gives_null_temps_and_warning(self):
+        import http.client
+        saved_open, saved_sleep = B.urllib.request.urlopen, B.time.sleep
+
+        def bad(*a, **k):
+            raise http.client.IncompleteRead(b"")              # HTTPException, not OSError
+        B.urllib.request.urlopen, B.time.sleep = bad, (lambda s: None)
+        try:
+            temps, warn = B.Fetcher().weather(B.D("2026-10-23"), B.D("2026-10-24"))
+        finally:
+            B.urllib.request.urlopen, B.time.sleep = saved_open, saved_sleep
+        self.assertEqual(temps, {})
+        self.assertIn("IncompleteRead", warn)
+        self.assertIn("tmax/tmin null", warn)
 
 
 class Record(unittest.TestCase):
