@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "intake_asof": "2026-10-24"
+  },
+  "athlete": {},
+  "targets": {},
+  "days": [
+    {
+      "date": "Sat 2026-10-24",
+      "dayType": "rest day",
+      "log": [
+        {
+          "name": "Synthetic meal A",
+          "kcal": 1000
+        },
+        {
+          "name": "Synthetic meal B",
+          "kcal": 850
+        }
+      ]
+    },
+    {
+      "date": "Thu 2026-09-03",
+      "dayType": "rest day",
+      "log": [
+        {
+          "name": "Old",
+          "kcal": 1500
+        }
+      ]
+    }
+  ]
+}

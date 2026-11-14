@@ -1,0 +1,454 @@
+{
+  "meta": {
+    "version": "v1.99-auto",
+    "snapshot": "2026-10-22",
+    "refreshedAt": "2026-10-22T06:10:00+02:00",
+    "footEn": "old footer",
+    "footHr": "stari podnožje"
+  },
+  "num": {
+    "lastNight": {
+      "score": 70,
+      "durationLabel": "7h 00m",
+      "bedWake": "22:00 → 05:00",
+      "rhr": 55,
+      "hrv": 40,
+      "readiness": 70,
+      "deepMin": 60,
+      "lightMin": 250,
+      "remMin": 80,
+      "awakeMin": 10
+    },
+    "week": {
+      "deep": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "light": [
+        4.0,
+        4.0,
+        4.0,
+        4.0,
+        4.0,
+        4.0,
+        4.0
+      ],
+      "rem": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "awake": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "scores": [
+        70,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "hrv": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "rhr": [
+        55,
+        55,
+        55,
+        55,
+        55,
+        55,
+        55
+      ],
+      "hrvAvg": 40
+    },
+    "sleepWake": {
+      "bed": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "wake": [
+        6.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0,
+        6.0
+      ],
+      "bedL": [
+        "23:00",
+        "23:00",
+        "23:00",
+        "23:00",
+        "23:00",
+        "23:00",
+        "23:00"
+      ],
+      "wakeL": [
+        "06:00",
+        "06:00",
+        "06:00",
+        "06:00",
+        "06:00",
+        "06:00",
+        "06:00"
+      ],
+      "dur": [
+        "7h00",
+        "7h00",
+        "7h00",
+        "7h00",
+        "7h00",
+        "7h00",
+        "7h00"
+      ]
+    },
+    "trend": [
+      {
+        "d": "2026-09-25",
+        "rhr": 50,
+        "hrv": 30,
+        "score": 60,
+        "durH": 6.0,
+        "deepH": 1.07,
+        "awakeMin": 0
+      },
+      {
+        "d": "2026-09-26",
+        "rhr": 53,
+        "hrv": 35,
+        "score": 67,
+        "durH": 6.62,
+        "deepH": 1.18,
+        "awakeMin": 13
+      },
+      {
+        "d": "2026-09-27",
+        "rhr": 56,
+        "hrv": 40,
+        "score": 74,
+        "durH": 7.23,
+        "deepH": 1.3,
+        "awakeMin": 26
+      },
+      {
+        "d": "2026-09-28",
+        "rhr": 50,
+        "hrv": 45,
+        "score": 81,
+        "durH": 7.85,
+        "deepH": 1.4,
+        "awakeMin": 39
+      },
+      {
+        "d": "2026-09-29",
+        "rhr": 53,
+        "hrv": 50,
+        "score": 88,
+        "durH": 6.47,
+        "deepH": 1.15,
+        "awakeMin": 12
+      },
+      {
+        "d": "2026-09-30",
+        "rhr": 56,
+        "hrv": 34,
+        "score": 60,
+        "durH": 7.08,
+        "deepH": 1.27,
+        "awakeMin": 25
+      },
+      {
+        "d": "2026-10-01",
+        "rhr": 50,
+        "hrv": 39,
+        "score": 67,
+        "durH": 7.7,
+        "deepH": 1.38,
+        "awakeMin": 38
+      },
+      {
+        "d": "2026-10-02",
+        "rhr": 53,
+        "hrv": 44,
+        "score": 74,
+        "durH": 6.32,
+        "deepH": 1.13,
+        "awakeMin": 11
+      },
+      {
+        "d": "2026-10-03",
+        "rhr": 56,
+        "hrv": 49,
+        "score": 81,
+        "durH": 6.93,
+        "deepH": 1.23,
+        "awakeMin": 24
+      },
+      {
+        "d": "2026-10-04",
+        "rhr": 50,
+        "hrv": 33,
+        "score": 88,
+        "durH": 7.55,
+        "deepH": 1.35,
+        "awakeMin": 37
+      },
+      {
+        "d": "2026-10-05",
+        "rhr": 53,
+        "hrv": null,
+        "score": null,
+        "durH": null,
+        "deepH": null,
+        "awakeMin": null
+      },
+      {
+        "d": "2026-10-06",
+        "rhr": 56,
+        "hrv": 43,
+        "score": 67,
+        "durH": 6.78,
+        "deepH": 1.22,
+        "awakeMin": 23
+      },
+      {
+        "d": "2026-10-07",
+        "rhr": 50,
+        "hrv": 48,
+        "score": 74,
+        "durH": 7.4,
+        "deepH": 1.32,
+        "awakeMin": 36
+      },
+      {
+        "d": "2026-10-08",
+        "rhr": 53,
+        "hrv": 32,
+        "score": 81,
+        "durH": 6.02,
+        "deepH": 1.07,
+        "awakeMin": 9
+      },
+      {
+        "d": "2026-10-09",
+        "rhr": 56,
+        "hrv": 37,
+        "score": 88,
+        "durH": 6.63,
+        "deepH": 1.18,
+        "awakeMin": 22
+      },
+      {
+        "d": "2026-10-10",
+        "rhr": 50,
+        "hrv": 42,
+        "score": 60,
+        "durH": 7.25,
+        "deepH": 1.3,
+        "awakeMin": 35
+      },
+      {
+        "d": "2026-10-11",
+        "rhr": 53,
+        "hrv": 47,
+        "score": 67,
+        "durH": 7.87,
+        "deepH": 1.4,
+        "awakeMin": 8
+      },
+      {
+        "d": "2026-10-12",
+        "rhr": 56,
+        "hrv": 31,
+        "score": 74,
+        "durH": 6.48,
+        "deepH": 1.17,
+        "awakeMin": 21
+      },
+      {
+        "d": "2026-10-13",
+        "rhr": 50,
+        "hrv": 36,
+        "score": 81,
+        "durH": 7.1,
+        "deepH": 1.27,
+        "awakeMin": 34
+      },
+      {
+        "d": "2026-10-14",
+        "rhr": 53,
+        "hrv": 41,
+        "score": 88,
+        "durH": 7.72,
+        "deepH": 1.38,
+        "awakeMin": 7
+      },
+      {
+        "d": "2026-10-15",
+        "rhr": 56,
+        "hrv": 46,
+        "score": 60,
+        "durH": 6.33,
+        "deepH": 1.13,
+        "awakeMin": 20
+      },
+      {
+        "d": "2026-10-16",
+        "rhr": 50,
+        "hrv": 30,
+        "score": 67,
+        "durH": 6.95,
+        "deepH": 1.25,
+        "awakeMin": 33
+      },
+      {
+        "d": "2026-10-17",
+        "rhr": 53,
+        "hrv": 35,
+        "score": 74,
+        "durH": 7.57,
+        "deepH": 1.35,
+        "awakeMin": 6
+      },
+      {
+        "d": "2026-10-18",
+        "rhr": 56,
+        "hrv": 40,
+        "score": 81,
+        "durH": 6.18,
+        "deepH": 1.1,
+        "awakeMin": 19
+      },
+      {
+        "d": "2026-10-19",
+        "rhr": 50,
+        "hrv": 45,
+        "score": 88,
+        "durH": 6.8,
+        "deepH": 1.22,
+        "awakeMin": 32
+      },
+      {
+        "d": "2026-10-20",
+        "rhr": 53,
+        "hrv": 50,
+        "score": 60,
+        "durH": 7.42,
+        "deepH": 1.33,
+        "awakeMin": 5
+      },
+      {
+        "d": "2026-10-21",
+        "rhr": 56,
+        "hrv": 34,
+        "score": 67,
+        "durH": 6.03,
+        "deepH": 1.08,
+        "awakeMin": 18
+      },
+      {
+        "d": "2026-10-22",
+        "rhr": 50,
+        "hrv": 39,
+        "score": 74,
+        "durH": 6.65,
+        "deepH": 1.18,
+        "awakeMin": 31
+      }
+    ]
+  },
+  "text": {
+    "en": {
+      "daysFull": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "daysShort": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "scoreWord": "x",
+      "c1d": "x",
+      "c2d": "x",
+      "c3d": "x",
+      "c4d": "x",
+      "c5l": "x",
+      "c5d": "static c5d en",
+      "havg": "x",
+      "today": "x",
+      "badge": "x",
+      "rec": "Narrative sleep rec (en) — keep me."
+    },
+    "hr": {
+      "daysFull": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "daysShort": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "scoreWord": "x",
+      "c1d": "x",
+      "c2d": "x",
+      "c3d": "x",
+      "c4d": "x",
+      "c5l": "x",
+      "c5d": "static c5d hr",
+      "havg": "x",
+      "today": "x",
+      "badge": "x",
+      "rec": "Narrative sleep rec (hr) — keep me."
+    }
+  }
+}

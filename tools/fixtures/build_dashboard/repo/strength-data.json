@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "version": "synthetic"
+  },
+  "workouts": [
+    {
+      "date": "2026-10-23",
+      "title": "Hack Squat day",
+      "tonnageWork": 6785.0,
+      "exercises": [
+        {
+          "idx": 0,
+          "title": "Hack Squat (Machine)"
+        },
+        {
+          "idx": 1,
+          "title": "Leg Curl (Machine)"
+        }
+      ],
+      "setRows": [
+        {
+          "ex": 0,
+          "set": 0,
+          "peakHR": 112.4,
+          "conf": 0.5
+        },
+        {
+          "ex": 0,
+          "set": 1,
+          "peakHR": 128.5,
+          "conf": 0.9
+        },
+        {
+          "ex": 0,
+          "set": 2,
+          "peakHR": null,
+          "conf": 0
+        },
+        {
+          "ex": 0,
+          "set": 3,
+          "peakHR": 146.0,
+          "conf": 0.8
+        },
+        {
+          "ex": 1,
+          "set": 0,
+          "peakHR": 120.0,
+          "conf": 0.7
+        }
+      ]
+    }
+  ]
+}

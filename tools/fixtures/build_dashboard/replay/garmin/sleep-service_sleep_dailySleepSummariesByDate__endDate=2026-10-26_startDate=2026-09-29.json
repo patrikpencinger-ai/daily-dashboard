@@ -1,0 +1,480 @@
+[
+ {
+  "calendarDate": "2026-09-29",
+  "sleepTimeSeconds": 23280,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4140,
+  "lightSleepSeconds": 14280,
+  "remSleepSeconds": 4860,
+  "awakeSleepSeconds": 720,
+  "sleepStartTimestampGMT": 1790629680000,
+  "sleepStartTimestampLocal": 1790636880000,
+  "sleepEndTimestampGMT": 1790653680000,
+  "sleepEndTimestampLocal": 1790660880000,
+  "sleepScores": {
+   "overall": {
+    "value": 88
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-09-30",
+  "sleepTimeSeconds": 25500,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4560,
+  "lightSleepSeconds": 15600,
+  "remSleepSeconds": 5340,
+  "awakeSleepSeconds": 1500,
+  "sleepStartTimestampGMT": 1790717100000,
+  "sleepStartTimestampLocal": 1790724300000,
+  "sleepEndTimestampGMT": 1790744100000,
+  "sleepEndTimestampLocal": 1790751300000,
+  "sleepScores": {
+   "overall": {
+    "value": 60
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-01",
+  "sleepTimeSeconds": 27720,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4980,
+  "lightSleepSeconds": 16920,
+  "remSleepSeconds": 5820,
+  "awakeSleepSeconds": 2280,
+  "sleepStartTimestampGMT": 1790798820000,
+  "sleepStartTimestampLocal": 1790806020000,
+  "sleepEndTimestampGMT": 1790828820000,
+  "sleepEndTimestampLocal": 1790836020000,
+  "sleepScores": {
+   "overall": {
+    "value": 67
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-02",
+  "sleepTimeSeconds": 22740,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4080,
+  "lightSleepSeconds": 13920,
+  "remSleepSeconds": 4740,
+  "awakeSleepSeconds": 660,
+  "sleepStartTimestampGMT": 1790886240000,
+  "sleepStartTimestampLocal": 1790893440000,
+  "sleepEndTimestampGMT": 1790909640000,
+  "sleepEndTimestampLocal": 1790916840000,
+  "sleepScores": {
+   "overall": {
+    "value": 74
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-03",
+  "sleepTimeSeconds": 24960,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4440,
+  "lightSleepSeconds": 15300,
+  "remSleepSeconds": 5220,
+  "awakeSleepSeconds": 1440,
+  "sleepStartTimestampGMT": 1790973660000,
+  "sleepStartTimestampLocal": 1790980860000,
+  "sleepEndTimestampGMT": 1791000060000,
+  "sleepEndTimestampLocal": 1791007260000,
+  "sleepScores": {
+   "overall": {
+    "value": 81
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-04",
+  "sleepTimeSeconds": 27180,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4860,
+  "lightSleepSeconds": 16620,
+  "remSleepSeconds": 5700,
+  "awakeSleepSeconds": 2220,
+  "sleepStartTimestampGMT": 1791061080000,
+  "sleepStartTimestampLocal": 1791068280000,
+  "sleepEndTimestampGMT": 1791090480000,
+  "sleepEndTimestampLocal": 1791097680000,
+  "sleepScores": {
+   "overall": {
+    "value": 88
+   }
+  }
+ },
+ {
+  "sleepNeed": {
+   "calendarDate": "2026-10-05"
+  }
+ },
+ {
+  "calendarDate": "2026-10-06",
+  "sleepTimeSeconds": 24420,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4380,
+  "lightSleepSeconds": 14940,
+  "remSleepSeconds": 5100,
+  "awakeSleepSeconds": 1380,
+  "sleepStartTimestampGMT": 1791235920000,
+  "sleepStartTimestampLocal": 1791243120000,
+  "sleepEndTimestampGMT": 1791261720000,
+  "sleepEndTimestampLocal": 1791268920000,
+  "sleepScores": {
+   "overall": {
+    "value": 67
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-07",
+  "sleepTimeSeconds": 26640,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4740,
+  "lightSleepSeconds": 16320,
+  "remSleepSeconds": 5580,
+  "awakeSleepSeconds": 2160,
+  "sleepStartTimestampGMT": 1791317640000,
+  "sleepStartTimestampLocal": 1791324840000,
+  "sleepEndTimestampGMT": 1791346440000,
+  "sleepEndTimestampLocal": 1791353640000,
+  "sleepScores": {
+   "overall": {
+    "value": 74
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-08",
+  "sleepTimeSeconds": 21660,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 3840,
+  "lightSleepSeconds": 13320,
+  "remSleepSeconds": 4500,
+  "awakeSleepSeconds": 540,
+  "sleepStartTimestampGMT": 1791405060000,
+  "sleepStartTimestampLocal": 1791412260000,
+  "sleepEndTimestampGMT": 1791427260000,
+  "sleepEndTimestampLocal": 1791434460000,
+  "sleepScores": {
+   "overall": {
+    "value": 81
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-09",
+  "sleepTimeSeconds": 23880,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4260,
+  "lightSleepSeconds": 14640,
+  "remSleepSeconds": 4980,
+  "awakeSleepSeconds": 1320,
+  "sleepStartTimestampGMT": 1791492480000,
+  "sleepStartTimestampLocal": 1791499680000,
+  "sleepEndTimestampGMT": 1791517680000,
+  "sleepEndTimestampLocal": 1791524880000,
+  "sleepScores": {
+   "overall": {
+    "value": 88
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-10",
+  "sleepTimeSeconds": 26100,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4680,
+  "lightSleepSeconds": 15960,
+  "remSleepSeconds": 5460,
+  "awakeSleepSeconds": 2100,
+  "sleepStartTimestampGMT": 1791579900000,
+  "sleepStartTimestampLocal": 1791587100000,
+  "sleepEndTimestampGMT": 1791608100000,
+  "sleepEndTimestampLocal": 1791615300000,
+  "sleepScores": {
+   "overall": {
+    "value": 60
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-11",
+  "sleepTimeSeconds": 28320,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 5040,
+  "lightSleepSeconds": 17340,
+  "remSleepSeconds": 5940,
+  "awakeSleepSeconds": 480,
+  "sleepStartTimestampGMT": 1791667320000,
+  "sleepStartTimestampLocal": 1791674520000,
+  "sleepEndTimestampGMT": 1791696120000,
+  "sleepEndTimestampLocal": 1791703320000,
+  "sleepScores": {
+   "overall": {
+    "value": 67
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-12",
+  "sleepTimeSeconds": 23340,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4200,
+  "lightSleepSeconds": 14280,
+  "remSleepSeconds": 4860,
+  "awakeSleepSeconds": 1260,
+  "sleepStartTimestampGMT": 1791749040000,
+  "sleepStartTimestampLocal": 1791756240000,
+  "sleepEndTimestampGMT": 1791773640000,
+  "sleepEndTimestampLocal": 1791780840000,
+  "sleepScores": {
+   "overall": {
+    "value": 74
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-13",
+  "sleepTimeSeconds": 25560,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4560,
+  "lightSleepSeconds": 15660,
+  "remSleepSeconds": 5340,
+  "awakeSleepSeconds": 2040,
+  "sleepStartTimestampGMT": 1791836460000,
+  "sleepStartTimestampLocal": 1791843660000,
+  "sleepEndTimestampGMT": 1791864060000,
+  "sleepEndTimestampLocal": 1791871260000,
+  "sleepScores": {
+   "overall": {
+    "value": 81
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-14",
+  "sleepTimeSeconds": 27780,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4980,
+  "lightSleepSeconds": 16980,
+  "remSleepSeconds": 5820,
+  "awakeSleepSeconds": 420,
+  "sleepStartTimestampGMT": 1791923880000,
+  "sleepStartTimestampLocal": 1791931080000,
+  "sleepEndTimestampGMT": 1791952080000,
+  "sleepEndTimestampLocal": 1791959280000,
+  "sleepScores": {
+   "overall": {
+    "value": 88
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-15",
+  "sleepTimeSeconds": 22800,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4080,
+  "lightSleepSeconds": 13980,
+  "remSleepSeconds": 4740,
+  "awakeSleepSeconds": 1200,
+  "sleepStartTimestampGMT": 1792011300000,
+  "sleepStartTimestampLocal": 1792018500000,
+  "sleepEndTimestampGMT": 1792035300000,
+  "sleepEndTimestampLocal": 1792042500000,
+  "sleepScores": {
+   "overall": {
+    "value": 60
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-16",
+  "sleepTimeSeconds": 25020,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4500,
+  "lightSleepSeconds": 15300,
+  "remSleepSeconds": 5220,
+  "awakeSleepSeconds": 1980,
+  "sleepStartTimestampGMT": 1792098720000,
+  "sleepStartTimestampLocal": 1792105920000,
+  "sleepEndTimestampGMT": 1792125720000,
+  "sleepEndTimestampLocal": 1792132920000,
+  "sleepScores": {
+   "overall": {
+    "value": 67
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-17",
+  "sleepTimeSeconds": 27240,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4860,
+  "lightSleepSeconds": 16680,
+  "remSleepSeconds": 5700,
+  "awakeSleepSeconds": 360,
+  "sleepStartTimestampGMT": 1792186140000,
+  "sleepStartTimestampLocal": 1792193340000,
+  "sleepEndTimestampGMT": 1792213740000,
+  "sleepEndTimestampLocal": 1792220940000,
+  "sleepScores": {
+   "overall": {
+    "value": 74
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-18",
+  "sleepTimeSeconds": 22260,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 3960,
+  "lightSleepSeconds": 13680,
+  "remSleepSeconds": 4620,
+  "awakeSleepSeconds": 1140,
+  "sleepStartTimestampGMT": 1792267860000,
+  "sleepStartTimestampLocal": 1792275060000,
+  "sleepEndTimestampGMT": 1792291260000,
+  "sleepEndTimestampLocal": 1792298460000,
+  "sleepScores": {
+   "overall": {
+    "value": 81
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-19",
+  "sleepTimeSeconds": 24480,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4380,
+  "lightSleepSeconds": 15000,
+  "remSleepSeconds": 5100,
+  "awakeSleepSeconds": 1920,
+  "sleepStartTimestampGMT": 1792355280000,
+  "sleepStartTimestampLocal": 1792362480000,
+  "sleepEndTimestampGMT": 1792381680000,
+  "sleepEndTimestampLocal": 1792388880000,
+  "sleepScores": {
+   "overall": {
+    "value": 88
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-20",
+  "sleepTimeSeconds": 26700,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4800,
+  "lightSleepSeconds": 16320,
+  "remSleepSeconds": 5580,
+  "awakeSleepSeconds": 300,
+  "sleepStartTimestampGMT": 1792442700000,
+  "sleepStartTimestampLocal": 1792449900000,
+  "sleepEndTimestampGMT": 1792469700000,
+  "sleepEndTimestampLocal": 1792476900000,
+  "sleepScores": {
+   "overall": {
+    "value": 60
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-21",
+  "sleepTimeSeconds": 21720,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 3900,
+  "lightSleepSeconds": 13260,
+  "remSleepSeconds": 4560,
+  "awakeSleepSeconds": 1080,
+  "sleepStartTimestampGMT": 1792530120000,
+  "sleepStartTimestampLocal": 1792537320000,
+  "sleepEndTimestampGMT": 1792552920000,
+  "sleepEndTimestampLocal": 1792560120000,
+  "sleepScores": {
+   "overall": {
+    "value": 67
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-22",
+  "sleepTimeSeconds": 23940,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4260,
+  "lightSleepSeconds": 14700,
+  "remSleepSeconds": 4980,
+  "awakeSleepSeconds": 1860,
+  "sleepStartTimestampGMT": 1792617540000,
+  "sleepStartTimestampLocal": 1792624740000,
+  "sleepEndTimestampGMT": 1792643340000,
+  "sleepEndTimestampLocal": 1792650540000,
+  "sleepScores": {
+   "overall": {
+    "value": 74
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-23",
+  "sleepTimeSeconds": 26160,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 4680,
+  "lightSleepSeconds": 16020,
+  "remSleepSeconds": 5460,
+  "awakeSleepSeconds": 240,
+  "sleepStartTimestampGMT": 1792699260000,
+  "sleepStartTimestampLocal": 1792706460000,
+  "sleepEndTimestampGMT": 1792725660000,
+  "sleepEndTimestampLocal": 1792732860000,
+  "sleepScores": {
+   "overall": {
+    "value": 81
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-24",
+  "sleepTimeSeconds": 28380,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 5100,
+  "lightSleepSeconds": 17340,
+  "remSleepSeconds": 5940,
+  "awakeSleepSeconds": 1020,
+  "sleepStartTimestampGMT": 1792786680000,
+  "sleepStartTimestampLocal": 1792793880000,
+  "sleepEndTimestampGMT": 1792816080000,
+  "sleepEndTimestampLocal": 1792823280000,
+  "sleepScores": {
+   "overall": {
+    "value": 88
+   }
+  }
+ },
+ {
+  "calendarDate": "2026-10-25",
+  "sleepTimeSeconds": 31200,
+  "unmeasurableSleepSeconds": 0,
+  "deepSleepSeconds": 5580,
+  "lightSleepSeconds": 19080,
+  "remSleepSeconds": 6540,
+  "awakeSleepSeconds": 1200,
+  "sleepStartTimestampGMT": 1792871400000,
+  "sleepStartTimestampLocal": 1792875000000,
+  "sleepEndTimestampGMT": 1792903800000,
+  "sleepEndTimestampLocal": 1792907400000,
+  "sleepScores": {
+   "overall": {
+    "value": 60
+   }
+  }
+ },
+ {
+  "sleepNeed": {
+   "calendarDate": "2026-10-26"
+  }
+ }
+]

@@ -1,0 +1,67 @@
+{
+ "id": "w-bbdl",
+ "title": "Barbell DEAD LIFT",
+ "start_time": "2026-10-22T07:20:00+00:00",
+ "end_time": "2026-10-22T07:20:00+00:00",
+ "updated_at": "2026-10-22T07:20:00+00:00",
+ "exercises": [
+  {
+   "index": 0,
+   "title": "Deadlift (Barbell)",
+   "notes": "",
+   "exercise_template_id": "T0",
+   "superset_id": null,
+   "sets": [
+    {
+     "index": 0,
+     "type": "warmup",
+     "weight_kg": 60,
+     "reps": 5,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    },
+    {
+     "index": 1,
+     "type": "normal",
+     "weight_kg": 110,
+     "reps": 8,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    },
+    {
+     "index": 2,
+     "type": "normal",
+     "weight_kg": 110,
+     "reps": 8,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    }
+   ]
+  },
+  {
+   "index": 1,
+   "title": "Plank",
+   "notes": "",
+   "exercise_template_id": "T1",
+   "superset_id": null,
+   "sets": [
+    {
+     "index": 0,
+     "type": "normal",
+     "weight_kg": null,
+     "reps": 1,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    }
+   ]
+  }
+ ]
+}

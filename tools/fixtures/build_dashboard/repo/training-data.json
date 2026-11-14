@@ -1,0 +1,350 @@
+{
+  "meta": {
+    "version": "v2.09-auto",
+    "snapshot": "2026-10-22",
+    "refreshedAt": "2026-10-22T06:10:00+02:00"
+  },
+  "num": {
+    "kpis": {
+      "sessions": "0",
+      "totalTime": "0h 00m",
+      "volume": "0 kg",
+      "activeCals": "0"
+    },
+    "daily": {
+      "type": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "names": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "effort": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "dur": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "kcal": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "vol": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "dist": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "maxhr": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "avghr": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "rhr": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "energy": {
+      "edaily": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "eavg": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "eint": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "target": 2000
+    },
+    "burn": {
+      "bmr": 2414,
+      "exnet": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "intake": [
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000
+      ],
+      "logged": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "bridge": [
+      {
+        "label": "Thu 3",
+        "int": 1500,
+        "ex": 500,
+        "bal": -1414
+      }
+    ],
+    "mld": {
+      "trap": [
+        {
+          "d": "2026-06-01",
+          "l": "Jun 1",
+          "w": 140,
+          "mx": 150,
+          "av": 140,
+          "dl": 20,
+          "pk": [
+            130,
+            140,
+            150
+          ],
+          "cf": 0
+        }
+      ],
+      "goblet": [],
+      "hack": [
+        {
+          "d": "2026-10-12",
+          "l": "Oct 12",
+          "w": 150,
+          "mx": 147,
+          "av": 130,
+          "dl": 30,
+          "pk": [
+            115,
+            130,
+            145
+          ],
+          "cf": 0
+        }
+      ]
+    },
+    "gym": [
+      {
+        "d": "2026-10-12",
+        "l": "Oct 12",
+        "t": "Hack Squat day",
+        "vol": 9000,
+        "sets": 15,
+        "reps": 150,
+        "mx": 147,
+        "av": 109,
+        "tmax": 15.0,
+        "tmin": 8.0,
+        "dur": 60,
+        "kcal": 480,
+        "lift": "hack",
+        "top": {
+          "w": 150,
+          "reps": 12
+        },
+        "volWork": 8400
+      },
+      {
+        "d": "2026-10-22",
+        "l": "Oct 22",
+        "t": "Barbell DEAD LIFT",
+        "vol": 2060,
+        "sets": 4,
+        "reps": 22,
+        "mx": 150,
+        "av": 110,
+        "tmax": 12.0,
+        "tmin": 6.0,
+        "dur": 60,
+        "kcal": 500,
+        "lift": "bbdl",
+        "top": {
+          "w": 110,
+          "reps": 8
+        },
+        "volWork": 1760
+      }
+    ],
+    "swim": [
+      {
+        "d": "2026-10-17",
+        "l": "Oct 17",
+        "t": "N4x4 v2 2200m",
+        "dist": 2200,
+        "sec100": 143,
+        "pace": "2:23",
+        "mx": 158,
+        "av": 122,
+        "lengths": 88,
+        "spm": 26,
+        "tmax": 14.0,
+        "tmin": 7.0,
+        "dur": 65,
+        "kcal": 690
+      }
+    ]
+  },
+  "text": {
+    "en": {
+      "k1d": "x",
+      "k2d": "x",
+      "k3d": "x",
+      "k4d": "x",
+      "days": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "daysM": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "eNote": "Narrative eNote (en) — keep me.",
+      "bNote": "static bNote en",
+      "wNote": "static wNote en",
+      "i1t": "Narrative i1t (en) — keep me.",
+      "i1": "Narrative i1 (en) — keep me.",
+      "i2t": "Narrative i2t (en) — keep me.",
+      "i2": "Narrative i2 (en) — keep me.",
+      "i3t": "Narrative i3t (en) — keep me.",
+      "i3": "Narrative i3 (en) — keep me.",
+      "i4t": "Narrative i4t (en) — keep me.",
+      "i4": "Narrative i4 (en) — keep me.",
+      "today": "static today en",
+      "rec": "Narrative rec (en) — keep me.",
+      "foot": "x",
+      "foot2": "x"
+    },
+    "hr": {
+      "k1d": "x",
+      "k2d": "x",
+      "k3d": "x",
+      "k4d": "x",
+      "days": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "daysM": [
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x",
+        "x"
+      ],
+      "eNote": "Narrative eNote (hr) — keep me.",
+      "bNote": "static bNote hr",
+      "wNote": "static wNote hr",
+      "i1t": "Narrative i1t (hr) — keep me.",
+      "i1": "Narrative i1 (hr) — keep me.",
+      "i2t": "Narrative i2t (hr) — keep me.",
+      "i2": "Narrative i2 (hr) — keep me.",
+      "i3t": "Narrative i3t (hr) — keep me.",
+      "i3": "Narrative i3 (hr) — keep me.",
+      "i4t": "Narrative i4t (hr) — keep me.",
+      "i4": "Narrative i4 (hr) — keep me.",
+      "today": "static today hr",
+      "rec": "Narrative rec (hr) — keep me.",
+      "foot": "x",
+      "foot2": "x"
+    }
+  }
+}

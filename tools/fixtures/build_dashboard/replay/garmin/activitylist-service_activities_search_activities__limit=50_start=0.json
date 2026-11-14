@@ -1,0 +1,126 @@
+[
+ {
+  "activityId": 8,
+  "activityName": "Strength",
+  "startTimeLocal": "2026-10-27 11:00:00",
+  "startTimeGMT": "2026-10-27 10:00:00",
+  "activityType": {
+   "typeKey": "strength_training"
+  },
+  "duration": 3480.4,
+  "calories": 455.0,
+  "averageHR": 112.0,
+  "maxHR": 149.0,
+  "distance": 0.0,
+  "averageSpeed": 0.0
+ },
+ {
+  "activityId": 7,
+  "activityName": "Zagreb Walking",
+  "startTimeLocal": "2026-10-25 16:00:00",
+  "startTimeGMT": "2026-10-25 15:00:00",
+  "activityType": {
+   "typeKey": "walking"
+  },
+  "duration": 3660.0,
+  "calories": 210.0,
+  "averageHR": 98.0,
+  "maxHR": 121.0,
+  "distance": 3104.0,
+  "averageSpeed": 0.0
+ },
+ {
+  "activityId": 6,
+  "activityName": "Strength",
+  "startTimeLocal": "2026-10-25 09:30:00",
+  "startTimeGMT": "2026-10-25 08:30:00",
+  "activityType": {
+   "typeKey": "strength_training"
+  },
+  "duration": 3900.0,
+  "calories": 520.0,
+  "averageHR": 116.0,
+  "maxHR": 158.0,
+  "distance": 0.0,
+  "averageSpeed": 0.0
+ },
+ {
+  "activityId": 5,
+  "activityName": "2200m\u00a010x100 10x50",
+  "startTimeLocal": "2026-10-24 18:00:00",
+  "startTimeGMT": "2026-10-24 16:00:00",
+  "activityType": {
+   "typeKey": "lap_swimming"
+  },
+  "duration": 3960.0,
+  "calories": 700.0,
+  "averageHR": 124.0,
+  "maxHR": 160.0,
+  "distance": 2250.0,
+  "averageSpeed": 0.75,
+  "activeLengths": 90,
+  "averageSwimCadenceInStrokesPerMinute": 27.0
+ },
+ {
+  "activityId": 4,
+  "activityName": "Strength",
+  "startTimeLocal": "2026-10-23 10:00:00",
+  "startTimeGMT": "2026-10-23 08:00:00",
+  "activityType": {
+   "typeKey": "strength_training"
+  },
+  "duration": 4020.0,
+  "calories": 610.0,
+  "averageHR": 118.0,
+  "maxHR": 155.0,
+  "distance": 0.0,
+  "averageSpeed": 0.0
+ },
+ {
+  "activityId": 3,
+  "activityName": "Strength",
+  "startTimeLocal": "2026-10-22 09:00:00",
+  "startTimeGMT": "2026-10-22 07:00:00",
+  "activityType": {
+   "typeKey": "strength_training"
+  },
+  "duration": 3600.0,
+  "calories": 500.0,
+  "averageHR": 110.0,
+  "maxHR": 150.0,
+  "distance": 0.0,
+  "averageSpeed": 0.0
+ },
+ {
+  "activityId": 2,
+  "activityName": "N4x4 v2 2200m",
+  "startTimeLocal": "2026-10-17 18:00:00",
+  "startTimeGMT": "2026-10-17 16:00:00",
+  "activityType": {
+   "typeKey": "lap_swimming"
+  },
+  "duration": 3900.0,
+  "calories": 690.0,
+  "averageHR": 122.0,
+  "maxHR": 158.0,
+  "distance": 2200.0,
+  "averageSpeed": 0.7,
+  "activeLengths": 88,
+  "averageSwimCadenceInStrokesPerMinute": 26.0
+ },
+ {
+  "activityId": 1,
+  "activityName": "Strength",
+  "startTimeLocal": "2026-10-12 10:00:00",
+  "startTimeGMT": "2026-10-12 08:00:00",
+  "activityType": {
+   "typeKey": "strength_training"
+  },
+  "duration": 3600.0,
+  "calories": 480.0,
+  "averageHR": 109.0,
+  "maxHR": 147.0,
+  "distance": 0.0,
+  "averageSpeed": 0.0
+ }
+]
