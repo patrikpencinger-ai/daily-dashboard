@@ -365,9 +365,9 @@ def write_all(items: list) -> None:
         for path, text in items:
             path.parent.mkdir(parents=True, exist_ok=True)
             tmp = path.with_name(path.name + ".tmp")
+            tmps.append((tmp, path))           # before open, so a failed write is cleaned up too
             with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
                 fh.write(text)
-            tmps.append((tmp, path))
         for tmp, path in tmps:
             os.replace(tmp, path)
     finally:
@@ -1331,9 +1331,10 @@ def run(today: date, repo: Path, facts_path: Path, dry_run: bool, fetcher: Fetch
             if d and lo <= d <= today.isoformat():
                 for w in ws_:
                     shutil.copy2(w["_file"], hd / os.path.basename(w["_file"]))
+    # facts first (cache, not the repo): if it fails, the repo is still untouched
+    write_text(facts_path, json.dumps(facts, ensure_ascii=False, indent=1) + "\n")
     if not dry_run:
         write_all([(tp, dump_json(train_new)), (sp, dump_json(sleep_new))])
-    write_text(facts_path, json.dumps(facts, ensure_ascii=False, indent=1) + "\n")
     print(f"build_dashboard: date={today} trend+{len(s_info['appended'])} gym+{len(new_g)} swim+{len(new_s)} "
           f"mld+{len(t_info['newMld'])} nights={s_info['nights'][0]}..{s_info['nights'][-1]} "
           f"readiness={s_info['readiness']} flag={facts['flag']['id']} calls={fetcher.calls} "
