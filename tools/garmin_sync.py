@@ -199,11 +199,64 @@ def empty_row(d: str) -> dict:
     return row
 
 
+# --------------------------------------------------------------------------- #
+# Zagreb wall clock (DST-safe)
+# --------------------------------------------------------------------------- #
+
+def _zagreb_zone():
+    try:
+        from zoneinfo import ZoneInfo
+        return ZoneInfo("Europe/Zagreb")
+    except Exception:                           # no tz database (bare Windows Python)
+        return None
+
+
+ZAGREB = _zagreb_zone()
+
+
+def _last_sunday_utc(year: int, month: int) -> datetime:
+    d = date(year, month, 31)
+    d -= timedelta(days=(d.weekday() + 1) % 7)
+    return datetime(d.year, d.month, d.day, 1, 0, tzinfo=timezone.utc)
+
+
+def to_local(dt_utc: datetime) -> datetime:
+    """Aware UTC datetime -> aware Europe/Zagreb wall-clock datetime.
+
+    zoneinfo when available; otherwise the EU rule (CEST from the last Sunday of March
+    01:00 UTC to the last Sunday of October 01:00 UTC, CET otherwise)."""
+    if dt_utc.tzinfo is None:
+        dt_utc = dt_utc.replace(tzinfo=timezone.utc)
+    if ZAGREB is not None:
+        return dt_utc.astimezone(ZAGREB)
+    y = dt_utc.astimezone(timezone.utc).year
+    dst = _last_sunday_utc(y, 3) <= dt_utc < _last_sunday_utc(y, 10)
+    return dt_utc.astimezone(timezone(timedelta(hours=2 if dst else 1)))
+
+
+def local_now() -> datetime:
+    return to_local(datetime.now(timezone.utc))
+
+
+def local_from_ms(gmt_ms) -> datetime | None:
+    if gmt_ms is None:
+        return None
+    return to_local(datetime.fromtimestamp(int(gmt_ms) / 1000, tz=timezone.utc))
+
+
 def _hhmm(local_ms) -> str | None:
     if local_ms is None:
         return None
-    # Garmin's *Local timestamps are wall-clock time encoded as if it were UTC
+    # Garmin's *Local timestamps are wall-clock time encoded as if it were UTC, but with the
+    # offset in force at the WAKE time: wrong by 1 h for the bedtime of a DST-change night.
     return datetime.fromtimestamp(int(local_ms) / 1000, tz=timezone.utc).strftime("%H:%M")
+
+
+def _clock(gmt_ms, local_ms) -> str | None:
+    """HH:MM Zagreb wall clock: from the GMT timestamp (DST-safe), else the *Local one."""
+    if gmt_ms is not None:
+        return local_from_ms(gmt_ms).strftime("%H:%M")
+    return _hhmm(local_ms)
 
 
 def sleep_date(rec: dict) -> str | None:
@@ -214,6 +267,10 @@ def apply_sleep(row: dict, rec: dict) -> None:
     if not rec.get("sleepTimeSeconds"):
         return                                 # untracked night: keep the nulls
     gmt, loc = rec.get("sleepStartTimestampGMT"), rec.get("sleepStartTimestampLocal")
+    if gmt is not None:
+        offset = int(local_from_ms(gmt).utcoffset().total_seconds())
+    else:
+        offset = (int(loc) - int(gmt)) // 1000 if None not in (gmt, loc) else None
     row.update({
         "sleep_overallSleepScore": ((rec.get("sleepScores") or {}).get("overall") or {}).get("value"),
         # the connector's duration counts unmeasurable seconds as sleep; match it so the
@@ -224,9 +281,9 @@ def apply_sleep(row: dict, rec: dict) -> None:
         "sleep_remSleepInSeconds": rec.get("remSleepSeconds"),
         "sleep_awakeDurationInSeconds": rec.get("awakeSleepSeconds"),
         "sleep_startTimeInSeconds": int(gmt) // 1000 if gmt is not None else None,
-        "sleep_startTimeOffsetInSeconds": (int(loc) - int(gmt)) // 1000 if None not in (gmt, loc) else None,
-        "sleep_bedLocal": _hhmm(loc),
-        "sleep_wakeLocal": _hhmm(rec.get("sleepEndTimestampLocal")),
+        "sleep_startTimeOffsetInSeconds": offset,
+        "sleep_bedLocal": _clock(gmt, loc),
+        "sleep_wakeLocal": _clock(rec.get("sleepEndTimestampGMT"), rec.get("sleepEndTimestampLocal")),
     })
 
 

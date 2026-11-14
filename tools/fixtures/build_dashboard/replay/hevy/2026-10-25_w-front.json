@@ -1,0 +1,58 @@
+{
+ "id": "w-front",
+ "title": "Squats day front loaded barbell",
+ "start_time": "2026-10-25T08:45:00+00:00",
+ "end_time": "2026-10-25T08:45:00+00:00",
+ "updated_at": "2026-10-25T08:45:00+00:00",
+ "exercises": [
+  {
+   "index": 0,
+   "title": "Front Squat",
+   "notes": "",
+   "exercise_template_id": "T0",
+   "superset_id": null,
+   "sets": [
+    {
+     "index": 0,
+     "type": "warmup",
+     "weight_kg": 40,
+     "reps": 10,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    },
+    {
+     "index": 1,
+     "type": "normal",
+     "weight_kg": 80,
+     "reps": 8,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    },
+    {
+     "index": 2,
+     "type": "normal",
+     "weight_kg": 85,
+     "reps": 8,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    },
+    {
+     "index": 3,
+     "type": "normal",
+     "weight_kg": 85,
+     "reps": 6,
+     "rpe": null,
+     "distance_meters": null,
+     "duration_seconds": null,
+     "custom_metric": null
+    }
+   ]
+  }
+ ]
+}

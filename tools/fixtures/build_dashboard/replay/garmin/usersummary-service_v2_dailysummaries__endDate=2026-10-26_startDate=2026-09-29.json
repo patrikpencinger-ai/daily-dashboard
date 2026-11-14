@@ -1,0 +1,536 @@
+{
+ "data": [
+  {
+   "calendarDate": "2026-09-29",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 312
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-09-30",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 365
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-01",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 418
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-02",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 471
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-03",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 524
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-04",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 577
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-05",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 630
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-06",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 683
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-07",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 736
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-08",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 789
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-09",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 142
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-10",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 195
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-11",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 248
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-12",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 301
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-13",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 354
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-14",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 407
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-15",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 460
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-16",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 513
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-17",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 566
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-18",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 619
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-19",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 672
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-20",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 725
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-21",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 778
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-22",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 131
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-23",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 184
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-24",
+   "heartRate": {
+    "restingValue": 56
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 237
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-25",
+   "heartRate": {
+    "restingValue": 50
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 290
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  },
+  {
+   "calendarDate": "2026-10-26",
+   "heartRate": {
+    "restingValue": 53
+   },
+   "stress": {
+    "avgLevel": 25
+   },
+   "calories": {
+    "burnedResting": 2000,
+    "burnedActive": 343
+   },
+   "bodyBattery": {
+    "chargedValue": 50,
+    "drainedValue": 40,
+    "maxValue": 90,
+    "minValue": 20
+   }
+  }
+ ]
+}
