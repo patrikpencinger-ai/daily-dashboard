@@ -525,6 +525,12 @@ class FlagLadder(unittest.TestCase):
         self.assertEqual(B.flag_ladder(t, {}, self.DEBT0, {"rhr": 60, "hrv": 30}, self.RAW, self.BASE)["id"],
                          "rhrHrvDivergence")
 
+    def test_divergence_uses_displayed_baseline(self):
+        # raw RHR baseline 55.96 is shown as 56.0; RHR 56 is not "above" it
+        t = {"acwr": 1.0, "_acwr_raw": 1.0, "acute": 1, "chronic": 1}
+        raw, base = {"rhr": 55.96, "hrv": 40.0}, {"rhr": 56.0, "hrv": 40.0}
+        self.assertEqual(B.flag_ladder(t, {}, self.DEBT0, {"rhr": 56, "hrv": 30}, raw, base)["id"], "none")
+
 
 class OpenMeteo(unittest.TestCase):
     def test_http_exception_gives_null_temps_and_warning(self):

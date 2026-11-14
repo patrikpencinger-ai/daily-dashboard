@@ -33,7 +33,8 @@ Exit codes (nothing is written unless the exit is 0; --dry-run writes the facts 
     4  sleep-data.json meta.snapshot is already --date
     5  local input problem (missing/invalid repo JSON, strength-data.json, Hevy cache, or --date
        earlier than sleep-data.json meta.snapshot)
-    6  internal error (a bug in this script; traceback on stderr) -> do NOT treat as a network failure
+    6  internal error (a bug in this script; traceback on stderr) -> the routine falls back to the
+       connector like exit 1, and reports it as a build_dashboard bug
 Python stdlib only, 3.9+ syntax. The Garmin key and token are never printed.
 """
 from __future__ import annotations
@@ -352,11 +353,27 @@ def dump_json(obj) -> str:
 
 
 def write_text(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_name(path.name + ".tmp")
-    with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
-        fh.write(text)
-    os.replace(tmp, path)
+    write_all([(path, text)])
+
+
+def write_all(items: list) -> None:
+    """Stage every file as .tmp first, then swap them in order. A failure while staging leaves
+    the targets untouched; put sleep-data.json LAST so a half-finished swap still fails the
+    snapshot gate and the next run rebuilds both files."""
+    tmps = []
+    try:
+        for path, text in items:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            tmp = path.with_name(path.name + ".tmp")
+            with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(text)
+            tmps.append((tmp, path))
+        for tmp, path in tmps:
+            os.replace(tmp, path)
+    finally:
+        for tmp, _ in tmps:
+            if tmp.exists():
+                tmp.unlink()
 
 
 def hevy_local_date(w: dict) -> str | None:
@@ -1146,8 +1163,10 @@ def flag_ladder(now_t: dict, tops: dict, debt: dict, last: dict, raw28: dict, ba
                 "pctChange": v["pctChange"]}
     if debt["count"] > 0:
         return {"id": "sleepDebt", "count": debt["count"], "shortfallH": debt["shortfallH"], "nights": debt["nights"]}
-    if (last.get("rhr") is not None and last.get("hrv") is not None and raw28.get("rhr") is not None
-            and raw28.get("hrv") is not None and last["rhr"] > raw28["rhr"] and last["hrv"] < raw28["hrv"]):
+    # divergence compares against the displayed (1-decimal) baselines, so the narrative never
+    # reads "RHR 56 above its 56.0 baseline"
+    if (last.get("rhr") is not None and last.get("hrv") is not None and base28.get("rhr") is not None
+            and base28.get("hrv") is not None and last["rhr"] > base28["rhr"] and last["hrv"] < base28["hrv"]):
         return {"id": "rhrHrvDivergence", "rhr": last["rhr"], "rhrBase28": base28["rhr"],
                 "hrv": last["hrv"], "hrvBase28": base28["hrv"]}
     return {"id": "none"}
@@ -1312,10 +1331,9 @@ def run(today: date, repo: Path, facts_path: Path, dry_run: bool, fetcher: Fetch
             if d and lo <= d <= today.isoformat():
                 for w in ws_:
                     shutil.copy2(w["_file"], hd / os.path.basename(w["_file"]))
-    write_text(facts_path, json.dumps(facts, ensure_ascii=False, indent=1) + "\n")
     if not dry_run:
-        write_text(sp, dump_json(sleep_new))
-        write_text(tp, dump_json(train_new))
+        write_all([(tp, dump_json(train_new)), (sp, dump_json(sleep_new))])
+    write_text(facts_path, json.dumps(facts, ensure_ascii=False, indent=1) + "\n")
     print(f"build_dashboard: date={today} trend+{len(s_info['appended'])} gym+{len(new_g)} swim+{len(new_s)} "
           f"mld+{len(t_info['newMld'])} nights={s_info['nights'][0]}..{s_info['nights'][-1]} "
           f"readiness={s_info['readiness']} flag={facts['flag']['id']} calls={fetcher.calls} "
